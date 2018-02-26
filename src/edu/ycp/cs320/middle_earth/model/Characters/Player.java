@@ -2,7 +2,6 @@ package edu.ycp.cs320.middle_earth.model.Characters;
 
 import java.util.ArrayList;
 
-import edu.ycp.cs320.middle_earth.model.Game;
 import edu.ycp.cs320.middle_earth.model.Quest;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 
@@ -67,30 +66,6 @@ public class Player extends Character implements PlayerAction{
 	
 	@Override
 	public void fast_travel(){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-	
-	@Override
-	public void check_character_sheet(){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-	
-	@Override
-	public void check_inventory(){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-	
-	@Override
-	public void check_map(){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-	
-	@Override
-	public void save(Game game){
 		// TODO Implement
 		throw new UnsupportedOperationException("Not implemented yet!");
 	}
