@@ -1,0 +1,4 @@
+/bin/
+/test-bin/
+/war/WEB-INF/classes
+*.class
