@@ -14,10 +14,7 @@ public abstract class Character{
 	private int coins;
 	private int map_location;
 	private Inventory inventory;
-	
-	public Character(){
-		
-	};
+
 	
 	public String get_race(){
 		return race;
