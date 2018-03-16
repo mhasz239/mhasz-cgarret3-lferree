@@ -3,88 +3,33 @@ package edu.ycp.cs320.middle_earth.model.Characters;
 import java.util.ArrayList;
 
 import edu.ycp.cs320.middle_earth.model.Quest;
-import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 
-public class Player extends Character implements PlayerAction{
+public class Player extends Character{
 	private int experience;
-	private int carry_weight;
+	private int carry_weight; // Used for Stat purposes - not current carry weight.
 	private ArrayList<Quest> quests;
 	
-	@Override
-	public void move(){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
+	public int get_experience(){
+		return experience;
 	}
 	
-	@Override
-	public void attack(Character character){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
+	public void set_experience(int experience){
+		this.experience = experience;
 	}
 	
-	@Override
-	public void loot(Character character){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
+	public int get_carry_weight(){
+		return carry_weight;
 	}
 	
-	@Override
-	public void open(Object object){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
+	public void set_carry_weight(int carry_weight){
+		this.carry_weight = carry_weight;
 	}
 	
-	@Override
-	public void close(Object object){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
+	public ArrayList<Quest> get_quests(){
+		return quests;
 	}
 	
-	@Override
-	public void climb(Object object){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-	
-	@Override
-	public void take(Item item){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-	
-	@Override
-	public void take(Object object, Item item){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-	
-	@Override
-	public void look(){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-	
-	@Override
-	public void fast_travel(){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-	
-	@Override
-	public void buy(Item item){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-	
-	@Override
-	public void sell(Item item){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-	
-	@Override
-	public void talk(NPC npc){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
+	public void set_quests(ArrayList<Quest> quests){
+		this.quests = quests;
 	}
 }
