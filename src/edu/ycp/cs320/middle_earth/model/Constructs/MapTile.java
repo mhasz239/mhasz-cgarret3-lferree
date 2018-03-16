@@ -14,7 +14,7 @@ public class MapTile extends Construct{
 	public MapTile() {
 		
 	}
-	
+	//this is just a comment
 	public void setName(String name) {
 		this.name = name;
 	}
