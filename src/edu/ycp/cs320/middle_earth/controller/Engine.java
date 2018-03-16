@@ -3,6 +3,7 @@ package edu.ycp.cs320.middle_earth.controller;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.NPC;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
+import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 
 public interface Engine{
 	public abstract String handle_command(String command);

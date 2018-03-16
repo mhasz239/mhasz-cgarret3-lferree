@@ -32,16 +32,15 @@ public class GameServlet extends HttpServlet {
 
         // holds the error message text, if there is any
         String errorMessage = null;
-
+        String display_text = null;
         String command = req.getParameter("command");
 
         errorMessage = game.handle_command(command);
-
+        display_text = game.get_display_text();
 
         if (command == "inventory") {
             req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);
         }
-        req.setAttribute("Game", model);
 
 
         // now call the JSP to render the new page

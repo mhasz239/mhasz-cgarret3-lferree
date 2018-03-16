@@ -1,5 +1,12 @@
 package edu.ycp.cs320.middle_earth.servlet;
 
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import edu.ycp.cs320.middle_earth.controller.Game;
+
 public class InventoryServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
