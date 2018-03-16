@@ -18,9 +18,9 @@
 
 <body>
 <c:if test="${! empty errorMessage}">
-    <div class="error">${Game.errorMessage}</div>
+    <div class="error">${errorMessage}</div>
 </c:if>
-<div>${Game.description}</div>
+<div>${Game.display_text}</div>
 
 <form action="${pageContext.servletContext.contextPath}/Game" method="post">
     <table>
