@@ -2,6 +2,8 @@ package edu.ycp.cs320.middle_earth.controller;
 
 import java.util.ArrayList;
 
+
+import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 import edu.ycp.cs320.middle_earth.model.Quest;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.NPC;
@@ -14,7 +16,16 @@ public class Game implements Engine{
 	private ArrayList<Character> characters;
 	private ArrayList<Object> objects;
 	private ArrayList<Item> items;
-	
+	private ArrayList<String> dialog;
+
+	public ArrayList<String> get_dialog() {
+		return dialog;
+	}
+
+	public void set_dialog(String dialog) {
+		this.dialog.add(dialog);
+	}
+
 	public Map get_map(){
 		return map;
 	}
@@ -22,7 +33,7 @@ public class Game implements Engine{
 	public void set_map(Map map){
 		this.map = map;
 	}
-	
+
 	public ArrayList<Quest> get_quests(){
 		return quests;
 	}
@@ -54,10 +65,22 @@ public class Game implements Engine{
 	public void set_items(ArrayList<Item> items){
 		this.items = items;
 	}
-	
+
+	public String get_display_text(){
+		String display_text = "";
+		for (int i = 0; i < dialog.size(); i++){
+			display_text = display_text + "\n" + dialog.get(i);
+		}
+		return display_text;
+	}
+
 	@Override
 	public String handle_command(String command){
-		// TODO: Implement
+		// TODO: Implement "valid"
+		if (command != valid) {
+			String errorMessage = "Invalid Command";
+		}
+
 		throw new UnsupportedOperationException("Not implemented yet!");
 	}
 	
