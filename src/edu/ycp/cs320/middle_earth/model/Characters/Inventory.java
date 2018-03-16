@@ -8,6 +8,10 @@ public class Inventory{
 	private ArrayList<Item> items;
 	private int weight;
 	
+	public Inventory(){
+		
+	};
+	
 	public ArrayList<Item> get_items(){
 		return items;
 	}

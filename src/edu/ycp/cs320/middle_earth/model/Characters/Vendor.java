@@ -4,8 +4,12 @@ import java.util.HashMap;
 
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 
-public class Vendor extends NPC{
+public class Vendor extends Character{
 	private HashMap<Item, Integer> item_prices;
+	
+	public Vendor(){
+		
+	};
 	
 	public int get_item_price(Item item){
 		return item_prices.get(item);

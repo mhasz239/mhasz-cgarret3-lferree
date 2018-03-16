@@ -9,6 +9,10 @@ public class Player extends Character{
 	private int carry_weight; // Used for Stat purposes - not current carry weight.
 	private ArrayList<Quest> quests;
 	
+	public Player(){
+		
+	};
+	
 	public int get_experience(){
 		return experience;
 	}
@@ -25,11 +29,11 @@ public class Player extends Character{
 		this.carry_weight = carry_weight;
 	}
 	
-	public ArrayList<Quest> get_quests(){
-		return quests;
+	public void set_quest(Quest quest) {
+		quests.add(quest);
 	}
 	
-	public void set_quests(ArrayList<Quest> quests){
-		this.quests = quests;
+	public ArrayList<Quest> get_quests(){
+		return quests;
 	}
 }

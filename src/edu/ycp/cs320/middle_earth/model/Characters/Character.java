@@ -1,7 +1,5 @@
 package edu.ycp.cs320.middle_earth.model.Characters;
 
-import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
-
 public abstract class Character{
 	private String race;
 	private String name;
@@ -14,8 +12,9 @@ public abstract class Character{
 	private int special_attack;
 	private int special_defense;
 	private int coins;
-	private MapTile location;
+	private int map_location;
 	private Inventory inventory;
+
 	
 	public String get_race(){
 		return race;
@@ -105,12 +104,12 @@ public abstract class Character{
 		this.coins = coins;
 	}
 	
-	public MapTile get_location(){
-		return location;
+	public int get_location(){
+		return map_location;
 	}
 	
-	public void set_location(MapTile location){
-		this.location = location;
+	public void set_location(int map_location){
+		this.map_location = map_location;
 	}
 	
 	public Inventory get_inventory(){
