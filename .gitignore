@@ -2,3 +2,4 @@
 /test-bin/
 /war/WEB-INF/classes
 *.class
+*.xml
