@@ -42,20 +42,29 @@ public class GameHandleCommandTest{
 		starting.setID(0);
 		northOfStarting = new MapTile();
 		northOfStarting.setID(1);
+		northOfStarting.setLongDescription("You arrive in a lush forest, complete with birds and crickets chirping.");
 		northEastOfStarting = new MapTile();
 		northEastOfStarting.setID(2);
+		northEastOfStarting.setLongDescription("You arrive in a barren wasteland, complete with radiation poisoning.");
 		eastOfStarting = new MapTile();
 		eastOfStarting.setID(3);
+		eastOfStarting.setLongDescription("You arrive in candyland, where I don't know any of the character names.");
 		southEastOfStarting = new MapTile();
 		southEastOfStarting.setID(4);
+		southEastOfStarting.setLongDescription("You arrive in L.A., just to get a flight to leave.");
 		southOfStarting = new MapTile();
 		southOfStarting.setID(5);
+		southOfStarting.setLongDescription("You arrive in CS320 in 2016, where Logan is failing to make a 2D Platformer in Erlang.");
 		southWestOfStarting = new MapTile();
 		southWestOfStarting.setID(6);
+		southWestOfStarting.setLongDescription("You arrive in I don't know, just give it up already.");
 		westOfStarting = new MapTile();
 		westOfStarting.setID(7);
+		westOfStarting.setLongDescription("You arrive in CS320 a week early for the milestone to realize no one has worked on it "
+				+ "yet.");
 		northWestOfStarting = new MapTile();
 		northWestOfStarting.setID(8);
+		northWestOfStarting.setLongDescription("You arrive in... The narrator died of boredom, so we're waiting on a new one.");
 		// TODO: When MapTile has connections enabled, do this.
 		//starting.addConnection("north", 1);
 		//starting.addConnection("northeast", 2);
@@ -71,18 +80,30 @@ public class GameHandleCommandTest{
 	public void testInvalidCommand(){
 		game.handle_command("blofjerf");
 		
-		// TODO: Get Matt's commit of Game to do these tests.
-		//assertEquals(1, game.getDialog().size());
-		//assertEquals("Sorry, I didn't understand that.", game.getDialog().get(0));
-		throw new UnsupportedOperationException("Waiting on game.getDialog() method");
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("Sorry, I didn't understand that.", game.get_dialog().get(0));
 	}
 	
 	/*
-	 * TODO: Game-Based Commands (Not Specific to Characters)
+	 * Game-Based Commands (Not Specific to Characters)
+	 * TODO: Check Character Sheet Tests
+	 * TODO: Check Inventory Tests
+	 * TODO: Check Map Tests
+	 * TODO: Save Tests
 	 */
 	
 	/*
-	 * TODO: Player-Specific Commands
+	 * Player-Specific Commands
+	 * TODO: Open(Object) Tests
+	 * TODO: Close(Object) Tests
+	 * TODO: Climb(Object) Tests
+	 * TODO: Take(Item) Tests
+	 * TODO: Take(Object, Item) Tests
+	 * TODO: Look Tests
+	 * TODO: Fast Travel Tests
+	 * TODO: Buy(Item) Tests
+	 * TODO: Sell(Item) Tests
+	 * TODO: Talk(NPC) Tests
 	 */
 	
 	
@@ -98,6 +119,8 @@ public class GameHandleCommandTest{
 		game.handle_command("north");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(northOfStarting.getLongDescription(), game.get_dialog().get(0));
 	}
 	
 	@Test
@@ -107,6 +130,8 @@ public class GameHandleCommandTest{
 		game.handle_command("northeast");
 		
 		assertEquals(2, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(northEastOfStarting.getLongDescription(), game.get_dialog().get(0));
 	}
 	
 	@Test
@@ -116,6 +141,8 @@ public class GameHandleCommandTest{
 		game.handle_command("east");
 		
 		assertEquals(3, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(eastOfStarting.getLongDescription(), game.get_dialog().get(0));
 	}
 	
 	@Test
@@ -125,6 +152,8 @@ public class GameHandleCommandTest{
 		game.handle_command("southeast");
 		
 		assertEquals(4, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(southEastOfStarting.getLongDescription(), game.get_dialog().get(0));
 	}
 	
 	@Test
@@ -134,6 +163,8 @@ public class GameHandleCommandTest{
 		game.handle_command("south");
 		
 		assertEquals(5, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(southOfStarting.getLongDescription(), game.get_dialog().get(0));
 	}
 	
 	@Test
@@ -143,6 +174,8 @@ public class GameHandleCommandTest{
 		game.handle_command("southwest");
 		
 		assertEquals(6, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(southWestOfStarting.getLongDescription(), game.get_dialog().get(0));
 	}
 	
 	@Test
@@ -152,6 +185,8 @@ public class GameHandleCommandTest{
 		game.handle_command("west");
 		
 		assertEquals(7, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(westOfStarting.getLongDescription(), game.get_dialog().get(0));
 	}
 	
 	@Test
@@ -161,6 +196,8 @@ public class GameHandleCommandTest{
 		game.handle_command("northwest");
 		
 		assertEquals(8, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(northWestOfStarting.getLongDescription(), game.get_dialog().get(0));
 	}
 	
 	@Test

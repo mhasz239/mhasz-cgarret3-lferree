@@ -9,7 +9,7 @@ public class Item extends Construct{
 		
 	}
 	
-	public void setItemWeight(int itemWeight) {
+	public void setItemWeight(float itemWeight) {
 		this.itemWeight = itemWeight;
 	}
 	
