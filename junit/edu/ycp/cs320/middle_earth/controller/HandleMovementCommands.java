@@ -70,19 +70,19 @@ public class HandleMovementCommands{
 		northWestOfStarting.setID(8);
 		northWestOfStarting.setLongDescription("You arrive in... The narrator died of boredom, so we're waiting on a new one.");
 		
-		// TODO: When MapTile has connections enabled, do this.
-		HashMap<String, Integer> connections = new HashMap<String, Integer>();
-		connections.put("north", 1);
-		connections.put("northeast", 2);
-		connections.put("east", 3);
-		connections.put("southeast", 4);
-		connections.put("south", 5);
-		connections.put("southwest", 6);
-		connections.put("west", 7);
-		connections.put("northwest", 8);
-		starting.setConnections(connections);
+		// Starting tile's connections
+		starting.setConnection("north", 1);
+		starting.setConnection("northeast", 2);
+		starting.setConnection("east", 3);
+		starting.setConnection("southeast", 4);
+		starting.setConnection("south", 5);
+		starting.setConnection("southwest", 6);
+		starting.setConnection("west", 7);
+		starting.setConnection("northwest", 8);
+		
 		invalidDirection = "You can't go that way";
 		
+		// Add tiles to Map
 		map = new Map();
 		ArrayList<MapTile> tiles = new ArrayList<MapTile>();
 		tiles.add(starting);

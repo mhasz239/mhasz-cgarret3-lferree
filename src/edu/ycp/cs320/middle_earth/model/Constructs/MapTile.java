@@ -19,9 +19,9 @@ public class MapTile extends Construct{
 		connections.put("northwest", 0);
 	}
 	
-	public void setConnections(HashMap<String, Integer> connections) {
-		this.connections = connections;
-		
+	// Note: Having setConnections(HashMap) causes us to lose the default values of 0.
+	public void setConnection(String direction, int weight){
+		connections.put(direction, weight);
 	}
 	
 	public HashMap<String, Integer> getConnections() {

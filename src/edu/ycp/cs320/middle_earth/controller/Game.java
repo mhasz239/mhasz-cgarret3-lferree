@@ -35,8 +35,13 @@ public class Game implements Engine{
 		return dialog;
 	}
 
-	public void set_dialog(String dialog) {
-		this.dialog.add(dialog);
+	public void set_dialog(ArrayList<String> dialog) {
+		this.dialog = dialog;
+	}
+	
+	public void add_dialog(String line){
+		dialog.add(line);
+		// TODO: Implement removing lines when dialog reaches a certain length.
 	}
 
 	public Map get_map(){
@@ -86,7 +91,6 @@ public class Game implements Engine{
 
 	public String get_display_text(){
 		String display_text = "";
-		this.set_dialog("Blue Bunny Balls");
 		for (int i = 0; i < this.dialog.size(); i++) {
 			display_text = display_text+"\n"+this.dialog.get(i);
 		}
@@ -95,7 +99,7 @@ public class Game implements Engine{
 
 	@Override
 	public String handle_command(String commandStr){
-		// TODO: Implement "valid"
+		// TODO: Remove errorMessage? We talked about just adding it to the dialog I think?
 		String errorMessage = null;
 		String command = "";
 		String[] args = new String[2];
@@ -106,96 +110,91 @@ public class Game implements Engine{
         	command = commandStr;
         }
 		
-		if (mode == "game"){
-			if (command == "inventory") {
-				mode = "inventory";
+		if(command.equalsIgnoreCase("inventory")){
+			check_inventory();
+		}else if(command.equalsIgnoreCase("character")){
+			check_character_sheet();
+		}else if(command.equalsIgnoreCase("map")){
+			check_map();
+		}else if(command.equalsIgnoreCase("game")){
+			return_to_game();
+		}else if(command.equalsIgnoreCase("move") && mode_check("game")){
+			if(args[1].equalsIgnoreCase("north") || args[1].equalsIgnoreCase("south") || 
+					args[1].equalsIgnoreCase("east") || args[1].equalsIgnoreCase("west") ||
+					args[1].equalsIgnoreCase("northwest") || args[1].equalsIgnoreCase("northeast") ||
+					args[1].equalsIgnoreCase("southwest") || args[1].equalsIgnoreCase("southeast")){
+				move(args[1]);
+			}else{
+				add_dialog("I don't understand that direction.");
 			}
-			else if (command == "map") {
-				mode = "map";
-			} 
-			else if (command == "character") {
-				mode = "inventory";
-			}
-			else if (command == "move" && (args[1] == "north" || args[1] == "south" || args[1] == "east" || args[1] == "west")){
-				this.move(args[1]);
-			}
-			else if (command == "north" || command == "N" ){
-				this.move("north");
-			}
-			else if (command == "south" || command == "S" ){
-				this.move("south");
-			}
-			else if (command == "east" || command == "E" ){
-				this.move("east");
-			}
-			else if (command == "west" || command == "W" ){
-				this.move("west");
-			}
-		}
-		
-		else if (mode == "inventory"){
-			if (command == "game") {
-				mode = "game";
-			}
-			else if (command == "map") {
-				mode = "map";
-			} 
-			else if (command == "character") {
-				mode = "inventory";
-			}
-		} 
-		
-		else if (mode == "map"){
-			if (command == "inventory") {
-				mode = "inventory";
-			}
-			else if (command == "game") {
-				mode = "game";
-			} 
-			else if (command == "character") {
-				mode = "inventory";
-			}
-		}
-		
-		else if (mode == "character"){
-			if (command == "inventory") {
-				mode = "inventory";
-			}
-			else if (command == "map") {
-				mode = "map";
-			} 
-			else if (command == "game") {
-				mode = "game";
-			}
-		}
-		
-		
-		if (command == "inventory") {
-			
-		}
-		else if (command != null) {
+		}else if((command.equalsIgnoreCase("north") || command.equalsIgnoreCase("N")) && mode_check("game")){
+			move("north");
+		}else if((command.equalsIgnoreCase("south") || command.equalsIgnoreCase("S")) && mode_check("game")){
+			move("south");
+		}else if((command.equalsIgnoreCase("east") || command.equalsIgnoreCase("E")) && mode_check("game")){
+			move("east");
+		}else if((command.equalsIgnoreCase("west") || command.equalsIgnoreCase("W")) && mode_check("game")){
+			move("west");
+		}else if((command.equalsIgnoreCase("northeast") || command.equalsIgnoreCase("NE")) && mode_check("game")){
+			move("northeast");
+		}else if((command.equalsIgnoreCase("northwest") || command.equalsIgnoreCase("NW")) && mode_check("game")){
+			move("northwest");
+		}else if((command.equalsIgnoreCase("southeast") || command.equalsIgnoreCase("SE")) && mode_check("game")){
+			move("southeast");
+		}else if((command.equalsIgnoreCase("southwest") || command.equalsIgnoreCase("SW")) && mode_check("game")){
+			move("southwest");
+		}else if(!command.equalsIgnoreCase("")){
+			// Checking if command isn't empty, since it can't be null -> initialized in here to "";
 			errorMessage = "I'm sorry I dont recognize that command";
+		}else{
+			errorMessage = "No command received";
 		}
-		//throw new UnsupportedOperationException("Not implemented yet!");
 		return errorMessage;
+	}
+	
+	public boolean mode_check(String required_mode){
+		if(!mode.equalsIgnoreCase(required_mode)){
+			add_dialog("You can't use that command here.");
+			return false;
+		}else{
+			return true;
+		}
 	}
 	
 	@Override
 	public void check_character_sheet(){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
+		if(mode.equalsIgnoreCase("character")){
+			add_dialog("You're already in it!");
+		}else{
+			mode = "character";
+		}
 	}
 	
 	@Override
 	public void check_inventory(){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
+		if(mode.equalsIgnoreCase("inventory")){
+			add_dialog("You're already in it!");
+		}else{
+			mode = "inventory";
+		}
 	}
 	
 	@Override
 	public void check_map(){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
+		if(mode.equalsIgnoreCase("map")){
+			add_dialog("You're already in it!");
+		}else{
+			mode = "map";
+		}
+	}
+	
+	@Override
+	public void return_to_game(){
+		if(mode.equalsIgnoreCase("game")){
+			add_dialog("You're playing it!");
+		}else{
+			mode = "game";
+		}
 	}
 	
 	@Override
@@ -275,15 +274,14 @@ public class Game implements Engine{
 	@Override
 	public void move(String direction){
 		Character player = characters.get(0);
-		int moveValue = map.getMapTiles().get(player.get_location()).getMoveValue(direction);
+		// direction.toLowerCase since they're stored in lowercase in the MapTile.
+		int moveValue = map.getMapTiles().get(player.get_location()).getMoveValue(direction.toLowerCase());
 		if (moveValue != 0) {
 			player.set_location(player.get_location() + moveValue);
-			dialog.add(map.getMapTiles().get(player.get_location()).getLongDescription());
+			add_dialog(map.getMapTiles().get(player.get_location()).getLongDescription());
 		} else {
-			dialog.add("You can't go that way");
+			add_dialog("You can't go that way");
 		}
-		// TODO Implement
-		//throw new UnsupportedOperationException("Not implemented yet!");
 	}
 	
 	@Override

@@ -14,6 +14,8 @@ public interface Engine{
 	
 	public abstract void check_map();
 	
+	public abstract void return_to_game();
+	
 	public abstract void save();
 	
 	// Player-Specific Actions

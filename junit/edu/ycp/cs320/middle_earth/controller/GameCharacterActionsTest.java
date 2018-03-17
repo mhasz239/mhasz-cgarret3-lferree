@@ -66,15 +66,16 @@ public class GameCharacterActionsTest{
 		northWestOfStarting = new MapTile();
 		northWestOfStarting.setID(8);
 		northWestOfStarting.setLongDescription("You arrive in... The narrator died of boredom, so we're waiting on a new one.");
-		// TODO: When MapTile has connections enabled, do this.
-		//starting.addConnection("north", 1);
-		//starting.addConnection("northeast", 2);
-		//starting.addConnection("east", 3);
-		//starting.addConnection("southeast", 4);
-		//starting.addConnection("south", 5);
-		//starting.addConnection("southwest", 6);
-		//starting.addConnection("west", 7);
-		//starting.addConnection("northwest", 8);
+		
+		// Set Connections
+		starting.setConnection("north", 1);
+		starting.setConnection("northeast", 2);
+		starting.setConnection("east", 3);
+		starting.setConnection("southeast", 4);
+		starting.setConnection("south", 5);
+		starting.setConnection("southwest", 6);
+		starting.setConnection("west", 7);
+		starting.setConnection("northwest", 8);
 	}
 	
 	
@@ -86,9 +87,7 @@ public class GameCharacterActionsTest{
 	public void testMoveNorth(){
 		assertEquals(0, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move currently doesn't have a String passed into it.
-		// WAITING for Matt's commit for this.
-		//game.move("north");
+		game.move("north");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
 		assertEquals(1, game.get_dialog().size());
@@ -99,9 +98,7 @@ public class GameCharacterActionsTest{
 	public void testMoveNorthEast(){
 		assertEquals(0, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move currently doesn't have a String passed into it.
-		// WAITING for Matt's commit for this.
-		//game.move("northeast");
+		game.move("northeast");
 		
 		assertEquals(2, game.get_characters().get(0).get_location());
 		assertEquals(1, game.get_dialog().size());
@@ -112,9 +109,7 @@ public class GameCharacterActionsTest{
 	public void testMoveEast(){
 		assertEquals(0, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move currently doesn't have a String passed into it.
-		// WAITING for Matt's commit for this.
-		//game.move("east");
+		game.move("east");
 		
 		assertEquals(3, game.get_characters().get(0).get_location());
 		assertEquals(1, game.get_dialog().size());
@@ -125,9 +120,7 @@ public class GameCharacterActionsTest{
 	public void testMoveSouthEast(){
 		assertEquals(0, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move currently doesn't have a String passed into it.
-		// WAITING for Matt's commit for this.
-		//game.move("southeast");
+		game.move("southeast");
 		
 		assertEquals(4, game.get_characters().get(0).get_location());
 		assertEquals(1, game.get_dialog().size());
@@ -138,9 +131,7 @@ public class GameCharacterActionsTest{
 	public void testMoveSouth(){
 		assertEquals(0, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move currently doesn't have a String passed into it.
-		// WAITING for Matt's commit for this.
-		//game.move("south");
+		game.move("south");
 		
 		assertEquals(5, game.get_characters().get(0).get_location());
 		assertEquals(1, game.get_dialog().size());
@@ -151,9 +142,7 @@ public class GameCharacterActionsTest{
 	public void testMoveSouthWest(){
 		assertEquals(0, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move currently doesn't have a String passed into it.
-		// WAITING for Matt's commit for this.
-		//game.move("southwest");
+		game.move("southwest");
 		
 		assertEquals(6, game.get_characters().get(0).get_location());
 		assertEquals(1, game.get_dialog().size());
@@ -164,9 +153,7 @@ public class GameCharacterActionsTest{
 	public void testMoveWest(){
 		assertEquals(0, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move currently doesn't have a String passed into it.
-		// WAITING for Matt's commit for this.
-		//game.move("west");
+		game.move("west");
 		
 		assertEquals(7, game.get_characters().get(0).get_location());
 		assertEquals(1, game.get_dialog().size());
@@ -177,9 +164,7 @@ public class GameCharacterActionsTest{
 	public void testMoveNorthWest(){
 		assertEquals(0, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move currently doesn't have a String passed into it.
-		// WAITING for Matt's commit for this.
-		//game.move("northwest");
+		game.move("northwest");
 		
 		assertEquals(8, game.get_characters().get(0).get_location());
 		assertEquals(1, game.get_dialog().size());
@@ -191,9 +176,7 @@ public class GameCharacterActionsTest{
 		game.get_characters().get(0).set_location(1);
 		assertEquals(1, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move currently doesn't have a String passed into it.
-		// WAITING for Matt's commit for this.
-		//game.move("north");
+		game.move("north");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
 		// TODO: Get Matt's commit of Game to do this.
@@ -209,9 +192,7 @@ public class GameCharacterActionsTest{
 		game.get_characters().get(0).set_location(1);
 		assertEquals(1, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move currently doesn't have a String passed into it.
-		// WAITING for Matt's commit for this.
-		//game.move("northeast");
+		game.move("northeast");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
 		// TODO: Get Matt's commit of Game to do this.
@@ -227,9 +208,7 @@ public class GameCharacterActionsTest{
 		game.get_characters().get(0).set_location(1);
 		assertEquals(1, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move currently doesn't have a String passed into it.
-		// WAITING for Matt's commit for this.
-		//game.move("east");
+		game.move("east");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
 		// TODO: Get Matt's commit of Game to do this.
@@ -245,9 +224,7 @@ public class GameCharacterActionsTest{
 		game.get_characters().get(0).set_location(1);
 		assertEquals(1, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move currently doesn't have a String passed into it.
-		// WAITING for Matt's commit for this.
-		//game.move("southeast");
+		game.move("southeast");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
 		// TODO: Get Matt's commit of Game to do this.
@@ -263,9 +240,7 @@ public class GameCharacterActionsTest{
 		game.get_characters().get(0).set_location(1);
 		assertEquals(1, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move currently doesn't have a String passed into it.
-		// WAITING for Matt's commit for this.
-		//game.move("south");
+		game.move("south");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
 		// TODO: Get Matt's commit of Game to do this.
@@ -281,9 +256,7 @@ public class GameCharacterActionsTest{
 		game.get_characters().get(0).set_location(1);
 		assertEquals(1, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move currently doesn't have a String passed into it.
-		// WAITING for Matt's commit for this.
-		//game.move("southwest");
+		game.move("southwest");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
 		// TODO: Get Matt's commit of Game to do this.
@@ -299,9 +272,7 @@ public class GameCharacterActionsTest{
 		game.get_characters().get(0).set_location(1);
 		assertEquals(1, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move currently doesn't have a String passed into it.
-		// WAITING for Matt's commit for this.
-		//game.move("west");
+		game.move("west");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
 		// TODO: Get Matt's commit of Game to do this.
@@ -317,9 +288,7 @@ public class GameCharacterActionsTest{
 		game.get_characters().get(0).set_location(1);
 		assertEquals(1, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move currently doesn't have a String passed into it.
-		// WAITING for Matt's commit for this.
-		//game.move("northwest");
+		game.move("northwest");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
 		// TODO: Get Matt's commit of Game to do this.
