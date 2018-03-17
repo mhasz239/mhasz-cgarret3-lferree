@@ -31,17 +31,33 @@ public class InventoryServlet extends HttpServlet {
         System.out.println("Inventory Servlet: doPost");
 
         Game game = new Game();
-        Item item = new Item();
+        
         ArrayList<Item> inventory_list = new ArrayList<Item>();
+        String inventory_list_display = "";
         for (int i = 0; i < 10; i++) {
+        	Item item = new Item();
         	item.setID(i);
         	item.setIsQuestItem("false");
         	item.setItemWeight(5);
-        	item.setLongDescription("This is a poorly made dagger out of wood.\nDont see much use for this");
-        	item.setShortDescription("Wooden dagger");
-        	item.setName("Wood Dagger");
+        	if (i < 5) {
+        		item.setLongDescription("This is a poorly made dagger out of wood.\nDont see much use for this\nAttack +1");
+        		item.setShortDescription("A dagger made of wood (+1 atk)");
+        		item.setName("Wood Dagger");
+        	} else {
+        		item.setLongDescription("This is a well made steel dagger.\nYou can do some serious damage with this thing.");
+        		item.setShortDescription("A dagger made of steel (+8 atk)");
+        		item.setName("Steel Dagger");
+        	}
+        	System.out.println("Add: " + item.getName());
         	inventory_list.add(item);
         }
+        
+        for (int j = 0; j < inventory_list.size(); j++){
+        	inventory_list_display = inventory_list_display + inventory_list.get(j).getName() + ": " + inventory_list.get(j).getShortDescription()+";";
+            
+        }
+        
+        System.out.println(inventory_list_display);
         // holds the error message text, if there is any
         String errorMessage = null;
         String command = req.getParameter("command");
@@ -50,7 +66,7 @@ public class InventoryServlet extends HttpServlet {
         if (command.matches("game")) {
             req.getRequestDispatcher("/_view/game.jsp").forward(req, resp);
         } else {
-        	req.setAttribute("invetory", inventory_list);
+        	req.setAttribute("inventory", inventory_list_display);
         	req.setAttribute("errorMessage", errorMessage);
         	// now call the JSP to render the new page
         	req.getRequestDispatcher("/_view/inventory.jsp").forward(req, resp);
