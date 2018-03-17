@@ -35,7 +35,7 @@ public class InventoryServlet extends HttpServlet {
         ArrayList<Item> inventory_list = new ArrayList<Item>();
         for (int i = 0; i < 10; i++) {
         	item.setID(i);
-        	item.setIsQuestItem(false);
+        	item.setIsQuestItem("false");
         	item.setItemWeight(5);
         	item.setLongDescription("This is a poorly made dagger out of wood.\nDont see much use for this");
         	item.setShortDescription("Wooden dagger");
