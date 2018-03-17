@@ -18,9 +18,11 @@
 
 <body>
 <c:if test="${! empty errorMessage}">
-    <div class="error">${Inventory.errorMessage}</div>
+    <div class="error">${errorMessage}</div>
 </c:if>
-<div>${Inventory.list}</div>
+<div>${invetory}</div>
+
+<div><p>"this is just to show that its working"</p></div>
 
 <form action="${pageContext.servletContext.contextPath}/Inventory" method="post">
     <table>

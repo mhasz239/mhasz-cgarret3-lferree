@@ -29,7 +29,7 @@ public class IndexServlet extends HttpServlet {
 		
 		String page = req.getParameter("submit");
 		if(page.equalsIgnoreCase("Add Numbers")){
-			req.getRequestDispatcher("/_view/addNumbers.jsp").forward(req, resp);
+			req.getRequestDispatcher("/_view/Game.jsp").forward(req, resp);
 		}else if(page.equalsIgnoreCase("Multiply Numbers")){
 			req.getRequestDispatcher("/_view/multiplyNumbers.jsp").forward(req, resp);
 		}else if(page.equalsIgnoreCase("Guessing Game")){
