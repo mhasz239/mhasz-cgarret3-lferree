@@ -58,6 +58,9 @@ public class InventoryServlet extends HttpServlet {
 
         // now call the JSP to render the new page
         req.getRequestDispatcher("/_view/Inventory.jsp").forward(req, resp);
+<<<<<<< HEAD
         //Test commit
+=======
+>>>>>>> refs/remotes/origin/jsp_and_servlets
     }
 }
