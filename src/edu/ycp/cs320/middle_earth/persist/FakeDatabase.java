@@ -63,7 +63,10 @@ public class FakeDatabase {
 	
 	public void readInitialData() {
 		try {
+			map = InitialData.getMap();
 			mapTileList.addAll(InitialData.getMapTiles());
+			objectList.addAll(InitialData.getObjects());
+			itemList.addAll(InitialData.getItems());
 		} catch (IOException e) {
 			throw new IllegalStateException("Couldn't read initial data", e);
 		}
