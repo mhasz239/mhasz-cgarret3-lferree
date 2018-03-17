@@ -7,6 +7,7 @@ import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.NPC;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 import edu.ycp.cs320.middle_earth.model.Constructs.Map;
+import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 
 public class Game implements Engine{
 	private Map map;
