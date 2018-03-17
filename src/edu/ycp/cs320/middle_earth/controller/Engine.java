@@ -40,7 +40,7 @@ public interface Engine{
 	
 	// Character-Specific Actions (Not just Player)
 	
-	public abstract void move();
+	public abstract void move(String direction);
 	
 	public abstract void attack(Character character);
 	

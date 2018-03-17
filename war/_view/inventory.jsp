@@ -21,13 +21,14 @@
 </c:if>
 
 <div>
+<h1><u>Inventory</u></h1>
 <ol>
 <c:forTokens items = "${inventory}" delims = ";" var = "item" >
 <li><c:out value = "${item}"/></li>
 </c:forTokens>
 </ol></div>
 
-<div><p>"this is just to show that its working"</p></div>
+<div><p>"Type "item #" to see more details about the item"</p></div>
 
 <form action="${pageContext.servletContext.contextPath}/inventory" method="post">
     <table>
