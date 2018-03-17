@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ycp.cs320.middle_earth.persist.InitialData;
+import edu.ycp.cs320.middle_earth.model.Quest;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
 //import edu.ycp.cs320.middle_earth.model.Characters.Enemy;
 import edu.ycp.cs320.middle_earth.model.Characters.Inventory;
@@ -39,11 +40,9 @@ public class FakeDatabase {
 	
 	private List<Item> itemList;
 	
+	private List<Quest> questList;	
 	
 	private List<Character> characterList;
-	
-	
-	private Inventory inventory;
 	
 	
 	private Player player;	
@@ -54,19 +53,16 @@ public class FakeDatabase {
 		objectList = new ArrayList<Object>();
 		itemList = new ArrayList<Item>();
 		characterList = new ArrayList<Character>();
-		inventory = new Inventory();
 		player = new Player();
-		
-		
-		
 	}
 	
 	public void readInitialData() {
 		try {
-			map = InitialData.getMap();
-			mapTileList.addAll(InitialData.getMapTiles());
+//			map = InitialData.getMap();
+//			mapTileList.addAll(InitialData.getMapTiles());
 			objectList.addAll(InitialData.getObjects());
-			itemList.addAll(InitialData.getItems());
+//			itemList.addAll(InitialData.getItems());
+			//characterList.addAll(InitialData.getCharacters());
 		} catch (IOException e) {
 			throw new IllegalStateException("Couldn't read initial data", e);
 		}
