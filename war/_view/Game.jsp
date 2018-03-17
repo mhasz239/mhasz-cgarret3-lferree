@@ -20,11 +20,8 @@
 <c:if test="${! empty errorMessage}">
     <div class="error">${errorMessage}</div>
 </c:if>
-<<<<<<< HEAD
+
 <div>${display_text}</div>
-=======
-<div>${Game.display_text}</div>
->>>>>>> refs/remotes/origin/jsp_and_servlets
 
 <form action="${pageContext.servletContext.contextPath}/Game" method="post">
     <table>
