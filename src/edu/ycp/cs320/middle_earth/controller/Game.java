@@ -17,7 +17,16 @@ public class Game implements Engine{
 	private ArrayList<Item> items;
 	private ArrayList<String> dialog = new ArrayList<String>();
 	private Item item;
+	private String mode;
+	
+	public String get_mode() {
+		return this.mode;
+	}
 
+	public void set_mode(String mode) {
+		this.mode = mode;
+	}
+	
 	public ArrayList<String> get_dialog() {
 		return dialog;
 	}
@@ -44,6 +53,11 @@ public class Game implements Engine{
 	
 	public ArrayList<Character> get_characters(){
 		return characters;
+	}
+	
+	public Character get_player(){
+		//Player is assigned to index 0 of Characters List. ###Will have to update for multiplayer###
+		return characters.get(0);
 	}
 	
 	public void set_characters(ArrayList<Character> characters){
@@ -76,14 +90,87 @@ public class Game implements Engine{
 	}
 
 	@Override
-	public String handle_command(String command){
+	public String handle_command(String commandStr){
 		// TODO: Implement "valid"
 		String errorMessage = null;
+		String command = "";
+		String[] args = new String[2];
+		if (commandStr.split(" ").length > 1){
+        	args = command.split(" ");
+        	command = args[0];
+        } else {
+        	command = commandStr;
+        }
+		
+		if (mode == "game"){
+			if (command == "inventory") {
+				mode = "inventory";
+			}
+			else if (command == "map") {
+				mode = "map";
+			} 
+			else if (command == "character") {
+				mode = "inventory";
+			}
+			else if (command == "move" && (args[1] == "north" || args[1] == "south" || args[1] == "east" || args[1] == "west")){
+				this.move(args[1]);
+			}
+			else if (command == "north" || command == "N" ){
+				this.move("north");
+			}
+			else if (command == "south" || command == "S" ){
+				this.move("south");
+			}
+			else if (command == "east" || command == "E" ){
+				this.move("east");
+			}
+			else if (command == "west" || command == "W" ){
+				this.move("west");
+			}
+		}
+		
+		else if (mode == "inventory"){
+			if (command == "game") {
+				mode = "game";
+			}
+			else if (command == "map") {
+				mode = "map";
+			} 
+			else if (command == "character") {
+				mode = "inventory";
+			}
+		} 
+		
+		else if (mode == "map"){
+			if (command == "inventory") {
+				mode = "inventory";
+			}
+			else if (command == "game") {
+				mode = "game";
+			} 
+			else if (command == "character") {
+				mode = "inventory";
+			}
+		}
+		
+		else if (mode == "character"){
+			if (command == "inventory") {
+				mode = "inventory";
+			}
+			else if (command == "map") {
+				mode = "map";
+			} 
+			else if (command == "game") {
+				mode = "game";
+			}
+		}
+		
+		
 		if (command == "inventory") {
 			
 		}
 		else if (command != null) {
-			errorMessage = "Invalid Command";
+			errorMessage = "I'm sorry I dont recognize that command";
 		}
 		//throw new UnsupportedOperationException("Not implemented yet!");
 		return errorMessage;
@@ -182,7 +269,14 @@ public class Game implements Engine{
 	 */
 	
 	@Override
-	public void move(){
+	public void move(String direction){
+		Character player = characters.get(0);
+		int moveValue = map.getMapTiles().get(player.get_location()).getMoveValue(direction);
+		if (moveValue != 0) {
+			player.set_location(player.get_location() + moveValue);
+		} else {
+			dialog.add("You can't go that way");
+		}
 		// TODO Implement
 		throw new UnsupportedOperationException("Not implemented yet!");
 	}
