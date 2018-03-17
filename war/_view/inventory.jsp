@@ -19,7 +19,13 @@
 <c:if test="${! empty errorMessage}">
     <div class="error">${errorMessage}</div>
 </c:if>
-<div>${invetory}</div>
+
+<div>
+<ol>
+<c:forTokens items = "${inventory}" delims = ";" var = "item" >
+<li><c:out value = "${item}"/></li>
+</c:forTokens>
+</ol></div>
 
 <div><p>"this is just to show that its working"</p></div>
 
