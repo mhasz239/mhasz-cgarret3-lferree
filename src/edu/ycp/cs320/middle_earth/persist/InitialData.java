@@ -10,6 +10,10 @@ import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 import edu.ycp.cs320.middle_earth.model.Constructs.Map;
 import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
+import edu.ycp.cs320.middle_earth.model.Quest;
+import edu.ycp.cs320.middle_earth.model.Characters.Character;
+import edu.ycp.cs320.middle_earth.model.Characters.Inventory;
+import edu.ycp.cs320.middle_earth.model.Characters.Player;
 
 public class InitialData {
 
@@ -106,8 +110,8 @@ public class InitialData {
 		}
 	}
 	
-	public static List<Item> getItems() throws IOException {
-		List<Item> itemList = new ArrayList<Item>();
+	public static ArrayList<Item> getItems() throws IOException {
+		ArrayList<Item> itemList = new ArrayList<Item>();
 		ReadCSV readItems = new ReadCSV("items.csv");
 		try {
 			while (true) {
@@ -123,12 +127,46 @@ public class InitialData {
 				item.setLongDescription(i.next());
 				item.setShortDescription(i.next());
 				item.setItemWeight(Integer.parseInt(i.next()));
-				item.setIsQuestItem(i.next());
+				
+				// Working around the inability of i to handle boolean
+				String checkIfTrue = i.next();
+				if(checkIfTrue == "false") {
+					item.setIsQuestItem(false);
+				} else {
+					item.setIsQuestItem(true);
+				}
+				
+				itemList.add(item);
 			}
+			return itemList;
+		} finally {
+			readItems.close();
 		}
 	}
 	
-	public static List<Character> getCharacters() throws IOException {
+/*	public static List<Quest> getQuests() throws IOException {
+		List<Quest> questList = new ArrayList<Quest>();
+		ReadCSV readQuests = new ReadCSV("quests.csv");
+		try {
+			while (true) {
+				List<String> tuple = readQuests.next();
+				if(tuple == null) {
+					break;
+				}
+				Iterator<String> i = tuple.iterator();
+				
+				Quest quest = new Quest();
+				quest.getRewardItems()
+				
+			}
+				
+			return questList;
+		} finally {
+			readQuests.close();
+		}
+	} */
+	
+/*	public static List<Character> getCharacters() throws IOException {
 		List<Character> characterList = new ArrayList<Character>();
 		ReadCSV readCharacters = new ReadCSV("characters.csv");
 		try {
@@ -140,11 +178,61 @@ public class InitialData {
 				Iterator<String> i = tuple.iterator();
 				
 				Character character = new Character();
-				
+				character.set_race(i.next());
+				character.set_name(i.next());
+				character.set_gender(i.next());
+				character.set_level(Integer.parseInt(i.next()));
+				character.set_hit_points(Integer.parseInt(i.next()));
+				character.set_magic_points(Integer.parseInt(i.next()));
+				character.set_attack(Integer.parseInt(i.next()));
+				character.set_defense(Integer.parseInt(i.next()));
+				character.set_special_attack(Integer.parseInt(i.next()));
+				character.set_special_defense(Integer.parseInt(i.next()));
+				character.set_coins(Integer.parseInt(i.next()));
+				character.set_location(Integer.parseInt(i.next()));
+				character.set_inventory(getInventory());
 			}
+			return characterList;
+		} finally {
+			readCharacters.close();
+		}
+	} */
+	
+	public static Inventory getInventory() throws IOException {
+		Inventory inventory = new Inventory();
+		ReadCSV readInventory = new ReadCSV("inventory.cvs");
+		try {
+			List<String> tuple = readInventory.next();
+			Iterator<String> i = tuple.iterator();
+			inventory.set_weight(Integer.parseInt(i.next()));
+			inventory.set_items(getItems());
+				
+			return inventory;	
+			
+			} finally {
+				readInventory.close();
 		}
 	}
 	
-	
+	/*public static Player getPlayer() throws IOException {
+		Player player = new Player();
+		ReadCSV readPlayer = new ReadCSV("player.cvs");
+		try {
+			List<String> tuple = readPlayer.next();
+			while(true) {		
+				if(tuple == null) {
+					break;
+				}
+				Iterator<String> i = tuple.iterator();
+				
+				player.set_experience(Integer.parseInt(i.next()));
+				player.set_carry_weight(Integer.parseInt(i.next()));
+				player.set_quest(i.next());
+			}
+			return player;
+		} finally {
+			readPlayer.close();
+		}
+	}*/
 	
 }
