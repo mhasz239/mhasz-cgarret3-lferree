@@ -17,7 +17,7 @@ import edu.ycp.cs320.middle_earth.model.Characters.Player;
 
 public class InitialData {
 
-	public static Map getMap() throws IOException {
+/*	public static Map getMap() throws IOException {
 		Map map = new Map();
 		ReadCSV readMap = new ReadCSV("map.csv");
 		try {
@@ -62,7 +62,7 @@ public class InitialData {
 		} finally {
 			readMapTiles.close();
 		}
-	}
+	}*/
 	
 	/*			Unsure how to bind the connections
 	
@@ -86,11 +86,14 @@ public class InitialData {
 		}
 	} */
 	
-	public static List<Object> getObjects() throws IOException {
+/*	public static List<Object> getObjects() throws IOException {
 		List<Object> objectList = new ArrayList<Object>();
+
 		ReadCSV readObjects = new ReadCSV("objects.csv");
+
 		try {
 			while (true) {
+				System.out.println("yay");
 				List<String> tuple = readObjects.next();
 				if(tuple == null) {
 					break;
@@ -108,7 +111,7 @@ public class InitialData {
 		} finally {
 			readObjects.close();
 		}
-	}
+	} */
 	
 	public static ArrayList<Item> getItems() throws IOException {
 		ArrayList<Item> itemList = new ArrayList<Item>();
@@ -130,7 +133,7 @@ public class InitialData {
 				
 				// Working around the inability of i to handle boolean
 				String checkIfTrue = i.next();
-				if(checkIfTrue == "false") {
+				if(checkIfTrue.equals("false")) {
 					item.setIsQuestItem(false);
 				} else {
 					item.setIsQuestItem(true);
@@ -198,7 +201,7 @@ public class InitialData {
 		}
 	} */
 	
-	public static Inventory getInventory() throws IOException {
+/*	public static Inventory getInventory() throws IOException {
 		Inventory inventory = new Inventory();
 		ReadCSV readInventory = new ReadCSV("inventory.cvs");
 		try {
@@ -212,7 +215,7 @@ public class InitialData {
 			} finally {
 				readInventory.close();
 		}
-	}
+	}*/
 	
 	/*public static Player getPlayer() throws IOException {
 		Player player = new Player();
