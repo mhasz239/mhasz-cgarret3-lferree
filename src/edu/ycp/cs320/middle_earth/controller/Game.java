@@ -15,7 +15,7 @@ public class Game implements Engine{
 	private ArrayList<Character> characters;
 	private ArrayList<Object> objects;
 	private ArrayList<Item> items;
-	private ArrayList<String> dialog;
+	private ArrayList<String> dialog = new ArrayList<String>();
 	private Item item;
 
 	public ArrayList<String> get_dialog() {
@@ -67,10 +67,10 @@ public class Game implements Engine{
 	}
 
 	public String get_display_text(){
-		this.dialog.add("Blue bunnies love to eap blueberries");
 		String display_text = "";
-		for (int i = 0; i < dialog.size(); i++){
-			display_text = display_text + "\n" + dialog.get(i);
+		this.set_dialog("Blue Bunny Balls");
+		for (int i = 0; i < this.dialog.size(); i++) {
+			display_text = display_text+"\n"+this.dialog.get(i);
 		}
 		return display_text;
 	}
@@ -79,7 +79,10 @@ public class Game implements Engine{
 	public String handle_command(String command){
 		// TODO: Implement "valid"
 		String errorMessage = null;
-		if (command != null) {
+		if (command == "inventory") {
+			
+		}
+		else if (command != null) {
 			errorMessage = "Invalid Command";
 		}
 		//throw new UnsupportedOperationException("Not implemented yet!");

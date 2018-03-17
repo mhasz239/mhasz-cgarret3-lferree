@@ -23,7 +23,7 @@
 
 <div>${display_text}</div>
 
-<form action="${pageContext.servletContext.contextPath}/Game" method="post">
+<form action="${pageContext.servletContext.contextPath}/game" method="post">
     <table>
         <tr>
             <td class="label">Text Command:</td>
