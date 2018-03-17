@@ -36,7 +36,7 @@ public class ObjectTest{
 		assertEquals("what'd you say open?", object.getCommandResponses().get("open"));
 		
 		HashMap<String, String> responses2 = new HashMap<String, String>();
-		responses.put("climb", "Climb? Are you crazy?");
+		responses2.put("climb", "Climb? Are you crazy?");
 		
 		object.setCommandResponses(responses2);
 		
