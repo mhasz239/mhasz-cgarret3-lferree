@@ -36,13 +36,11 @@ public class ConstructTest{
 	
 	@Test
 	public void testSetShortDescription(){
-		// TODO: Chris has getShortDescription(String shortDescription)
-		//assertEquals(null, construct.getShortDescription());
+		assertEquals(null, construct.getShortDescription());
 		
-		//construct.setShortDescription("What do you think it is?");
+		construct.setShortDescription("What do you think it is?");
 		
-		//assertEquals("What do you think it is?", construct.getShortDescription());
-		throw new UnsupportedOperationException("Waiting for Construct.getShortDescription()");
+		assertEquals("What do you think it is?", construct.getShortDescription());
 	}
 	
 	@Test

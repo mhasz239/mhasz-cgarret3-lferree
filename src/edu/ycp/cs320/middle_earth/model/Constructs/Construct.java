@@ -27,7 +27,7 @@ public class Construct{
 		this.shortDescription = shortDescription;
 	}
 	
-	public String getShortDescription(String shortDescription) {
+	public String getShortDescription() {
 		return this.shortDescription;
 	}
 	
