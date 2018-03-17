@@ -8,7 +8,7 @@ public class Armor extends Item{
 		
 	}
 	
-	public void setDefenceBonus(int defenseBonus) {
+	public void setDefenseBonus(int defenseBonus) {
 		this.defenseBonus = defenseBonus;
 	}
 	

@@ -7,7 +7,6 @@ import org.junit.Test;
 
 /**
  * These tests are meant to test solely Construct.
- * TODO: Wait for Chris's commit for Constructs for these tests.
  */
 public class ConstructTest{
 	private Construct construct;
@@ -19,26 +18,25 @@ public class ConstructTest{
 	
 	@Test
 	public void testSetID(){
-		//assertEquals(0, construct.getID());
+		assertEquals(0, construct.getID());
 		
-		//construct.setID(1);
+		construct.setID(1);
 		
-		//assertEquals(1, construct.getID());
-		throw new UnsupportedOperationException("Waiting for Construct.getID()");
+		assertEquals(1, construct.getID());
 	}
 	
 	@Test
 	public void testSetName(){
-		//assertEquals(null, construct.getName());
+		assertEquals(null, construct.getName());
 		
-		//construct.setName("Millenium Falcon Cockpit");
+		construct.setName("Millenium Falcon Cockpit");
 		
-		//assertEquals("Millenium Falcon Cockpit", construct.getName());
-		throw new UnsupportedOperationException("Waiting for Construct.getName()");
+		assertEquals("Millenium Falcon Cockpit", construct.getName());
 	}
 	
 	@Test
 	public void testSetShortDescription(){
+		// TODO: Chris has getShortDescription(String shortDescription)
 		//assertEquals(null, construct.getShortDescription());
 		
 		//construct.setShortDescription("What do you think it is?");
@@ -49,11 +47,10 @@ public class ConstructTest{
 	
 	@Test
 	public void testSetLongDescription(){
-		//assertEquals(null, construct.getLongDescription());
+		assertEquals(null, construct.getLongDescription());
 		
-		//construct.setLongDescription("Here you are: The cockpit of Han Solo's Millenium Falcon.");
+		construct.setLongDescription("Here you are: The cockpit of Han Solo's Millenium Falcon.");
 		
-		//assertEquals("Here you are: The cockpit of Han Solo's Millenium Falcon.", construct.getLongDescription());
-		throw new UnsupportedOperationException("Waiting for Construct.getLongDescription()");
+		assertEquals("Here you are: The cockpit of Han Solo's Millenium Falcon.", construct.getLongDescription());
 	}
 }

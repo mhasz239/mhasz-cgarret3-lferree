@@ -9,6 +9,10 @@ public class Map extends Construct{
 		mapTiles = new ArrayList<MapTile>();
 	}
 	
+	public ArrayList<MapTile> getMapTiles(){
+		return mapTiles;
+	}
+	
 	public void setMapTiles(ArrayList<MapTile> mapTiles) {
 		for(MapTile mapTile : mapTiles) {
 			this.mapTiles.add(mapTile);
