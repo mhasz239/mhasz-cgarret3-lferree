@@ -18,7 +18,7 @@ public class MapTileTest{
 		HashMap<String, Integer> conns = new HashMap<String, Integer>();
 		conns.put("north", 10);
 		
-		// TODO: Wait for Chris's correction of MapTile (currently connections = ArrayList<HashMap<String, Integer>>)
+		// TODO: Wait for Chris's correction of MapTile (currently connections = <HashMap<String, MapTile>>)
 		//tile.setConnections(conns);
 		//assertEquals(10, tile.getConnections().get("north"));
 		throw new UnsupportedOperationException("Waiting on Chris's fix");
