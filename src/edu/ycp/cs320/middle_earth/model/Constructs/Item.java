@@ -2,7 +2,7 @@ package edu.ycp.cs320.middle_earth.model.Constructs;
 
 public class Item extends Construct{
 	private float itemWeight;
-	private String isQuestItem;
+	private boolean isQuestItem;
 	// TODO: Figure out how to put location in here???
 	
 	public Item() {
@@ -17,11 +17,11 @@ public class Item extends Construct{
 		return this.itemWeight;
 	}
 	
-	public void setIsQuestItem(String isQuestItem) {
+	public void setIsQuestItem(boolean isQuestItem) {
 		this.isQuestItem = isQuestItem;
 	}
 	
-	public String getIsQuestItem() {
+	public boolean getIsQuestItem() {
 		return this.isQuestItem;
 	}
 }
