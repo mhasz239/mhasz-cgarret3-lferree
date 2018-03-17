@@ -8,7 +8,15 @@ public class MapTile extends Construct{
 	//private ArrayList<CombatSituation> random_encounters;
 	
 	public MapTile() {
-		
+		connections = new HashMap<String, Integer>();
+		connections.put("north", 0);
+		connections.put("northeast", 0);
+		connections.put("east", 0);
+		connections.put("southeast", 0);
+		connections.put("south", 0);
+		connections.put("southwest", 0);
+		connections.put("west", 0);
+		connections.put("northwest", 0);
 	}
 	
 	public void setConnections(HashMap<String, Integer> connections) {

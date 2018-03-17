@@ -86,9 +86,9 @@ public class GameCharacterActionsTest{
 	public void testMoveNorth(){
 		assertEquals(0, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move doesn't require specifying a Character currently.
-		// It should, because Characters other than Player may move.
-		//game.move(player, "north");
+		// TODO: Game.move currently doesn't have a String passed into it.
+		// WAITING for Matt's commit for this.
+		//game.move("north");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
 		assertEquals(1, game.get_dialog().size());
@@ -99,9 +99,9 @@ public class GameCharacterActionsTest{
 	public void testMoveNorthEast(){
 		assertEquals(0, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move doesn't require specifying a Character currently.
-		// It should, because Characters other than Player may move.
-		//game.move(player, "northeast");
+		// TODO: Game.move currently doesn't have a String passed into it.
+		// WAITING for Matt's commit for this.
+		//game.move("northeast");
 		
 		assertEquals(2, game.get_characters().get(0).get_location());
 		assertEquals(1, game.get_dialog().size());
@@ -112,9 +112,9 @@ public class GameCharacterActionsTest{
 	public void testMoveEast(){
 		assertEquals(0, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move doesn't require specifying a Character currently.
-		// It should, because Characters other than Player may move.
-		//game.move(player, "east");
+		// TODO: Game.move currently doesn't have a String passed into it.
+		// WAITING for Matt's commit for this.
+		//game.move("east");
 		
 		assertEquals(3, game.get_characters().get(0).get_location());
 		assertEquals(1, game.get_dialog().size());
@@ -125,8 +125,8 @@ public class GameCharacterActionsTest{
 	public void testMoveSouthEast(){
 		assertEquals(0, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move doesn't require specifying a Character currently.
-		// It should, because Characters other than Player may move.
+		// TODO: Game.move currently doesn't have a String passed into it.
+		// WAITING for Matt's commit for this.
 		//game.move("southeast");
 		
 		assertEquals(4, game.get_characters().get(0).get_location());
@@ -138,8 +138,8 @@ public class GameCharacterActionsTest{
 	public void testMoveSouth(){
 		assertEquals(0, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move doesn't require specifying a Character currently.
-		// It should, because Characters other than Player may move.
+		// TODO: Game.move currently doesn't have a String passed into it.
+		// WAITING for Matt's commit for this.
 		//game.move("south");
 		
 		assertEquals(5, game.get_characters().get(0).get_location());
@@ -151,8 +151,8 @@ public class GameCharacterActionsTest{
 	public void testMoveSouthWest(){
 		assertEquals(0, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move doesn't require specifying a Character currently.
-		// It should, because Characters other than Player may move.
+		// TODO: Game.move currently doesn't have a String passed into it.
+		// WAITING for Matt's commit for this.
 		//game.move("southwest");
 		
 		assertEquals(6, game.get_characters().get(0).get_location());
@@ -164,8 +164,8 @@ public class GameCharacterActionsTest{
 	public void testMoveWest(){
 		assertEquals(0, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move doesn't require specifying a Character currently.
-		// It should, because Characters other than Player may move.
+		// TODO: Game.move currently doesn't have a String passed into it.
+		// WAITING for Matt's commit for this.
 		//game.move("west");
 		
 		assertEquals(7, game.get_characters().get(0).get_location());
@@ -177,8 +177,8 @@ public class GameCharacterActionsTest{
 	public void testMoveNorthWest(){
 		assertEquals(0, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move doesn't require specifying a Character currently.
-		// It should, because Characters other than Player may move.
+		// TODO: Game.move currently doesn't have a String passed into it.
+		// WAITING for Matt's commit for this.
 		//game.move("northwest");
 		
 		assertEquals(8, game.get_characters().get(0).get_location());
@@ -191,9 +191,9 @@ public class GameCharacterActionsTest{
 		game.get_characters().get(0).set_location(1);
 		assertEquals(1, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move doesn't require specifying a Character currently.
-		// It should, because Characters other than Player may move.
-		//game.move(player, "north");
+		// TODO: Game.move currently doesn't have a String passed into it.
+		// WAITING for Matt's commit for this.
+		//game.move("north");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
 		// TODO: Get Matt's commit of Game to do this.
@@ -209,9 +209,9 @@ public class GameCharacterActionsTest{
 		game.get_characters().get(0).set_location(1);
 		assertEquals(1, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move doesn't require specifying a Character currently.
-		// It should, because Characters other than Player may move.
-		//game.move(player, "northeast");
+		// TODO: Game.move currently doesn't have a String passed into it.
+		// WAITING for Matt's commit for this.
+		//game.move("northeast");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
 		// TODO: Get Matt's commit of Game to do this.
@@ -227,9 +227,9 @@ public class GameCharacterActionsTest{
 		game.get_characters().get(0).set_location(1);
 		assertEquals(1, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move doesn't require specifying a Character currently.
-		// It should, because Characters other than Player may move.
-		//game.move(player, "east");
+		// TODO: Game.move currently doesn't have a String passed into it.
+		// WAITING for Matt's commit for this.
+		//game.move("east");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
 		// TODO: Get Matt's commit of Game to do this.
@@ -245,9 +245,9 @@ public class GameCharacterActionsTest{
 		game.get_characters().get(0).set_location(1);
 		assertEquals(1, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move doesn't require specifying a Character currently.
-		// It should, because Characters other than Player may move.
-		//game.move(player, "southeast");
+		// TODO: Game.move currently doesn't have a String passed into it.
+		// WAITING for Matt's commit for this.
+		//game.move("southeast");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
 		// TODO: Get Matt's commit of Game to do this.
@@ -263,9 +263,9 @@ public class GameCharacterActionsTest{
 		game.get_characters().get(0).set_location(1);
 		assertEquals(1, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move doesn't require specifying a Character currently.
-		// It should, because Characters other than Player may move.
-		//game.move(player, "south");
+		// TODO: Game.move currently doesn't have a String passed into it.
+		// WAITING for Matt's commit for this.
+		//game.move("south");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
 		// TODO: Get Matt's commit of Game to do this.
@@ -281,9 +281,9 @@ public class GameCharacterActionsTest{
 		game.get_characters().get(0).set_location(1);
 		assertEquals(1, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move doesn't require specifying a Character currently.
-		// It should, because Characters other than Player may move.
-		//game.move(player, "southwest");
+		// TODO: Game.move currently doesn't have a String passed into it.
+		// WAITING for Matt's commit for this.
+		//game.move("southwest");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
 		// TODO: Get Matt's commit of Game to do this.
@@ -299,9 +299,9 @@ public class GameCharacterActionsTest{
 		game.get_characters().get(0).set_location(1);
 		assertEquals(1, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move doesn't require specifying a Character currently.
-		// It should, because Characters other than Player may move.
-		//game.move(player, "west");
+		// TODO: Game.move currently doesn't have a String passed into it.
+		// WAITING for Matt's commit for this.
+		//game.move("west");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
 		// TODO: Get Matt's commit of Game to do this.
@@ -317,9 +317,9 @@ public class GameCharacterActionsTest{
 		game.get_characters().get(0).set_location(1);
 		assertEquals(1, game.get_characters().get(0).get_location());
 		
-		// TODO: Game.move doesn't require specifying a Character currently.
-		// It should, because Characters other than Player may move.
-		//game.move(player, "northwest");
+		// TODO: Game.move currently doesn't have a String passed into it.
+		// WAITING for Matt's commit for this.
+		//game.move("northwest");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
 		// TODO: Get Matt's commit of Game to do this.

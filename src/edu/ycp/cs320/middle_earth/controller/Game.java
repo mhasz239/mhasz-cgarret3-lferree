@@ -15,9 +15,13 @@ public class Game implements Engine{
 	private ArrayList<Character> characters;
 	private ArrayList<Object> objects;
 	private ArrayList<Item> items;
-	private ArrayList<String> dialog = new ArrayList<String>();
-	private Item item;
+	private ArrayList<String> dialog;
 	private String mode;
+	
+	public Game(){
+		dialog = new ArrayList<String>();
+		mode = "game";
+	}
 	
 	public String get_mode() {
 		return this.mode;
@@ -274,11 +278,12 @@ public class Game implements Engine{
 		int moveValue = map.getMapTiles().get(player.get_location()).getMoveValue(direction);
 		if (moveValue != 0) {
 			player.set_location(player.get_location() + moveValue);
+			dialog.add(map.getMapTiles().get(player.get_location()).getLongDescription());
 		} else {
 			dialog.add("You can't go that way");
 		}
 		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
+		//throw new UnsupportedOperationException("Not implemented yet!");
 	}
 	
 	@Override

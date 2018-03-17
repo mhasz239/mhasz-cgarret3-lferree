@@ -17,6 +17,8 @@ import edu.ycp.cs320.middle_earth.model.Constructs.Object;
  * These Tests are meant to solely test handle_command(String command). The methods called by handle_command are 
  * tested in other Test classes.
  * 
+ * Movement Commands are in a separate class due to there being a lot of different ones.
+ * 
  * TODO: Get Matt's commit of Game, then test get_dialog() for every command tested.
  */
 public class GameHandleCommandTest{
@@ -27,12 +29,6 @@ public class GameHandleCommandTest{
 	private MapTile starting;
 	private MapTile northOfStarting;
 	private MapTile northEastOfStarting;
-	private MapTile eastOfStarting;
-	private MapTile southEastOfStarting;
-	private MapTile southOfStarting;
-	private MapTile southWestOfStarting;
-	private MapTile westOfStarting;
-	private MapTile northWestOfStarting;
 	
 	@Before
 	public void setup(){
@@ -68,35 +64,6 @@ public class GameHandleCommandTest{
 		northEastOfStarting = new MapTile();
 		northEastOfStarting.setID(2);
 		northEastOfStarting.setLongDescription("You arrive in a barren wasteland, complete with radiation poisoning.");
-		eastOfStarting = new MapTile();
-		eastOfStarting.setID(3);
-		eastOfStarting.setLongDescription("You arrive in candyland, where I don't know any of the character names.");
-		southEastOfStarting = new MapTile();
-		southEastOfStarting.setID(4);
-		southEastOfStarting.setLongDescription("You arrive in L.A., just to get a flight to leave.");
-		southOfStarting = new MapTile();
-		southOfStarting.setID(5);
-		southOfStarting.setLongDescription("You arrive in CS320 in 2016, where Logan is failing to make a 2D Platformer in Erlang.");
-		southWestOfStarting = new MapTile();
-		southWestOfStarting.setID(6);
-		southWestOfStarting.setLongDescription("You arrive in I don't know, just give it up already.");
-		westOfStarting = new MapTile();
-		westOfStarting.setID(7);
-		westOfStarting.setLongDescription("You arrive in CS320 a week early for the milestone to realize no one has worked on it "
-				+ "yet.");
-		northWestOfStarting = new MapTile();
-		northWestOfStarting.setID(8);
-		northWestOfStarting.setLongDescription("You arrive in... The narrator died of boredom, so we're waiting on a new one.");
-		
-		// TODO: When MapTile has connections enabled, do this.
-		//starting.addConnection("north", 1);
-		//starting.addConnection("northeast", 2);
-		//starting.addConnection("east", 3);
-		//starting.addConnection("southeast", 4);
-		//starting.addConnection("south", 5);
-		//starting.addConnection("southwest", 6);
-		//starting.addConnection("west", 7);
-		//starting.addConnection("northwest", 8);
 	}
 	
 	@Test
@@ -109,10 +76,67 @@ public class GameHandleCommandTest{
 	
 	/*
 	 * Game-Based Commands (Not Specific to Characters)
-	 * TODO: Check Character Sheet Tests
-	 * TODO: Check Inventory Tests
-	 * TODO: Check Map Tests
-	 * TODO: Save Tests
+	 * Check Character Sheet Command
+	 */
+	@Test
+	public void testCheckCharacterSheetCommand(){
+		game.handle_command("character");
+		
+		assertEquals("character", game.get_mode());
+	}
+	
+	@Test
+	public void testBackToGameFromCharacterSheet(){
+		game.set_mode("character");
+		
+		game.handle_command("game");
+		
+		assertEquals("game", game.get_mode());
+	}
+	
+	/*
+	 * Game-Based Commands (Not Specific to Characters)
+	 * Check Inventory Command
+	 */
+	@Test
+	public void testCheckInventoryCommand(){
+		game.handle_command("inventory");
+		
+		assertEquals("inventory", game.get_mode());
+	}
+	
+	@Test
+	public void testBackToGameFromInventory(){
+		game.set_mode("inventory");
+		
+		game.handle_command("game");
+		
+		assertEquals("game", game.get_mode());
+	}
+	
+	/*
+	 * Game-Based Commands (Not Specific to Characters)
+	 * Check Map Command
+	 */
+	@Test
+	public void testMapCommand(){
+		game.handle_command("map");
+		
+		assertEquals("map", game.get_mode());
+	}
+	
+	@Test
+	public void testBackToGameFromMap(){
+		game.set_mode("map");
+		
+		game.handle_command("game");
+		
+		assertEquals("game", game.get_mode());
+	}
+	
+	/*
+	 * Game-Based Commands (Not Specific to Characters)
+	 * TODO: Save Command
 	 */
 	
 	/*
@@ -126,7 +150,7 @@ public class GameHandleCommandTest{
 	 * Climb(Object) Commands
 	 */
 	@Test
-	public void testClimbTree(){
+	public void testClimbTreeCommand(){
 		game.handle_command("climb tree");
 		
 		assertEquals(1, game.get_dialog().size());
@@ -134,7 +158,7 @@ public class GameHandleCommandTest{
 	}
 	
 	@Test
-	public void testClimbTreeNoClimbable(){
+	public void testClimbTreeCommandNoClimbablePresent(){
 		game.get_characters().get(0).set_location(2);
 		
 		game.handle_command("climb tree");
@@ -144,7 +168,7 @@ public class GameHandleCommandTest{
 	}
 	
 	@Test
-	public void testClimbTreeOtherClimbablePresent(){
+	public void testClimbTreeCommandOtherClimbablePresent(){
 		game.get_characters().get(0).set_location(1);
 		
 		game.handle_command("climb tree");
@@ -154,7 +178,7 @@ public class GameHandleCommandTest{
 	}
 	
 	@Test
-	public void testClimbLadder(){
+	public void testClimbLadderCommand(){
 		game.get_characters().get(0).set_location(1);
 		game.handle_command("climb ladder");
 		
@@ -163,7 +187,7 @@ public class GameHandleCommandTest{
 	}
 	
 	@Test
-	public void testClimbLadderNoClimbable(){
+	public void testClimbLadderCommandNoClimbable(){
 		game.get_characters().get(0).set_location(2);
 		
 		game.handle_command("climb ladder");
@@ -173,7 +197,7 @@ public class GameHandleCommandTest{
 	}
 	
 	@Test
-	public void testClimbLadderOtherClimbablePresent(){
+	public void testClimbLadderCommandOtherClimbablePresent(){
 		game.handle_command("climb ladder");
 		
 		assertEquals(1, game.get_dialog().size());
@@ -190,228 +214,6 @@ public class GameHandleCommandTest{
 	 * TODO: Sell(Item) Tests
 	 * TODO: Talk(NPC) Tests
 	 */
-	
-	
-	/*
-	 * Character-Specific Commands
-	 * Move Commands
-	 */
-	
-	@Test
-	public void testMoveNorthCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
-		
-		game.handle_command("north");
-		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(northOfStarting.getLongDescription(), game.get_dialog().get(0));
-	}
-	
-	@Test
-	public void testMoveNorthEastCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
-		
-		game.handle_command("northeast");
-		
-		assertEquals(2, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(northEastOfStarting.getLongDescription(), game.get_dialog().get(0));
-	}
-	
-	@Test
-	public void testMoveEastCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
-		
-		game.handle_command("east");
-		
-		assertEquals(3, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(eastOfStarting.getLongDescription(), game.get_dialog().get(0));
-	}
-	
-	@Test
-	public void testMoveSouthEastCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
-		
-		game.handle_command("southeast");
-		
-		assertEquals(4, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(southEastOfStarting.getLongDescription(), game.get_dialog().get(0));
-	}
-	
-	@Test
-	public void testMoveSouthCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
-		
-		game.handle_command("south");
-		
-		assertEquals(5, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(southOfStarting.getLongDescription(), game.get_dialog().get(0));
-	}
-	
-	@Test
-	public void testMoveSouthWestCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
-		
-		game.handle_command("southwest");
-		
-		assertEquals(6, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(southWestOfStarting.getLongDescription(), game.get_dialog().get(0));
-	}
-	
-	@Test
-	public void testMoveWestCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
-		
-		game.handle_command("west");
-		
-		assertEquals(7, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(westOfStarting.getLongDescription(), game.get_dialog().get(0));
-	}
-	
-	@Test
-	public void testMoveNorthWestCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
-		
-		game.handle_command("northwest");
-		
-		assertEquals(8, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(northWestOfStarting.getLongDescription(), game.get_dialog().get(0));
-	}
-	
-	@Test
-	public void testMoveNorthCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
-		
-		game.handle_command("north");
-		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		// TODO: Get Matt's commit of Game to do this.
-		//assertEquals(1, game.getDialog().size());
-		// Not sure where message will be stored, since unique messages can be given.
-		// e.g. There's a fence in the way, vs. ocean border vs. cliff too high to climb, etc.
-		//assertEquals("", game.getDialog().get(0));
-		throw new UnsupportedOperationException("Waiting on game.getDialog() method");
-	}
-	
-	@Test
-	public void testMoveNorthEastCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
-		
-		game.handle_command("northeast");
-		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		// TODO: Get Matt's commit of Game to do this.
-		//assertEquals(1, game.getDialog().size());
-		// Not sure where message will be stored, since unique messages can be given.
-		// e.g. There's a fence in the way, vs. ocean border vs. cliff too high to climb, etc.
-		//assertEquals("", game.getDialog().get(0));
-		throw new UnsupportedOperationException("Waiting on game.getDialog() method");
-	}
-	
-	@Test
-	public void testMoveEastCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
-		
-		game.handle_command("east");
-		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		// TODO: Get Matt's commit of Game to do this.
-		//assertEquals(1, game.getDialog().size());
-		// Not sure where message will be stored, since unique messages can be given.
-		// e.g. There's a fence in the way, vs. ocean border vs. cliff too high to climb, etc.
-		//assertEquals("", game.getDialog().get(0));
-		throw new UnsupportedOperationException("Waiting on game.getDialog() method");
-	}
-	
-	@Test
-	public void testMoveSouthEastCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
-		
-		game.handle_command("southeast");
-		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		// TODO: Get Matt's commit of Game to do this.
-		//assertEquals(1, game.getDialog().size());
-		// Not sure where message will be stored, since unique messages can be given.
-		// e.g. There's a fence in the way, vs. ocean border vs. cliff too high to climb, etc.
-		//assertEquals("", game.getDialog().get(0));
-		throw new UnsupportedOperationException("Waiting on game.getDialog() method");
-	}
-	
-	@Test
-	public void testMoveSouthCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
-		
-		game.handle_command("south");
-		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		// TODO: Get Matt's commit of Game to do this.
-		//assertEquals(1, game.getDialog().size());
-		// Not sure where message will be stored, since unique messages can be given.
-		// e.g. There's a fence in the way, vs. ocean border vs. cliff too high to climb, etc.
-		//assertEquals("", game.getDialog().get(0));
-		throw new UnsupportedOperationException("Waiting on game.getDialog() method");
-	}
-	
-	@Test
-	public void testMoveSouthWestCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
-		
-		game.handle_command("southwest");
-		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		// TODO: Get Matt's commit of Game to do this.
-		//assertEquals(1, game.getDialog().size());
-		// Not sure where message will be stored, since unique messages can be given.
-		// e.g. There's a fence in the way, vs. ocean border vs. cliff too high to climb, etc.
-		//assertEquals("", game.getDialog().get(0));
-		throw new UnsupportedOperationException("Waiting on game.getDialog() method");
-	}
-	
-	@Test
-	public void testMoveWestCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
-		
-		game.handle_command("west");
-		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		// TODO: Get Matt's commit of Game to do this.
-		//assertEquals(1, game.getDialog().size());
-		// Not sure where message will be stored, since unique messages can be given.
-		// e.g. There's a fence in the way, vs. ocean border vs. cliff too high to climb, etc.
-		//assertEquals("", game.getDialog().get(0));
-		throw new UnsupportedOperationException("Waiting on game.getDialog() method");
-	}
-	
-	@Test
-	public void testMoveNorthWestCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
-		
-		game.handle_command("northwest");
-		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		// TODO: Get Matt's commit of Game to do this.
-		//assertEquals(1, game.getDialog().size());
-		// Not sure where message will be stored, since unique messages can be given.
-		// e.g. There's a fence in the way, vs. ocean border vs. cliff too high to climb, etc.
-		//assertEquals("", game.getDialog().get(0));
-		throw new UnsupportedOperationException("Waiting on game.getDialog() method");
-	}
 	
 	/*
 	 * Character-Specific Actions
