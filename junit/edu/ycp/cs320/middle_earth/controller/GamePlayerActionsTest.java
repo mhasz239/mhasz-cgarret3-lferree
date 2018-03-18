@@ -94,10 +94,32 @@ public class GamePlayerActionsTest{
 	 * Take(Object, Item)
 	 * TODO: Take(Object, Item) Tests
 	 */
+	
 	/*
 	 * Look
-	 * TODO: Look Tests
 	 */
+	@Test
+	public void testLookAtStarting(){
+		assertEquals(0, player.get_location());
+		
+		game.look();
+		
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(starting.getLongDescription(), game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testLookAtNorthOfStarting(){
+		game.get_characters().get(0).set_location(1);
+		
+		assertEquals(1, player.get_location());
+		
+		game.look();
+		
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(northOfStarting.getLongDescription(), game.get_dialog().get(0));
+	}
+	
 	/*
 	 * Fast Travel
 	 * TODO: Fast Travel Tests

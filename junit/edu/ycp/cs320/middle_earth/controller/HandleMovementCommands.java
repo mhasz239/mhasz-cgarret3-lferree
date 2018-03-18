@@ -29,6 +29,7 @@ public class HandleMovementCommands{
 	private MapTile westOfStarting;
 	private MapTile northWestOfStarting;
 	private String invalidDirection;
+	private String invalidMode;
 	
 	@Before
 	public void setup(){
@@ -82,6 +83,7 @@ public class HandleMovementCommands{
 		starting.setConnection("northwest", 8);
 		
 		invalidDirection = "You can't go that way";
+		invalidMode = "You can't use that command here.";
 		
 		// Add tiles to Map
 		map = new Map();
@@ -702,5 +704,372 @@ public class HandleMovementCommands{
 		assertEquals(1, game.get_characters().get(0).get_location());
 		assertEquals(1, game.get_dialog().size());
 		assertEquals(invalidDirection, game.get_dialog().get(0));
+	}
+	
+	/*
+	 * ******************
+	 * Not in Mode = Game
+	 * ******************
+	 */
+	
+	/*
+	 * North Command Invalid
+	 */
+	@Test
+	public void testNCommandNotInModeGame(){
+		game.set_mode("inventory");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("n");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testNorthCommandNotInModeGame(){
+		game.set_mode("character");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("north");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testMoveNorthCommandNotInModeGame(){
+		game.set_mode("inventory");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("move north");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	/*
+	 * Northeast Command Invalid
+	 */
+	@Test
+	public void testNECommandNotInModeGame(){
+		game.set_mode("map");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("ne");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testNorthEastCommandNotInModeGame(){
+		game.set_mode("character");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("northeast");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testMoveNorthEastCommandNotInModeGame(){
+		game.set_mode("map");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("move northeast");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	/*
+	 * East Command Invalid
+	 */
+	@Test
+	public void testECommandNotInModeGame(){
+		game.set_mode("inventory");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("e");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testEastCommandNotInModeGame(){
+		game.set_mode("map");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("east");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testMoveEastCommandNotInModeGame(){
+		game.set_mode("character");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("move east");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	/*
+	 * Southeast Command Invalid
+	 */
+	@Test
+	public void testSECommandNotInModeGame(){
+		game.set_mode("character");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("se");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testSouthEastCommandNotInModeGame(){
+		game.set_mode("inventory");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("southeast");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testMoveSouthEastCommandNotInModeGame(){
+		game.set_mode("map");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("move southeast");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	/*
+	 * South Command Invalid
+	 */
+	@Test
+	public void testSCommandNotInModeGame(){
+		game.set_mode("map");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("s");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testSouthCommandNotInModeGame(){
+		game.set_mode("inventory");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("south");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testMoveSouthCommandNotInModeGame(){
+		game.set_mode("character");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("move south");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	/*
+	 * Southwest Command Invalid
+	 */
+	@Test
+	public void testSWCommandNotInModeGame(){
+		game.set_mode("map");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("sw");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testSouthWestCommandNotInModeGame(){
+		game.set_mode("inventory");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("southwest");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testMoveSouthWestCommandNotInModeGame(){
+		game.set_mode("character");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("move southwest");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	/*
+	 * West Command Invalid
+	 */
+	@Test
+	public void testWCommandNotInModeGame(){
+		game.set_mode("character");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("w");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testWestCommandNotInModeGame(){
+		game.set_mode("map");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("west");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testMoveWestCommandNotInModeGame(){
+		game.set_mode("inventory");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("move west");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	/*
+	 * Northwest Command Invalid
+	 */
+	@Test
+	public void testNWCommandNotInModeGame(){
+		game.set_mode("character");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("nw");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testNorthWestCommandNotInModeGame(){
+		game.set_mode("inventory");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("northwest");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testMoveNorthWestCommandNotInModeGame(){
+		game.set_mode("map");
+		
+		game.get_characters().get(0).set_location(1);
+		assertEquals(1, game.get_characters().get(0).get_location());
+		
+		game.handle_command("move northwest");
+		
+		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
 	}
 }

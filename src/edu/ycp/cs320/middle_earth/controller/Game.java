@@ -115,6 +115,8 @@ public class Game implements Engine{
 	public String handle_command(String commandStr){
 		// TODO: Remove errorMessage? We talked about just adding it to the dialog I think?
 		//Yes, error message is just what I was using as a string holder to return cause it was already there, so we can name it whatever.
+		// Well I thought that we were going to entirely get rid of a return mesage in handle_command, and just have it 
+		// place any messages into the dialog?
 		String returnMessage = null;
 		String command = "";
 		String arg = null;
