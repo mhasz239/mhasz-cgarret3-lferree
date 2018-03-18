@@ -8,7 +8,9 @@ import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.NPC;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 import edu.ycp.cs320.middle_earth.model.Constructs.Map;
+import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
 import edu.ycp.cs320.middle_earth.persist.FakeDatabase;
+import edu.ycp.cs320.middle_earth.persist.IDatabase;
 
 public class Game implements Engine{
 	private Map map;
@@ -28,9 +30,10 @@ public class Game implements Engine{
 		// The dialog would be passed between every jsp through get and post stuff in the request and response.
 		dialog = new ArrayList<String>();
 		//Was messing with inventoryServlet so set game_mode to always be inventory when it was called
-		mode = "inventory";
-		FakeDatabase data = new FakeDatabase();
-		items = data.getAllItems();
+		mode = "game";
+		DatabaseProvider.setInstance(new FakeDatabase());
+		IDatabase db = DatabaseProvider.getInstance();
+		items = (ArrayList<Item>) db.getAllItems();
 		
 	}
 	
@@ -106,7 +109,11 @@ public class Game implements Engine{
 		String display_text = "";
 		for (int i = 0; i < this.dialog.size(); i++) {
 			// Is it supposed to have a \n before the first line? (Not sure)
-			display_text = display_text+"\n"+this.dialog.get(i);
+			if (i == 0) {
+				display_text = this.dialog.get(i);
+			} else {
+				display_text = display_text+";"+this.dialog.get(i);
+			}
 		}
 		return display_text;
 	}
