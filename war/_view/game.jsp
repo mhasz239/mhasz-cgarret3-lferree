@@ -23,7 +23,14 @@
 -->
 
 
-<div>${display_text}</div>
+<div>
+<h1><u>Adventures of Middle Earth</u></h1>
+<ol>
+<c:forTokens items = "${dialog}" delims = ";" var = "item" >
+<li><c:out value = "${item}"/></li>
+</c:forTokens>
+</ol>
+</div>
 
 <form action="${pageContext.servletContext.contextPath}/game" method="post">
     <table>
