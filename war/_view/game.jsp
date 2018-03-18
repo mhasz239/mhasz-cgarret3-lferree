@@ -16,9 +16,12 @@
 </head>
 
 <body>
+<!--
 <c:if test="${! empty errorMessage}">
     <div class="error">${errorMessage}</div>
 </c:if>
+-->
+
 
 <div>${display_text}</div>
 

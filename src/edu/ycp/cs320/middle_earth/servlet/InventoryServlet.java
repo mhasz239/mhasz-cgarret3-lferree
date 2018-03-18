@@ -22,14 +22,20 @@ public class InventoryServlet extends HttpServlet {
 
         //Load data for the initial call to the inventory jsp
 
-      //ArrayList<Item> inventory_list =  game.get_player().get_inventory().get_items();
-        String inventory_list_display = "";
+        Game game = new Game();
         
+        //ArrayList<Item> inventory_list =  game.get_player().get_inventory().get_items();
+        
+        //Temp call to statically built face item_list from FakeDatabase
+        ArrayList<Item> inventory_list =  game.get_items();
+        
+        String inventory_display_list = "";
+        /*
         ArrayList<Item> inventory_list = new ArrayList<Item>();
         for (int i = 0; i < 10; i++) {
         	Item item = new Item();
         	item.setID(i);
-        	item.setIsQuestItem("false");
+        	item.setIsQuestItem(false);
         	item.setItemWeight(5);
         	if (i < 5) {
         		item.setLongDescription("This is a poorly made dagger out of wood.\nDont see much use for this\nAttack +1");
@@ -42,12 +48,13 @@ public class InventoryServlet extends HttpServlet {
         	}
         	inventory_list.add(item);
         }
+        */
         
         for (int j = 0; j < inventory_list.size(); j++){
-        	inventory_list_display = inventory_list_display + inventory_list.get(j).getName() + ": " + inventory_list.get(j).getShortDescription()+";";
+        	inventory_display_list = inventory_display_list + inventory_list.get(j).getName() + ": " + inventory_list.get(j).getShortDescription()+";";
         }
-        
-        req.setAttribute("inventory", inventory_list_display);
+       
+        req.setAttribute("inventory", inventory_display_list);
         
         // call JSP to generate the inventory page
         req.getRequestDispatcher("/_view/inventory.jsp").forward(req, resp);
@@ -62,14 +69,20 @@ public class InventoryServlet extends HttpServlet {
         Game game = new Game();
         
         //ArrayList<Item> inventory_list =  game.get_player().get_inventory().get_items();
-        String inventory_list_display = "";
         
+        //Temp call to statically built face item_list from FakeDatabase
+        ArrayList<Item> inventory_list =  game.get_items();
+        
+        
+        String inventory_display_list = "";
+        String dialog = "";
         // FAKE ARRAY LIST TO TEST THE DISPLAYS (5 wood daggers, 5 steel daggers)
+        /*
         ArrayList<Item> inventory_list = new ArrayList<Item>();
         for (int i = 0; i < 10; i++) {
         	Item item = new Item();
         	item.setID(i);
-        	item.setIsQuestItem("false");
+        	item.setIsQuestItem(false);
         	item.setItemWeight(5);
         	if (i < 5) {
         		item.setLongDescription("This is a poorly made dagger out of wood.\nDont see much use for this\nAttack +1");
@@ -82,24 +95,27 @@ public class InventoryServlet extends HttpServlet {
         	}
         	inventory_list.add(item);
         }
+        */
         
         for (int j = 0; j < inventory_list.size(); j++){
-        	inventory_list_display = inventory_list_display + inventory_list.get(j).getName() + ": " + inventory_list.get(j).getShortDescription()+";";
+        	inventory_display_list = inventory_display_list + inventory_list.get(j).getName() + ": " + inventory_list.get(j).getShortDescription()+";";
         }
+        
+        
+        
        
         
         //Display the string line of the inventory_list_display
         //System.out.println(inventory_list_display);
         
         
-        // holds the error message text, if there is any
-        String errorMessage = null;
+        
         String command = req.getParameter("command");
         
         //System.out.println(inventory_list.size());
         
         //Parses the command line and calls appropriate commands or returns default Error String.
-        errorMessage = game.handle_command(command);
+        dialog = game.handle_command(command);
         
         
         
@@ -117,8 +133,10 @@ public class InventoryServlet extends HttpServlet {
         	//req.getRequestDispatcher("/_view/character.jsp").forward(req, resp);
         } 
         else {
-        	req.setAttribute("inventory", inventory_list_display);
-        	req.setAttribute("errorMessage", errorMessage);
+        	System.out.println(dialog);
+        	req.setAttribute("inventory", inventory_display_list);
+        	req.setAttribute("dialog", dialog);
+        	
         	// now call the JSP to render the new page
         	req.getRequestDispatcher("/_view/inventory.jsp").forward(req, resp);
         }
