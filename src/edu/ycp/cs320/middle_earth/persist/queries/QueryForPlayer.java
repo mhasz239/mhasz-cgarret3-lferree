@@ -23,9 +23,7 @@ public class QueryForPlayer {
 			System.out.println("No player found");
 		}
 		else {
-			System.out.println(player.get_experience() + "\n"
-					+ player.get_carry_weight() + "\n"
-					+ player.get_race() + "\n"
+			System.out.println(player.get_race() + "\n"
 					+ player.get_name() + "\n"
 					+ player.get_gender() + "\n"
 					+ player.get_level() + "\n"
@@ -36,7 +34,9 @@ public class QueryForPlayer {
 					+ player.get_special_attack() + "\n"
 					+ player.get_special_defense() + "\n"
 					+ player.get_coins() + "\n"
-					+ player.get_location() + "\n");		
+					+ player.get_location() + "\n"
+					+ player.get_experience() + "\n"
+					+ player.get_carry_weight() + "\n");		
 				
 			System.out.println(player.get_inventory().get_weight());
 			for (Item item : player.get_inventory().get_items()) {

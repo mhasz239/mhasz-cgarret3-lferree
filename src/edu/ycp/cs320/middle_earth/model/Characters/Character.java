@@ -13,6 +13,7 @@ public abstract class Character{
 	private int special_defense;
 	private int coins;
 	private int map_location;
+	private int inventory_id;
 	private Inventory inventory;
 
 	public Character() {
@@ -113,6 +114,14 @@ public abstract class Character{
 	
 	public void set_location(int map_location){
 		this.map_location = map_location;
+	}
+	
+	public int get_inventory_id() {
+		return this.inventory_id;
+	}
+	
+	public void set_inventory_id(int inventory_id) {
+		this.inventory_id = inventory_id;
 	}
 	
 	public Inventory get_inventory(){

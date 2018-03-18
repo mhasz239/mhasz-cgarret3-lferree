@@ -1,6 +1,6 @@
 package edu.ycp.cs320.middle_earth.persist;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import edu.ycp.cs320.middle_earth.model.Characters.Inventory;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
@@ -15,12 +15,12 @@ public interface IDatabase {
 	public Map getMap();
 	public Player getPlayer();
 	
-	public List<Item> getAllItems();
-	public List<Object> getAllObjects();
-	public List<MapTile> getAllMapTiles();
-	public List<Character> getAllCharacters();
-	public Inventory getInventory();
-	public List<Quest> getAllQuests();
+	public ArrayList<Item> getAllItems();
+	public ArrayList<Object> getAllObjects();
+	public ArrayList<MapTile> getAllMapTiles();
+	public ArrayList<Character> getAllCharacters();
+	public ArrayList<Inventory> getAllInventories();
+	public ArrayList<Quest> getAllQuests();
 	
 	public Item getItemByID(int itemID);
 	public Object getObjectByID(int objectID);

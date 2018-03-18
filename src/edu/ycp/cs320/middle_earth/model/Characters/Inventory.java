@@ -7,6 +7,7 @@ import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 public class Inventory{
 	private ArrayList<Item> items;
 	private int weight;
+	private int inventory_id;
 	
 	public Inventory(){
 		
@@ -26,5 +27,13 @@ public class Inventory{
 	
 	public void set_weight(int weight){
 		this.weight = weight;
+	}
+	
+	public int get_inventory_id() {
+		return this.inventory_id;
+	}
+	
+	public void set_inventory_id(int inventory_id) {
+		this.inventory_id = inventory_id;
 	}
 }

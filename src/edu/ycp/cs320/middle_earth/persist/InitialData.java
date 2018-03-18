@@ -99,7 +99,37 @@ public class InitialData {
 				}
 				Iterator<String> i = tuple.iterator();
 		
-				objectList.add(extractObject(tuple, i));
+				Object object = new Object();
+				
+				object.setID(1);//Integer.parseInt(i.next()));
+				i.next();
+				
+				object.setName(i.next());
+				object.setLongDescription(i.next());
+				object.setShortDescription(i.next());
+				
+				if(i.hasNext()) {
+					String itemIDString = i.next();
+					
+					if(itemIDString.equals("items")) {
+						itemIDString = i.next();
+						
+						ArrayList<Item> itemList = new ArrayList<Item>();
+						
+						while(i.hasNext()) {
+							Item item = new Item();
+							item.setID(Integer.parseInt(itemIDString));
+							itemList.add(item);	
+						}
+
+						object.setItems(itemList);
+					}
+				}
+				/*
+				 * Need to add extraction of command responses
+				 */
+			
+				objectList.add(object);
 			}
 			return objectList;
 		} finally {
@@ -116,7 +146,7 @@ public class InitialData {
 				if(tuple == null) {
 					break;
 				}
-				Iterator<String> i = tuple.iterator();				
+				Iterator<String> i = tuple.iterator();		
 				itemList.add(extractItem(i));
 			}
 			return itemList;
@@ -125,7 +155,7 @@ public class InitialData {
 		}
 	}
 	
-/*	public static ArrayList<Quest> getQuests() throws IOException {
+	public static ArrayList<Quest> getQuests() throws IOException {
 		ArrayList<Quest> questList = new ArrayList<Quest>();
 		ReadCSV readQuests = new ReadCSV("quests.csv");
 		try {
@@ -137,64 +167,45 @@ public class InitialData {
 				Iterator<String> i = tuple.iterator();
 				
 				Quest quest = new Quest();
-				quest.getRewardItems()
+				if(i.hasNext()) {
+					String questAtt = i.next();
+					if(questAtt.equals("rewardItems")) {
+						questAtt = i.next();
+						ArrayList<Item> itemList = new ArrayList<Item>();
+
+						while(!questAtt.equals("rewardCoins") && i.hasNext()) {
+							Item item = new Item();
+							item.setID(Integer.parseInt(questAtt));
+							itemList.add(item);
+							questAtt = i.next();
+						}
+						quest.setRewardItems(itemList);
+					}
+					
+					if(i.hasNext() && questAtt.equals("rewardCoins"))
+					{
+						quest.setRewardCoins(Integer.parseInt(i.next()));
+					}
+				}
 				
+				/*
+				 * Need to insert dialogue HashMap extraction
+				 */
+				
+				questList.add(quest);
 			}
 				
 			return questList;
 		} finally {
 			readQuests.close();
 		}
-	} */
+	} 
 	
-/*	public static ArrayList<Character> getCharacters() throws IOException {
-		ArrayList<Character> characterList = new ArrayList<Character>();
-		ReadCSV readCharacters = new ReadCSV("characters.csv");
-		try {
-			List<String> tuple = readCharacters.next();
-			if(tuple == null) {
-				break;
-			}
-			while (true) {
-				Iterator<String> i = tuple.iterator();
-				
-				Character character = new Character();
-				character.set_race(i.next());
-				character.set_name(i.next());
-				character.set_gender(i.next());
-				character.set_level(Integer.parseInt(i.next()));
-				character.set_hit_points(Integer.parseInt(i.next()));
-				character.set_magic_points(Integer.parseInt(i.next()));
-				character.set_attack(Integer.parseInt(i.next()));
-				character.set_defense(Integer.parseInt(i.next()));
-				character.set_special_attack(Integer.parseInt(i.next()));
-				character.set_special_defense(Integer.parseInt(i.next()));
-				character.set_coins(Integer.parseInt(i.next()));
-				character.set_location(Integer.parseInt(i.next()));
-			
-				
-				// Temp Code
-				ArrayList<Item> itemList = new ArrayList<Item>();
-				itemList.add(extractItem(i));
-				itemList.add(extractItem(i));
-				
-				Inventory inventory = new Inventory();
-				inventory.set_weight(0);
-				inventory.set_items(itemList);
-				
-				character.set_inventory(inventory);
-			}
-			return characterList;
-		} finally {
-			readCharacters.close();
-		}
-	} */
-	
-	public static Inventory getInventory() throws IOException {
-		Inventory inventory = new Inventory();
+	public static ArrayList<Inventory> getAllInventories() throws IOException {
+		ArrayList<Inventory> inventoryList = new ArrayList<Inventory>();
 		ReadCSV readInventory = new ReadCSV("inventory.csv");
 		try {						
-			int inventoryWeight = 0;
+			Inventory inventory = new Inventory();
 			ArrayList<Item> itemList = new ArrayList<Item>();
 
 			while (true) {
@@ -203,64 +214,72 @@ public class InitialData {
 					break;
 				}
 				Iterator<String> i = tuple.iterator();
-				
-				Item item = extractItem(i);
-
-				inventoryWeight += (int) item.getItemWeight();
-				itemList.add(item);
+				inventory.set_inventory_id(Integer.parseInt(i.next()));
+				while(i.hasNext()) {
+					Item item = new Item();
+					item.setID(Integer.parseInt(i.next()));
+					itemList.add(item);
+				}
+				inventory.set_items(itemList);
+				inventoryList.add(inventory);
 			}
-			inventory.set_weight(inventoryWeight);
-			inventory.set_items(itemList);
-			return inventory;	
+			return inventoryList;	
 			
 		} finally {
 			readInventory.close();
 		}
 	}
 	
-	/*public static Player getPlayer() throws IOException {
+	public static Player getPlayer() throws IOException {
 		Player player = new Player();
 		ReadCSV readPlayer = new ReadCSV("player.csv");
 		try {
 			List<String> tuple = readPlayer.next();
-			while(true) {		
-				if(tuple == null) {
-					break;
-				}
-				Iterator<String> i = tuple.iterator();
+
+			Iterator<String> i = tuple.iterator();
+			
+			player.set_race(i.next());
+			player.set_name(i.next());
+			player.set_gender(i.next());
+			player.set_level(Integer.parseInt(i.next()));
+			player.set_hit_points(Integer.parseInt(i.next()));
+			player.set_magic_points(Integer.parseInt(i.next()));
+			player.set_attack(Integer.parseInt(i.next()));
+			player.set_defense(Integer.parseInt(i.next()));
+			player.set_special_attack(Integer.parseInt(i.next()));
+			player.set_special_defense(Integer.parseInt(i.next()));
+			player.set_coins(Integer.parseInt(i.next()));
+			player.set_location(Integer.parseInt(i.next()));
+			player.set_experience(Integer.parseInt(i.next()));
+			player.set_carry_weight(Integer.parseInt(i.next()));
+			player.set_inventory_id(Integer.parseInt(i.next()));
 				
-				player.set_experience(Integer.parseInt(i.next()));
-				player.set_carry_weight(Integer.parseInt(i.next()));
-				player.set_quest(i.next());
-			}
 			return player;
 		} finally {
 			readPlayer.close();
 		}
-	}*/	
+	}
 	
 	private static Item extractItem(Iterator<String> i) {		
 		Item item = new Item();
-		
-		item.setID(Integer.parseInt(i.next()));
-		
-		item.setName(i.next());
-		item.setLongDescription(i.next());
-		item.setShortDescription(i.next());
-		
-		item.setItemWeight(Integer.parseInt(i.next()));
-		
-		String checkIfTrue = i.next();
-		if(checkIfTrue.equals("false")) {
-			item.setIsQuestItem(false);
-		} else {
-			item.setIsQuestItem(true);
-		}
-		
+			item.setID(Integer.parseInt(i.next()));
+			
+			item.setName(i.next());
+			item.setLongDescription(i.next());
+			item.setShortDescription(i.next());
+			
+			item.setItemWeight(Integer.parseInt(i.next()));
+			
+			String checkIfTrue = i.next();
+			if(checkIfTrue.equals("false")) {
+				item.setIsQuestItem(false);
+			} else {
+				item.setIsQuestItem(true);
+			}
 		return item;
 	}
 	
-	private static Object extractObject(List<String> tuple, Iterator<String> i) {
+/*	private static Object extractObject(List<String> tuple, Iterator<String> i) {
 		Object object = new Object();
 		
 		object.setID(1);//Integer.parseInt(i.next()));
@@ -270,14 +289,6 @@ public class InitialData {
 		object.setLongDescription(i.next());
 		object.setShortDescription(i.next());
 		
-		ArrayList<Item> itemList = new ArrayList<Item>();
-		while(true) {
-			if(tuple == null) {
-				break;
-			}
-			itemList.add(extractItem(i));
-		}
-		object.setItems(itemList);
 		return object;
-	}
+	}*/
 }

@@ -24,7 +24,7 @@ public class FakeDatabase implements IDatabase {
 	private ArrayList<Item> itemList;
 	private ArrayList<Quest> questList;	
 	private ArrayList<Character> characterList;
-	private Inventory inventory;
+	private ArrayList<Inventory> inventoryList;
 	private Player player;	
 	
 	public FakeDatabase() {
@@ -34,7 +34,7 @@ public class FakeDatabase implements IDatabase {
 		itemList = new ArrayList<Item>();
 		questList = new ArrayList<Quest>();
 		characterList = new ArrayList<Character>();
-		inventory = new Inventory();
+		inventoryList = new ArrayList<Inventory>();
 		player = new Player();	
 		
 		readInitialData();
@@ -44,12 +44,11 @@ public class FakeDatabase implements IDatabase {
 		try {
 //			map = InitialData.getMap();
 //			mapTileList.addAll(InitialData.getMapTiles());
-			objectList.addAll(InitialData.getObjects());
+//			objectList.addAll(InitialData.getObjects());
 			itemList.addAll(InitialData.getItems());
-//			questList.addAll(InitialData.getQuests());
-//			characterList.addAll(InitialData.getCharacters());
-			inventory = InitialData.getInventory();
-//			player = InitialData.getPlayer();
+			questList.addAll(InitialData.getQuests());
+			inventoryList.addAll(InitialData.getAllInventories());
+			player = InitialData.getPlayer();
 		} catch (IOException e) {
 			throw new IllegalStateException("Couldn't read initial data", e);
 		}
@@ -61,6 +60,23 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	public ArrayList<Object> getAllObjects() {
+		for(Object object : objectList) {
+			if(!object.getItems().isEmpty()) {
+				for(Item item : object.getItems()) {
+					for(Item listedItem : itemList) {
+						if(item.getID() == listedItem.getID()) {
+							item.setName(listedItem.getName());
+							item.setLongDescription(listedItem.getLongDescription());
+							item.setShortDescription(listedItem.getShortDescription());
+							item.setItemWeight(listedItem.getItemWeight());
+							item.setIsQuestItem(listedItem.getIsQuestItem());
+							break;
+						}
+					}
+				}
+			}
+		}
+			
 		return objectList;
 	}
 	
@@ -77,14 +93,55 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	public Player getPlayer() {
+		//////////////////////////////
+		getAllInventories();
+		/////////////////////////////
+		
+		for(Inventory inventory : inventoryList) {
+			if(inventory.get_inventory_id() == player.get_inventory_id()) {
+				player.set_inventory(inventory);
+			}
+		}
 		return player;
 	}
 	
-	public Inventory getInventory() {
-		return inventory;
+	public ArrayList<Inventory> getAllInventories() {
+		for(Inventory inventory : inventoryList) {
+			for(Item item : inventory.get_items()) {
+				for(Item listedItem : itemList) {
+					if(item.getID() == listedItem.getID())
+					{
+						item.setName(listedItem.getName());
+						item.setLongDescription(listedItem.getLongDescription());
+						item.setShortDescription(listedItem.getShortDescription());
+						item.setItemWeight(listedItem.getItemWeight());
+						item.setIsQuestItem(listedItem.getIsQuestItem());
+						break;
+					}
+				}
+			}
+		}
+		return inventoryList;
 	}
 	
 	public ArrayList<Quest> getAllQuests() {
+		for(Quest quest : questList) {
+			if(quest.getRewardItems() != null) {
+				for(Item item : quest.getRewardItems()) {
+					for(Item listedItem : itemList) {
+						if(item.getID() == listedItem.getID())
+						{
+							item.setName(listedItem.getName());
+							item.setLongDescription(listedItem.getLongDescription());
+							item.setShortDescription(listedItem.getShortDescription());
+							item.setItemWeight(listedItem.getItemWeight());
+							item.setIsQuestItem(listedItem.getIsQuestItem());
+							break;
+						}
+					}
+				}
+			}
+		}
 		return questList;
 	}
 	

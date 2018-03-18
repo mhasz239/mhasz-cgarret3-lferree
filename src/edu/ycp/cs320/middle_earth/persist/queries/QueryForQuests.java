@@ -24,11 +24,16 @@ public class QueryForQuests {
 		}
 		else {
 			for (Quest quest : questList) {
-				for(Item item : quest.getRewardItems()) {
-					System.out.println("item_id = " + item.getID() + "\n" 
-							+ item.getName() + "\n" + item.getLongDescription() + "\n" 
-							+ item.getShortDescription() + "\nitem weight = " + item.getItemWeight() 
-							+ "\nIs a quest item? " + item.getIsQuestItem() + "\n");
+				if(quest.getRewardItems() != null) {
+					for(Item item : quest.getRewardItems()) {
+						System.out.println("item_id = " + item.getID() + "\n" 
+								+ item.getName() + "\n" + item.getLongDescription() + "\n" 
+								+ item.getShortDescription() + "\nitem weight = " + item.getItemWeight() 
+								+ "\nIs a quest item? " + item.getIsQuestItem() + "\n");
+					}
+				}
+				else {
+					System.out.println("No reward tems for this quest");
 				}
 				System.out.println(quest.getRewardCoins());
 				System.out.println(quest.getDialogue());	
