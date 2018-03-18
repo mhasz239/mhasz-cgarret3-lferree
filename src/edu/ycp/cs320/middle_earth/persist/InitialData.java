@@ -39,8 +39,8 @@ public class InitialData {
 		}
 	}
 	
-	public static List<MapTile> getMapTiles() throws IOException {
-		List<MapTile> mapTileList = new ArrayList<MapTile>();
+	public static ArrayList<MapTile> getMapTiles() throws IOException {
+		ArrayList<MapTile> mapTileList = new ArrayList<MapTile>();
 		ReadCSV readMapTiles = new ReadCSV("mapTiles.csv");
 		try {
 			while (true) {
@@ -66,8 +66,8 @@ public class InitialData {
 	
 	/*			Unsure how to bind the connections
 	
-	public static List<HashMap<String, MapTile>> getConnections() throws IOException {
-		List<HashMap<String, MapTile>> connectionList = new ArrayList<HashMap<String, MapTile>>();
+	public static ArrayList<HashMap<String, MapTile>> getConnections() throws IOException {
+		ArrayList<HashMap<String, MapTile>> connectionList = new ArrayList<HashMap<String, MapTile>>();
 		ReadCSV readConnections = new ReadCSV("mapTileConnections.csv");
 		try {
 			while (true) {
@@ -86,8 +86,8 @@ public class InitialData {
 		}
 	} */
 	
-	public static List<Object> getObjects() throws IOException {
-		List<Object> objectList = new ArrayList<Object>();
+	public static ArrayList<Object> getObjects() throws IOException {
+		ArrayList<Object> objectList = new ArrayList<Object>();
 
 		ReadCSV readObjects = new ReadCSV("objects.csv");
 
@@ -174,8 +174,8 @@ public class InitialData {
 		}
 	}
 	
-/*	public static List<Quest> getQuests() throws IOException {
-		List<Quest> questList = new ArrayList<Quest>();
+/*	public static ArrayList<Quest> getQuests() throws IOException {
+		ArrayList<Quest> questList = new ArrayList<Quest>();
 		ReadCSV readQuests = new ReadCSV("quests.csv");
 		try {
 			while (true) {
@@ -196,8 +196,8 @@ public class InitialData {
 		}
 	} */
 	
-/*	public static List<Character> getCharacters() throws IOException {
-		List<Character> characterList = new ArrayList<Character>();
+/*	public static ArrayList<Character> getCharacters() throws IOException {
+		ArrayList<Character> characterList = new ArrayList<Character>();
 		ReadCSV readCharacters = new ReadCSV("characters.csv");
 		try {
 			List<String> tuple = readCharacters.next();

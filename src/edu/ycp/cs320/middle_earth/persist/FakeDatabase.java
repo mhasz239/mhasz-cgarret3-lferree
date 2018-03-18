@@ -19,11 +19,11 @@ import edu.ycp.cs320.middle_earth.model.Characters.Player;
 public class FakeDatabase implements IDatabase {
 	
 	private Map map;
-	private List<MapTile> mapTileList;
-	private List<Object> objectList;
-	private List<Item> itemList;
-	private List<Quest> questList;	
-	private List<Character> characterList;
+	private ArrayList<MapTile> mapTileList;
+	private ArrayList<Object> objectList;
+	private ArrayList<Item> itemList;
+	private ArrayList<Quest> questList;	
+	private ArrayList<Character> characterList;
 	private Inventory inventory;
 	private Player player;	
 	
@@ -56,15 +56,15 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	
-	public List<Item> getAllItems() {
+	public ArrayList<Item> getAllItems() {
 		return itemList;
 	}
 	
-	public List<Object> getAllObjects() {
+	public ArrayList<Object> getAllObjects() {
 		return objectList;
 	}
 	
-	public List<MapTile> getAllMapTiles() {
+	public ArrayList<MapTile> getAllMapTiles() {
 		return mapTileList;
 	}
 	
@@ -72,7 +72,7 @@ public class FakeDatabase implements IDatabase {
 		return map;
 	}
 	
-	public List<Character> getAllCharacters() {
+	public ArrayList<Character> getAllCharacters() {
 		return characterList;
 	}
 	
@@ -84,7 +84,7 @@ public class FakeDatabase implements IDatabase {
 		return inventory;
 	}
 	
-	public List<Quest> getAllQuests() {
+	public ArrayList<Quest> getAllQuests() {
 		return questList;
 	}
 } 
