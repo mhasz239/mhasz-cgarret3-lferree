@@ -181,7 +181,7 @@ public class Game implements Engine{
 			}
 		}else if(!command.equalsIgnoreCase("")){
 			// Checking if command isn't empty, since it can't be null -> initialized in here to "";
-			returnMessage = "I'm sorry I dont recognize that command";
+			returnMessage = "Sorry, I didn't understand that.";
 		}else{
 			returnMessage = "No command received";
 		}

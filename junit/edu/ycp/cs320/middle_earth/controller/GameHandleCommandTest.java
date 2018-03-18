@@ -77,6 +77,22 @@ public class GameHandleCommandTest{
 		assertEquals("Sorry, I didn't understand that.", game.get_dialog().get(0));
 	}
 	
+	@Test
+	public void testTooManyArgumentsInCommand(){
+		game.handle_command("test command long");
+		
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("Too many arguments in your command", game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testNullCommand(){
+		game.handle_command("");
+		
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("No command received", game.get_dialog().get(0));
+	}
+	
 	/*
 	 * Game-Based Commands (Not Specific to Characters)
 	 * Check Character Sheet Command
