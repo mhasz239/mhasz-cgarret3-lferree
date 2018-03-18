@@ -12,7 +12,8 @@ public class Quest{
 	private HashMap<String, NPC> dialogue;
 	
 	public Quest() {
-		
+		rewardItems = new ArrayList<Item>();
+		dialogue = new HashMap<String, NPC>();
 	}
 	
 	public void setRewardItems(ArrayList<Item> rewardItems) {

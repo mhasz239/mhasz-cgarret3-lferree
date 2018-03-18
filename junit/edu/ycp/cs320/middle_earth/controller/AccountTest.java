@@ -36,7 +36,22 @@ public class AccountTest{
 		account.create_account("New User", "New Password", "new_user@example.com");
 		
 		// TODO: JUNIT: Test that information is put into database (regardless of fake/real)
-		// TODO: JUNIT: Also test for issues (e.g. username is taken, email is taken, etc.)
+		throw new UnsupportedOperationException("Not sure how to test this yet... Doesn't matter though it's not implemented");
+	}
+	
+	@Test
+	public void testCreate_AccountUsernameTaken(){
+		account.create_account("Tadukoo", "Imma_steal_his_acc_;)", "theREALtadukoo@something.com");
+		
+		// TODO: JUNIT: Test that it fails somehow? Perhaps an errorMessage in Account?
+		throw new UnsupportedOperationException("Not sure how to test this yet... Doesn't matter though it's not implemented");
+	}
+	
+	@Test
+	public void testCreate_AccountEmailTaken(){
+		account.create_account("Totally New", "yeah_Im_new", "realtadukoo@gmail.com");
+		
+		// TODO: JUNIT: Test that it fails somehow? Perhaps an errorMessage in Account?
 		throw new UnsupportedOperationException("Not sure how to test this yet... Doesn't matter though it's not implemented");
 	}
 	
@@ -45,7 +60,22 @@ public class AccountTest{
 		account.login("Tadukoo", "tadukoopassword");
 		
 		// TODO: JUNIT: Test that login passes (assuming above info is in database)
-		// TODO: JUNIT: Also test for issues (e.g. username doesn't exist, password is wrong, etc.)
+		throw new UnsupportedOperationException("Not sure how to test this yet... Doesn't matter though it's not implemented");
+	}
+	
+	@Test
+	public void testLoginUsernameDoesntExist(){
+		account.login("Derp Not Here", "anything_really");
+		
+		// TODO: JUNIT: Test that login fails (username not in database)? Perhaps an errorMessage in Account?
+		throw new UnsupportedOperationException("Not sure how to test this yet... Doesn't matter though it's not implemented");
+	}
+	
+	@Test
+	public void testLoginIncorrectPassword(){
+		account.login("Tadukoo", "not_my_password");
+		
+		// TODO: JUNIT: Test that login fails (password incorrect)? Perhaps an errorMessage in Account?
 		throw new UnsupportedOperationException("Not sure how to test this yet... Doesn't matter though it's not implemented");
 	}
 }
