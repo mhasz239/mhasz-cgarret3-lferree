@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
+import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
 import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 
@@ -21,6 +22,7 @@ public class GamePlayerActionsTest{
 	private MapTile starting;
 	private MapTile northOfStarting;
 	private MapTile northEastOfStarting;
+	private Item wood;
 	
 	@Before
 	public void setup(){
@@ -55,6 +57,10 @@ public class GamePlayerActionsTest{
 		northEastOfStarting = new MapTile();
 		northEastOfStarting.setID(2);
 		northEastOfStarting.setLongDescription("You arrive in a barren wasteland, complete with radiation poisoning.");
+		
+		wood = new Item();
+		wood.setName("Wood");
+		// TODO: Set wood location to 0 (starting).
 	}
 	
 	/*
@@ -88,8 +94,20 @@ public class GamePlayerActionsTest{
 	
 	/*
 	 * Take(Item)
-	 * TODO: Take(Item) Tests
 	 */
+	@Test
+	public void testTakeCommand(){
+		assertEquals(3, player.get_inventory().get_items().size());
+		assertEquals(1, game.get_items().size());
+		assertEquals(wood, game.get_items().get(0));
+		
+		game.take(wood);
+		
+		assertEquals(0, game.get_items().size());
+		assertEquals(4, player.get_inventory().get_items().size());
+		assertEquals(wood, player.get_inventory().get_items().get(0));
+	}
+	
 	/* 
 	 * Take(Object, Item)
 	 * TODO: Take(Object, Item) Tests

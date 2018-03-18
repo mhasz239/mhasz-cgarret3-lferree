@@ -9,7 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
+import edu.ycp.cs320.middle_earth.model.Characters.Inventory;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
+import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
 import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 
@@ -24,6 +26,10 @@ import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 public class GameHandleCommandTest{
 	private Game game;
 	private Player player;
+	private Item sword;
+	private Item helmet;
+	private Item key;
+	private Item wood;
 	private Object tree;
 	private Object ladder;
 	private MapTile starting;
@@ -36,6 +42,32 @@ public class GameHandleCommandTest{
 		game = new Game();
 		player = new Player();
 		player.set_location(0);
+		
+		// Populate Player's inventory
+		ArrayList<Item> playerItems = new ArrayList<Item>();
+		sword = new Item();
+		sword.setName("Sword");
+		sword.setLongDescription("A Long sword. Probably stolen from a giant golem or something.");
+		sword.setItemWeight((float) 9.6);
+		sword.setIsQuestItem(false);
+		helmet = new Item();
+		helmet.setName("Helmet");
+		helmet.setLongDescription("A helmet forged in the hot, hot fires of Mordor.");
+		helmet.setItemWeight((float) 29.3);
+		helmet.setIsQuestItem(false);
+		key = new Item();
+		key.setName("Key");
+		key.setLongDescription("A key to treasure too expensive to buy with Bill Gates' salary. (Believe it)");
+		key.setItemWeight((float) 93.1);
+		key.setIsQuestItem(true);
+		playerItems.add(sword);
+		playerItems.add(helmet);
+		playerItems.add(key);
+		Inventory inventory = new Inventory();
+		inventory.set_items(playerItems);
+		player.set_inventory(inventory);
+		
+		// Add Player to Game
 		ArrayList<Character> characters = new ArrayList<Character>();
 		characters.add(player);
 		game.set_characters(characters);
@@ -67,6 +99,14 @@ public class GameHandleCommandTest{
 		northEastOfStarting.setLongDescription("You arrive in a barren wasteland, complete with radiation poisoning.");
 		
 		invalidMode = "You can't use that command here.";
+		
+		wood = new Item();
+		wood.setName("wood");
+		// TODO: Set wood location to 0 (starting).
+		
+		ArrayList<Item> items = new ArrayList<Item>();
+		items.add(wood);
+		game.set_items(items);
 	}
 	
 	@Test
@@ -159,6 +199,85 @@ public class GameHandleCommandTest{
 	 */
 	
 	/*
+	 * Inventory Mode Commands
+	 * Item Command
+	 */
+	@Test
+	public void testItemCommandNoNumber(){
+		game.set_mode("inventory");
+		
+		game.handle_command("item");
+		
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("Please designate the item # you want to view more details of.", game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testItemCommandNotInInventoryMode(){
+		game.handle_command("item");
+		
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testItemCommandNotANumber(){
+		game.handle_command("item derpykinsmcgee");
+		
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("Invalid number selection. Example: 'item 1' to see the item at position 1", game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testItemCommandInvalidNumber0(){
+		game.handle_command("item 0");
+		
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("Sorry you dont have an item at that index", game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testItemCommandInvalidNumberAboveRange(){
+		game.handle_command("item 4");
+		
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("Sorry you dont have an item at that index", game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testItemCommandLowEndOf1(){
+		game.handle_command("item 1");
+		
+		Item item = sword;
+		
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(item.getName() + ": " + item.getLongDescription() + ";Weight: " + item.getItemWeight() + 
+				";Quest item: " + String.valueOf(item.getIsQuestItem()), game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testItemCommandMidRangeOf2(){
+		game.handle_command("item 2");
+		
+		Item item = helmet;
+		
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(item.getName() + ": " + item.getLongDescription() + ";Weight: " + item.getItemWeight() + 
+				";Quest item: " + String.valueOf(item.getIsQuestItem()), game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testItemCommandHighEndOf3(){
+		game.handle_command("item 3");
+		
+		Item item = key;
+		
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(item.getName() + ": " + item.getLongDescription() + ";Weight: " + item.getItemWeight() + 
+				";Quest item: " + String.valueOf(item.getIsQuestItem()), game.get_dialog().get(0));
+	}
+	
+	/*
 	 * Player-Specific Commands
 	 * TODO: Open(Object) Tests
 	 * TODO: Close(Object) Tests
@@ -225,9 +344,51 @@ public class GameHandleCommandTest{
 	
 	/*
 	 * Player-Specific Commands
-	 * TODO: Take(Item) Tests
+	 * Take(Item) Command
 	 */
+	@Test
+	public void testTakeCommand(){
+		assertEquals(3, player.get_inventory().get_items().size());
+		assertEquals(1, game.get_items().size());
+		assertEquals(wood, game.get_items().get(0));
+		
+		game.handle_command("take wood");
+		
+		assertEquals(0, game.get_items().size());
+		assertEquals(4, player.get_inventory().get_items().size());
+		assertEquals(wood, player.get_inventory().get_items().get(0));
+	}
 	
+	@Test
+	public void testTakeCommandItemNotOnTile(){
+		// TODO: Set location of wood to a different tile than starting.
+		assertEquals(3, player.get_inventory().get_items().size());
+		assertEquals(1, game.get_items().size());
+		assertEquals(wood, game.get_items().get(0));
+		
+		game.handle_command("take wood");
+		
+		assertEquals(0, game.get_items().size());
+		assertEquals(4, player.get_inventory().get_items().size());
+		assertEquals(wood, player.get_inventory().get_items().get(0));
+		throw new UnsupportedOperationException("Cannot set location of wood to do this test yet.");
+	}
+	
+	@Test
+	public void testTakeCommandItemDoesntExist(){
+		assertEquals(3, player.get_inventory().get_items().size());
+		assertEquals(1, game.get_items().size());
+		assertEquals(wood, game.get_items().get(0));
+		
+		game.handle_command("take cheese");
+		
+		assertEquals(1, game.get_items().size());
+		assertEquals(3, player.get_inventory().get_items().size());
+		// TODO: Figure out what the message would be for not having item there. (Also for previous test).
+		//assertEquals(1, game.get_dialog().size());
+		//assertEquals("", game.get_dialog().get(0));
+		throw new UnsupportedOperationException("Don't know error message yet.");
+	}
 	
 	/*
 	 * Player-Specific Commands
