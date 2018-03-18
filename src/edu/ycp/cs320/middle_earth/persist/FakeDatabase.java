@@ -3,6 +3,7 @@ package edu.ycp.cs320.middle_earth.persist;
 import edu.ycp.cs320.middle_earth.model.Constructs.Map;
 import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
+import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 
 import java.io.IOException;
 import java.util.ArrayList;
