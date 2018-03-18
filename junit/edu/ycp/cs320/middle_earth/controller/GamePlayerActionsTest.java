@@ -37,14 +37,14 @@ public class GamePlayerActionsTest{
 		HashMap<String, String> responses = new HashMap<String, String>();
 		responses.put("climb", "It's high up here!");
 		tree.setCommandResponses(responses);
-		//TODO: Set Tree location to 0 (starting MapTile).
+		//TODO: JUNIT: Set Tree location to 0 (starting MapTile).
 		
 		ladder = new Object();
 		ladder.setName("Ladder");
 		HashMap<String, String> responses2 = new HashMap<String, String>();
 		responses.put("climb", "It's not so high up here...");
 		ladder.setCommandResponses(responses2);
-		//TODO: Set Ladder location to 1 (northOfStarting MapTile).
+		//TODO: JUNIT: Set Ladder location to 1 (northOfStarting MapTile).
 		
 		// MapTiles		8 1 2
 		//				7 0 3
@@ -60,16 +60,16 @@ public class GamePlayerActionsTest{
 		
 		wood = new Item();
 		wood.setName("Wood");
-		// TODO: Set wood location to 0 (starting).
+		// TODO: JUNIT: Set wood location to 0 (starting).
 	}
 	
 	/*
 	 * Open(Object)
-	 * TODO: Open(Object) Tests
+	 * TODO: JUNIT: Open(Object) Tests
 	 */
 	/*
 	 * Close(Object)
-	 * TODO: Close(Object) Tests
+	 * TODO: JUNIT: Close(Object) Tests
 	 */
 	
 	/*
@@ -110,7 +110,7 @@ public class GamePlayerActionsTest{
 	
 	/* 
 	 * Take(Object, Item)
-	 * TODO: Take(Object, Item) Tests
+	 * TODO: JUNIT: Take(Object, Item) Tests
 	 */
 	
 	/*
@@ -140,18 +140,18 @@ public class GamePlayerActionsTest{
 	
 	/*
 	 * Fast Travel
-	 * TODO: Fast Travel Tests
+	 * TODO: JUNIT: Fast Travel Tests
 	 */
 	/*
 	 * Buy(Item)
-	 * TODO: Buy(Item) Tests
+	 * TODO: JUNIT: Buy(Item) Tests
 	 */
 	/*
 	 * Sell(Item)
-	 * TODO: Sell(Item) Tests
+	 * TODO: JUNIT: Sell(Item) Tests
 	 */
 	/*
 	 * Talk(NPC)
-	 * TODO: Talk(NPC) Tests
+	 * TODO: JUNIT: Talk(NPC) Tests
 	 */
 }

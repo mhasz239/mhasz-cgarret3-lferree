@@ -21,7 +21,7 @@ import edu.ycp.cs320.middle_earth.model.Constructs.Object;
  * 
  * Movement Commands are in a separate class due to there being a lot of different ones.
  * 
- * TODO: Get Matt's commit of Game, then test get_dialog() for every command tested.
+ * TODO: JUNIT: Get Matt's commit of Game, then test get_dialog() for every command tested.
  */
 public class GameHandleCommandTest{
 	private Game game;
@@ -77,14 +77,14 @@ public class GameHandleCommandTest{
 		HashMap<String, String> responses = new HashMap<String, String>();
 		responses.put("climb", "It's high up here!");
 		tree.setCommandResponses(responses);
-		//TODO: Set Tree location to 0 (starting MapTile).
+		//TODO: JUNIT: Set Tree location to 0 (starting MapTile).
 		
 		ladder = new Object();
 		ladder.setName("Ladder");
 		HashMap<String, String> responses2 = new HashMap<String, String>();
 		responses.put("climb", "It's not so high up here...");
 		ladder.setCommandResponses(responses2);
-		//TODO: Set Ladder location to 1 (northOfStarting MapTile).
+		//TODO: JUNIT: Set Ladder location to 1 (northOfStarting MapTile).
 		
 		// MapTiles		8 1 2
 		//				7 0 3
@@ -102,7 +102,7 @@ public class GameHandleCommandTest{
 		
 		wood = new Item();
 		wood.setName("wood");
-		// TODO: Set wood location to 0 (starting).
+		// TODO: JUNIT: Set wood location to 0 (starting).
 		
 		ArrayList<Item> items = new ArrayList<Item>();
 		items.add(wood);
@@ -195,7 +195,7 @@ public class GameHandleCommandTest{
 	
 	/*
 	 * Game-Based Commands (Not Specific to Characters)
-	 * TODO: Save Command
+	 * TODO: JUNIT: Save Command
 	 */
 	
 	/*
@@ -279,8 +279,8 @@ public class GameHandleCommandTest{
 	
 	/*
 	 * Player-Specific Commands
-	 * TODO: Open(Object) Tests
-	 * TODO: Close(Object) Tests
+	 * TODO: JUNIT: Open(Object) Tests
+	 * TODO: JUNIT: Close(Object) Tests
 	 */
 	
 	/* 
@@ -361,7 +361,7 @@ public class GameHandleCommandTest{
 	
 	@Test
 	public void testTakeCommandItemNotOnTile(){
-		// TODO: Set location of wood to a different tile than starting.
+		// TODO: JUNIT: Set location of wood to a different tile than starting.
 		assertEquals(3, player.get_inventory().get_items().size());
 		assertEquals(1, game.get_items().size());
 		assertEquals(wood, game.get_items().get(0));
@@ -384,7 +384,7 @@ public class GameHandleCommandTest{
 		
 		assertEquals(1, game.get_items().size());
 		assertEquals(3, player.get_inventory().get_items().size());
-		// TODO: Figure out what the message would be for not having item there. (Also for previous test).
+		// TODO: JUNIT: Figure out what the message would be for not having item there. (Also for previous test).
 		//assertEquals(1, game.get_dialog().size());
 		//assertEquals("", game.get_dialog().get(0));
 		throw new UnsupportedOperationException("Don't know error message yet.");
@@ -392,7 +392,7 @@ public class GameHandleCommandTest{
 	
 	/*
 	 * Player-Specific Commands
-	 * TODO: Take(Object, Item) Tests
+	 * TODO: JUNIT: Take(Object, Item) Tests
 	 */
 	
 	/*
@@ -429,21 +429,21 @@ public class GameHandleCommandTest{
 	
 	/*
 	 * Player-Specific Commands
-	 * TODO: Fast Travel Tests
-	 * TODO: Buy(Item) Tests
-	 * TODO: Sell(Item) Tests
-	 * TODO: Talk(NPC) Tests
+	 * TODO: JUNIT: Fast Travel Tests
+	 * TODO: JUNIT: Buy(Item) Tests
+	 * TODO: JUNIT: Sell(Item) Tests
+	 * TODO: JUNIT: Talk(NPC) Tests
 	 */
 	
 	/*
 	 * Character-Specific Actions
 	 * Attack Command
-	 * TODO: Attack command tests
+	 * TODO: JUNIT: Attack command tests
 	 */
 	
 	/*
 	 * Character-Specific Actions
 	 * Loot Command
-	 * TODO: Loot command tests
+	 * TODO: JUNIT: Loot command tests
 	 */
 }

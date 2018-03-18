@@ -35,8 +35,8 @@ public class AccountTest{
 	public void testCreate_Account(){
 		account.create_account("New User", "New Password", "new_user@example.com");
 		
-		// TODO: Test that information is put into database (regardless of fake/real)
-		// TODO: Also test for issues (e.g. username is taken, email is taken, etc.)
+		// TODO: JUNIT: Test that information is put into database (regardless of fake/real)
+		// TODO: JUNIT: Also test for issues (e.g. username is taken, email is taken, etc.)
 		throw new UnsupportedOperationException("Not sure how to test this yet... Doesn't matter though it's not implemented");
 	}
 	
@@ -44,8 +44,8 @@ public class AccountTest{
 	public void testLogin(){
 		account.login("Tadukoo", "tadukoopassword");
 		
-		// TODO: Test that login passes (assuming above info is in database)
-		// TODO: Also test for issues (e.g. username doesn't exist, password is wrong, etc.)
+		// TODO: JUNIT: Test that login passes (assuming above info is in database)
+		// TODO: JUNIT: Also test for issues (e.g. username doesn't exist, password is wrong, etc.)
 		throw new UnsupportedOperationException("Not sure how to test this yet... Doesn't matter though it's not implemented");
 	}
 }

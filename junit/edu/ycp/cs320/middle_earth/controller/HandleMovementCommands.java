@@ -390,7 +390,7 @@ public class HandleMovementCommands{
 	 * ******************
 	 * Invalids
 	 * ******************
-	 * TODO: Unique messages for invalid directions?
+	 * TODO: JUNIT: Unique messages for invalid directions?
 	 */
 	
 	/*

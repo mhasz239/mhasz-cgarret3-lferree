@@ -291,11 +291,11 @@ public class GameCharacterActionsTest{
 	
 	/*
 	 * Attack
-	 * TODO: Attack tests
+	 * TODO: JUNIT: Attack tests
 	 */
 	
 	/*
 	 * Loot
-	 * TODO: Loot tests
+	 * TODO: JUNIT: Loot tests
 	 */
 }
