@@ -17,7 +17,9 @@ public class GameServlet extends HttpServlet {
             throws ServletException, IOException {
 
         System.out.println("Game Servlet: doGet");
-
+        Game game = new Game();
+        game.add_dialog("Blue Bunnies");
+        req.setAttribute("dialog", game.get_display_text());
         // call JSP to generate empty form
         req.getRequestDispatcher("/_view/game.jsp").forward(req, resp);
     }
@@ -29,7 +31,13 @@ public class GameServlet extends HttpServlet {
         System.out.println("Game Servlet: doPost");
 
         Game game = new Game();
-
+        
+        //This seems right but req.getParameter returns null every time.
+        String dialog_text = req.getParameter("dialog");
+        String[] dialog_text_array = dialog_text.split(";");
+        for (int i = 0; i < dialog_text_array.length; i++) {
+        	game.add_dialog(dialog_text_array[i]);
+        }
         // holds the error message text, if there is any
         String errorMessage = null;
         String display_text = null;
@@ -52,7 +60,7 @@ public class GameServlet extends HttpServlet {
         	//req.getRequestDispatcher("/_view/character.jsp").forward(req, resp);
         } 
         else {
-        	req.setAttribute("display_text", display_text);
+        	req.setAttribute("dialog", display_text);
         	req.setAttribute("errorMessage", errorMessage);
         	// now call the JSP to render the new page
         	req.getRequestDispatcher("/_view/game.jsp").forward(req, resp);
