@@ -17,7 +17,7 @@ import edu.ycp.cs320.middle_earth.model.Characters.Player;
 
 public class InitialData {
 
-/*	public static Map getMap() throws IOException {
+	public static Map getMap() throws IOException {
 		Map map = new Map();
 		ReadCSV readMap = new ReadCSV("map.csv");
 		try {
@@ -51,18 +51,18 @@ public class InitialData {
 				Iterator<String> i = tuple.iterator();
 				
 				MapTile mapTile = new MapTile();
-				// mapTile.setConnections(
 				mapTile.setID(Integer.parseInt(i.next()));
 				mapTile.setName(i.next());
 				mapTile.setLongDescription(i.next());
 				mapTile.setShortDescription(i.next());
 				mapTileList.add(mapTile);
+				// mapTile.setConnections(
 			}
 			return mapTileList;
 		} finally {
 			readMapTiles.close();
 		}
-	}*/
+	}
 	
 	/*			Unsure how to bind the connections
 	
@@ -101,8 +101,7 @@ public class InitialData {
 		
 				Object object = new Object();
 				
-				object.setID(1);//Integer.parseInt(i.next()));
-				i.next();
+				object.setID(Integer.parseInt(i.next()));
 				
 				object.setName(i.next());
 				object.setLongDescription(i.next());

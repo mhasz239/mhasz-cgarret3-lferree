@@ -28,8 +28,8 @@ public class FakeDatabase implements IDatabase {
 	private Player player;	
 	
 	public FakeDatabase() {
-		map = new Map();
-		mapTileList = new ArrayList<MapTile>();
+//		map = new Map();
+//		mapTileList = new ArrayList<MapTile>();
 		objectList = new ArrayList<Object>();
 		itemList = new ArrayList<Item>();
 		questList = new ArrayList<Quest>();
@@ -42,8 +42,8 @@ public class FakeDatabase implements IDatabase {
 	
 	public void readInitialData() {
 		try {
-//			map = InitialData.getMap();
-//			mapTileList.addAll(InitialData.getMapTiles());
+			map = InitialData.getMap();
+			mapTileList.addAll(InitialData.getMapTiles());
 			objectList.addAll(InitialData.getObjects());
 			itemList.addAll(InitialData.getItems());
 			questList.addAll(InitialData.getQuests());
@@ -60,8 +60,11 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	public ArrayList<Object> getAllObjects() {
+		//////////////////////////////
+		getAllItems();
+		//////////////////////////////
 		for(Object object : objectList) {
-			if(!object.getItems().isEmpty()) {
+			if(object.getItems() != null) {
 				for(Item item : object.getItems()) {
 					for(Item listedItem : itemList) {
 						if(item.getID() == listedItem.getID()) {
@@ -85,6 +88,9 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	public Map getMap() {
+		for(MapTile mapTile : mapTileList) {
+			map.addMapTile(mapTile);
+		}
 		return map;
 	}
 	
