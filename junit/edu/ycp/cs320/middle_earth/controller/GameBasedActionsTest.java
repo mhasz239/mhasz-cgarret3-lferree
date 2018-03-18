@@ -54,8 +54,7 @@ public class GameBasedActionsTest{
 	public void testBackToGameFromCharacterSheet(){
 		game.set_mode("character");
 		
-		// TODO: Assuming there will be a return to game method
-		//game.returnToGame();
+		game.return_to_game();
 		
 		assertEquals("game", game.get_mode());
 	}
@@ -64,8 +63,7 @@ public class GameBasedActionsTest{
 	public void testBackToGameFromInventory(){
 		game.set_mode("inventory");
 		
-		// TODO: Assuming there will be a return to game method
-		//game.returnToGame();
+		game.return_to_game();
 		
 		assertEquals("game", game.get_mode());
 	}
@@ -74,8 +72,7 @@ public class GameBasedActionsTest{
 	public void testBackToGameFromMap(){
 		game.set_mode("map");
 		
-		// TODO: Assuming there will be a return to game method
-		//game.returnToGame();
+		game.return_to_game();
 		
 		assertEquals("game", game.get_mode());
 	}

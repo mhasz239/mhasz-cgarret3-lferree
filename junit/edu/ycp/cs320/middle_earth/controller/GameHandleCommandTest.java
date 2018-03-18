@@ -29,6 +29,7 @@ public class GameHandleCommandTest{
 	private MapTile starting;
 	private MapTile northOfStarting;
 	private MapTile northEastOfStarting;
+	private String invalidMode;
 	
 	@Before
 	public void setup(){
@@ -64,6 +65,8 @@ public class GameHandleCommandTest{
 		northEastOfStarting = new MapTile();
 		northEastOfStarting.setID(2);
 		northEastOfStarting.setLongDescription("You arrive in a barren wasteland, complete with radiation poisoning.");
+		
+		invalidMode = "You can't use that command here.";
 	}
 	
 	@Test
@@ -207,6 +210,11 @@ public class GameHandleCommandTest{
 	/*
 	 * Player-Specific Commands
 	 * TODO: Take(Item) Tests
+	 */
+	
+	
+	/*
+	 * Player-Specific Commands
 	 * TODO: Take(Object, Item) Tests
 	 */
 	
@@ -215,19 +223,31 @@ public class GameHandleCommandTest{
 	 * Look Command
 	 */
 	@Test
-	public void testLookAtStarting(){
+	public void testLookCommandAtStarting(){
 		game.handle_command("look");
 		
-		assertEquals(1, game.get_dialog());
+		assertEquals(1, game.get_dialog().size());
 		assertEquals(starting.getLongDescription(), game.get_dialog().get(0));
 	}
 	
 	@Test
-	public void testLookAtNorthOfStarting(){
+	public void testLookCommandAtNorthOfStarting(){
 		game.get_characters().get(0).set_location(1);
 		
-		assertEquals(1, game.get_dialog());
+		game.handle_command("look");
+		
+		assertEquals(1, game.get_dialog().size());
 		assertEquals(northOfStarting.getLongDescription(), game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testLookCommandNotInModeGame(){
+		game.set_mode("inventory");
+		
+		game.handle_command("look");
+		
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
 	}
 	
 	/*

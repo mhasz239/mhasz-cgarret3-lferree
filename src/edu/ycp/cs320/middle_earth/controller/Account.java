@@ -11,12 +11,12 @@ public class Account{
 		this.user_token = user_token;
 	}
 	
-	public void create_account(){
+	public void create_account(String username, String password, String email){
 		// TODO: Implement
 		throw new UnsupportedOperationException("Not implemented yet!");
 	}
 	
-	public void login(){
+	public void login(String username, String password){
 		// TODO: Implement
 		throw new UnsupportedOperationException("Not implemented yet!");
 	}
