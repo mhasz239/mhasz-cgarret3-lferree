@@ -24,6 +24,7 @@ public class Game implements Engine{
 		//Game game = new Game();
 		//in the servlets, so wouldnt that erase the current dialog and write a new one every time?
 		dialog = new ArrayList<String>();
+		//Was messing with inventoryServlet so set game_mode to always be inventory when it was called
 		mode = "inventory";
 		FakeDatabase data = new FakeDatabase();
 		items = data.getAllItems();
