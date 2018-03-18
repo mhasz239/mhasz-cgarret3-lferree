@@ -65,17 +65,76 @@ public class GameSettersTest{
 	
 	@Test
 	public void testSet_Dialog(){
-		//TODO: Get Matt's commit of Game to do this.
-		// Wouldn't Set Dialog be to set the full thing, not just add one line?
-		// Dialog would need to be set in some way with each jsp load, since model and controller
-		// get recreated each time.
-		// It can be done line by line I guess, but it should probably be add_dialog() then.
-		throw new UnsupportedOperationException("Waiting on game.set_dialog() method");
+		Game game = new Game();
+		
+		ArrayList<String> test_dialog = new ArrayList<String>();
+		test_dialog.add("This is a ");
+		test_dialog.add("pretty simple ");
+		test_dialog.add(" test.");
+		
+		game.set_dialog(test_dialog);
+		
+		assertEquals(3, game.get_dialog().size());
+		assertEquals("This is a ", game.get_dialog().get(0));
+		assertEquals("pretty simple ", game.get_dialog().get(1));
+		assertEquals(" test.", game.get_dialog().get(2));
+	}
+	
+	@Test
+	public void testAdd_Dialog(){
+		Game game = new Game();
+		
+		assertEquals(0, game.get_dialog().size());
+		
+		game.add_dialog("Test");
+		
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("Test", game.get_dialog().get(0));
+		
+		game.add_dialog("Testy 2");
+		
+		assertEquals(2, game.get_dialog().size());
+		assertEquals("Test", game.get_dialog().get(0));
+		assertEquals("Testy 2", game.get_dialog().get(1));
+	}
+	
+	@Test
+	public void testAdd_Dialog_Over30(){
+		Game game = new Game();
+		
+		assertEquals(0, game.get_dialog().size());
+		
+		for(int i = 0; i < 30; i++){
+			game.add_dialog("Test: " + i);
+			assertEquals(i+1, game.get_dialog().size());
+			for(int j = 0; j < i; j++){
+				assertEquals("Test: " + j, game.get_dialog().get(j));
+			}
+		}
+		assertEquals(30, game.get_dialog().size());
+		
+		game.add_dialog("Derp");
+		
+		// 30 = max dialog length
+		assertEquals(30, game.get_dialog().size());
+		
+		for(int i = 0; i < 29; i++){
+			assertEquals("Test: " + (i+1), game.get_dialog().get(i));
+		}
+		assertEquals("Derp", game.get_dialog().get(29));
 	}
 	
 	@Test
 	public void testGet_Display_Text(){
-		// TODO: Get Matt's commit of Game for this.
-		throw new UnsupportedOperationException("Waiting on game.get_display_text() method");
+		Game game = new Game();
+		
+		ArrayList<String> test_dialog = new ArrayList<String>();
+		test_dialog.add("This is a ");
+		test_dialog.add("pretty simple ");
+		test_dialog.add(" test.");
+		
+		game.set_dialog(test_dialog);
+		
+		assertEquals("\nThis is a \npretty simple \n test.", game.get_display_text());
 	}
 }

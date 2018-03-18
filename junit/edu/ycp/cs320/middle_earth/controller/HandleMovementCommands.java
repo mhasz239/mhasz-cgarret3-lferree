@@ -3,7 +3,6 @@ package edu.ycp.cs320.middle_earth.controller;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +33,8 @@ public class HandleMovementCommands{
 	@Before
 	public void setup(){
 		game = new Game();
+		// This is here just in case the Game doesn't initialize the current mode to this.
+		game.set_mode("game");
 		player = new Player();
 		ArrayList<Character> characters = new ArrayList<Character>();
 		characters.add(player);

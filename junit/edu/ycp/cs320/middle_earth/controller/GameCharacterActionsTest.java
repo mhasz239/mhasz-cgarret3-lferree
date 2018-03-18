@@ -9,17 +9,16 @@ import org.junit.Test;
 
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
+import edu.ycp.cs320.middle_earth.model.Constructs.Map;
 import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
 
 /**
  * These tests are solely for the Character-Specific (excluding Player) action methods in Game.
  * Other methods in Game are tested elsewhere.
- * 
- * TODO: Get Matt's Game changes (or more) to test move(Character character, String direction)?
- * TODO: Get Matt's Game changes for get_dialog for checking move responses
  */
 public class GameCharacterActionsTest{
 	private Game game;
+	private Map map;
 	private Player player;
 	private MapTile starting;
 	private MapTile northOfStarting;
@@ -30,10 +29,13 @@ public class GameCharacterActionsTest{
 	private MapTile southWestOfStarting;
 	private MapTile westOfStarting;
 	private MapTile northWestOfStarting;
+	private String invalidDirection;
 	
 	@Before
 	public void setup(){
 		game = new Game();
+		// This is here in case Game doesn't set mode to game by default.
+		game.set_mode("game");
 		player = new Player();
 		player.set_location(0);
 		ArrayList<Character> characters = new ArrayList<Character>();
@@ -76,6 +78,26 @@ public class GameCharacterActionsTest{
 		starting.setConnection("southwest", 6);
 		starting.setConnection("west", 7);
 		starting.setConnection("northwest", 8);
+		
+		// Create Map
+		map = new Map();
+		
+		// Populate Map
+		ArrayList<MapTile> tiles = new ArrayList<MapTile>();
+		tiles.add(starting);
+		tiles.add(northOfStarting);
+		tiles.add(northEastOfStarting);
+		tiles.add(eastOfStarting);
+		tiles.add(southEastOfStarting);
+		tiles.add(southOfStarting);
+		tiles.add(southWestOfStarting);
+		tiles.add(westOfStarting);
+		tiles.add(northWestOfStarting);
+		map.setMapTiles(tiles);
+		
+		game.set_map(map);
+		
+		invalidDirection = "You can't go that way";
 	}
 	
 	
@@ -179,12 +201,8 @@ public class GameCharacterActionsTest{
 		game.move("north");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
-		// TODO: Get Matt's commit of Game to do this.
-		//assertEquals(1, game.getDialog().size());
-		// Not sure where message will be stored, since unique messages can be given.
-		// e.g. There's a fence in the way, vs. ocean border vs. cliff too high to climb, etc.
-		//assertEquals("", game.getDialog().get(0));
-		throw new UnsupportedOperationException("Waiting on game.getDialog() method");
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidDirection, game.get_dialog().get(0));
 	}
 	
 	@Test
@@ -195,12 +213,8 @@ public class GameCharacterActionsTest{
 		game.move("northeast");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
-		// TODO: Get Matt's commit of Game to do this.
-		//assertEquals(1, game.getDialog().size());
-		// Not sure where message will be stored, since unique messages can be given.
-		// e.g. There's a fence in the way, vs. ocean border vs. cliff too high to climb, etc.
-		//assertEquals("", game.getDialog().get(0));
-		throw new UnsupportedOperationException("Waiting on game.getDialog() method");
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidDirection, game.get_dialog().get(0));
 	}
 	
 	@Test
@@ -211,12 +225,8 @@ public class GameCharacterActionsTest{
 		game.move("east");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
-		// TODO: Get Matt's commit of Game to do this.
-		//assertEquals(1, game.getDialog().size());
-		// Not sure where message will be stored, since unique messages can be given.
-		// e.g. There's a fence in the way, vs. ocean border vs. cliff too high to climb, etc.
-		//assertEquals("", game.getDialog().get(0));
-		throw new UnsupportedOperationException("Waiting on game.getDialog() method");
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidDirection, game.get_dialog().get(0));
 	}
 	
 	@Test
@@ -227,12 +237,8 @@ public class GameCharacterActionsTest{
 		game.move("southeast");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
-		// TODO: Get Matt's commit of Game to do this.
-		//assertEquals(1, game.getDialog().size());
-		// Not sure where message will be stored, since unique messages can be given.
-		// e.g. There's a fence in the way, vs. ocean border vs. cliff too high to climb, etc.
-		//assertEquals("", game.getDialog().get(0));
-		throw new UnsupportedOperationException("Waiting on game.getDialog() method");
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidDirection, game.get_dialog().get(0));
 	}
 	
 	@Test
@@ -243,12 +249,8 @@ public class GameCharacterActionsTest{
 		game.move("south");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
-		// TODO: Get Matt's commit of Game to do this.
-		//assertEquals(1, game.getDialog().size());
-		// Not sure where message will be stored, since unique messages can be given.
-		// e.g. There's a fence in the way, vs. ocean border vs. cliff too high to climb, etc.
-		//assertEquals("", game.getDialog().get(0));
-		throw new UnsupportedOperationException("Waiting on game.getDialog() method");
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidDirection, game.get_dialog().get(0));
 	}
 	
 	@Test
@@ -259,12 +261,8 @@ public class GameCharacterActionsTest{
 		game.move("southwest");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
-		// TODO: Get Matt's commit of Game to do this.
-		//assertEquals(1, game.getDialog().size());
-		// Not sure where message will be stored, since unique messages can be given.
-		// e.g. There's a fence in the way, vs. ocean border vs. cliff too high to climb, etc.
-		//assertEquals("", game.getDialog().get(0));
-		throw new UnsupportedOperationException("Waiting on game.getDialog() method");
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidDirection, game.get_dialog().get(0));
 	}
 	
 	@Test
@@ -275,12 +273,8 @@ public class GameCharacterActionsTest{
 		game.move("west");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
-		// TODO: Get Matt's commit of Game to do this.
-		//assertEquals(1, game.getDialog().size());
-		// Not sure where message will be stored, since unique messages can be given.
-		// e.g. There's a fence in the way, vs. ocean border vs. cliff too high to climb, etc.
-		//assertEquals("", game.getDialog().get(0));
-		throw new UnsupportedOperationException("Waiting on game.getDialog() method");
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidDirection, game.get_dialog().get(0));
 	}
 	
 	@Test
@@ -291,12 +285,8 @@ public class GameCharacterActionsTest{
 		game.move("northwest");
 		
 		assertEquals(1, game.get_characters().get(0).get_location());
-		// TODO: Get Matt's commit of Game to do this.
-		//assertEquals(1, game.getDialog().size());
-		// Not sure where message will be stored, since unique messages can be given.
-		// e.g. There's a fence in the way, vs. ocean border vs. cliff too high to climb, etc.
-		//assertEquals("", game.getDialog().get(0));
-		throw new UnsupportedOperationException("Waiting on game.getDialog() method");
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidDirection, game.get_dialog().get(0));
 	}
 	
 	/*

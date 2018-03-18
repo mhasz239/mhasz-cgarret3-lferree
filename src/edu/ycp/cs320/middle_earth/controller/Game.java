@@ -23,6 +23,9 @@ public class Game implements Engine{
 		//Is this how we initiate dialog? I know we call 
 		//Game game = new Game();
 		//in the servlets, so wouldnt that erase the current dialog and write a new one every time?
+		// The model and controller get recreated every time due to how the program is setup (Hake's way, not ours)
+		// So we would have to put the dialog back in here every time as well. (with set_dialog)
+		// The dialog would be passed between every jsp through get and post stuff in the request and response.
 		dialog = new ArrayList<String>();
 		//Was messing with inventoryServlet so set game_mode to always be inventory when it was called
 		mode = "inventory";
@@ -49,7 +52,9 @@ public class Game implements Engine{
 	
 	public void add_dialog(String line){
 		dialog.add(line);
-		// TODO: Implement removing lines when dialog reaches a certain length.
+		if(dialog.size() > 30){
+			dialog.remove(0);
+		}
 	}
 
 	public Map get_map(){
@@ -100,6 +105,7 @@ public class Game implements Engine{
 	public String get_display_text(){
 		String display_text = "";
 		for (int i = 0; i < this.dialog.size(); i++) {
+			// Is it supposed to have a \n before the first line? (Not sure)
 			display_text = display_text+"\n"+this.dialog.get(i);
 		}
 		return display_text;

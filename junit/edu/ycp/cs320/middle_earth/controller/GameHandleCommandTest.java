@@ -208,7 +208,30 @@ public class GameHandleCommandTest{
 	 * Player-Specific Commands
 	 * TODO: Take(Item) Tests
 	 * TODO: Take(Object, Item) Tests
-	 * TODO: Look Tests
+	 */
+	
+	/*
+	 * Player-Specific Commands
+	 * Look Command
+	 */
+	@Test
+	public void testLookAtStarting(){
+		game.handle_command("look");
+		
+		assertEquals(1, game.get_dialog());
+		assertEquals(starting.getLongDescription(), game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testLookAtNorthOfStarting(){
+		game.get_characters().get(0).set_location(1);
+		
+		assertEquals(1, game.get_dialog());
+		assertEquals(northOfStarting.getLongDescription(), game.get_dialog().get(0));
+	}
+	
+	/*
+	 * Player-Specific Commands
 	 * TODO: Fast Travel Tests
 	 * TODO: Buy(Item) Tests
 	 * TODO: Sell(Item) Tests
