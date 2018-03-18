@@ -16,9 +16,12 @@
 </head>
 
 <body>
+<!--
 <c:if test="${! empty errorMessage}">
     <div class="error">${errorMessage}</div>
 </c:if>
+-->
+
 
 <div>
 <h1><u>Inventory</u></h1>
@@ -26,9 +29,20 @@
 <c:forTokens items = "${inventory}" delims = ";" var = "item" >
 <li><c:out value = "${item}"/></li>
 </c:forTokens>
-</ol></div>
+</ol>
+<c:if test="${! empty dialog}">
+</br>
+<ul style="list-style-type:none">
+<c:forTokens items = "${dialog}" delims = ";" var = "num_item" >
+<li><c:out value = "${num_item}"/></li>
+</c:forTokens>
+</ul>
+</c:if>
+</div>
 
-<div><p>"Type "item #" to see more details about the item"</p></div>
+<div>
+<p>Type "item #" to see more details about the specific item</br>
+Type "game" to return to the game</p></div>
 
 <form action="${pageContext.servletContext.contextPath}/inventory" method="post">
     <table>

@@ -20,7 +20,7 @@ public class FakeDatabase implements IDatabase {
 	private Map map;
 	private List<MapTile> mapTileList;
 	private List<Object> objectList;
-	private List<Item> itemList;
+	private ArrayList<Item> itemList;
 	private List<Quest> questList;	
 	private List<Character> characterList;
 	private Inventory inventory;
@@ -50,7 +50,7 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	
-	public List<Item> getAllItems() {
+	public ArrayList<Item> getAllItems() {
 		return itemList;
 	}
 	

@@ -8,6 +8,7 @@ import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.NPC;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 import edu.ycp.cs320.middle_earth.model.Constructs.Map;
+import edu.ycp.cs320.middle_earth.persist.FakeDatabase;
 
 public class Game implements Engine{
 	private Map map;
@@ -19,8 +20,14 @@ public class Game implements Engine{
 	private String mode;
 	
 	public Game(){
+		//Is this how we initiate dialog? I know we call 
+		//Game game = new Game();
+		//in the servlets, so wouldnt that erase the current dialog and write a new one every time?
 		dialog = new ArrayList<String>();
-		mode = "game";
+		mode = "inventory";
+		FakeDatabase data = new FakeDatabase();
+		items = data.getAllItems();
+		
 	}
 	
 	public String get_mode() {
@@ -100,12 +107,16 @@ public class Game implements Engine{
 	@Override
 	public String handle_command(String commandStr){
 		// TODO: Remove errorMessage? We talked about just adding it to the dialog I think?
-		String errorMessage = null;
+		//Yes, error message is just what I was using as a string holder to return cause it was already there, so we can name it whatever.
+		String returnMessage = null;
 		String command = "";
-		String[] args = new String[2];
-		if (commandStr.split(" ").length > 1){
-        	args = command.split(" ");
+		String arg = null;
+		String[] args = commandStr.split(" ");
+		if (args.length > 1){
         	command = args[0];
+        	arg = args[1];
+		} else if (args.length >  2) {
+			return "Too many arguments in your command";
         } else {
         	command = commandStr;
         }
@@ -119,11 +130,11 @@ public class Game implements Engine{
 		}else if(command.equalsIgnoreCase("game")){
 			return_to_game();
 		}else if(command.equalsIgnoreCase("move") && mode_check("game")){
-			if(args[1].equalsIgnoreCase("north") || args[1].equalsIgnoreCase("south") || 
-					args[1].equalsIgnoreCase("east") || args[1].equalsIgnoreCase("west") ||
-					args[1].equalsIgnoreCase("northwest") || args[1].equalsIgnoreCase("northeast") ||
-					args[1].equalsIgnoreCase("southwest") || args[1].equalsIgnoreCase("southeast")){
-				move(args[1]);
+			if(args[1].equalsIgnoreCase("north") || arg.equalsIgnoreCase("south") || 
+					arg.equalsIgnoreCase("east") || arg.equalsIgnoreCase("west") ||
+					arg.equalsIgnoreCase("northwest") || arg.equalsIgnoreCase("northeast") ||
+					arg.equalsIgnoreCase("southwest") || arg.equalsIgnoreCase("southeast")){
+				move(arg);
 			}else{
 				add_dialog("I don't understand that direction.");
 			}
@@ -143,13 +154,29 @@ public class Game implements Engine{
 			move("southeast");
 		}else if((command.equalsIgnoreCase("southwest") || command.equalsIgnoreCase("SW")) && mode_check("game")){
 			move("southwest");
+		}else if(command.equalsIgnoreCase("item") && mode_check("inventory")){
+			if (arg != null) {
+				try {
+					int Item_num = Integer.parseInt(arg);
+					//if (get_player().get_inventory().get_items().size() < Item_num || Item_num < 1 ) {
+					if (items.size() < Item_num || Item_num < 1 ) {
+						returnMessage = "Sorry you dont have an item at that index";
+					} else  {
+						returnMessage = item_details(Item_num-1);
+					}
+				} catch (NumberFormatException nfe) {
+					returnMessage = "Invalid number selection. Example: 'item 1' to see the item at position 1";
+				}
+			} else {
+				returnMessage = "Please designate the item # you want to view more details of.";
+			}
 		}else if(!command.equalsIgnoreCase("")){
 			// Checking if command isn't empty, since it can't be null -> initialized in here to "";
-			errorMessage = "I'm sorry I dont recognize that command";
+			returnMessage = "I'm sorry I dont recognize that command";
 		}else{
-			errorMessage = "No command received";
+			returnMessage = "No command received";
 		}
-		return errorMessage;
+		return returnMessage;
 	}
 	
 	public boolean mode_check(String required_mode){
@@ -203,6 +230,12 @@ public class Game implements Engine{
 		throw new UnsupportedOperationException("Not implemented yet!");
 	}
 
+	
+	public String item_details(int item_num){
+		//Item item = get_player().get_inventory().get_items().get(item_num);
+		Item item = items.get(item_num);
+		return item.getName() + ": " + item.getLongDescription() + ";Weight: " + item.getItemWeight() + ";Quest item: " + String.valueOf(item.getIsQuestItem());
+	}
 	/*
 	 * Player-Specific Actions
 	 */
