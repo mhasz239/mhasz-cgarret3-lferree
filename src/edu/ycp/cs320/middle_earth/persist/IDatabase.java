@@ -12,12 +12,19 @@ import edu.ycp.cs320.middle_earth.model.Constructs.Map;
 import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
 
 public interface IDatabase {
+	public Map getMap();
+	public Player getPlayer();
+	
 	public List<Item> getAllItems();
 	public List<Object> getAllObjects();
 	public List<MapTile> getAllMapTiles();
-	public Map getMap();
 	public List<Character> getAllCharacters();
-	public Player getPlayer();
 	public Inventory getInventory();
 	public List<Quest> getAllQuests();
+	
+	public Item getItemByID(int itemID);
+	public Object getObjectByID(int objectID);
+	public MapTile getMapTileByID(int mapTileID);
+	
+	public Character getCharacterByName(String characterName);
 }

@@ -98,41 +98,8 @@ public class InitialData {
 					break;
 				}
 				Iterator<String> i = tuple.iterator();
-				
-				Object object = new Object();
-				
-				object.setID(1);//Integer.parseInt(i.next()));
-				i.next();
-				
-				object.setName(i.next());
-				object.setLongDescription(i.next());
-				object.setShortDescription(i.next());
-				
-				
-				
-				
-				
-				
-
-				ArrayList<Item> itemList = new ArrayList<Item>();
-				Item item = new Item();
-				item.setID(Integer.parseInt(i.next()));
-				item.setName(i.next());
-				item.setLongDescription(i.next());
-				item.setShortDescription(i.next());
-				item.setItemWeight(Integer.parseInt(i.next()));
-				
-				// Working around the inability of i to handle boolean
-				String checkIfTrue = i.next();
-				if(checkIfTrue.equals("false")) {
-					item.setIsQuestItem(false);
-				} else {
-					item.setIsQuestItem(true);
-				}						
-				
-				itemList.add(item);				
-				object.setItems(itemList);
-				objectList.add(object);
+		
+				objectList.add(extractObject(tuple, i));
 			}
 			return objectList;
 		} finally {
@@ -149,24 +116,8 @@ public class InitialData {
 				if(tuple == null) {
 					break;
 				}
-				Iterator<String> i = tuple.iterator();
-				
-				Item item = new Item();
-				item.setID(Integer.parseInt(i.next()));
-				item.setName(i.next());
-				item.setLongDescription(i.next());
-				item.setShortDescription(i.next());
-				item.setItemWeight(Integer.parseInt(i.next()));
-				
-				// Working around the inability of i to handle boolean
-				String checkIfTrue = i.next();
-				if(checkIfTrue.equals("false")) {
-					item.setIsQuestItem(false);
-				} else {
-					item.setIsQuestItem(true);
-				}
-				
-				itemList.add(item);
+				Iterator<String> i = tuple.iterator();				
+				itemList.add(extractItem(i));
 			}
 			return itemList;
 		} finally {
@@ -220,7 +171,18 @@ public class InitialData {
 				character.set_special_defense(Integer.parseInt(i.next()));
 				character.set_coins(Integer.parseInt(i.next()));
 				character.set_location(Integer.parseInt(i.next()));
-				character.set_inventory(getInventory());
+			
+				
+				// Temp Code
+				ArrayList<Item> itemList = new ArrayList<Item>();
+				itemList.add(extractItem(i));
+				itemList.add(extractItem(i));
+				
+				Inventory inventory = new Inventory();
+				inventory.set_weight(0);
+				inventory.set_items(itemList);
+				
+				character.set_inventory(inventory);
 			}
 			return characterList;
 		} finally {
@@ -242,25 +204,9 @@ public class InitialData {
 				}
 				Iterator<String> i = tuple.iterator();
 				
-				Item item = new Item();
-				item.setID(1);//Integer.parseInt(i.next()));
-				i.next();
-				
-				item.setName(i.next());
-				item.setLongDescription(i.next());
-				item.setShortDescription(i.next());
-				
-				int itemWeight = Integer.parseInt(i.next());
-				item.setItemWeight(itemWeight);
-				inventoryWeight += itemWeight;
-				
-				String checkIfTrue = i.next();
-				if(checkIfTrue.equals("false")) {
-					item.setIsQuestItem(false);
-				} else {
-					item.setIsQuestItem(true);
-				}
-				
+				Item item = extractItem(i);
+
+				inventoryWeight += (int) item.getItemWeight();
 				itemList.add(item);
 			}
 			inventory.set_weight(inventoryWeight);
@@ -292,4 +238,46 @@ public class InitialData {
 			readPlayer.close();
 		}
 	}*/	
+	
+	private static Item extractItem(Iterator<String> i) {		
+		Item item = new Item();
+		
+		item.setID(Integer.parseInt(i.next()));
+		
+		item.setName(i.next());
+		item.setLongDescription(i.next());
+		item.setShortDescription(i.next());
+		
+		item.setItemWeight(Integer.parseInt(i.next()));
+		
+		String checkIfTrue = i.next();
+		if(checkIfTrue.equals("false")) {
+			item.setIsQuestItem(false);
+		} else {
+			item.setIsQuestItem(true);
+		}
+		
+		return item;
+	}
+	
+	private static Object extractObject(List<String> tuple, Iterator<String> i) {
+		Object object = new Object();
+		
+		object.setID(1);//Integer.parseInt(i.next()));
+		i.next();
+		
+		object.setName(i.next());
+		object.setLongDescription(i.next());
+		object.setShortDescription(i.next());
+		
+		ArrayList<Item> itemList = new ArrayList<Item>();
+		while(true) {
+			if(tuple == null) {
+				break;
+			}
+			itemList.add(extractItem(i));
+		}
+		object.setItems(itemList);
+		return object;
+	}
 }

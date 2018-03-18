@@ -21,7 +21,7 @@ public class QueryForInventory {
 			System.out.println("No inventory found");
 		}
 		else {
-			System.out.println(inventory.get_weight());
+			System.out.println("Inventory weight = " + inventory.get_weight() + "\n");
 			for (Item item : inventory.get_items()) {
 				System.out.println("item_id = " + item.getID() + "\n" 
 						+ item.getName() + "\n" + item.getLongDescription() + "\n" 

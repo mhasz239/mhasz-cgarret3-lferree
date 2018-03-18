@@ -44,7 +44,7 @@ public class FakeDatabase implements IDatabase {
 		try {
 //			map = InitialData.getMap();
 //			mapTileList.addAll(InitialData.getMapTiles());
-			//objectList.addAll(InitialData.getObjects());
+			objectList.addAll(InitialData.getObjects());
 			itemList.addAll(InitialData.getItems());
 //			questList.addAll(InitialData.getQuests());
 //			characterList.addAll(InitialData.getCharacters());
@@ -86,5 +86,50 @@ public class FakeDatabase implements IDatabase {
 	
 	public ArrayList<Quest> getAllQuests() {
 		return questList;
+	}
+	
+	
+	
+	public Item getItemByID(int itemID) {
+		for(Item item : itemList) {
+			if(item.getID() == itemID) {
+				return item;
+			}
+		}
+		
+		System.out.println("No items match that ID number");
+		return null;
+	}
+	
+	public Object getObjectByID(int objectID) {
+		for(Object object : objectList) {
+			if(object.getID() == objectID) {
+				return object;
+			}
+		}
+		
+		System.out.println("no objects match that ID number");
+		return null;
+	}
+	
+	public MapTile getMapTileByID(int mapTileID) {
+		for(MapTile mapTile : mapTileList) {
+			if(mapTile.getID() == mapTileID) {
+				return mapTile;
+			}
+		}
+		
+		System.out.println("No mapTiles match that ID number");
+		return null;
+	}
+	
+	public Character getCharacterByName(String characterName) {
+		for(Character character : characterList) {
+			if(character.get_name() == characterName) {
+				return character;
+			}
+		}
+		System.out.println("No character exists by that name");
+		return null;
 	}
 } 
