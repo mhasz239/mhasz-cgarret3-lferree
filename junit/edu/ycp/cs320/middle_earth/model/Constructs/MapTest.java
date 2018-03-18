@@ -16,6 +16,24 @@ public class MapTest{
 	}
 	
 	@Test
+	public void testAddMapTile(){
+		MapTile tile1 = new MapTile();
+		MapTile tile2 = new MapTile();
+		tile2.setName("Derpy");
+		
+		assertEquals(0, map.getMapTiles().size());
+		
+		map.addMapTile(tile1);
+		assertEquals(1, map.getMapTiles().size());
+		assertEquals(tile1, map.getMapTiles().get(0));
+		
+		map.addMapTile(tile2);
+		assertEquals(2, map.getMapTiles().size());
+		assertEquals(tile1, map.getMapTiles().get(0));
+		assertEquals(tile2, map.getMapTiles().get(1));
+	}
+	
+	@Test
 	public void testSetMapTiles(){
 		assertEquals(0, map.getMapTiles().size());
 		

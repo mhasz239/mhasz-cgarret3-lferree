@@ -9,7 +9,8 @@ public class Object extends Construct{
 	
 	// TODO: Figure out how to put location in here???
 	public Object() {
-		
+		items = new ArrayList<Item>();
+		commandResponses = new HashMap<String, String>();
 	}
 	
 	public void setCommandResponses(HashMap<String, String> commandResponses) {
@@ -20,10 +21,12 @@ public class Object extends Construct{
 		return this.commandResponses;
 	}
 	
+	public void addItem(Item item){
+		items.add(item);
+	}
+	
 	public void setItems(ArrayList<Item> items) {
-		for(Item item : items) {
-			this.items.add(item);
-		}
+		this.items = items;
 	}
 	
 	public ArrayList<Item> getItems() {

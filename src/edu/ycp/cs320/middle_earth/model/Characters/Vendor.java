@@ -8,7 +8,7 @@ public class Vendor extends Character{
 	private HashMap<Item, Integer> item_prices;
 	
 	public Vendor(){
-		
+		item_prices = new HashMap<Item, Integer>();
 	};
 	
 	public int get_item_price(Item item){

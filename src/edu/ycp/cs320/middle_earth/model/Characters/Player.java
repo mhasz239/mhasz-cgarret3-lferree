@@ -10,7 +10,7 @@ public class Player extends Character{
 	private ArrayList<Quest> quests;
 	
 	public Player(){
-		
+		quests = new ArrayList<Quest>();
 	};
 	
 	public int get_experience(){
@@ -29,8 +29,12 @@ public class Player extends Character{
 		this.carry_weight = carry_weight;
 	}
 	
-	public void set_quest(Quest quest) {
+	public void add_quest(Quest quest){
 		quests.add(quest);
+	}
+	
+	public void set_quests(ArrayList<Quest> quests) {
+		this.quests = quests;
 	}
 	
 	public ArrayList<Quest> get_quests(){

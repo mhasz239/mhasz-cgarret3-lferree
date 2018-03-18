@@ -13,9 +13,11 @@ public class Map extends Construct{
 		return mapTiles;
 	}
 	
-	public void setMapTiles(ArrayList<MapTile> mapTiles) {
-		for(MapTile mapTile : mapTiles) {
-			this.mapTiles.add(mapTile);
-		}
+	public void addMapTile(MapTile tile){
+		mapTiles.add(tile);
+	}
+	
+	public void setMapTiles(ArrayList<MapTile> mapTiles){
+		this.mapTiles = mapTiles;
 	}
 }

@@ -57,9 +57,9 @@ public class PlayerTest{
 	public void testSet_Quests(){
 		ArrayList<Quest> quests = new ArrayList<Quest>();
 		Quest quest = new Quest();
+		quests.add(quest);
 		
-		// TODO: Player.set_quests needs made and Player.add_quest needs made.
-		//player.set_quests(quests);
+		player.set_quests(quests);
 		
 		assertEquals(1, player.get_quests().size());
 		assertEquals(quest, player.get_quests().get(0));
@@ -71,8 +71,7 @@ public class PlayerTest{
 		Quest quest = new Quest();
 		quests.add(quest);
 		
-		// TODO: Player.set_quests needs made and Player.add_quest needs made.
-		//player.set_quests(quests);
+		player.set_quests(quests);
 		
 		assertEquals(1, player.get_quests().size());
 		assertEquals(quest, player.get_quests().get(0));
@@ -83,9 +82,26 @@ public class PlayerTest{
 		quests2.add(quest1);
 		quests2.add(quest2);
 		
-		// TODO: Player.set_quests needs made and Player.add_quest needs made.
-		//player.set_quests(quests2);
+		player.set_quests(quests2);
 		
+		assertEquals(2, player.get_quests().size());
+		assertEquals(quest1, player.get_quests().get(0));
+		assertEquals(quest2, player.get_quests().get(1));
+	}
+	
+	@Test
+	public void testAdd_Quest(){
+		Quest quest1 = new Quest();
+		Quest quest2 = new Quest();
+		quest2.setRewardCoins(20);
+		
+		assertEquals(0, player.get_quests().size());
+		
+		player.add_quest(quest1);
+		assertEquals(1, player.get_quests().size());
+		assertEquals(quest1, player.get_quests().get(0));
+		
+		player.add_quest(quest2);
 		assertEquals(2, player.get_quests().size());
 		assertEquals(quest1, player.get_quests().get(0));
 		assertEquals(quest2, player.get_quests().get(1));

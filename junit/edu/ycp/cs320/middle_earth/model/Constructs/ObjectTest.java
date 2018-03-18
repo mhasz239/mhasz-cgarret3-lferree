@@ -45,6 +45,25 @@ public class ObjectTest{
 	}
 	
 	@Test
+	public void testAddItem(){
+		Item sword = new Weapon();
+		sword.setName("Sword");
+		Item helmet = new Armor();
+		helmet.setName("Helmet");
+		
+		assertEquals(0, object.getItems().size());
+		
+		object.addItem(sword);
+		assertEquals(1, object.getItems().size());
+		assertEquals(sword, object.getItems().get(0));
+		
+		object.addItem(helmet);
+		assertEquals(2, object.getItems().size());
+		assertEquals(sword, object.getItems().get(0));
+		assertEquals(helmet, object.getItems().get(1));
+	}
+	
+	@Test
 	public void testSetItems(){
 		ArrayList<Item> items = new ArrayList<Item>();
 		Item derp = new Item();
