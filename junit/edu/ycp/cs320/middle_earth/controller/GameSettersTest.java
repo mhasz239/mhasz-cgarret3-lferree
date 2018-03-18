@@ -135,6 +135,6 @@ public class GameSettersTest{
 		
 		game.set_dialog(test_dialog);
 		
-		assertEquals("\nThis is a \npretty simple \n test.", game.get_display_text());
+		assertEquals("This is a ;pretty simple ; test.", game.get_display_text());
 	}
 }

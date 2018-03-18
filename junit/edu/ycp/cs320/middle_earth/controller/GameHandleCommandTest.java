@@ -145,6 +145,19 @@ public class GameHandleCommandTest{
 	}
 	
 	@Test
+	public void testCharacterCommandAlreadyInCharacter(){
+		game.set_mode("character");
+		
+		assertEquals("character", game.get_mode());
+		
+		game.handle_command("character");
+		
+		assertEquals("character", game.get_mode());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("You're already in it!", game.get_dialog().get(0));
+	}
+	
+	@Test
 	public void testBackToGameFromCharacterSheet(){
 		game.set_mode("character");
 		
@@ -162,6 +175,19 @@ public class GameHandleCommandTest{
 		game.handle_command("inventory");
 		
 		assertEquals("inventory", game.get_mode());
+	}
+	
+	@Test
+	public void testCheckInventoryCommandAlreadyInInventory(){
+		game.set_mode("inventory");
+		
+		assertEquals("inventory", game.get_mode());
+		
+		game.handle_command("inventory");
+		
+		assertEquals("inventory", game.get_mode());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("You're already in it!", game.get_dialog().get(0));
 	}
 	
 	@Test
@@ -185,12 +211,39 @@ public class GameHandleCommandTest{
 	}
 	
 	@Test
+	public void testMapCommandAlreadyInMap(){
+		game.set_mode("map");
+		
+		assertEquals("map", game.get_mode());
+		
+		game.handle_command("map");
+		
+		assertEquals("map", game.get_mode());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("You're already in it!", game.get_dialog().get(0));
+	}
+	
+	@Test
 	public void testBackToGameFromMap(){
 		game.set_mode("map");
 		
 		game.handle_command("game");
 		
 		assertEquals("game", game.get_mode());
+	}
+	
+	// Game Command Already in Game
+	@Test
+	public void testGameCommandAlreadyInGame(){
+		game.set_mode("game");
+		
+		assertEquals("game", game.get_mode());
+		
+		game.handle_command("game");
+		
+		assertEquals("game", game.get_mode());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("You're playing it!", game.get_dialog().get(0));
 	}
 	
 	/*
@@ -357,6 +410,7 @@ public class GameHandleCommandTest{
 		assertEquals(0, game.get_items().size());
 		assertEquals(4, player.get_inventory().get_items().size());
 		assertEquals(wood, player.get_inventory().get_items().get(0));
+		// TODO: JUNIT: Check dialog here.
 	}
 	
 	@Test
@@ -372,6 +426,7 @@ public class GameHandleCommandTest{
 		assertEquals(4, player.get_inventory().get_items().size());
 		assertEquals(wood, player.get_inventory().get_items().get(0));
 		throw new UnsupportedOperationException("Cannot set location of wood to do this test yet.");
+		// TODO: JUNIT: Check dialog here
 	}
 	
 	@Test
@@ -388,6 +443,22 @@ public class GameHandleCommandTest{
 		//assertEquals(1, game.get_dialog().size());
 		//assertEquals("", game.get_dialog().get(0));
 		throw new UnsupportedOperationException("Don't know error message yet.");
+	}
+	
+	@Test
+	public void testTakeCommandNotInModeGame(){
+		game.set_mode("inventory");
+		
+		assertEquals(3, player.get_inventory().get_items().size());
+		assertEquals(1, game.get_items().size());
+		assertEquals(wood, game.get_items().get(0));
+		
+		game.handle_command("take wood");
+		
+		assertEquals(1, game.get_items().size());
+		assertEquals(3, player.get_inventory().get_items().size());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
 	}
 	
 	/*

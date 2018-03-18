@@ -106,6 +106,7 @@ public class GamePlayerActionsTest{
 		assertEquals(0, game.get_items().size());
 		assertEquals(4, player.get_inventory().get_items().size());
 		assertEquals(wood, player.get_inventory().get_items().get(0));
+		// TODO: JUNIT: Check dialog
 	}
 	
 	/* 

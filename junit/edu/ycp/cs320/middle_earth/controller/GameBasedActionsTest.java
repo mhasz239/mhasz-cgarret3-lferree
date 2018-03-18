@@ -27,6 +27,17 @@ public class GameBasedActionsTest{
 		assertEquals("character", game.get_mode());
 	}
 	
+	@Test
+	public void testAlreadyInCharacter(){
+		game.set_mode("character");
+		
+		game.check_character_sheet();
+		
+		assertEquals("character", game.get_mode());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("You're already in it!", game.get_dialog().get(0));
+	}
+	
 	/*
 	 * Check Inventory
 	 */
@@ -37,6 +48,17 @@ public class GameBasedActionsTest{
 		assertEquals("inventory", game.get_mode());
 	}
 	
+	@Test
+	public void testAlreadyInInventory(){
+		game.set_mode("inventory");
+		
+		game.check_inventory();
+		
+		assertEquals("inventory", game.get_mode());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("You're already in it!", game.get_dialog().get(0));
+	}
+	
 	/*
 	 * Check Map
 	 */
@@ -45,6 +67,17 @@ public class GameBasedActionsTest{
 		game.check_map();
 		
 		assertEquals("map", game.get_mode());
+	}
+	
+	@Test
+	public void testAlreadyInMap(){
+		game.set_mode("map");
+		
+		game.check_map();
+		
+		assertEquals("map", game.get_mode());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("You're already in it!", game.get_dialog().get(0));
 	}
 	
 	/*
@@ -75,6 +108,17 @@ public class GameBasedActionsTest{
 		game.return_to_game();
 		
 		assertEquals("game", game.get_mode());
+	}
+	
+	@Test
+	public void testAlreadyInGame(){
+		game.set_mode("game");
+		
+		game.return_to_game();
+		
+		assertEquals("game", game.get_mode());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("You're playing it!", game.get_dialog().get(0));
 	}
 	
 	/*
