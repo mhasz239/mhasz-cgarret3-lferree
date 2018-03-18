@@ -7,7 +7,7 @@ import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
 import edu.ycp.cs320.middle_earth.persist.IDatabase;
 import edu.ycp.cs320.middle_earth.persist.InitDatabase;
 
-public class QueryFakeDatabaseForItems {
+public class QueryForItems {
 
 	public static void main(String[] args) throws Exception {
 		
