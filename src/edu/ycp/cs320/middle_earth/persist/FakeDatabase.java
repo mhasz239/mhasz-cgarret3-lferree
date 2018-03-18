@@ -32,8 +32,10 @@ public class FakeDatabase implements IDatabase {
 		mapTileList = new ArrayList<MapTile>();
 		objectList = new ArrayList<Object>();
 		itemList = new ArrayList<Item>();
+		questList = new ArrayList<Quest>();
 		characterList = new ArrayList<Character>();
-		player = new Player();
+		inventory = new Inventory();
+		player = new Player();	
 		
 		readInitialData();
 	}
@@ -42,9 +44,12 @@ public class FakeDatabase implements IDatabase {
 		try {
 //			map = InitialData.getMap();
 //			mapTileList.addAll(InitialData.getMapTiles());
-/*			objectList.addAll(InitialData.getObjects());*/
+			objectList.addAll(InitialData.getObjects());
 			itemList.addAll(InitialData.getItems());
-			//characterList.addAll(InitialData.getCharacters());
+//			questList.addAll(InitialData.getQuests());
+//			characterList.addAll(InitialData.getCharacters());
+			inventory = InitialData.getInventory();
+//			player = InitialData.getPlayer();
 		} catch (IOException e) {
 			throw new IllegalStateException("Couldn't read initial data", e);
 		}

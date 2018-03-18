@@ -25,12 +25,8 @@ public class QueryForMap {
 				System.out.println(mapTile.getID() + "\n" 
 						+ mapTile.getName() + "\n" 
 						+ mapTile.getLongDescription() + "\n" 
-						+ mapTile.getShortDescription() + "\n");
-				for(int i = 0; i < mapTile.getConnections().size(); i++)
-				{
-					System.out.println(mapTile.getConnections().get(i));
-				}
-				
+						+ mapTile.getShortDescription() + "\n"
+						+ mapTile.getConnections() + "\n");				
 			}
 		}
 	}

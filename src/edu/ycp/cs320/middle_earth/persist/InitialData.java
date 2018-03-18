@@ -86,14 +86,13 @@ public class InitialData {
 		}
 	} */
 	
-/*	public static List<Object> getObjects() throws IOException {
+	public static List<Object> getObjects() throws IOException {
 		List<Object> objectList = new ArrayList<Object>();
 
 		ReadCSV readObjects = new ReadCSV("objects.csv");
 
 		try {
 			while (true) {
-				System.out.println("yay");
 				List<String> tuple = readObjects.next();
 				if(tuple == null) {
 					break;
@@ -101,17 +100,45 @@ public class InitialData {
 				Iterator<String> i = tuple.iterator();
 				
 				Object object = new Object();
-				object.setID(Integer.parseInt(i.next()));
+				
+				object.setID(1);//Integer.parseInt(i.next()));
+				i.next();
+				
 				object.setName(i.next());
 				object.setLongDescription(i.next());
 				object.setShortDescription(i.next());
+				
+				
+				
+				
+				
+				
+
+				ArrayList<Item> itemList = new ArrayList<Item>();
+				Item item = new Item();
+				item.setID(Integer.parseInt(i.next()));
+				item.setName(i.next());
+				item.setLongDescription(i.next());
+				item.setShortDescription(i.next());
+				item.setItemWeight(Integer.parseInt(i.next()));
+				
+				// Working around the inability of i to handle boolean
+				String checkIfTrue = i.next();
+				if(checkIfTrue.equals("false")) {
+					item.setIsQuestItem(false);
+				} else {
+					item.setIsQuestItem(true);
+				}						
+				
+				itemList.add(item);				
+				object.setItems(itemList);
 				objectList.add(object);
 			}
 			return objectList;
 		} finally {
 			readObjects.close();
 		}
-	} */
+	} 
 	
 	public static ArrayList<Item> getItems() throws IOException {
 		ArrayList<Item> itemList = new ArrayList<Item>();
@@ -201,25 +228,53 @@ public class InitialData {
 		}
 	} */
 	
-/*	public static Inventory getInventory() throws IOException {
+	public static Inventory getInventory() throws IOException {
 		Inventory inventory = new Inventory();
-		ReadCSV readInventory = new ReadCSV("inventory.cvs");
-		try {
-			List<String> tuple = readInventory.next();
-			Iterator<String> i = tuple.iterator();
-			inventory.set_weight(Integer.parseInt(i.next()));
-			inventory.set_items(getItems());
+		ReadCSV readInventory = new ReadCSV("inventory.csv");
+		try {						
+			int inventoryWeight = 0;
+			ArrayList<Item> itemList = new ArrayList<Item>();
+
+			while (true) {
+				List<String> tuple = readInventory.next();
+				if(tuple == null) {
+					break;
+				}
+				Iterator<String> i = tuple.iterator();
 				
+				Item item = new Item();
+				item.setID(1);//Integer.parseInt(i.next()));
+				i.next();
+				
+				item.setName(i.next());
+				item.setLongDescription(i.next());
+				item.setShortDescription(i.next());
+				
+				int itemWeight = Integer.parseInt(i.next());
+				item.setItemWeight(itemWeight);
+				inventoryWeight += itemWeight;
+				
+				String checkIfTrue = i.next();
+				if(checkIfTrue.equals("false")) {
+					item.setIsQuestItem(false);
+				} else {
+					item.setIsQuestItem(true);
+				}
+				
+				itemList.add(item);
+			}
+			inventory.set_weight(inventoryWeight);
+			inventory.set_items(itemList);
 			return inventory;	
 			
-			} finally {
-				readInventory.close();
+		} finally {
+			readInventory.close();
 		}
-	}*/
+	}
 	
 	/*public static Player getPlayer() throws IOException {
 		Player player = new Player();
-		ReadCSV readPlayer = new ReadCSV("player.cvs");
+		ReadCSV readPlayer = new ReadCSV("player.csv");
 		try {
 			List<String> tuple = readPlayer.next();
 			while(true) {		
@@ -236,6 +291,5 @@ public class InitialData {
 		} finally {
 			readPlayer.close();
 		}
-	}*/
-	
+	}*/	
 }
