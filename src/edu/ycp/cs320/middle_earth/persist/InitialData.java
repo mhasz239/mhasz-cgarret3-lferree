@@ -118,27 +118,33 @@ public class InitialData {
 				object.setName(i.next());
 				object.setLongDescription(i.next());
 				object.setShortDescription(i.next());
-				
-				if(i.hasNext()) {
-					String itemIDString = i.next();
-					
-					if(itemIDString.equals("items")) {
-						ArrayList<Item> itemList = new ArrayList<Item>();
+				HashMap<String, String> commandResponses = new HashMap<String, String>();
+				ArrayList<Item> itemList = new ArrayList<Item>();
+				while(i.hasNext()) {
+					String typeIDString = i.next();
+					if(typeIDString.equals("command")) {
+						String command = i.next();
+						String commandResponse = i.next();
+						commandResponses.put(command, commandResponse);
+					}
+					else if(typeIDString.equals("items")) {
+						String itemIDString;
 						
 						while(i.hasNext()) {
 							itemIDString = i.next();
 							Item item = new Item();
 							
-							System.out.println("item ID: " + item.getID());
+							item.setID(Integer.parseInt(itemIDString));
 							itemList.add(item);	
 						}
 						
-						object.setItems(itemList);
-						
 					}
+					object.setCommandResponses(commandResponses);
+					object.setItems(itemList);;
 				}
 				/*
 				 * Need to add extraction of command responses
+				 * 
 				 */
 			
 				objectList.add(object);

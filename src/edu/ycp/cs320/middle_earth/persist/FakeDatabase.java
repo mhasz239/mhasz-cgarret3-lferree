@@ -76,6 +76,9 @@ public class FakeDatabase implements IDatabase {
 							break;
 						}
 					}
+					for (String key : object.getCommandResponses().keySet()) {
+						object.getCommandResponses().put(key, object.getCommandResponses().get(key) + "You see a " + item.getName());
+					}
 				}
 			}
 		}
