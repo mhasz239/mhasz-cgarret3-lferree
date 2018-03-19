@@ -21,7 +21,7 @@ public class GameServlet extends HttpServlet {
 
         System.out.println("Game Servlet: doGet");
         
-        Game game = new Game();
+        Game game = (Game) req.getSession().getAttribute("game");
         
         
         game.set_mode("game");
@@ -42,17 +42,9 @@ public class GameServlet extends HttpServlet {
 
         System.out.println("Game Servlet: doPost");
         
-        Game game = new Game();
+        Game game = (Game) req.getSession().getAttribute("game");
         game.set_mode("game");
         
-        //Gets the last dialog box from the string, posted to the page, then resort it into an ArrayList<String>
-        String dialog_text = req.getParameter("dialog");
-        if (!dialog_text.isEmpty()) {
-        	String[] dialog_text_array = dialog_text.split(";");
-        	for (int i = 0; i < dialog_text_array.length; i++) {
-        		game.add_dialog(dialog_text_array[i]);
-        	}
-        }
         // holds the error message text, if there is any
         String errorMessage = null;
         String display_text = null;

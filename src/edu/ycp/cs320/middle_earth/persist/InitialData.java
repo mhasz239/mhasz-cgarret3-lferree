@@ -62,14 +62,22 @@ public class InitialData {
 				for (int j = 0; j < 8; j++) {
 					mapTile.setConnection(i.next(), Integer.parseInt(i.next()));
 				}
+				ArrayList<Object> objects = new ArrayList<Object>();
 				
 				if (i.hasNext()) {
-					Object object = new Object();
-					object.setID(Integer.parseInt(i.next()));
-					
-					mapTile.setObject(object);
+					String checker = i.next();
+					if (checker.equals("objects")) {
+						while (i.hasNext()) {
+							Object object = new Object();
+							object.setID(Integer.parseInt(i.next()));
+							objects.add(object);
+					}
 				}
 				
+					
+					
+				}
+				mapTile.setObjects(objects);
 				mapTileList.add(mapTile);
 			}
 			

@@ -40,7 +40,6 @@
         <tr>
             <td class="label">Text Command:</td>
             <td><input type="text" name="command" size="12" value="" /></td>
-            <td><input type="hidden" name="dialog" value="${dialog}" /></td>
         </tr>
     </table>
     <input type="Submit" name="submit" value="Submit">

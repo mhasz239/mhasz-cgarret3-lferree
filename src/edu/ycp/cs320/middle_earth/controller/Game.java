@@ -1,6 +1,7 @@
 package edu.ycp.cs320.middle_earth.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 import edu.ycp.cs320.middle_earth.model.Quest;
@@ -41,10 +42,27 @@ public class Game implements Engine{
 		
 		items = db.getAllItems();
 		map = db.getMap();
+		map.setMapTiles(db.getAllMapTiles());
 		quests = db.getAllQuests();
 		characters = db.getAllCharacters();
 		characters.add(db.getPlayer());
 		objects = db.getAllObjects();
+		for (Object object : objects) {
+			if (!object.getItems().isEmpty()) {
+				for (String key : object.getCommandResponses().keySet()) {
+					String items_list = new String();
+					
+					for (Item item : object.getItems()){
+						if (object.getItems().size() == 1) {
+							items_list = "a " + item.getName();
+						} else {
+							items_list = items_list + "a " + item.getName() + ", ";
+						}
+					}
+					object.getCommandResponses().put(key, object.getCommandResponses().get(key) + "You see " + items_list);
+				}
+			}
+		}
 	}
 	
 	public Game get_game() {
@@ -211,11 +229,16 @@ public class Game implements Engine{
 			} else {
 				
 			}
-		} else if (command.equalsIgnoreCase("climb") && mode_check("game")) {
-			Object climbObject = map.getMapTiles().get(get_player().get_location()).getObject();
-			if (climbObject != null && climbObject.getCommandResponses().containsKey("climb")) {
-				climb(climbObject);
-			} else {
+		} else if (command.equalsIgnoreCase("climb") && mode_check("game") && arg != null) {
+			boolean climbable = false;
+			ArrayList<Object> Objects = map.getMapTiles().get(get_player().get_location()).getObjects();
+			for (Object climbObject : Objects) {
+				if (climbObject != null && climbObject.getCommandResponses().containsKey("climb") && climbObject.getName().toLowerCase().contains(arg)) {
+					climb(climbObject);
+					climbable = true;
+				}
+			}
+			if (!climbable){
 				add_dialog("What exactly are you trying to climb?");
 			}
 		} else if (command.equalsIgnoreCase("look") && mode_check("game")) {
@@ -309,24 +332,28 @@ public class Game implements Engine{
 	
 	@Override
 	public void climb(Object object){
-		dialog.add(object.getCommandResponses().get("climb"));
+		add_dialog(object.getCommandResponses().get("climb"));
 	}
 	
 	@Override
 	public void take(String name){
 		int location = get_player().get_location();
-		if (map.getMapTiles().get(location).getObject() != null) {
-			ArrayList<Item> items = map.getMapTiles().get(location).getObject().getItems();
+		Object holder = new Object();
+		if (map.getMapTiles().get(location).getObjects() != null) {
 			Item lookFor = null;
-			for (Item item : items) {
-				if (item.getName().contains(name)) {
-					lookFor = item;
-					get_player().get_inventory().get_items().add(item);
-					map.getMapTiles().get(location).getObject().removeItem(item);
+			for (Object object : map.getMapTiles().get(location).getObjects()) {
+				ArrayList<Item> items = object.getItems();
+				for (Item item : items) {
+					if (item.getName().toLowerCase().contains(name)) {
+						lookFor = item;
+						holder = object;
+						get_player().get_inventory().get_items().add(item);
+					}
 				}
 			}
 			if (lookFor != null) {
 				add_dialog("You have taken " + lookFor.getName());
+				holder.removeItem(lookFor);
 			} else {
 				add_dialog("You cannot take " + name + " here.");
 			}

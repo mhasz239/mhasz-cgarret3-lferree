@@ -1,12 +1,13 @@
 package edu.ycp.cs320.middle_earth.model.Constructs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 //import edu.ycp.cs320.middle_earth.model.CombatSituation;
 
 public class MapTile extends Construct{
 	private HashMap<String, Integer> connections;
 	//private ArrayList<CombatSituation> random_encounters;
-	private Object object;
+	private ArrayList<Object> objects;
 	
 	public MapTile() {
 		connections = new HashMap<String, Integer>();
@@ -25,12 +26,12 @@ public class MapTile extends Construct{
 		connections.put(direction, weight);
 	}
 	
-	public void setObject(Object object) {
-		this.object = object;
+	public void setObjects(ArrayList<Object> objects) {
+		this.objects = objects;
 	}
 	
-	public Object getObject() {
-		return object;
+	public ArrayList<Object> getObjects() {
+		return objects;
 	}
 	
 	public HashMap<String, Integer> getConnections() {

@@ -22,7 +22,7 @@ public class InventoryServlet extends HttpServlet {
 
         //Load data for the initial call to the inventory jsp
 
-        Game game = new Game();
+        Game game = (Game) req.getSession().getAttribute("game");
 
         game.set_mode("inventory");
         ArrayList<Item> inventory_list =  game.get_player().get_inventory().get_items();
@@ -46,7 +46,7 @@ public class InventoryServlet extends HttpServlet {
         System.out.println("Inventory Servlet: doPost");
 
         
-        Game game = new Game();
+        Game game = (Game) req.getSession().getAttribute("game");
         game.set_mode("inventory");
         // Gets the inventory of the player
         ArrayList<Item> inventory_list =  game.get_player().get_inventory().get_items();
@@ -67,10 +67,10 @@ public class InventoryServlet extends HttpServlet {
         
         
         if (game.get_mode() == "game") {
-        	
-        	game.add_dialog(game.get_mapTile_name());
-        	game.add_dialog(game.get_mapTile_longDescription());
-
+        	ArrayList<String> dialog = new ArrayList<String>();
+        	dialog.add(game.get_mapTile_name());
+        	dialog.add(game.get_mapTile_longDescription());
+        	game.set_dialog(dialog);
         	req.setAttribute("dialog", game.get_dialog());
             
             req.getRequestDispatcher("/_view/game.jsp").forward(req, resp);

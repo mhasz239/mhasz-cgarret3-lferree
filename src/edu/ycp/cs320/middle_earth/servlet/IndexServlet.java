@@ -32,7 +32,8 @@ public class IndexServlet extends HttpServlet {
 		
 		String page = req.getParameter("submit");
 		if(page.equalsIgnoreCase("Start Game")){
-
+			Game game = new Game();
+			req.getSession().setAttribute("game", game);
 			req.getRequestDispatcher("/_view/game.jsp").forward(req, resp);
 		}else{
 			// Shouldn't reach this...

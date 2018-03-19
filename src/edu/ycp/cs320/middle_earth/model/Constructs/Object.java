@@ -26,11 +26,13 @@ public class Object extends Construct{
 	}
 	
 	public void removeItem(Item item) {
+		Item remove = new Item();
 		for (Item check: items) {
 			if (check == item) {
-				items.remove(item);
+				remove = item;
 			}
 		}
+		items.remove(remove);
 	}
 	
 	public void setItems(ArrayList<Item> items) {

@@ -42,9 +42,9 @@ public class FakeDatabase implements IDatabase {
 	public void readInitialData() {
 		try {
 			map = InitialData.getMap();
-			mapTileList.addAll(InitialData.getMapTiles());
-			objectList.addAll(InitialData.getObjects());
 			itemList.addAll(InitialData.getItems());
+			objectList.addAll(InitialData.getObjects());
+			mapTileList.addAll(InitialData.getMapTiles());
 			questList.addAll(InitialData.getQuests());
 			inventoryList.addAll(InitialData.getAllInventories());
 			player = InitialData.getPlayer();
@@ -76,9 +76,6 @@ public class FakeDatabase implements IDatabase {
 							break;
 						}
 					}
-					for (String key : object.getCommandResponses().keySet()) {
-						object.getCommandResponses().put(key, object.getCommandResponses().get(key) + "You see a " + item.getName());
-					}
 				}
 			}
 		}
@@ -87,9 +84,14 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	public ArrayList<MapTile> getAllMapTiles() {
+		//////////////////////////////
+		getAllObjects();
+		getAllItems();
+		//////////////////////////////
+		
 		for (MapTile mapTile :mapTileList) {
-			if (mapTile.getObject() != null) {
-				for (Object object : objectList) {
+			if (mapTile.getObjects() != null) {
+				for (Object object : mapTile.getObjects()) {
 					for (Object listedObject : getAllObjects()) {
 						if (object.getID() == listedObject.getID()) {
 							object.setCommandResponses(listedObject.getCommandResponses());
