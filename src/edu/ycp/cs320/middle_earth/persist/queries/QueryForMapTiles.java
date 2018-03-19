@@ -28,14 +28,14 @@ public class QueryForMapTiles {
 						+ mapTile.getName() + "\n" 
 						+ mapTile.getLongDescription() + "\n" 
 						+ mapTile.getShortDescription() + "\n"
-						+ mapTile.getConnections().get("north") + "\n"
-						+ mapTile.getConnections().get("northeast") + "\n"
-						+ mapTile.getConnections().get("east") + "\n"
-						+ mapTile.getConnections().get("southeast") + "\n"
-						+ mapTile.getConnections().get("south") + "\n"
-						+ mapTile.getConnections().get("southwest") + "\n"
-						+ mapTile.getConnections().get("west") + "\n"
-						+ mapTile.getConnections().get("northwest") + "\n");
+						+ mapTile.getConnections().get("north") + "north\n"
+						+ mapTile.getConnections().get("northeast") + "northwest\n"
+						+ mapTile.getConnections().get("east") + "east\n"
+						+ mapTile.getConnections().get("southeast") + "southeast\n"
+						+ mapTile.getConnections().get("south") + "south\n"
+						+ mapTile.getConnections().get("southwest") + "southwest\n"
+						+ mapTile.getConnections().get("west") + "west\n"
+						+ mapTile.getConnections().get("northwest") + "northwest\n");
 			}
 		}
 	}
