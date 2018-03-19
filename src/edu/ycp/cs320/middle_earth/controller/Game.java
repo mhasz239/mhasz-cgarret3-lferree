@@ -356,23 +356,38 @@ public class Game implements Engine{
 		
 		//Temp Code
 		
-		add_dialog("You moved " + direction);
+		//add_dialog("You moved " + direction);
 		
 		
 		
-		/*	CORRECT CODE
-		 * 
+		
 		Character player = characters.get(0);
 		// direction.toLowerCase since they're stored in lowercase in the MapTile.
 		int moveValue = map.getMapTiles().get(player.get_location()).getMoveValue(direction.toLowerCase());
 		if (moveValue != 0) {
-			player.set_location(player.get_location() + moveValue);
-			add_dialog(map.getMapTiles().get(player.get_location()).getLongDescription());
+			if (player.get_location() == 8 && direction == "west") {
+				boolean key = false;
+				for (Item item : player.get_inventory().get_items()) {
+					if (item.getName() == "Ornate Key") {
+						key = true;
+					}
+				}
+				if (key) {
+					add_dialog("You use the Ornate Key and open the gate.");
+					player.set_location(player.get_location() + moveValue);
+					add_dialog(map.getMapTiles().get(player.get_location()).getLongDescription());
+				} else {
+					add_dialog("You seem to be missing something to be able to go that direction.");
+				}
+			} else {
+				player.set_location(player.get_location() + moveValue);
+				add_dialog(map.getMapTiles().get(player.get_location()).getLongDescription());
+			}
 		} else {
 			add_dialog("You can't go that way");
 		}
 		
-		*/
+		
 	}
 	
 	@Override
