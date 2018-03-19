@@ -25,6 +25,14 @@ public class Object extends Construct{
 		items.add(item);
 	}
 	
+	public void removeItem(Item item) {
+		for (Item check: items) {
+			if (check == item) {
+				items.remove(item);
+			}
+		}
+	}
+	
 	public void setItems(ArrayList<Item> items) {
 		this.items = items;
 	}

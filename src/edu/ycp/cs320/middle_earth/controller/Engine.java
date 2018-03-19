@@ -26,7 +26,7 @@ public interface Engine{
 	
 	public abstract void climb(Object object);
 	
-	public abstract void take(Item item);
+	public abstract void take(String name);
 	
 	public abstract void take(Object object, Item item);
 	

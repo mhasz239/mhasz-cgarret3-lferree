@@ -23,32 +23,11 @@ public class InventoryServlet extends HttpServlet {
         //Load data for the initial call to the inventory jsp
 
         Game game = new Game();
+        game.set_mode("inventory");
+        ArrayList<Item> inventory_list =  game.get_player().get_inventory().get_items();
         
-        //ArrayList<Item> inventory_list =  game.get_player().get_inventory().get_items();
-        
-        //Temp call to statically built face item_list from FakeDatabase
-        ArrayList<Item> inventory_list =  game.get_items();
         
         String inventory_display_list = "";
-        /*
-        ArrayList<Item> inventory_list = new ArrayList<Item>();
-        for (int i = 0; i < 10; i++) {
-        	Item item = new Item();
-        	item.setID(i);
-        	item.setIsQuestItem(false);
-        	item.setItemWeight(5);
-        	if (i < 5) {
-        		item.setLongDescription("This is a poorly made dagger out of wood.\nDont see much use for this\nAttack +1");
-        		item.setShortDescription("A dagger made of wood (+1 atk)");
-        		item.setName("Wood Dagger");
-        	} else {
-        		item.setLongDescription("This is a well made steel dagger.\nYou can do some serious damage with this thing.");
-        		item.setShortDescription("A dagger made of steel (+8 atk)");
-        		item.setName("Steel Dagger");
-        	}
-        	inventory_list.add(item);
-        }
-        */
         
         for (int j = 0; j < inventory_list.size(); j++){
         	inventory_display_list = inventory_display_list + inventory_list.get(j).getName() + ": " + inventory_list.get(j).getShortDescription()+";";
@@ -67,59 +46,35 @@ public class InventoryServlet extends HttpServlet {
         System.out.println("Inventory Servlet: doPost");
 
         Game game = new Game();
+        game.set_mode("inventory");
         
-        //ArrayList<Item> inventory_list =  game.get_player().get_inventory().get_items();
+        // Gets the inventory of the player
+        ArrayList<Item> inventory_list =  game.get_player().get_inventory().get_items();
         
-        //Temp call to statically built face item_list from FakeDatabase
-        ArrayList<Item> inventory_list =  game.get_items();
-        
-        
+        //Inventory is split into two display sections, the inventory list, then the responses to the commands in inventory
         String inventory_display_list = "";
-        String dialog = "";
-        // FAKE ARRAY LIST TO TEST THE DISPLAYS (5 wood daggers, 5 steel daggers)
-        /*
-        ArrayList<Item> inventory_list = new ArrayList<Item>();
-        for (int i = 0; i < 10; i++) {
-        	Item item = new Item();
-        	item.setID(i);
-        	item.setIsQuestItem(false);
-        	item.setItemWeight(5);
-        	if (i < 5) {
-        		item.setLongDescription("This is a poorly made dagger out of wood.\nDont see much use for this\nAttack +1");
-        		item.setShortDescription("A dagger made of wood (+1 atk)");
-        		item.setName("Wood Dagger");
-        	} else {
-        		item.setLongDescription("This is a well made steel dagger.\nYou can do some serious damage with this thing.");
-        		item.setShortDescription("A dagger made of steel (+8 atk)");
-        		item.setName("Steel Dagger");
-        	}
-        	inventory_list.add(item);
-        }
-        */
+        String inventory_dialog = "";
         
         for (int j = 0; j < inventory_list.size(); j++){
         	inventory_display_list = inventory_display_list + inventory_list.get(j).getName() + ": " + inventory_list.get(j).getShortDescription()+";";
         }
-        
-        
-        
-       
-        
-        //Display the string line of the inventory_list_display
-        //System.out.println(inventory_list_display);
-        
-        
-        
+
         String command = req.getParameter("command");
         
-        //System.out.println(inventory_list.size());
-        
-        //Parses the command line and calls appropriate commands or returns default Error String.
-        dialog = game.handle_command(command);
+        //Parses the command line and calls appropriate commands, returns the infomation requested in inventory, or the error messages associated with wrong calls.
+        inventory_dialog = game.handle_command(command);
         
         
         
         if (game.get_mode() == "game") {
+        	
+        	
+        	req.setAttribute("dialog", "Temp Dialog Holder switching from Inventory to Game mode");
+        	
+        	/* Correct Code for when map and player are initialized
+            
+            req.setArrtibute("dialog", game.get_map_longDescription());
+            */
             req.getRequestDispatcher("/_view/game.jsp").forward(req, resp);
         } 
         else if (game.get_mode() == "map") {
@@ -133,9 +88,8 @@ public class InventoryServlet extends HttpServlet {
         	//req.getRequestDispatcher("/_view/character.jsp").forward(req, resp);
         } 
         else {
-        	System.out.println(dialog);
         	req.setAttribute("inventory", inventory_display_list);
-        	req.setAttribute("dialog", dialog);
+        	req.setAttribute("dialog", inventory_dialog);
         	
         	// now call the JSP to render the new page
         	req.getRequestDispatcher("/_view/inventory.jsp").forward(req, resp);

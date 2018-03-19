@@ -22,19 +22,19 @@ public class Game implements Engine{
 	private String mode;
 	
 	public Game(){
-		//Is this how we initiate dialog? I know we call 
-		//Game game = new Game();
-		//in the servlets, so wouldnt that erase the current dialog and write a new one every time?
-		// The model and controller get recreated every time due to how the program is setup (Hake's way, not ours)
-		// So we would have to put the dialog back in here every time as well. (with set_dialog)
-		// The dialog would be passed between every jsp through get and post stuff in the request and response.
+		// dialog and mode are passed back and forth with each servlet/jsp call
 		dialog = new ArrayList<String>();
-		//Was messing with inventoryServlet so set game_mode to always be inventory when it was called
-		mode = "game";
+		mode = new String();
+		
+		//Fake Database is rebuilt each time and populated into the respective fields.
 		DatabaseProvider.setInstance(new FakeDatabase());
 		IDatabase db = DatabaseProvider.getInstance();
-		items = (ArrayList<Item>) db.getAllItems();
-		
+		items = db.getAllItems();
+		map = db.getMap();
+		quests = db.getAllQuests();
+		characters = db.getAllCharacters();
+		characters.add(db.getPlayer());
+		objects = db.getAllObjects();
 	}
 	
 	public String get_mode() {
@@ -104,6 +104,10 @@ public class Game implements Engine{
 	public void set_items(ArrayList<Item> items){
 		this.items = items;
 	}
+	
+	public String get_map_longDescription(){
+		return map.getMapTiles().get(get_player().get_location()).getLongDescription();
+	}
 
 	public String get_display_text(){
 		String display_text = "";
@@ -120,10 +124,7 @@ public class Game implements Engine{
 
 	@Override
 	public String handle_command(String commandStr){
-		// TODO: Remove errorMessage? We talked about just adding it to the dialog I think?
-		//Yes, error message is just what I was using as a string holder to return cause it was already there, so we can name it whatever.
-		// Well I thought that we were going to entirely get rid of a return mesage in handle_command, and just have it 
-		// place any messages into the dialog?
+		// TODO: Implement all the command calls in here
 		String returnMessage = null;
 		String command = "";
 		String arg = null;
@@ -186,7 +187,15 @@ public class Game implements Engine{
 			} else {
 				returnMessage = "Please designate the item # you want to view more details of.";
 			}
-		}else if(!command.equalsIgnoreCase("")){
+		} else if (command == "take" && mode_check("game")) {
+			if (arg != null) {
+				take(arg);
+			} else {
+				
+			}
+		}
+		
+		else if(!command.equalsIgnoreCase("")){
 			// Checking if command isn't empty, since it can't be null -> initialized in here to "";
 			returnMessage = "Sorry, I didn't understand that.";
 		}else{
@@ -275,13 +284,29 @@ public class Game implements Engine{
 	}
 	
 	@Override
-	public void take(Item item){
+	public void take(String name){
+		int location = get_player().get_location();
+		ArrayList<Item> items = map.getMapTiles().get(location).getObject().getItems();
+		Item lookFor = null;
+		for (Item item : items) {
+			if (item.getName().contains(name)) {
+				lookFor = item;
+				get_player().get_inventory().get_items().add(item);
+				map.getMapTiles().get(location).getObject().removeItem(item);
+			}
+		}
+		if (lookFor != null) {
+			add_dialog("You have taken " + lookFor.getName());
+		} else {
+			add_dialog("You cannot take " + name + " here.");
+		}
 		// TODO Implement
 		throw new UnsupportedOperationException("Not implemented yet!");
 	}
 
 	@Override
 	public void take(Object object, Item item){
+		
 		// TODO Implement
 		throw new UnsupportedOperationException("Not implemented yet!");
 	}
@@ -322,6 +347,15 @@ public class Game implements Engine{
 	
 	@Override
 	public void move(String direction){
+		
+		//Temp Code
+		
+		add_dialog("You moved " + direction);
+		
+		
+		
+		/*	CORRECT CODE
+		 * 
 		Character player = characters.get(0);
 		// direction.toLowerCase since they're stored in lowercase in the MapTile.
 		int moveValue = map.getMapTiles().get(player.get_location()).getMoveValue(direction.toLowerCase());
@@ -331,6 +365,8 @@ public class Game implements Engine{
 		} else {
 			add_dialog("You can't go that way");
 		}
+		
+		*/
 	}
 	
 	@Override

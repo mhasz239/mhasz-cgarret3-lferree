@@ -6,6 +6,7 @@ import java.util.HashMap;
 public class MapTile extends Construct{
 	private HashMap<String, Integer> connections;
 	//private ArrayList<CombatSituation> random_encounters;
+	private Object object;
 	
 	public MapTile() {
 		connections = new HashMap<String, Integer>();
@@ -24,6 +25,14 @@ public class MapTile extends Construct{
 		connections.put(direction, weight);
 	}
 	
+	public void setObject(Object object) {
+		this.object = object;
+	}
+	
+	public Object getObject() {
+		return object;
+	}
+	
 	public HashMap<String, Integer> getConnections() {
 		return this.connections;
 	}
@@ -32,4 +41,5 @@ public class MapTile extends Construct{
 	public int getMoveValue(String direction) {
 		return connections.get(direction);
 	}
+	
 }
