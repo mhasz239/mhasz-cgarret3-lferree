@@ -109,6 +109,9 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	public Map getMap() {
+		getAllItems();
+		getAllObjects();
+		getAllMapTiles();
 		for(MapTile mapTile : mapTileList) {
 			map.addMapTile(mapTile);
 		}
