@@ -123,17 +123,18 @@ public class InitialData {
 					String itemIDString = i.next();
 					
 					if(itemIDString.equals("items")) {
-						itemIDString = i.next();
-						
 						ArrayList<Item> itemList = new ArrayList<Item>();
 						
 						while(i.hasNext()) {
+							itemIDString = i.next();
 							Item item = new Item();
-							item.setID(Integer.parseInt(itemIDString));
+							
+							System.out.println("item ID: " + item.getID());
 							itemList.add(item);	
 						}
-
+						
 						object.setItems(itemList);
+						
 					}
 				}
 				/*
