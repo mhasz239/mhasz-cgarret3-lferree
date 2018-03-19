@@ -22,13 +22,14 @@ public class GameServlet extends HttpServlet {
         System.out.println("Game Servlet: doGet");
         Game game = new Game();
         game.set_mode("game");
-        game.add_dialog("Temp Dialog list holder for inital call");
+        
         
         
         /* Correct Code for when map and player are initialized
-        
-        game.add_dialog(game.get_map_longDescription());
         */
+        game.add_dialog(game.get_map().getName());
+        game.add_dialog(game.get_map_longDescription());
+        
         
         req.setAttribute("dialog", game.get_display_text());
         // call JSP to generate empty form

@@ -108,6 +108,10 @@ public class Game implements Engine{
 	public String get_map_longDescription(){
 		return map.getMapTiles().get(get_player().get_location()).getLongDescription();
 	}
+	
+	public String get_map_name(){
+		return map.getMapTiles().get(get_player().get_location()).getName();
+	}
 
 	public String get_display_text(){
 		String display_text = "";
@@ -129,14 +133,16 @@ public class Game implements Engine{
 		String command = "";
 		String arg = null;
 		String[] args = commandStr.split(" ");
+		System.out.println(args.length);
 		if (args.length > 1){
         	command = args[0];
         	arg = args[1];
 		} else if (args.length >  2) {
 			return "Too many arguments in your command";
-        } else {
+        } else if (args.length == 1) {
         	command = commandStr;
         }
+		System.out.println(command);
 		
 		if(command.equalsIgnoreCase("inventory")){
 			check_inventory();
@@ -187,22 +193,22 @@ public class Game implements Engine{
 			} else {
 				returnMessage = "Please designate the item # you want to view more details of.";
 			}
-		} else if (command == "take" && mode_check("game")) {
+		} else if (command.equalsIgnoreCase("take") && mode_check("game")) {
 			if (arg != null) {
 				take(arg);
 			} else {
 				
 			}
-		} else if (command == "climb" && mode_check("game")) {
+		} else if (command.equalsIgnoreCase("climb") && mode_check("game")) {
 			Object climbObject = map.getMapTiles().get(get_player().get_location()).getObject();
-			if (climbObject.getCommandResponses().containsKey("climb")) {
+			if (climbObject != null && climbObject.getCommandResponses().containsKey("climb")) {
 				climb(climbObject);
 			} else {
 				add_dialog("What exactly are you trying to climb?");
 			}
-		}
-		
-		else if(!command.equalsIgnoreCase("")){
+		} else if (command.equalsIgnoreCase("look") && mode_check("game")) {
+			look();
+		} else if(!command.equalsIgnoreCase("")){
 			// Checking if command isn't empty, since it can't be null -> initialized in here to "";
 			returnMessage = "Sorry, I didn't understand that.";
 		}else{
@@ -292,22 +298,25 @@ public class Game implements Engine{
 	@Override
 	public void take(String name){
 		int location = get_player().get_location();
-		ArrayList<Item> items = map.getMapTiles().get(location).getObject().getItems();
-		Item lookFor = null;
-		for (Item item : items) {
-			if (item.getName().contains(name)) {
-				lookFor = item;
-				get_player().get_inventory().get_items().add(item);
-				map.getMapTiles().get(location).getObject().removeItem(item);
+		if (map.getMapTiles().get(location).getObject() != null) {
+			ArrayList<Item> items = map.getMapTiles().get(location).getObject().getItems();
+			Item lookFor = null;
+			for (Item item : items) {
+				if (item.getName().contains(name)) {
+					lookFor = item;
+					get_player().get_inventory().get_items().add(item);
+					map.getMapTiles().get(location).getObject().removeItem(item);
+				}
 			}
-		}
-		if (lookFor != null) {
-			add_dialog("You have taken " + lookFor.getName());
+			if (lookFor != null) {
+				add_dialog("You have taken " + lookFor.getName());
+			} else {
+				add_dialog("You cannot take " + name + " here.");
+			}
 		} else {
-			add_dialog("You cannot take " + name + " here.");
+			add_dialog("There is nothing to take here.");
 		}
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
+		
 	}
 
 	@Override
@@ -319,8 +328,8 @@ public class Game implements Engine{
 	
 	@Override
 	public void look(){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
+		add_dialog(get_map_name());
+    	add_dialog(get_map_longDescription());
 	}
 	
 	@Override

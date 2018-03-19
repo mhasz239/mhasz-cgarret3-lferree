@@ -68,13 +68,11 @@ public class InventoryServlet extends HttpServlet {
         
         if (game.get_mode() == "game") {
         	
+        	game.add_dialog(game.get_map_name());
+        	game.add_dialog(game.get_map_longDescription());
         	
-        	req.setAttribute("dialog", "Temp Dialog Holder switching from Inventory to Game mode");
-        	
-        	/* Correct Code for when map and player are initialized
+        	req.setAttribute("dialog", game.get_dialog());
             
-            req.setArrtibute("dialog", game.get_map_longDescription());
-            */
             req.getRequestDispatcher("/_view/game.jsp").forward(req, resp);
         } 
         else if (game.get_mode() == "map") {
