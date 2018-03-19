@@ -42,7 +42,7 @@ public class Game implements Engine{
 		
 		items = db.getAllItems();
 		map = db.getMap();
-		map.setMapTiles(db.getAllMapTiles());
+		//map.setMapTiles(db.getAllMapTiles());
 		quests = db.getAllQuests();
 		characters = db.getAllCharacters();
 		characters.add(db.getPlayer());
@@ -243,7 +243,7 @@ public class Game implements Engine{
 			}
 		} else if (command.equalsIgnoreCase("look") && mode_check("game")) {
 			look();
-		} else if (command.equalsIgnoreCase("attack") && mode_check("game") && get_player().get_location() == 9) {
+		} else if (command.equalsIgnoreCase("attack") && mode_check("game") && get_player().get_location() == 7) {
 			add_dialog("You take the pointy stick and throw it at the troll.;It manages to poke him in the eye and knock him off balance.;"
 					+"As he falls he drops his sword, you quickly spring into action.;You grab his sword off the ground and lay waste to the foul beast.;"
 					+"!!!CONGRATULATIONS!!! You have conqured this small land and laid waste the the evil plauging it.");

@@ -41,12 +41,12 @@ public class FakeDatabase implements IDatabase {
 	
 	public void readInitialData() {
 		try {
-			map = InitialData.getMap();
 			itemList.addAll(InitialData.getItems());
+			inventoryList.addAll(InitialData.getAllInventories());
 			objectList.addAll(InitialData.getObjects());
 			mapTileList.addAll(InitialData.getMapTiles());
+			map = InitialData.getMap();
 			questList.addAll(InitialData.getQuests());
-			inventoryList.addAll(InitialData.getAllInventories());
 			player = InitialData.getPlayer();
 		} catch (IOException e) {
 			throw new IllegalStateException("Couldn't read initial data", e);
@@ -59,9 +59,6 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	public ArrayList<Object> getAllObjects() {
-		//////////////////////////////
-		getAllItems();
-		//////////////////////////////
 		
 		for(Object object : objectList) {
 			if(object.getItems() != null) {
@@ -84,10 +81,6 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	public ArrayList<MapTile> getAllMapTiles() {
-		//////////////////////////////
-		getAllObjects();
-		getAllItems();
-		//////////////////////////////
 		
 		for (MapTile mapTile :mapTileList) {
 			if (mapTile.getObjects() != null) {
@@ -123,9 +116,6 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	public Player getPlayer() {
-		//////////////////////////////
-		getAllInventories();
-		/////////////////////////////
 		
 		for(Inventory inventory : inventoryList) {
 			if(inventory.get_inventory_id() == player.get_inventory_id()) {
