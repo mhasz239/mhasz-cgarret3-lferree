@@ -32,6 +32,9 @@
 </ol>
 </div>
 
+<div>
+<p>${map}</p>
+</div>
 <form action="${pageContext.servletContext.contextPath}/game" method="post">
     <table>
         <tr>

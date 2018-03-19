@@ -27,12 +27,15 @@ public class QueryForMapTiles {
 				System.out.println("MapTile ID = " + mapTile.getID() + "\n" 
 						+ mapTile.getName() + "\n" 
 						+ mapTile.getLongDescription() + "\n" 
-						+ mapTile.getShortDescription() + "\n");
-				for(int i = 0; i < mapTile.getConnections().size(); i++)
-				{
-					System.out.println(mapTile.getConnections().get(i));
-				}
-				System.out.println("\n");
+						+ mapTile.getShortDescription() + "\n"
+						+ mapTile.getConnections().get("north") + "\n"
+						+ mapTile.getConnections().get("northeast") + "\n"
+						+ mapTile.getConnections().get("east") + "\n"
+						+ mapTile.getConnections().get("southeast") + "\n"
+						+ mapTile.getConnections().get("south") + "\n"
+						+ mapTile.getConnections().get("southwest") + "\n"
+						+ mapTile.getConnections().get("west") + "\n"
+						+ mapTile.getConnections().get("northwest") + "\n");
 			}
 		}
 	}

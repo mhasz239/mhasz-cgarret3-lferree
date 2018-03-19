@@ -23,6 +23,7 @@ public class InventoryServlet extends HttpServlet {
         //Load data for the initial call to the inventory jsp
 
         Game game = new Game();
+
         game.set_mode("inventory");
         ArrayList<Item> inventory_list =  game.get_player().get_inventory().get_items();
         
@@ -32,9 +33,8 @@ public class InventoryServlet extends HttpServlet {
         for (int j = 0; j < inventory_list.size(); j++){
         	inventory_display_list = inventory_display_list + inventory_list.get(j).getName() + ": " + inventory_list.get(j).getShortDescription()+";";
         }
-       
+
         req.setAttribute("inventory", inventory_display_list);
-        
         // call JSP to generate the inventory page
         req.getRequestDispatcher("/_view/inventory.jsp").forward(req, resp);
     }
@@ -45,9 +45,9 @@ public class InventoryServlet extends HttpServlet {
 
         System.out.println("Inventory Servlet: doPost");
 
+        
         Game game = new Game();
         game.set_mode("inventory");
-        
         // Gets the inventory of the player
         ArrayList<Item> inventory_list =  game.get_player().get_inventory().get_items();
         
@@ -70,7 +70,7 @@ public class InventoryServlet extends HttpServlet {
         	
         	game.add_dialog(game.get_mapTile_name());
         	game.add_dialog(game.get_mapTile_longDescription());
-        	
+
         	req.setAttribute("dialog", game.get_dialog());
             
             req.getRequestDispatcher("/_view/game.jsp").forward(req, resp);
@@ -87,8 +87,7 @@ public class InventoryServlet extends HttpServlet {
         } 
         else {
         	req.setAttribute("inventory", inventory_display_list);
-        	req.setAttribute("dialog", inventory_dialog);
-        	
+        	req.setAttribute("inventory_dialog", inventory_dialog);
         	// now call the JSP to render the new page
         	req.getRequestDispatcher("/_view/inventory.jsp").forward(req, resp);
         }

@@ -30,10 +30,10 @@
 <li><c:out value = "${item}"/></li>
 </c:forTokens>
 </ol>
-<c:if test="${! empty dialog}">
+<c:if test="${! empty inventory_dialog}">
 </br>
 <ul style="list-style-type:none">
-<c:forTokens items = "${dialog}" delims = ";" var = "num_item" >
+<c:forTokens items = "${inventory_dialog}" delims = ";" var = "num_item" >
 <li><c:out value = "${num_item}"/></li>
 </c:forTokens>
 </ul>

@@ -26,9 +26,19 @@ public class Game implements Engine{
 		dialog = new ArrayList<String>();
 		mode = new String();
 		
+		//####################################################
+		/* This does not work for us, because it resets the database everytime a new page is called
+		 * this means that we reset the location of the player, reset his inventory, reset the entire
+		 * game everytime that we refresh the page.
+		 * I cannot for the life of me figure out how to get the database to only initialize once.
+		 * Does it have to be intialized elsewhere? and passed in?
+		 */
+		
 		//Fake Database is rebuilt each time and populated into the respective fields.
 		DatabaseProvider.setInstance(new FakeDatabase());
 		IDatabase db = DatabaseProvider.getInstance();
+		//######################################################
+		
 		items = db.getAllItems();
 		map = db.getMap();
 		quests = db.getAllQuests();
@@ -36,7 +46,7 @@ public class Game implements Engine{
 		characters.add(db.getPlayer());
 		objects = db.getAllObjects();
 	}
-	
+
 	public String get_mode() {
 		return this.mode;
 	}
@@ -133,7 +143,6 @@ public class Game implements Engine{
 		String command = "";
 		String arg = null;
 		String[] args = commandStr.split(" ");
-		System.out.println(args.length);
 		if (args.length > 1){
         	command = args[0];
         	arg = args[1];
@@ -142,7 +151,6 @@ public class Game implements Engine{
         } else if (args.length == 1) {
         	command = commandStr;
         }
-		System.out.println(command);
 		
 		if(command.equalsIgnoreCase("inventory")){
 			check_inventory();
@@ -208,7 +216,12 @@ public class Game implements Engine{
 			}
 		} else if (command.equalsIgnoreCase("look") && mode_check("game")) {
 			look();
-		} else if(!command.equalsIgnoreCase("")){
+		} else if (command.equalsIgnoreCase("attack") && mode_check("game") && get_player().get_location() == 9) {
+			add_dialog("You take the pointy stick and throw it at the troll.;It manages to poke him in the eye and knock him off balance.;"
+					+"As he falls he drops his sword, you quickly spring into action.;You grab his sword off the ground and lay waste to the foul beast.;"
+					+"!!!CONGRATULATIONS!!! You have conqured this small land and laid waste the the evil plauging it.");
+		}
+		else if(!command.equalsIgnoreCase("")){
 			// Checking if command isn't empty, since it can't be null -> initialized in here to "";
 			returnMessage = "Sorry, I didn't understand that.";
 		}else{
@@ -390,6 +403,7 @@ public class Game implements Engine{
 				}
 			} else {
 				player.set_location(player.get_location() + moveValue);
+				add_dialog(map.getMapTiles().get(player.get_location()).getName());
 				add_dialog(map.getMapTiles().get(player.get_location()).getLongDescription());
 			}
 		} else {

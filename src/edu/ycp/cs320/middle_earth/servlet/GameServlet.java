@@ -20,16 +20,17 @@ public class GameServlet extends HttpServlet {
             throws ServletException, IOException {
 
         System.out.println("Game Servlet: doGet");
+        
         Game game = new Game();
+        
+        
         game.set_mode("game");
-        
-        
         
         
         game.add_dialog(game.get_mapTile_name());
         game.add_dialog(game.get_mapTile_longDescription());
         
-        
+
         req.setAttribute("dialog", game.get_display_text());
         // call JSP to generate empty form
         req.getRequestDispatcher("/_view/game.jsp").forward(req, resp);
@@ -40,15 +41,17 @@ public class GameServlet extends HttpServlet {
             throws ServletException, IOException {
 
         System.out.println("Game Servlet: doPost");
-
+        
         Game game = new Game();
         game.set_mode("game");
         
         //Gets the last dialog box from the string, posted to the page, then resort it into an ArrayList<String>
         String dialog_text = req.getParameter("dialog");
-        String[] dialog_text_array = dialog_text.split(";");
-        for (int i = 0; i < dialog_text_array.length; i++) {
-        	game.add_dialog(dialog_text_array[i]);
+        if (!dialog_text.isEmpty()) {
+        	String[] dialog_text_array = dialog_text.split(";");
+        	for (int i = 0; i < dialog_text_array.length; i++) {
+        		game.add_dialog(dialog_text_array[i]);
+        	}
         }
         // holds the error message text, if there is any
         String errorMessage = null;
@@ -63,13 +66,15 @@ public class GameServlet extends HttpServlet {
         
         if (game.get_mode() == "inventory") {
         	
-        	ArrayList<Item> inventory_list =  game.get_items();
+        	ArrayList<Item> inventory_list =  game.get_player().get_inventory().get_items();
             
             String inventory_display_list = "";
         	for (int j = 0; j < inventory_list.size(); j++){
             	inventory_display_list = inventory_display_list + inventory_list.get(j).getName() + ": " + inventory_list.get(j).getShortDescription()+";";
             }
+        	
         	req.setAttribute("inventory", inventory_display_list);
+        	
             req.getRequestDispatcher("/_view/inventory.jsp").forward(req, resp);
         } 
         else if (game.get_mode() == "map") {

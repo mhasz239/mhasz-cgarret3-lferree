@@ -84,6 +84,22 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	public ArrayList<MapTile> getAllMapTiles() {
+		for (MapTile mapTile :mapTileList) {
+			if (mapTile.getObject() != null) {
+				for (Object object : objectList) {
+					for (Object listedObject : getAllObjects()) {
+						if (object.getID() == listedObject.getID()) {
+							object.setCommandResponses(listedObject.getCommandResponses());
+							object.setItems(listedObject.getItems());
+							object.setLongDescription(listedObject.getLongDescription());
+							object.setName(listedObject.getName());
+							object.setShortDescription(listedObject.getShortDescription());
+							break;
+						}
+					}
+				}
+			}
+		}
 		return mapTileList;
 	}
 	

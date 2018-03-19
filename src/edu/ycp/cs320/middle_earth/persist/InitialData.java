@@ -59,8 +59,15 @@ public class InitialData {
 				mapTile.setLongDescription(i.next());
 				mapTile.setShortDescription(i.next());
 				
-				while(i.hasNext()) {
+				for (int j = 0; j < 8; j++) {
 					mapTile.setConnection(i.next(), Integer.parseInt(i.next()));
+				}
+				
+				if (i.hasNext()) {
+					Object object = new Object();
+					object.setID(Integer.parseInt(i.next()));
+					
+					mapTile.setObject(object);
 				}
 				
 				mapTileList.add(mapTile);
