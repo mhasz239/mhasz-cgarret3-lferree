@@ -25,10 +25,9 @@ public class GameServlet extends HttpServlet {
         
         
         
-        /* Correct Code for when map and player are initialized
-        */
-        game.add_dialog(game.get_map().getName());
-        game.add_dialog(game.get_map_longDescription());
+        
+        game.add_dialog(game.get_mapTile_name());
+        game.add_dialog(game.get_mapTile_longDescription());
         
         
         req.setAttribute("dialog", game.get_display_text());

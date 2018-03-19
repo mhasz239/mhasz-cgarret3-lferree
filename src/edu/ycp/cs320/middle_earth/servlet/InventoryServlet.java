@@ -68,8 +68,8 @@ public class InventoryServlet extends HttpServlet {
         
         if (game.get_mode() == "game") {
         	
-        	game.add_dialog(game.get_map_name());
-        	game.add_dialog(game.get_map_longDescription());
+        	game.add_dialog(game.get_mapTile_name());
+        	game.add_dialog(game.get_mapTile_longDescription());
         	
         	req.setAttribute("dialog", game.get_dialog());
             

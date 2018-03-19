@@ -105,11 +105,11 @@ public class Game implements Engine{
 		this.items = items;
 	}
 	
-	public String get_map_longDescription(){
+	public String get_mapTile_longDescription(){
 		return map.getMapTiles().get(get_player().get_location()).getLongDescription();
 	}
 	
-	public String get_map_name(){
+	public String get_mapTile_name(){
 		return map.getMapTiles().get(get_player().get_location()).getName();
 	}
 
@@ -328,8 +328,8 @@ public class Game implements Engine{
 	
 	@Override
 	public void look(){
-		add_dialog(get_map_name());
-    	add_dialog(get_map_longDescription());
+		add_dialog(get_mapTile_name());
+    	add_dialog(get_mapTile_longDescription());
 	}
 	
 	@Override
