@@ -1,1 +1,9 @@
-"0|Forest|It's not as densly wooded here as other parts of the forest.  The sun shines through the treetops.  Enjoy this moment, your journey takes you to much harsher landscapes|A small campfire burned here through the night|"
+"Forest|It's not as densly wooded here as other parts of the forest.  The sun shines through the treetops.  Enjoy this moment, your journey takes you to much harsher landscapes|A small campfire burned here through the night|"
+"Forest|It's not as densly wooded here as other parts of the forest.  The sun shines through the treetops.  Enjoy this moment, your journey takes you to much harsher landscapes|The forest is slightly denser here."
+"Edge of Forest|As you move out of the forest, you begin to feel the pressures of the journey ahead|The northeast edge of the deep forest"
+"Edge of Forest|As you move out of the forest, you begin to feel the pressures of the journey ahead|The northwest edge of the deep forest"
+Plains|The serene plains just north of the forest.  A blustery wind greets you with the seeming intent of slowing your journey|You feel exposed now that you have left the forest
+Plains|The serene plains just north of the forest.  A blustery wind greets you with the seeming intent of slowing your journey|You feel exposed now that you have left the forest
+Plains|The serene plains just north of the forest.  A blustery wind greets you with the seeming intent of slowing your journey|You feel exposed now that you have left the forest
+Cave Entrance|A great gate stands before you.  It is white as bone and stands high over your head.  There is a hole in which a key may fit.|A gated entrance to a cave
+Cave Entrance|<Battle Script>|<You’ve engaged in battle with a troll>

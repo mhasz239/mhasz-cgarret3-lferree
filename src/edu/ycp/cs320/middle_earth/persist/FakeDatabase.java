@@ -7,7 +7,6 @@ import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import edu.ycp.cs320.middle_earth.persist.InitialData;
 import edu.ycp.cs320.middle_earth.model.Quest;
@@ -28,8 +27,8 @@ public class FakeDatabase implements IDatabase {
 	private Player player;	
 	
 	public FakeDatabase() {
-//		map = new Map();
-//		mapTileList = new ArrayList<MapTile>();
+		map = new Map();
+		mapTileList = new ArrayList<MapTile>();
 		objectList = new ArrayList<Object>();
 		itemList = new ArrayList<Item>();
 		questList = new ArrayList<Quest>();
@@ -44,7 +43,7 @@ public class FakeDatabase implements IDatabase {
 		try {
 			map = InitialData.getMap();
 			mapTileList.addAll(InitialData.getMapTiles());
-			objectList.addAll(InitialData.getObjects());
+//			objectList.addAll(InitialData.getObjects());
 			itemList.addAll(InitialData.getItems());
 			questList.addAll(InitialData.getQuests());
 			inventoryList.addAll(InitialData.getAllInventories());
@@ -63,6 +62,7 @@ public class FakeDatabase implements IDatabase {
 		//////////////////////////////
 		getAllItems();
 		//////////////////////////////
+		
 		for(Object object : objectList) {
 			if(object.getItems() != null) {
 				for(Item item : object.getItems()) {

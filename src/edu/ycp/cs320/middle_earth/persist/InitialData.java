@@ -2,7 +2,6 @@ package edu.ycp.cs320.middle_earth.persist;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 import edu.ycp.cs320.middle_earth.model.Constructs.Map;
 import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
 import edu.ycp.cs320.middle_earth.model.Quest;
-import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.Inventory;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
 
@@ -43,6 +41,7 @@ public class InitialData {
 		ArrayList<MapTile> mapTileList = new ArrayList<MapTile>();
 		ReadCSV readMapTiles = new ReadCSV("mapTiles.csv");
 		try {
+			int mapTileID = 1;
 			while (true) {
 				List<String> tuple = readMapTiles.next();
 				if(tuple == null) {
@@ -51,7 +50,7 @@ public class InitialData {
 				Iterator<String> i = tuple.iterator();
 				
 				MapTile mapTile = new MapTile();
-				mapTile.setID(Integer.parseInt(i.next()));
+				mapTile.setID(mapTileID++);
 				mapTile.setName(i.next());
 				mapTile.setLongDescription(i.next());
 				mapTile.setShortDescription(i.next());
@@ -277,17 +276,4 @@ public class InitialData {
 			}
 		return item;
 	}
-	
-/*	private static Object extractObject(List<String> tuple, Iterator<String> i) {
-		Object object = new Object();
-		
-		object.setID(1);//Integer.parseInt(i.next()));
-		i.next();
-		
-		object.setName(i.next());
-		object.setLongDescription(i.next());
-		object.setShortDescription(i.next());
-		
-		return object;
-	}*/
 }
