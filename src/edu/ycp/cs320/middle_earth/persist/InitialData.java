@@ -2,6 +2,7 @@ package edu.ycp.cs320.middle_earth.persist;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -39,6 +40,10 @@ public class InitialData {
 	
 	public static ArrayList<MapTile> getMapTiles() throws IOException {
 		ArrayList<MapTile> mapTileList = new ArrayList<MapTile>();
+		// Null element for indexing of the array
+		MapTile nullMapTile = new MapTile();
+		mapTileList.add(nullMapTile);
+		
 		ReadCSV readMapTiles = new ReadCSV("mapTiles.csv");
 		try {
 			int mapTileID = 1;
@@ -48,26 +53,27 @@ public class InitialData {
 					break;
 				}
 				Iterator<String> i = tuple.iterator();
-				
 				MapTile mapTile = new MapTile();
 				mapTile.setID(mapTileID++);
 				mapTile.setName(i.next());
 				mapTile.setLongDescription(i.next());
 				mapTile.setShortDescription(i.next());
+				
+				while(i.hasNext()) {
+					mapTile.setConnection(i.next(), Integer.parseInt(i.next()));
+				}
+				
 				mapTileList.add(mapTile);
-				// mapTile.setConnections(
 			}
+			
 			return mapTileList;
 		} finally {
 			readMapTiles.close();
 		}
 	}
 	
-	/*			Unsure how to bind the connections
-	
-	public static ArrayList<HashMap<String, MapTile>> getConnections() throws IOException {
+/*	public static ArrayList<HashMap<String, MapTile>> getMapTileConnections(mapTileList) throws IOException {
 		ArrayList<HashMap<String, MapTile>> connectionList = new ArrayList<HashMap<String, MapTile>>();
-		ReadCSV readConnections = new ReadCSV("mapTileConnections.csv");
 		try {
 			while (true) {
 				List<String> tuple = readConnections.next();

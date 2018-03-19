@@ -24,7 +24,7 @@ public class QueryForMapTiles {
 		}
 		else {
 			for (MapTile mapTile : mapTileList) {
-				System.out.println(mapTile.getID() + "\n" 
+				System.out.println("MapTile ID = " + mapTile.getID() + "\n" 
 						+ mapTile.getName() + "\n" 
 						+ mapTile.getLongDescription() + "\n" 
 						+ mapTile.getShortDescription() + "\n");
@@ -32,6 +32,7 @@ public class QueryForMapTiles {
 				{
 					System.out.println(mapTile.getConnections().get(i));
 				}
+				System.out.println("\n");
 			}
 		}
 	}
