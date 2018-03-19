@@ -176,7 +176,7 @@ public class Game implements Engine{
 				try {
 					int Item_num = Integer.parseInt(arg);
 					//if (get_player().get_inventory().get_items().size() < Item_num || Item_num < 1 ) {
-					if (items.size() < Item_num || Item_num < 1 ) {
+					if (get_player().get_inventory().get_items().size() < Item_num || Item_num < 1 ) {
 						returnMessage = "Sorry you dont have an item at that index";
 					} else  {
 						returnMessage = item_details(Item_num-1);
@@ -192,6 +192,13 @@ public class Game implements Engine{
 				take(arg);
 			} else {
 				
+			}
+		} else if (command == "climb" && mode_check("game")) {
+			Object climbObject = map.getMapTiles().get(get_player().get_location()).getObject();
+			if (climbObject.getCommandResponses().containsKey("climb")) {
+				climb(climbObject);
+			} else {
+				add_dialog("What exactly are you trying to climb?");
 			}
 		}
 		
@@ -279,8 +286,7 @@ public class Game implements Engine{
 	
 	@Override
 	public void climb(Object object){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
+		dialog.add(object.getCommandResponses().get("climb"));
 	}
 	
 	@Override
