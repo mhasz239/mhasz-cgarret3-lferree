@@ -42,7 +42,7 @@ public class GamePlayerActionsTest{
 		ladder = new Object();
 		ladder.setName("Ladder");
 		HashMap<String, String> responses2 = new HashMap<String, String>();
-		responses.put("climb", "It's not so high up here...");
+		responses2.put("climb", "It's not so high up here...");
 		ladder.setCommandResponses(responses2);
 		//TODO: JUNIT: Set Ladder location to 1 (northOfStarting MapTile).
 		
@@ -89,7 +89,7 @@ public class GamePlayerActionsTest{
 		game.climb(ladder);
 		
 		assertEquals(1, game.get_dialog().size());
-		assertEquals(tree.getCommandResponses().get("climb"), game.get_dialog().get(0));
+		assertEquals(ladder.getCommandResponses().get("climb"), game.get_dialog().get(0));
 	}
 	
 	/*
@@ -101,7 +101,7 @@ public class GamePlayerActionsTest{
 		assertEquals(1, game.get_items().size());
 		assertEquals(wood, game.get_items().get(0));
 		
-		game.take(wood);
+		game.take(wood.getName());
 		
 		assertEquals(0, game.get_items().size());
 		assertEquals(4, player.get_inventory().get_items().size());
