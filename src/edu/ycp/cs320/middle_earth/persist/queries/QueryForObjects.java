@@ -2,6 +2,7 @@ package edu.ycp.cs320.middle_earth.persist.queries;
 
 import java.util.List;
 
+import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
 import edu.ycp.cs320.middle_earth.persist.IDatabase;
@@ -28,6 +29,16 @@ public class QueryForObjects {
 						+ object.getLongDescription() + "\n" 
 						+ object.getShortDescription() + "\n" 
 						+ object.getCommandResponses() + "\n");
+				if(object.getItems().isEmpty()) {
+					System.out.println("No items");
+				} else {
+					for(Item item : object.getItems()) {
+						System.out.println("item_id = " + item.getID() + "\n" 
+								+ item.getName() + "\n" + item.getLongDescription() + "\n" 
+								+ item.getShortDescription() + "\nitem weight = " + item.getItemWeight() 
+								+ "\nIs a quest item? " + item.getIsQuestItem() + "\n");
+					}
+				}
 			}
 		}
 	}

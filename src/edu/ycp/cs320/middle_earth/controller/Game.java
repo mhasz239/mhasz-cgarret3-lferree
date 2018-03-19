@@ -46,6 +46,10 @@ public class Game implements Engine{
 		characters.add(db.getPlayer());
 		objects = db.getAllObjects();
 	}
+	
+	public Game get_game() {
+		return this;
+	}
 
 	public String get_mode() {
 		return this.mode;
