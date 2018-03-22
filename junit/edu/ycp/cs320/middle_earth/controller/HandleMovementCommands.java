@@ -28,8 +28,8 @@ public class HandleMovementCommands{
 	private MapTile southWestOfStarting;
 	private MapTile westOfStarting;
 	private MapTile northWestOfStarting;
-	private String invalidDirection;
-	private String invalidMode;
+	private static String invalidDirection = "You can't go that way";
+	private static String invalidMode = "You can't use that command here.";
 	
 	@Before
 	public void setup(){
@@ -82,9 +82,6 @@ public class HandleMovementCommands{
 		starting.setConnection("west", 7);
 		starting.setConnection("northwest", 8);
 		
-		invalidDirection = "You can't go that way";
-		invalidMode = "You can't use that command here.";
-		
 		// Add tiles to Map
 		map = new Map();
 		ArrayList<MapTile> tiles = new ArrayList<MapTile>();
@@ -102,36 +99,63 @@ public class HandleMovementCommands{
 		game.set_map(map);
 	}
 	
+	/**
+	 * This method is to be used by any class that checks movement commands that they have worked correctly.
+	 */
+	public static void checkValidMoveUpdates(Game game, MapTile destination){
+		assertEquals(destination.getID(), game.get_player().get_location());
+		
+		assertEquals(2, game.get_dialog().size());
+		assertEquals(destination.getName(), game.get_dialog().get(0));
+		assertEquals(destination.getLongDescription(), game.get_dialog().get(1));
+	}
+	
+	/**
+	 * This method is to be used by any class that checks movement commands when an invalid direction.
+	 */
+	public static void checkInvalidMoveUpdates(Game game, MapTile original){
+		assertEquals(original.getID(), game.get_player().get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidDirection, game.get_dialog().get(0));
+	}
+	
+	/**
+	 * This method is to be used by any class that checks movement commands when not in mode = Game.
+	 */
+	public static void checkNotInModeGame(Game game, MapTile original){
+		assertEquals(original.getID(), game.get_player().get_location());
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(invalidMode, game.get_dialog().get(0));
+	}
+	
 	/*
 	 * North Command Working
 	 */
 	@Test
 	public void testNCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("n");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
+		checkValidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
 	public void testNorthCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("north");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
+		checkValidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
 	public void testMoveNorthCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("move north");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(northOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, northOfStarting);
 	}
 	
 	/*
@@ -139,35 +163,29 @@ public class HandleMovementCommands{
 	 */
 	@Test
 	public void testNECommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("ne");
 		
-		assertEquals(2, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(northEastOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, northEastOfStarting);
 	}
 	
 	@Test
 	public void testNorthEastCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("northeast");
 		
-		assertEquals(2, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(northEastOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, northEastOfStarting);
 	}
 	
 	@Test
 	public void testMoveNorthEastCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("move northeast");
 		
-		assertEquals(2, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(northEastOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, northEastOfStarting);
 	}
 	
 	/*
@@ -175,35 +193,29 @@ public class HandleMovementCommands{
 	 */
 	@Test
 	public void testECommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("e");
 		
-		assertEquals(3, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(eastOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, eastOfStarting);
 	}
 	
 	@Test
 	public void testEastCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("east");
 		
-		assertEquals(3, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(eastOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, eastOfStarting);
 	}
 	
 	@Test
 	public void testMoveEastCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("move east");
 		
-		assertEquals(3, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(eastOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, eastOfStarting);
 	}
 	
 	/*
@@ -211,35 +223,29 @@ public class HandleMovementCommands{
 	 */
 	@Test
 	public void testSECommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("se");
 		
-		assertEquals(4, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(southEastOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, southEastOfStarting);
 	}
 	
 	@Test
 	public void testSouthEastCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("southeast");
 		
-		assertEquals(4, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(southEastOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, southEastOfStarting);
 	}
 	
 	@Test
 	public void testMoveSouthEastCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("move southeast");
 		
-		assertEquals(4, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(southEastOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, southEastOfStarting);
 	}
 	
 	/*
@@ -247,35 +253,29 @@ public class HandleMovementCommands{
 	 */
 	@Test
 	public void testSCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("s");
 		
-		assertEquals(5, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(southOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, southOfStarting);
 	}
 	
 	@Test
 	public void testSouthCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("south");
 		
-		assertEquals(5, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(southOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, southOfStarting);
 	}
 	
 	@Test
 	public void testMoveSouthCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("move south");
 		
-		assertEquals(5, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(southOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, southOfStarting);
 	}
 	
 	/*
@@ -283,35 +283,29 @@ public class HandleMovementCommands{
 	 */
 	@Test
 	public void testSWCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("sw");
 		
-		assertEquals(6, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(southWestOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, southWestOfStarting);
 	}
 	
 	@Test
 	public void testSouthWestCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("southwest");
 		
-		assertEquals(6, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(southWestOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, southWestOfStarting);
 	}
 	
 	@Test
 	public void testMoveSouthWestCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("move southwest");
 		
-		assertEquals(6, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(southWestOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, southWestOfStarting);
 	}
 	
 	/*
@@ -319,35 +313,29 @@ public class HandleMovementCommands{
 	 */
 	@Test
 	public void testWCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("w");
 		
-		assertEquals(7, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(westOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, westOfStarting);
 	}
 	
 	@Test
 	public void testWestCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("west");
 		
-		assertEquals(7, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(westOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, westOfStarting);
 	}
 	
 	@Test
 	public void testMoveWestCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("move west");
 		
-		assertEquals(7, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(westOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, westOfStarting);
 	}
 	
 	/*
@@ -355,35 +343,29 @@ public class HandleMovementCommands{
 	 */
 	@Test
 	public void testNWCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("nw");
 		
-		assertEquals(8, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(northWestOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, northWestOfStarting);
 	}
 	
 	@Test
 	public void testNorthWestCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("northwest");
 		
-		assertEquals(8, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(northWestOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, northWestOfStarting);
 	}
 	
 	@Test
 	public void testMoveNorthWestCommand(){
-		assertEquals(0, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("move northwest");
 		
-		assertEquals(8, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(northWestOfStarting.getLongDescription(), game.get_dialog().get(0));
+		checkValidMoveUpdates(game, northWestOfStarting);
 	}
 	
 	/*
@@ -398,39 +380,32 @@ public class HandleMovementCommands{
 	 */
 	@Test
 	public void testNCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("n");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
 	public void testNorthCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("north");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
 	public void testMoveNorthCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("move north");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	/*
@@ -438,38 +413,32 @@ public class HandleMovementCommands{
 	 */
 	@Test
 	public void testNECommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("ne");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
 	public void testNorthEastCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("northeast");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
 	public void testMoveNorthEastCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("move northeast");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	/*
@@ -477,38 +446,32 @@ public class HandleMovementCommands{
 	 */
 	@Test
 	public void testECommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("e");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
 	public void testEastCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("east");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
 	public void testMoveEastCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("move east");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	/*
@@ -516,38 +479,32 @@ public class HandleMovementCommands{
 	 */
 	@Test
 	public void testSECommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("se");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
 	public void testSouthEastCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("southeast");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
 	public void testMoveSouthEastCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("move southeast");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	/*
@@ -555,38 +512,32 @@ public class HandleMovementCommands{
 	 */
 	@Test
 	public void testSCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("s");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
 	public void testSouthCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("south");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
 	public void testMoveSouthCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("move south");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	/*
@@ -594,38 +545,32 @@ public class HandleMovementCommands{
 	 */
 	@Test
 	public void testSWCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("sw");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
 	public void testSouthWestCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("southwest");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
 	public void testMoveSouthWestCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("move southwest");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	/*
@@ -633,38 +578,32 @@ public class HandleMovementCommands{
 	 */
 	@Test
 	public void testWCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("w");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
 	public void testWestCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("west");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
 	public void testMoveWestCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("move west");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	/*
@@ -672,38 +611,32 @@ public class HandleMovementCommands{
 	 */
 	@Test
 	public void testNWCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("nw");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
 	public void testNorthWestCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("northwest");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
 	public void testMoveNorthWestCommandInvalid(){
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		player.set_location(1);
+		assertEquals(1, player.get_location());
 		
 		game.handle_command("move northwest");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	/*
@@ -719,43 +652,33 @@ public class HandleMovementCommands{
 	public void testNCommandNotInModeGame(){
 		game.set_mode("inventory");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("n");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	@Test
 	public void testNorthCommandNotInModeGame(){
 		game.set_mode("character");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("north");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	@Test
 	public void testMoveNorthCommandNotInModeGame(){
 		game.set_mode("inventory");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("move north");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	/*
@@ -765,42 +688,33 @@ public class HandleMovementCommands{
 	public void testNECommandNotInModeGame(){
 		game.set_mode("map");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("ne");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	@Test
 	public void testNorthEastCommandNotInModeGame(){
 		game.set_mode("character");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("northeast");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	@Test
 	public void testMoveNorthEastCommandNotInModeGame(){
 		game.set_mode("map");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("move northeast");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	/*
@@ -810,42 +724,33 @@ public class HandleMovementCommands{
 	public void testECommandNotInModeGame(){
 		game.set_mode("inventory");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("e");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	@Test
 	public void testEastCommandNotInModeGame(){
 		game.set_mode("map");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("east");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	@Test
 	public void testMoveEastCommandNotInModeGame(){
 		game.set_mode("character");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("move east");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	/*
@@ -855,42 +760,33 @@ public class HandleMovementCommands{
 	public void testSECommandNotInModeGame(){
 		game.set_mode("character");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("se");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	@Test
 	public void testSouthEastCommandNotInModeGame(){
 		game.set_mode("inventory");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("southeast");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	@Test
 	public void testMoveSouthEastCommandNotInModeGame(){
 		game.set_mode("map");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("move southeast");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	/*
@@ -900,42 +796,33 @@ public class HandleMovementCommands{
 	public void testSCommandNotInModeGame(){
 		game.set_mode("map");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("s");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	@Test
 	public void testSouthCommandNotInModeGame(){
 		game.set_mode("inventory");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("south");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	@Test
 	public void testMoveSouthCommandNotInModeGame(){
 		game.set_mode("character");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("move south");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	/*
@@ -945,42 +832,33 @@ public class HandleMovementCommands{
 	public void testSWCommandNotInModeGame(){
 		game.set_mode("map");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("sw");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	@Test
 	public void testSouthWestCommandNotInModeGame(){
 		game.set_mode("inventory");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("southwest");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	@Test
 	public void testMoveSouthWestCommandNotInModeGame(){
 		game.set_mode("character");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("move southwest");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	/*
@@ -990,42 +868,33 @@ public class HandleMovementCommands{
 	public void testWCommandNotInModeGame(){
 		game.set_mode("character");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("w");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	@Test
 	public void testWestCommandNotInModeGame(){
 		game.set_mode("map");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("west");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	@Test
 	public void testMoveWestCommandNotInModeGame(){
 		game.set_mode("inventory");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("move west");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	/*
@@ -1035,41 +904,32 @@ public class HandleMovementCommands{
 	public void testNWCommandNotInModeGame(){
 		game.set_mode("character");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("nw");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	@Test
 	public void testNorthWestCommandNotInModeGame(){
 		game.set_mode("inventory");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("northwest");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 	
 	@Test
 	public void testMoveNorthWestCommandNotInModeGame(){
 		game.set_mode("map");
 		
-		game.get_characters().get(0).set_location(1);
-		assertEquals(1, game.get_characters().get(0).get_location());
+		assertEquals(0, player.get_location());
 		
 		game.handle_command("move northwest");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		checkNotInModeGame(game, starting);
 	}
 }

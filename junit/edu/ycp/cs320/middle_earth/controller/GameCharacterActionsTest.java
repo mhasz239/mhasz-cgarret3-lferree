@@ -111,9 +111,7 @@ public class GameCharacterActionsTest{
 		
 		game.move("north");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(northOfStarting.getLongDescription(), game.get_dialog().get(0));
+		HandleMovementCommands.checkValidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
@@ -122,9 +120,7 @@ public class GameCharacterActionsTest{
 		
 		game.move("northeast");
 		
-		assertEquals(2, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(northEastOfStarting.getLongDescription(), game.get_dialog().get(0));
+		HandleMovementCommands.checkValidMoveUpdates(game, northEastOfStarting);
 	}
 	
 	@Test
@@ -133,9 +129,7 @@ public class GameCharacterActionsTest{
 		
 		game.move("east");
 		
-		assertEquals(3, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(eastOfStarting.getLongDescription(), game.get_dialog().get(0));
+		HandleMovementCommands.checkValidMoveUpdates(game, eastOfStarting);
 	}
 	
 	@Test
@@ -144,9 +138,7 @@ public class GameCharacterActionsTest{
 		
 		game.move("southeast");
 		
-		assertEquals(4, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(southEastOfStarting.getLongDescription(), game.get_dialog().get(0));
+		HandleMovementCommands.checkValidMoveUpdates(game, southEastOfStarting);
 	}
 	
 	@Test
@@ -155,9 +147,7 @@ public class GameCharacterActionsTest{
 		
 		game.move("south");
 		
-		assertEquals(5, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(southOfStarting.getLongDescription(), game.get_dialog().get(0));
+		HandleMovementCommands.checkValidMoveUpdates(game, southOfStarting);
 	}
 	
 	@Test
@@ -166,9 +156,7 @@ public class GameCharacterActionsTest{
 		
 		game.move("southwest");
 		
-		assertEquals(6, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(southWestOfStarting.getLongDescription(), game.get_dialog().get(0));
+		HandleMovementCommands.checkValidMoveUpdates(game, southWestOfStarting);
 	}
 	
 	@Test
@@ -177,9 +165,7 @@ public class GameCharacterActionsTest{
 		
 		game.move("west");
 		
-		assertEquals(7, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(westOfStarting.getLongDescription(), game.get_dialog().get(0));
+		HandleMovementCommands.checkValidMoveUpdates(game, westOfStarting);
 	}
 	
 	@Test
@@ -188,10 +174,12 @@ public class GameCharacterActionsTest{
 		
 		game.move("northwest");
 		
-		assertEquals(8, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(northWestOfStarting.getLongDescription(), game.get_dialog().get(0));
+		HandleMovementCommands.checkValidMoveUpdates(game, northWestOfStarting);
 	}
+	
+	/*
+	 * Invalid Move Commands
+	 */
 	
 	@Test
 	public void testMoveNorthInvalid(){
@@ -200,9 +188,7 @@ public class GameCharacterActionsTest{
 		
 		game.move("north");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		HandleMovementCommands.checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
@@ -212,9 +198,7 @@ public class GameCharacterActionsTest{
 		
 		game.move("northeast");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		HandleMovementCommands.checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
@@ -224,9 +208,7 @@ public class GameCharacterActionsTest{
 		
 		game.move("east");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		HandleMovementCommands.checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
@@ -236,9 +218,7 @@ public class GameCharacterActionsTest{
 		
 		game.move("southeast");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		HandleMovementCommands.checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
@@ -248,9 +228,7 @@ public class GameCharacterActionsTest{
 		
 		game.move("south");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		HandleMovementCommands.checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
@@ -260,9 +238,7 @@ public class GameCharacterActionsTest{
 		
 		game.move("southwest");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		HandleMovementCommands.checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
@@ -272,9 +248,7 @@ public class GameCharacterActionsTest{
 		
 		game.move("west");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		HandleMovementCommands.checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	@Test
@@ -284,9 +258,7 @@ public class GameCharacterActionsTest{
 		
 		game.move("northwest");
 		
-		assertEquals(1, game.get_characters().get(0).get_location());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		HandleMovementCommands.checkInvalidMoveUpdates(game, northOfStarting);
 	}
 	
 	/*
