@@ -43,6 +43,9 @@ public class GameHandleCommandTest{
 		player = new Player();
 		player.set_location(0);
 		
+		// In case not already in game mode
+		game.set_mode("game");
+		
 		// Populate Player's inventory
 		ArrayList<Item> playerItems = new ArrayList<Item>();
 		sword = new Item();
@@ -275,6 +278,8 @@ public class GameHandleCommandTest{
 	
 	@Test
 	public void testItemCommandNotANumber(){
+		game.set_mode("inventory");
+		
 		game.handle_command("item derpykinsmcgee");
 		
 		assertEquals(1, game.get_dialog().size());
@@ -283,6 +288,8 @@ public class GameHandleCommandTest{
 	
 	@Test
 	public void testItemCommandInvalidNumber0(){
+		game.set_mode("inventory");
+		
 		game.handle_command("item 0");
 		
 		assertEquals(1, game.get_dialog().size());
@@ -291,6 +298,8 @@ public class GameHandleCommandTest{
 	
 	@Test
 	public void testItemCommandInvalidNumberAboveRange(){
+		game.set_mode("inventory");
+		
 		game.handle_command("item 4");
 		
 		assertEquals(1, game.get_dialog().size());
@@ -299,6 +308,8 @@ public class GameHandleCommandTest{
 	
 	@Test
 	public void testItemCommandLowEndOf1(){
+		game.set_mode("inventory");
+		
 		game.handle_command("item 1");
 		
 		Item item = sword;
@@ -310,6 +321,8 @@ public class GameHandleCommandTest{
 	
 	@Test
 	public void testItemCommandMidRangeOf2(){
+		game.set_mode("inventory");
+		
 		game.handle_command("item 2");
 		
 		Item item = helmet;
@@ -321,6 +334,8 @@ public class GameHandleCommandTest{
 	
 	@Test
 	public void testItemCommandHighEndOf3(){
+		game.set_mode("inventory");
+		
 		game.handle_command("item 3");
 		
 		Item item = key;
@@ -474,8 +489,9 @@ public class GameHandleCommandTest{
 	public void testLookCommandAtStarting(){
 		game.handle_command("look");
 		
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(starting.getLongDescription(), game.get_dialog().get(0));
+		assertEquals(2, game.get_dialog().size());
+		assertEquals(starting.getName(), game.get_dialog().get(0));
+		assertEquals(starting.getLongDescription(), game.get_dialog().get(1));
 	}
 	
 	@Test
@@ -484,8 +500,9 @@ public class GameHandleCommandTest{
 		
 		game.handle_command("look");
 		
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(northOfStarting.getLongDescription(), game.get_dialog().get(0));
+		assertEquals(2, game.get_dialog().size());
+		assertEquals(northOfStarting.getName(), game.get_dialog().get(0));
+		assertEquals(northOfStarting.getLongDescription(), game.get_dialog().get(1));
 	}
 	
 	@Test

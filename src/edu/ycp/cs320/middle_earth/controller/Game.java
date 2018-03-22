@@ -33,6 +33,10 @@ public class Game implements Engine{
 		 * game everytime that we refresh the page.
 		 * I cannot for the life of me figure out how to get the database to only initialize once.
 		 * Does it have to be intialized elsewhere? and passed in?
+		 * 
+		 * I think when we have the real database, it'll be fine, because then we'll be loading the 
+		 * current database each time rather than re-initializing it? That it's just bad like this 
+		 * for the fake database, since data can't be saved to it persistently.
 		 */
 		
 		//Fake Database is rebuilt each time and populated into the respective fields.
@@ -45,6 +49,9 @@ public class Game implements Engine{
 		//map.setMapTiles(db.getAllMapTiles());
 		quests = db.getAllQuests();
 		characters = db.getAllCharacters();
+		// ######################################################
+		// Wouldn't db.getAllCharacters() already grab player?
+		// ######################################################
 		characters.add(db.getPlayer());
 		objects = db.getAllObjects();
 		for (Object object : objects) {

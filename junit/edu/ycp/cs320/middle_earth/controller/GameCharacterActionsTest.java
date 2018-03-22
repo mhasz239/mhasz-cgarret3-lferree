@@ -29,7 +29,6 @@ public class GameCharacterActionsTest{
 	private MapTile southWestOfStarting;
 	private MapTile westOfStarting;
 	private MapTile northWestOfStarting;
-	private String invalidDirection;
 	
 	@Before
 	public void setup(){
@@ -96,8 +95,6 @@ public class GameCharacterActionsTest{
 		map.setMapTiles(tiles);
 		
 		game.set_map(map);
-		
-		invalidDirection = "You can't go that way";
 	}
 	
 	
