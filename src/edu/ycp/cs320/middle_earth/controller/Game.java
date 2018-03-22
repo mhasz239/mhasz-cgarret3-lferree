@@ -434,7 +434,7 @@ public class Game implements Engine{
 				}
 			} else {
 				player.set_location(player.get_location() + moveValue);
-				//add_dialog(map.getMapTiles().get(player.get_location()).getName());
+				add_dialog(map.getMapTiles().get(player.get_location()).getName());
 				add_dialog(map.getMapTiles().get(player.get_location()).getLongDescription());
 			}
 		} else {
