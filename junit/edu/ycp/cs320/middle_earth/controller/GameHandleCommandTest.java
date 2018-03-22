@@ -12,6 +12,7 @@ import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.Inventory;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
+import edu.ycp.cs320.middle_earth.model.Constructs.Map;
 import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
 import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 
@@ -94,12 +95,21 @@ public class GameHandleCommandTest{
 		//				6 5 4
 		starting = new MapTile();
 		starting.setID(0);
+		starting.setName("The Starting Tile");
+		starting.setLongDescription("It's not that exciting...");
 		northOfStarting = new MapTile();
 		northOfStarting.setID(1);
+		northOfStarting.setName("Forest");
 		northOfStarting.setLongDescription("You arrive in a lush forest, complete with birds and crickets chirping.");
 		northEastOfStarting = new MapTile();
 		northEastOfStarting.setID(2);
 		northEastOfStarting.setLongDescription("You arrive in a barren wasteland, complete with radiation poisoning.");
+		
+		Map map = new Map();
+		map.addMapTile(starting);
+		map.addMapTile(northOfStarting);
+		map.addMapTile(northEastOfStarting);
+		game.set_map(map);
 		
 		invalidMode = "You can't use that command here.";
 		
