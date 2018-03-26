@@ -12,6 +12,7 @@ import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.Inventory;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
+import edu.ycp.cs320.middle_earth.model.Constructs.Map;
 import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
 import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 
@@ -42,6 +43,9 @@ public class GameHandleCommandTest{
 		game = new Game();
 		player = new Player();
 		player.set_location(0);
+		
+		// In case not already in game mode
+		game.set_mode("game");
 		
 		// Populate Player's inventory
 		ArrayList<Item> playerItems = new ArrayList<Item>();
@@ -91,12 +95,21 @@ public class GameHandleCommandTest{
 		//				6 5 4
 		starting = new MapTile();
 		starting.setID(0);
+		starting.setName("The Starting Tile");
+		starting.setLongDescription("It's not that exciting...");
 		northOfStarting = new MapTile();
 		northOfStarting.setID(1);
+		northOfStarting.setName("Forest");
 		northOfStarting.setLongDescription("You arrive in a lush forest, complete with birds and crickets chirping.");
 		northEastOfStarting = new MapTile();
 		northEastOfStarting.setID(2);
 		northEastOfStarting.setLongDescription("You arrive in a barren wasteland, complete with radiation poisoning.");
+		
+		Map map = new Map();
+		map.addMapTile(starting);
+		map.addMapTile(northOfStarting);
+		map.addMapTile(northEastOfStarting);
+		game.set_map(map);
 		
 		invalidMode = "You can't use that command here.";
 		
@@ -275,6 +288,8 @@ public class GameHandleCommandTest{
 	
 	@Test
 	public void testItemCommandNotANumber(){
+		game.set_mode("inventory");
+		
 		game.handle_command("item derpykinsmcgee");
 		
 		assertEquals(1, game.get_dialog().size());
@@ -283,6 +298,8 @@ public class GameHandleCommandTest{
 	
 	@Test
 	public void testItemCommandInvalidNumber0(){
+		game.set_mode("inventory");
+		
 		game.handle_command("item 0");
 		
 		assertEquals(1, game.get_dialog().size());
@@ -291,6 +308,8 @@ public class GameHandleCommandTest{
 	
 	@Test
 	public void testItemCommandInvalidNumberAboveRange(){
+		game.set_mode("inventory");
+		
 		game.handle_command("item 4");
 		
 		assertEquals(1, game.get_dialog().size());
@@ -299,6 +318,8 @@ public class GameHandleCommandTest{
 	
 	@Test
 	public void testItemCommandLowEndOf1(){
+		game.set_mode("inventory");
+		
 		game.handle_command("item 1");
 		
 		Item item = sword;
@@ -310,6 +331,8 @@ public class GameHandleCommandTest{
 	
 	@Test
 	public void testItemCommandMidRangeOf2(){
+		game.set_mode("inventory");
+		
 		game.handle_command("item 2");
 		
 		Item item = helmet;
@@ -321,6 +344,8 @@ public class GameHandleCommandTest{
 	
 	@Test
 	public void testItemCommandHighEndOf3(){
+		game.set_mode("inventory");
+		
 		game.handle_command("item 3");
 		
 		Item item = key;
@@ -474,8 +499,9 @@ public class GameHandleCommandTest{
 	public void testLookCommandAtStarting(){
 		game.handle_command("look");
 		
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(starting.getLongDescription(), game.get_dialog().get(0));
+		assertEquals(2, game.get_dialog().size());
+		assertEquals(starting.getName(), game.get_dialog().get(0));
+		assertEquals(starting.getLongDescription(), game.get_dialog().get(1));
 	}
 	
 	@Test
@@ -484,8 +510,9 @@ public class GameHandleCommandTest{
 		
 		game.handle_command("look");
 		
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(northOfStarting.getLongDescription(), game.get_dialog().get(0));
+		assertEquals(2, game.get_dialog().size());
+		assertEquals(northOfStarting.getName(), game.get_dialog().get(0));
+		assertEquals(northOfStarting.getLongDescription(), game.get_dialog().get(1));
 	}
 	
 	@Test

@@ -9,8 +9,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
+import edu.ycp.cs320.middle_earth.model.Characters.Inventory;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
+import edu.ycp.cs320.middle_earth.model.Constructs.Map;
 import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
 import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 
@@ -22,6 +24,9 @@ public class GamePlayerActionsTest{
 	private MapTile starting;
 	private MapTile northOfStarting;
 	private MapTile northEastOfStarting;
+	private Item sword;
+	private Item helmet;
+	private Item key;
 	private Item wood;
 	
 	@Before
@@ -31,6 +36,30 @@ public class GamePlayerActionsTest{
 		ArrayList<Character> characters = new ArrayList<Character>();
 		characters.add(player);
 		game.set_characters(characters);
+		
+		// Populate Player's inventory
+		ArrayList<Item> playerItems = new ArrayList<Item>();
+		sword = new Item();
+		sword.setName("Sword");
+		sword.setLongDescription("A Long sword. Probably stolen from a giant golem or something.");
+		sword.setItemWeight((float) 9.6);
+		sword.setIsQuestItem(false);
+		helmet = new Item();
+		helmet.setName("Helmet");
+		helmet.setLongDescription("A helmet forged in the hot, hot fires of Mordor.");
+		helmet.setItemWeight((float) 29.3);
+		helmet.setIsQuestItem(false);
+		key = new Item();
+		key.setName("Key");
+		key.setLongDescription("A key to treasure too expensive to buy with Bill Gates' salary. (Believe it)");
+		key.setItemWeight((float) 93.1);
+		key.setIsQuestItem(true);
+		playerItems.add(sword);
+		playerItems.add(helmet);
+		playerItems.add(key);
+		Inventory inventory = new Inventory();
+		inventory.set_items(playerItems);
+		player.set_inventory(inventory);
 		
 		tree = new Object();
 		tree.setName("Tree");
@@ -58,8 +87,17 @@ public class GamePlayerActionsTest{
 		northEastOfStarting.setID(2);
 		northEastOfStarting.setLongDescription("You arrive in a barren wasteland, complete with radiation poisoning.");
 		
+		Map map = new Map();
+		map.addMapTile(starting);
+		map.addMapTile(northOfStarting);
+		map.addMapTile(northEastOfStarting);
+		game.set_map(map);
+		
+		ArrayList<Item> items = new ArrayList<Item>();
 		wood = new Item();
 		wood.setName("Wood");
+		items.add(wood);
+		game.set_items(items);
 		// TODO: JUNIT: Set wood location to 0 (starting).
 	}
 	
@@ -123,8 +161,9 @@ public class GamePlayerActionsTest{
 		
 		game.look();
 		
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(starting.getLongDescription(), game.get_dialog().get(0));
+		assertEquals(2, game.get_dialog().size());
+		assertEquals(starting.getName(), game.get_dialog().get(0));
+		assertEquals(starting.getLongDescription(), game.get_dialog().get(1));
 	}
 	
 	@Test
@@ -135,8 +174,9 @@ public class GamePlayerActionsTest{
 		
 		game.look();
 		
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(northOfStarting.getLongDescription(), game.get_dialog().get(0));
+		assertEquals(2, game.get_dialog().size());
+		assertEquals(northOfStarting.getName(), game.get_dialog().get(0));
+		assertEquals(northOfStarting.getLongDescription(), game.get_dialog().get(1));
 	}
 	
 	/*
