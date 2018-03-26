@@ -2,6 +2,7 @@ package edu.ycp.cs320.middle_earth.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 import edu.ycp.cs320.middle_earth.model.Quest;
@@ -229,7 +230,7 @@ public class Game implements Engine{
 			} else {
 				
 			}
-		} else if (command.equalsIgnoreCase("climb") && mode_check("game") && arg != null) {
+		} /*else if (command.equalsIgnoreCase("climb") && mode_check("game") && arg != null) {
 			boolean climbable = false;
 			ArrayList<Object> Objects = map.getMapTiles().get(get_player().get_location()).getObjects();
 			for (Object climbObject : Objects) {
@@ -241,20 +242,47 @@ public class Game implements Engine{
 			if (!climbable){
 				add_dialog("What exactly are you trying to climb?");
 			}
-		} else if (command.equalsIgnoreCase("look") && mode_check("game")) {
+		} */else if (command.equalsIgnoreCase("look") && mode_check("game")) {
 			look();
 		} else if (command.equalsIgnoreCase("attack") && mode_check("game") && get_player().get_location() == 7) {
 			add_dialog("You take the pointy stick and throw it at the troll.;It manages to poke him in the eye and knock him off balance.;"
 					+"As he falls he drops his sword, you quickly spring into action.;You grab his sword off the ground and lay waste to the foul beast.;"
 					+"!!!CONGRATULATIONS!!! You have conqured this small land and laid waste the the evil plauging it.");
-		}
-		else if(!command.equalsIgnoreCase("")){
+		} else if(!command.equalsIgnoreCase("")){
 			// Checking if command isn't empty, since it can't be null -> initialized in here to "";
 			returnMessage = "Sorry, I didn't understand that.";
-		}else{
-			returnMessage = "No command received";
+		} else{
+			if(!handle_object_commands(commandStr)){
+				returnMessage = "No command received";
+			}
 		}
 		return returnMessage;
+	}
+	
+	private boolean handle_object_commands(String commandStr){
+		boolean isObjectCommand = false;
+		String[] commands = commandStr.split(" ");
+		String command = "";
+		String arg = null;
+		if (commands.length == 2){
+			command = commands[0];
+			arg = commands[1];
+		} else {
+			return false;
+		}
+		
+		Object action_object = null;
+		for (Object object : map.getMapTiles().get(get_player().get_location()).getObjects()){
+			object.getCommandResponses().keySet().contains(command);
+			if (object.getName().contains(arg)) {
+				action_object = object;
+				isObjectCommand = true;
+			}
+		}
+		if (action_object != null) {
+			dialog.add(action_object.getCommandResponses().get(command));
+		}
+		return isObjectCommand;
 	}
 	
 	public boolean mode_check(String required_mode){
