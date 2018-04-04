@@ -453,10 +453,11 @@ public class Game implements Engine{
 		// direction.toLowerCase since they're stored in lowercase in the MapTile.
 		int moveValue = map.getMapTiles().get(player.get_location()).getMoveValue(direction.toLowerCase());
 		if (moveValue != 0) {
-			if (player.get_location() == 8 && direction == "west") {
+			if (player.get_location() == 8 && direction.equalsIgnoreCase("west")) {
 				boolean key = false;
 				for (Item item : player.get_inventory().get_items()) {
-					if (item.getName() == "Ornate Key") {
+					System.out.println(item.getName());
+					if (item.getName().equalsIgnoreCase("Ornate Key")) {
 						key = true;
 					}
 				}
