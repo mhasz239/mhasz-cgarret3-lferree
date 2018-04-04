@@ -456,8 +456,7 @@ public class Game implements Engine{
 			if (player.get_location() == 8 && direction.equalsIgnoreCase("west")) {
 				boolean key = false;
 				for (Item item : player.get_inventory().get_items()) {
-					System.out.println(item.getName());
-					if (item.getName().equalsIgnoreCase("Ornate Key")) {
+					if (item.getName() != null && item.getName().equalsIgnoreCase("Ornate Key")) {
 						key = true;
 					}
 				}

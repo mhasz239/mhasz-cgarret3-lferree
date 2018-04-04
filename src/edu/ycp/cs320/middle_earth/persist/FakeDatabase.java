@@ -116,7 +116,7 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	public Player getPlayer() {
-		
+		getAllInventories();
 		for(Inventory inventory : inventoryList) {
 			if(inventory.get_inventory_id() == player.get_inventory_id()) {
 				player.set_inventory(inventory);
