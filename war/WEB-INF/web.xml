@@ -18,6 +18,10 @@
     <servlet-name>InventoryServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.middle_earth.servlet.InventoryServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>GameViewServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.middle_earth.servlet.GameViewServlet</servlet-class>
+  </servlet>
 
   <!-- Servlet mappings -->
   <servlet-mapping>
@@ -31,6 +35,10 @@
   <servlet-mapping>
     <servlet-name>InventoryServlet</servlet-name>
     <url-pattern>/inventory</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GameViewServlet</servlet-name>
+    <url-pattern>/GameView</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>

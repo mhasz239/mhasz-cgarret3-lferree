@@ -43,6 +43,7 @@ public class GameViewServlet extends HttpServlet {
         System.out.println("GameView Servlet: doPost");
         
         Game game = (Game) req.getSession().getAttribute("game");
+        
         game.set_mode("game");
         
         // holds the error message text, if there is any
@@ -81,7 +82,7 @@ public class GameViewServlet extends HttpServlet {
         	//req.getRequestDispatcher("/_view/character.jsp").forward(req, resp);
         } 
         else {
-        	req.setAttribute("dialog", display_text);
+        	//req.setAttribute("dialog", display_text);
         	// now call the JSP to render the new page
             req.setAttribute("mode", game.get_mode());
         	req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);

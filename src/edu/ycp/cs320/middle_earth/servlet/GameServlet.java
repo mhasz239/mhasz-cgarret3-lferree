@@ -33,7 +33,9 @@ public class GameServlet extends HttpServlet {
         req.setAttribute("mode", game.get_mode());
         req.setAttribute("dialog", game.get_display_text());
         // call JSP to generate empty form
+        
         req.getRequestDispatcher("/_view/game.jsp").forward(req, resp);
+        
     }
 
     @Override
@@ -83,7 +85,7 @@ public class GameServlet extends HttpServlet {
         	req.setAttribute("dialog", display_text);
         	req.setAttribute("mode", game.get_mode());
         	// now call the JSP to render the new page
-        	req.getRequestDispatcher("/_view/game.jsp").forward(req, resp);
+        	req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
         }
     }
 }

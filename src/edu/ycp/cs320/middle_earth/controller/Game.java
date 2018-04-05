@@ -26,7 +26,7 @@ public class Game implements Engine{
 	public Game(){
 		// dialog and mode are passed back and forth with each servlet/jsp call
 		dialog = new ArrayList<String>();
-		mode = new String();
+		mode = "game";
 		
 		//####################################################
 		/* This does not work for us, because it resets the database everytime a new page is called

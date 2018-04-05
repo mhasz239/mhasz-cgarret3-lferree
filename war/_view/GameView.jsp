@@ -6,6 +6,10 @@
 <head>
     <title>Middle Earth Game</title>
     <style type="text/css">
+    	#wrapper {
+    		height: 100vh; 
+   	 		width:  100vw;
+   	 	}
     	#header { text-align: center; }
     	#help { 
     		float: left;
@@ -14,6 +18,7 @@
     	#game { 
     		float: left;
     		width: 75%;
+    		height: 75%;
     	}
     	#input { width = 100% }
         .error {
@@ -32,7 +37,7 @@
 </c:if>
 -->
 
-
+<div id="wrapper">
 <div id="header">
 <h1><u>Adventures of Middle Earth</u></h1>
 </div>
@@ -40,11 +45,11 @@
 <p> This is in the help div. </p>
 </div>
 <div id="game">
-<iframe style="width:100%"src="${pageContext.servletContext.contextPath}/${mode}"></iframe>
+<iframe style="width:100%;height:100%"src="${pageContext.servletContext.contextPath}/${mode}"></iframe>
 </div>
 
 <div id="input"> 
-<form action="${pageContext.servletContext.contextPath}/${mode}" method="post">
+<form action="${pageContext.servletContext.contextPath}/GameView" method="post">
     <table>
         <tr>
             <td class="label">Text Command:</td>
@@ -53,5 +58,7 @@
     </table>
     <input type="Submit" name="submit" value="Submit">
 </form>
+</div>
+</div>
 </body>
 </html>

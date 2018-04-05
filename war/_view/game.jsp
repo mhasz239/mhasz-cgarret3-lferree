@@ -23,8 +23,9 @@
 -->
 
 
+
 <div>
-<h1><u>Adventures of Middle Earth</u></h1>
+<!-- <h1><u>Adventures of Middle Earth</u></h1> -->
 <ol>
 <c:forTokens items = "${dialog}" delims = ";" var = "item" >
 <li><c:out value = "${item}"/></li>
@@ -32,6 +33,7 @@
 </ol>
 </div>
 
+<!--
 <div>
 <p>${map}</p>
 </div>
@@ -44,5 +46,6 @@
     </table>
     <input type="Submit" name="submit" value="Submit">
 </form>
+-->
 </body>
 </html>
