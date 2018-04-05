@@ -34,7 +34,8 @@ public class IndexServlet extends HttpServlet {
 		if(page.equalsIgnoreCase("Start Game")){
 			Game game = new Game();
 			req.getSession().setAttribute("game", game);
-			req.getRequestDispatcher("/_view/game.jsp").forward(req, resp);
+			req.setAttribute("mode", game.get_mode());
+			req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
 		}else{
 			// Shouldn't reach this...
 			errorMessage = "Invalid Option";

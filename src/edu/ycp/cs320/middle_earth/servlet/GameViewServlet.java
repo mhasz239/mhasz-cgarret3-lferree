@@ -11,7 +11,7 @@ import edu.ycp.cs320.middle_earth.controller.Game;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 
 
-public class GameServlet extends HttpServlet {
+public class GameViewServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
 
@@ -19,28 +19,28 @@ public class GameServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        System.out.println("Game Servlet: doGet");
+        System.out.println("GameView Servlet: doGet");
         
         Game game = (Game) req.getSession().getAttribute("game");
         
         
         game.set_mode("game");
-        
+        req.setAttribute("mode", game.get_mode());
         
         game.add_dialog(game.get_mapTile_name());
         game.add_dialog(game.get_mapTile_longDescription());
         
-        req.setAttribute("mode", game.get_mode());
+
         req.setAttribute("dialog", game.get_display_text());
         // call JSP to generate empty form
-        req.getRequestDispatcher("/_view/game.jsp").forward(req, resp);
+        req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        System.out.println("Game Servlet: doPost");
+        System.out.println("GameView Servlet: doPost");
         
         Game game = (Game) req.getSession().getAttribute("game");
         game.set_mode("game");
@@ -66,8 +66,9 @@ public class GameServlet extends HttpServlet {
             }
         	
         	req.setAttribute("inventory", inventory_display_list);
-        	req.setAttribute("mode", game.get_mode());
-            req.getRequestDispatcher("/_view/inventory.jsp").forward(req, resp);
+
+            req.setAttribute("mode", game.get_mode());
+            req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
         } 
         else if (game.get_mode() == "map") {
         	// TODO Implement
@@ -81,9 +82,9 @@ public class GameServlet extends HttpServlet {
         } 
         else {
         	req.setAttribute("dialog", display_text);
-        	req.setAttribute("mode", game.get_mode());
         	// now call the JSP to render the new page
-        	req.getRequestDispatcher("/_view/game.jsp").forward(req, resp);
+            req.setAttribute("mode", game.get_mode());
+        	req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
         }
     }
 }
