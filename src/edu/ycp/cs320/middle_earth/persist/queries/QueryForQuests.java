@@ -35,8 +35,8 @@ public class QueryForQuests {
 				else {
 					System.out.println("No reward tems for this quest");
 				}
-				System.out.println(quest.getRewardCoins());
-				System.out.println(quest.getDialogue());	
+				System.out.println("Reward Coins: " + quest.getRewardCoins());
+				System.out.println("Quest Dialogue: " + quest.getDialogue());	
 			}
 		}
 	}
