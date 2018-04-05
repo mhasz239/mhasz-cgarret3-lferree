@@ -111,26 +111,6 @@ public class GamePlayerActionsTest{
 	 */
 	
 	/*
-	 * Climb(Object)
-	 */
-	@Test
-	public void testClimbTree(){
-		game.climb(tree);
-		
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(tree.getCommandResponses().get("climb"), game.get_dialog().get(0));
-	}
-	
-	@Test
-	public void testClimbLadder(){
-		game.get_characters().get(0).set_location(1);
-		game.climb(ladder);
-		
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(ladder.getCommandResponses().get("climb"), game.get_dialog().get(0));
-	}
-	
-	/*
 	 * Take(Item)
 	 */
 	@Test

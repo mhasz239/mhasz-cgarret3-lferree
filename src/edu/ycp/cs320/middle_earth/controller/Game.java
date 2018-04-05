@@ -173,12 +173,13 @@ public class Game implements Engine{
 		String command = "";
 		String arg = null;
 		String[] args = commandStr.split(" ");
-		if (args.length > 1){
+		// Fixed these if-else if blocks (previously the Too many arguments was not being executed).
+		if(args.length > 2){
+			return "Too many arguments in your command";
+		}else if(args.length == 2){
         	command = args[0];
         	arg = args[1];
-		} else if (args.length >  2) {
-			return "Too many arguments in your command";
-        } else if (args.length == 1) {
+		}else if(args.length == 1){
         	command = commandStr;
         }
 		
@@ -190,77 +191,102 @@ public class Game implements Engine{
 			check_map();
 		}else if(command.equalsIgnoreCase("game")){
 			return_to_game();
-		}else if(command.equalsIgnoreCase("move") && mode_check("game")){
-			if(args[1].equalsIgnoreCase("north") || arg.equalsIgnoreCase("south") || 
-					arg.equalsIgnoreCase("east") || arg.equalsIgnoreCase("west") ||
-					arg.equalsIgnoreCase("northwest") || arg.equalsIgnoreCase("northeast") ||
-					arg.equalsIgnoreCase("southwest") || arg.equalsIgnoreCase("southeast")){
-				move(arg);
-			}else{
-				add_dialog("I don't understand that direction.");
-			}
-		}else if((command.equalsIgnoreCase("north") || command.equalsIgnoreCase("N")) && mode_check("game")){
-			move("north");
-		}else if((command.equalsIgnoreCase("south") || command.equalsIgnoreCase("S")) && mode_check("game")){
-			move("south");
-		}else if((command.equalsIgnoreCase("east") || command.equalsIgnoreCase("E")) && mode_check("game")){
-			move("east");
-		}else if((command.equalsIgnoreCase("west") || command.equalsIgnoreCase("W")) && mode_check("game")){
-			move("west");
-		}else if((command.equalsIgnoreCase("northeast") || command.equalsIgnoreCase("NE")) && mode_check("game")){
-			move("northeast");
-		}else if((command.equalsIgnoreCase("northwest") || command.equalsIgnoreCase("NW")) && mode_check("game")){
-			move("northwest");
-		}else if((command.equalsIgnoreCase("southeast") || command.equalsIgnoreCase("SE")) && mode_check("game")){
-			move("southeast");
-		}else if((command.equalsIgnoreCase("southwest") || command.equalsIgnoreCase("SW")) && mode_check("game")){
-			move("southwest");
-		}else if(command.equalsIgnoreCase("item") && mode_check("inventory")){
-			if (arg != null) {
-				try {
-					int Item_num = Integer.parseInt(arg);
-					//if (get_player().get_inventory().get_items().size() < Item_num || Item_num < 1 ) {
-					if (get_player().get_inventory().get_items().size() < Item_num || Item_num < 1 ) {
-						returnMessage = "Sorry you dont have an item at that index";
-					} else  {
-						returnMessage = item_details(Item_num-1);
+			/* #################################
+			 * Here down, the mode is checked primarily, and the valid commands for that mode are within the mode.
+			 * This fixes a couple potential (future) issues
+			 * 1. If a command is valid in 2 modes, it would've been checked via 2 if statements:
+			 * Note: Suppose that inventory is the current mode.
+			 * - command.equalsIgnoreCase("whatever") && modeCheck("game")
+			 * - command.equalsIgnoreCase("whatever") && modeCheck("inventory")
+			 * The modeCheck() method would've added dialog of being in the wrong mode for game, then 
+			 * successfully executed the command for the inventory mode check, giving extra unnecessary data.
+			 * 2. If a valid command is entered for the wrong mode, multiple messages would be returned.
+			 * - First, the message about being in the wrong mode
+			 * - And Second, the message about it being an invalid command
+			 * - The 2nd is due to modeCheck returning false, leading the else statement of invalid command to 
+			 * be the block that gets executed.
+			 * #################################
+			 */
+		}else if(mode.equalsIgnoreCase("game")){
+			if(command.equalsIgnoreCase("move")){
+				if(args[1].equalsIgnoreCase("north") || arg.equalsIgnoreCase("south") || 
+						arg.equalsIgnoreCase("east") || arg.equalsIgnoreCase("west") ||
+						arg.equalsIgnoreCase("northwest") || arg.equalsIgnoreCase("northeast") ||
+						arg.equalsIgnoreCase("southwest") || arg.equalsIgnoreCase("southeast")){
+					move(arg);
+				}else{
+					add_dialog("I don't understand that direction.");
+				}
+			}else if((command.equalsIgnoreCase("north") || command.equalsIgnoreCase("N"))){
+				move("north");
+			}else if((command.equalsIgnoreCase("south") || command.equalsIgnoreCase("S"))){
+				move("south");
+			}else if((command.equalsIgnoreCase("east") || command.equalsIgnoreCase("E"))){
+				move("east");
+			}else if((command.equalsIgnoreCase("west") || command.equalsIgnoreCase("W"))){
+				move("west");
+			}else if((command.equalsIgnoreCase("northeast") || command.equalsIgnoreCase("NE"))){
+				move("northeast");
+			}else if((command.equalsIgnoreCase("northwest") || command.equalsIgnoreCase("NW"))){
+				move("northwest");
+			}else if((command.equalsIgnoreCase("southeast") || command.equalsIgnoreCase("SE"))){
+				move("southeast");
+			}else if((command.equalsIgnoreCase("southwest") || command.equalsIgnoreCase("SW"))){
+				move("southwest");
+			}else if(command.equalsIgnoreCase("take")) {
+				if (arg != null) {
+					take(arg);
+				} else {
+					
+				}
+			} /*else if (command.equalsIgnoreCase("climb") && mode_check("game") && arg != null) {
+				boolean climbable = false;
+				ArrayList<Object> Objects = map.getMapTiles().get(get_player().get_location()).getObjects();
+				for (Object climbObject : Objects) {
+					if (climbObject != null && climbObject.getCommandResponses().containsKey("climb") && climbObject.getName().toLowerCase().contains(arg)) {
+						climb(climbObject);
+						climbable = true;
 					}
-				} catch (NumberFormatException nfe) {
-					returnMessage = "Invalid number selection. Example: 'item 1' to see the item at position 1";
 				}
-			} else {
-				returnMessage = "Please designate the item # you want to view more details of.";
-			}
-		} else if (command.equalsIgnoreCase("take") && mode_check("game")) {
-			if (arg != null) {
-				take(arg);
-			} else {
-				
-			}
-		} /*else if (command.equalsIgnoreCase("climb") && mode_check("game") && arg != null) {
-			boolean climbable = false;
-			ArrayList<Object> Objects = map.getMapTiles().get(get_player().get_location()).getObjects();
-			for (Object climbObject : Objects) {
-				if (climbObject != null && climbObject.getCommandResponses().containsKey("climb") && climbObject.getName().toLowerCase().contains(arg)) {
-					climb(climbObject);
-					climbable = true;
+				if (!climbable){
+					add_dialog("What exactly are you trying to climb?");
+				}
+			}*/else if(command.equalsIgnoreCase("look")){
+				look();
+			}else if(command.equalsIgnoreCase("attack") && get_player().get_location() == 7) {
+				add_dialog("You take the pointy stick and throw it at the troll.;It manages to poke him in the eye and knock him off balance.;"
+						+"As he falls he drops his sword, you quickly spring into action.;You grab his sword off the ground and lay waste to the foul beast.;"
+						+"!!!CONGRATULATIONS!!! You have conqured this small land and laid waste the the evil plauging it.");
+			}else{
+				if(!handle_object_commands(commandStr)){
+					// Changed this to add_dialog due to our conversation about having mode = game have all text 
+					// in dialog instead of having a separate error/response message (while other modes still use 
+					// the response message though)
+					add_dialog("Sorry, I didn't understand that.");
 				}
 			}
-			if (!climbable){
-				add_dialog("What exactly are you trying to climb?");
-			}
-		} */else if (command.equalsIgnoreCase("look") && mode_check("game")) {
-			look();
-		} else if (command.equalsIgnoreCase("attack") && mode_check("game") && get_player().get_location() == 7) {
-			add_dialog("You take the pointy stick and throw it at the troll.;It manages to poke him in the eye and knock him off balance.;"
-					+"As he falls he drops his sword, you quickly spring into action.;You grab his sword off the ground and lay waste to the foul beast.;"
-					+"!!!CONGRATULATIONS!!! You have conqured this small land and laid waste the the evil plauging it.");
-		} else if(!command.equalsIgnoreCase("")){
-			// Checking if command isn't empty, since it can't be null -> initialized in here to "";
-			returnMessage = "Sorry, I didn't understand that.";
-		} else{
-			if(!handle_object_commands(commandStr)){
-				returnMessage = "No command received";
+		}else if(mode.equalsIgnoreCase("inventory")){
+			if(command.equalsIgnoreCase("item")){
+				if (arg != null) {
+					try {
+						int Item_num = Integer.parseInt(arg);
+						//if (get_player().get_inventory().get_items().size() < Item_num || Item_num < 1 ) {
+						if (get_player().get_inventory().get_items().size() < Item_num || Item_num < 1 ) {
+							returnMessage = "Sorry you dont have an item at that index";
+						} else  {
+							returnMessage = item_details(Item_num-1);
+						}
+					} catch (NumberFormatException nfe) {
+						returnMessage = "Invalid number selection. Example: 'item 1' to see the item at position 1";
+					}
+				} else {
+					returnMessage = "Please designate the item # you want to view more details of.";
+				}
+			}else{
+				// Checking if command isn't empty, since it can't be null -> initialized in here to "";
+				// Simply changed to else... I may have lost the null command message.
+				// Not sure if this message is still okay for a null command error?
+				returnMessage = "Sorry, I didn't understand that.";
 			}
 		}
 		return returnMessage;
@@ -290,15 +316,6 @@ public class Game implements Engine{
 			dialog.add(action_object.getCommandResponses().get(command));
 		}
 		return isObjectCommand;
-	}
-	
-	public boolean mode_check(String required_mode){
-		if(!mode.equalsIgnoreCase(required_mode)){
-			add_dialog("You can't use that command here.");
-			return false;
-		}else{
-			return true;
-		}
 	}
 	
 	@Override
@@ -363,11 +380,6 @@ public class Game implements Engine{
 	public void close(Object object){
 		// TODO Implement
 		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-	
-	@Override
-	public void climb(Object object){
-		add_dialog(object.getCommandResponses().get("climb"));
 	}
 	
 	@Override
@@ -441,16 +453,7 @@ public class Game implements Engine{
 	
 	@Override
 	public void move(String direction){
-		
-		//Temp Code
-		
-		//add_dialog("You moved " + direction);
-		
-		
-		
-		
 		Character player = characters.get(0);
-		// direction.toLowerCase since they're stored in lowercase in the MapTile.
 		int moveValue = map.getMapTiles().get(player.get_location()).getMoveValue(direction.toLowerCase());
 		if (moveValue != 0) {
 			if (player.get_location() == 8 && direction.equalsIgnoreCase("west")) {
