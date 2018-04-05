@@ -166,6 +166,24 @@ public class Game implements Engine{
 		return display_text;
 	}
 
+	public boolean mode_change(String command){
+		if(command.equalsIgnoreCase("inventory")){
+			check_inventory();
+			return true;
+		}else if(command.equalsIgnoreCase("character")){
+			check_character_sheet();
+			return true;
+		}else if(command.equalsIgnoreCase("map")){
+			check_map();
+			return true;
+		}else if(command.equalsIgnoreCase("game")){
+			return_to_game();
+			return true;
+		}
+		return false;
+	}
+		
+	
 	@Override
 	public String handle_command(String commandStr){
 		// TODO: Implement all the command calls in here
@@ -183,14 +201,7 @@ public class Game implements Engine{
         	command = commandStr;
         }
 		
-		if(command.equalsIgnoreCase("inventory")){
-			check_inventory();
-		}else if(command.equalsIgnoreCase("character")){
-			check_character_sheet();
-		}else if(command.equalsIgnoreCase("map")){
-			check_map();
-		}else if(command.equalsIgnoreCase("game")){
-			return_to_game();
+		
 			/* #################################
 			 * Here down, the mode is checked primarily, and the valid commands for that mode are within the mode.
 			 * This fixes a couple potential (future) issues
@@ -207,7 +218,7 @@ public class Game implements Engine{
 			 * be the block that gets executed.
 			 * #################################
 			 */
-		}else if(mode.equalsIgnoreCase("game")){
+		if(mode.equalsIgnoreCase("game")){
 			if(command.equalsIgnoreCase("move")){
 				if(args[1].equalsIgnoreCase("north") || arg.equalsIgnoreCase("south") || 
 						arg.equalsIgnoreCase("east") || arg.equalsIgnoreCase("west") ||
@@ -277,7 +288,7 @@ public class Game implements Engine{
 							returnMessage = item_details(Item_num-1);
 						}
 					} catch (NumberFormatException nfe) {
-						returnMessage = "Invalid number selection. Example: 'item 1' to see the item at position 1";
+						returnMessage = "Invalid item selection. Example: 'item 1' to see the item at position 1";
 					}
 				} else {
 					returnMessage = "Please designate the item # you want to view more details of.";
@@ -306,10 +317,11 @@ public class Game implements Engine{
 		
 		Object action_object = null;
 		for (Object object : map.getMapTiles().get(get_player().get_location()).getObjects()){
-			object.getCommandResponses().keySet().contains(command);
-			if (object.getName().contains(arg)) {
-				action_object = object;
-				isObjectCommand = true;
+			if (object.getCommandResponses().containsKey(command)) {
+				if (object.getName().toLowerCase().contains(arg.toLowerCase())) {
+					action_object = object;
+					isObjectCommand = true;
+				}
 			}
 		}
 		if (action_object != null) {
@@ -329,11 +341,11 @@ public class Game implements Engine{
 	
 	@Override
 	public void check_inventory(){
-		if(mode.equalsIgnoreCase("inventory")){
-			add_dialog("You're already in it!");
-		}else{
+		//if(mode.equalsIgnoreCase("inventory")){
+		//	add_dialog("You're already in it!");
+		//}else{
 			mode = "inventory";
-		}
+		//}
 	}
 	
 	@Override
@@ -347,11 +359,11 @@ public class Game implements Engine{
 	
 	@Override
 	public void return_to_game(){
-		if(mode.equalsIgnoreCase("game")){
-			add_dialog("You're playing it!");
-		}else{
+		//if(mode.equalsIgnoreCase("game")){
+		//	add_dialog("You're playing it!");
+		//}else{
 			mode = "game";
-		}
+		//}
 	}
 	
 	@Override
@@ -362,8 +374,8 @@ public class Game implements Engine{
 
 	
 	public String item_details(int item_num){
-		//Item item = get_player().get_inventory().get_items().get(item_num);
-		Item item = items.get(item_num);
+		Item item = get_player().get_inventory().get_items().get(item_num);
+		//Item item = items.get(item_num);
 		return item.getName() + ": " + item.getLongDescription() + ";Weight: " + item.getItemWeight() + ";Quest item: " + String.valueOf(item.getIsQuestItem());
 	}
 	/*

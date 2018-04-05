@@ -2,6 +2,7 @@ package edu.ycp.cs320.middle_earth.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -43,49 +44,14 @@ public class GameViewServlet extends HttpServlet {
         System.out.println("GameView Servlet: doPost");
         
         Game game = (Game) req.getSession().getAttribute("game");
+        req.getSession().setAttribute("command", req.getParameter("command"));
         
-        game.set_mode("game");
-        
-        // holds the error message text, if there is any
-        String errorMessage = null;
-        String display_text = null;
-        String command = req.getParameter("command");
-        errorMessage = game.handle_command(command);
-        if (errorMessage != null) {
-        	game.add_dialog(errorMessage);
+        if(game.mode_change(req.getParameter("command"))){
+        	req.getSession().setAttribute("command", null);
         }
         
-        display_text = game.get_display_text();
+        req.setAttribute("mode", game.get_mode());
+        req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
         
-        if (game.get_mode() == "inventory") {
-        	
-        	ArrayList<Item> inventory_list =  game.get_player().get_inventory().get_items();
-            
-            String inventory_display_list = "";
-        	for (int j = 0; j < inventory_list.size(); j++){
-            	inventory_display_list = inventory_display_list + inventory_list.get(j).getName() + ": " + inventory_list.get(j).getShortDescription()+";";
-            }
-        	
-        	req.setAttribute("inventory", inventory_display_list);
-
-            req.setAttribute("mode", game.get_mode());
-            req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
-        } 
-        else if (game.get_mode() == "map") {
-        	// TODO Implement
-    		throw new UnsupportedOperationException("Not implemented yet!");
-            //req.getRequestDispatcher("/_view/map.jsp").forward(req, resp);
-        } 
-        else if (game.get_mode() == "character") {
-        	// TODO Implement
-    		throw new UnsupportedOperationException("Not implemented yet!");
-        	//req.getRequestDispatcher("/_view/character.jsp").forward(req, resp);
-        } 
-        else {
-        	//req.setAttribute("dialog", display_text);
-        	// now call the JSP to render the new page
-            req.setAttribute("mode", game.get_mode());
-        	req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
-        }
     }
 }

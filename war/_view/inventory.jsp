@@ -43,7 +43,7 @@
 <div>
 <p>Type "item #" to see more details about the specific item</br>
 Type "game" to return to the game</p></div>
-
+<!--
 <form action="${pageContext.servletContext.contextPath}/inventory" method="post">
     <table>
         <tr>
@@ -53,5 +53,6 @@ Type "game" to return to the game</p></div>
     </table>
     <input type="Submit" name="submit" value="Submit">
 </form>
+-->
 </body>
 </html>

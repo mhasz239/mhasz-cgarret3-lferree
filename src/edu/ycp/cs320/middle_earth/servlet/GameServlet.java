@@ -22,14 +22,21 @@ public class GameServlet extends HttpServlet {
         System.out.println("Game Servlet: doGet");
         
         Game game = (Game) req.getSession().getAttribute("game");
-        
+        String command = (String) req.getSession().getAttribute("command");
         
         game.set_mode("game");
-        
-        
-        game.add_dialog(game.get_mapTile_name());
-        game.add_dialog(game.get_mapTile_longDescription());
-        
+        if (command != null) {
+        	// holds the error message text, if there is any
+        	String errorMessage = null;
+        	
+        	errorMessage = game.handle_command(command);
+        	if (errorMessage != null) {
+        		game.add_dialog(errorMessage);
+        	}
+        } else {
+        	game.add_dialog(game.get_mapTile_name());
+        	game.add_dialog(game.get_mapTile_longDescription());
+        }
         req.setAttribute("mode", game.get_mode());
         req.setAttribute("dialog", game.get_display_text());
         // call JSP to generate empty form
@@ -85,7 +92,7 @@ public class GameServlet extends HttpServlet {
         	req.setAttribute("dialog", display_text);
         	req.setAttribute("mode", game.get_mode());
         	// now call the JSP to render the new page
-        	req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
+        	req.getRequestDispatcher("/_view/game.jsp").forward(req, resp);
         }
     }
 }

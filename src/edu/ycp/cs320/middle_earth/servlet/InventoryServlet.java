@@ -23,20 +23,27 @@ public class InventoryServlet extends HttpServlet {
         //Load data for the initial call to the inventory jsp
 
         Game game = (Game) req.getSession().getAttribute("game");
-
+        String command = (String) req.getSession().getAttribute("command");
+        
         game.set_mode("inventory");
         ArrayList<Item> inventory_list =  game.get_player().get_inventory().get_items();
-        
-        
         String inventory_display_list = "";
-        
         for (int j = 0; j < inventory_list.size(); j++){
         	inventory_display_list = inventory_display_list + inventory_list.get(j).getName() + ": " + inventory_list.get(j).getShortDescription()+";";
         }
-
-        req.setAttribute("inventory", inventory_display_list);
-        // call JSP to generate the inventory page
-        req.getRequestDispatcher("/_view/inventory.jsp").forward(req, resp);
+        	
+        if (command == null) {
+        	req.setAttribute("inventory", inventory_display_list);
+        } else {
+        	String inventory_dialog = "";
+        	//Parses the command line and calls appropriate commands, returns the infomation requested in inventory, or the error messages associated with wrong calls.
+            inventory_dialog = game.handle_command(command);
+            
+            req.setAttribute("inventory", inventory_display_list);
+        	req.setAttribute("inventory_dialog", inventory_dialog);
+        }
+        	// call JSP to generate the inventory page
+        	req.getRequestDispatcher("/_view/inventory.jsp").forward(req, resp);
     }
 
     @Override
@@ -59,7 +66,7 @@ public class InventoryServlet extends HttpServlet {
         	inventory_display_list = inventory_display_list + inventory_list.get(j).getName() + ": " + inventory_list.get(j).getShortDescription()+";";
         }
 
-        String command = req.getParameter("command");
+        String command = (String) req.getSession().getAttribute("command");
         
         //Parses the command line and calls appropriate commands, returns the infomation requested in inventory, or the error messages associated with wrong calls.
         inventory_dialog = game.handle_command(command);
