@@ -29,7 +29,7 @@ public class HandleMovementCommands{
 	private MapTile westOfStarting;
 	private MapTile northWestOfStarting;
 	private static String invalidDirection = "You can't go that way";
-	private static String invalidMode = "You can't use that command here.";
+	private static String invalidMode = "Sorry, I didn't understand that.";
 	
 	@Before
 	public void setup(){
@@ -200,14 +200,12 @@ public class HandleMovementCommands{
 		assertEquals(original.getID(), game.get_player().get_location());
 		
 		// Run the command
-		game.handle_command(command);
+		String response = game.handle_command(command);
 		
 		// Ensure that after the command, the player hasn't moved (since not in mode = game)
 		assertEquals(original.getID(), game.get_player().get_location());
-		// Ensure 1 new line has been added to the dialog
-		assertEquals(1, game.get_dialog().size());
 		// Ensure that 1 line is the invalidMode string
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		assertEquals(invalidMode, response);
 	}
 	
 	/*

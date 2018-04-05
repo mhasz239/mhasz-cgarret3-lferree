@@ -132,18 +132,26 @@ public class GameHandleCommandTest{
 	
 	@Test
 	public void testTooManyArgumentsInCommand(){
-		game.handle_command("test command long");
+		String response = game.handle_command("test command long");
 		
-		assertEquals(1, game.get_dialog().size());
-		assertEquals("Too many arguments in your command", game.get_dialog().get(0));
+		assertEquals("Too many arguments in your command", response);
 	}
 	
 	@Test
-	public void testNullCommand(){
+	public void testNullCommandInModeGame(){
 		game.handle_command("");
 		
 		assertEquals(1, game.get_dialog().size());
-		assertEquals("No command received", game.get_dialog().get(0));
+		assertEquals("Sorry, I didn't understand that.", game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testNullCommandInModeInventory(){
+		game.set_mode("inventory");
+		
+		String response = game.handle_command("");
+		
+		assertEquals("Sorry, I didn't understand that.", response);
 	}
 	
 	/*
