@@ -8,6 +8,7 @@ public class MapTile extends Construct{
 	private HashMap<String, Integer> connections;
 	//private ArrayList<CombatSituation> random_encounters;
 	private ArrayList<Object> objects;
+	private boolean visited;
 	
 	public MapTile() {
 		connections = new HashMap<String, Integer>();
@@ -41,6 +42,14 @@ public class MapTile extends Construct{
 	
 	public int getMoveValue(String direction) {
 		return connections.get(direction);
+	}
+	
+	public void setVisited(boolean visited){
+		this.visited = visited;
+	}
+	
+	public boolean getVisited() {
+		return this.visited;
 	}
 	
 }
