@@ -303,14 +303,14 @@ public class DerbyDatabase implements IDatabase {
 						insertObject.setString(3, object.getShortDescription());
 						//insertObject.setString(5, object.getCommandResponses().get("climb"));
 						
-					/*	insertItemToObject = conn.prepareStatement("insert into itemstoobjects (item_id, object_id) values (?, ?)");
+						insertItemToObject = conn.prepareStatement("insert into itemstoobjects (item_id, object_id) values (?, ?)");
 						for (Item item : object.getItems()) {
 							insertItemToObject.setInt(1, item.getID());
 							insertItemToObject.setInt(2, object.getID());
 							insertItemToObject.addBatch();
 						}
 						insertItemToObject.executeBatch();
-					*/		
+							
 						insertObject.addBatch();
 					}
 					insertObject.executeBatch();
