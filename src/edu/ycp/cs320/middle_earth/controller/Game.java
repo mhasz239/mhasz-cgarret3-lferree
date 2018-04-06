@@ -356,11 +356,11 @@ public class Game implements Engine{
 	
 	@Override
 	public void check_map(){
-		if(mode.equalsIgnoreCase("map")){
-			add_dialog("You're already in it!");
-		}else{
+		//if(mode.equalsIgnoreCase("map")){
+		//	add_dialog("You're already in it!");
+		//}else{
 			mode = "map";
-		}
+		//}
 	}
 	
 	@Override
