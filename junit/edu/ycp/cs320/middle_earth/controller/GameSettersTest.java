@@ -220,6 +220,33 @@ public class GameSettersTest{
 	}
 	
 	@Test
+	public void testReSet_Dialog(){
+		Game game = new Game();
+		
+		ArrayList<String> test_dialog = new ArrayList<String>();
+		test_dialog.add("This is a ");
+		test_dialog.add("pretty simple ");
+		test_dialog.add(" test.");
+		
+		game.set_dialog(test_dialog);
+		
+		assertEquals(3, game.get_dialog().size());
+		assertEquals("This is a ", game.get_dialog().get(0));
+		assertEquals("pretty simple ", game.get_dialog().get(1));
+		assertEquals(" test.", game.get_dialog().get(2));
+		
+		ArrayList<String> test_dialog2 = new ArrayList<String>();
+		test_dialog2.add("Another");
+		test_dialog2.add("simple");
+		
+		game.set_dialog(test_dialog2);
+		
+		assertEquals(2, game.get_dialog().size());
+		assertEquals("Another", game.get_dialog().get(0));
+		assertEquals("simple", game.get_dialog().get(1));
+	}
+	
+	@Test
 	public void testAdd_Dialog(){
 		Game game = new Game();
 		

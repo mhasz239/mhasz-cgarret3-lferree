@@ -37,6 +37,7 @@ public class GameHandleCommandTest{
 	private MapTile northOfStarting;
 	private MapTile northEastOfStarting;
 	private String invalidMode;
+	private String noComprend;
 	
 	@Before
 	public void setup(){
@@ -76,20 +77,6 @@ public class GameHandleCommandTest{
 		characters.add(player);
 		game.set_characters(characters);
 		
-		tree = new Object();
-		tree.setName("Tree");
-		HashMap<String, String> responses = new HashMap<String, String>();
-		responses.put("climb", "It's high up here!");
-		tree.setCommandResponses(responses);
-		//TODO: JUNIT: Set Tree location to 0 (starting MapTile).
-		
-		ladder = new Object();
-		ladder.setName("Ladder");
-		HashMap<String, String> responses2 = new HashMap<String, String>();
-		responses.put("climb", "It's not so high up here...");
-		ladder.setCommandResponses(responses2);
-		//TODO: JUNIT: Set Ladder location to 1 (northOfStarting MapTile).
-		
 		// MapTiles		8 1 2
 		//				7 0 3
 		//				6 5 4
@@ -111,6 +98,24 @@ public class GameHandleCommandTest{
 		map.addMapTile(northEastOfStarting);
 		game.set_map(map);
 		
+		tree = new Object();
+		tree.setName("Tree");
+		HashMap<String, String> responses = new HashMap<String, String>();
+		responses.put("climb", "It's high up here!");
+		tree.setCommandResponses(responses);
+		ArrayList<Object> objs = new ArrayList<Object>();
+		objs.add(tree);
+		starting.setObjects(objs);
+		
+		ladder = new Object();
+		ladder.setName("Ladder");
+		HashMap<String, String> responses2 = new HashMap<String, String>();
+		responses.put("climb", "It's not so high up here...");
+		ladder.setCommandResponses(responses2);
+		ArrayList<Object> objs2 = new ArrayList<Object>();
+		objs2.add(ladder);
+		northOfStarting.setObjects(objs2);
+		
 		invalidMode = "You can't use that command here.";
 		
 		wood = new Item();
@@ -120,6 +125,8 @@ public class GameHandleCommandTest{
 		ArrayList<Item> items = new ArrayList<Item>();
 		items.add(wood);
 		game.set_items(items);
+		
+		noComprend = "Sorry, I didn't understand that.";
 	}
 	
 	@Test
@@ -127,7 +134,7 @@ public class GameHandleCommandTest{
 		game.handle_command("blofjerf");
 		
 		assertEquals(1, game.get_dialog().size());
-		assertEquals("Sorry, I didn't understand that.", game.get_dialog().get(0));
+		assertEquals(noComprend, game.get_dialog().get(0));
 	}
 	
 	@Test
@@ -139,10 +146,11 @@ public class GameHandleCommandTest{
 	
 	@Test
 	public void testNullCommandInModeGame(){
-		game.handle_command("");
+		String response = game.handle_command("");
 		
 		assertEquals(1, game.get_dialog().size());
-		assertEquals("Sorry, I didn't understand that.", game.get_dialog().get(0));
+		assertEquals(noComprend, game.get_dialog().get(0));
+		assertEquals(null, response);
 	}
 	
 	@Test
@@ -151,7 +159,25 @@ public class GameHandleCommandTest{
 		
 		String response = game.handle_command("");
 		
-		assertEquals("Sorry, I didn't understand that.", response);
+		assertEquals(noComprend, response);
+	}
+	
+	@Test
+	public void testSpaceCommandInModeGame(){
+		String response = game.handle_command(" ");
+		
+		assertEquals(1, game.get_dialog().size());
+		assertEquals(noComprend, game.get_dialog().get(0));
+		assertEquals(null, response);
+	}
+	
+	@Test
+	public void testSpaceCommandInModeInventory(){
+		game.set_mode("inventory");
+		
+		String response = game.handle_command(" ");
+		
+		assertEquals(noComprend, response);
 	}
 	
 	/*
