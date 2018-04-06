@@ -3,8 +3,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" output="test-bin" path="junit"/>
 	<classpathentry kind="src" output="bin" path="main"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/CS320_Jetty9"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/CS320_Jetty9"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/CS320_Derby"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

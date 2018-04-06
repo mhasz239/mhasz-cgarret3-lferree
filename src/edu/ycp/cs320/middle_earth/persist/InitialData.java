@@ -87,24 +87,34 @@ public class InitialData {
 		}
 	}
 	
-/*	public static ArrayList<HashMap<String, MapTile>> getMapTileConnections(mapTileList) throws IOException {
-		ArrayList<HashMap<String, MapTile>> connectionList = new ArrayList<HashMap<String, MapTile>>();
+	public static ArrayList<HashMap<String, Integer>> getMapTileConnections() throws IOException {
+		ArrayList<HashMap<String, Integer>> mapTileConnectionsList = new ArrayList<HashMap<String, Integer>>();
+		ReadCSV readMapTileConnections = new ReadCSV("maptileconnections.csv");
 		try {
 			while (true) {
-				List<String> tuple = readConnections.next();
+				List<String> tuple = readMapTileConnections.next();
+				HashMap<String, Integer> mapTileConnections = new HashMap<String, Integer>();
+				
 				if(tuple == null) {
 					break;
 				}
 				Iterator<String> i = tuple.iterator();
-				
-				HashMap<String, MapTile> connections = new HashMap<String, MapTile>();
-				connections = i.next();
+				mapTileConnections.put("north", Integer.parseInt(i.next()));
+				mapTileConnections.put("northeast", Integer.parseInt(i.next()));
+				mapTileConnections.put("east", Integer.parseInt(i.next()));
+				mapTileConnections.put("southeast", Integer.parseInt(i.next()));
+				mapTileConnections.put("south", Integer.parseInt(i.next()));
+				mapTileConnections.put("southwest", Integer.parseInt(i.next()));
+				mapTileConnections.put("west", Integer.parseInt(i.next()));
+				mapTileConnections.put("northwest", Integer.parseInt(i.next()));
+					
+				mapTileConnectionsList.add(mapTileConnections);
 			}
-		return connectionList;
+			return mapTileConnectionsList;
 		} finally {
-			readConnections.close();
+			readMapTileConnections.close();
 		}
-	} */
+	}
 	
 	public static ArrayList<Object> getObjects() throws IOException {
 		ArrayList<Object> objectList = new ArrayList<Object>();
