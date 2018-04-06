@@ -27,7 +27,7 @@ public class InitialData {
 				}
 				Iterator<String> i = tuple.iterator();
 				
-				map.setID(Integer.parseInt(i.next()));
+				//map.setID(Integer.parseInt(i.next()));
 				map.setName(i.next());
 				map.setShortDescription(i.next());
 				map.setLongDescription(i.next());
@@ -44,7 +44,7 @@ public class InitialData {
 		MapTile nullMapTile = new MapTile();
 		mapTileList.add(nullMapTile);
 		
-		ReadCSV readMapTiles = new ReadCSV("mapTiles.csv");
+		ReadCSV readMapTiles = new ReadCSV("maptiles.csv");
 		try {
 			int mapTileID = 1;
 			while (true) {
@@ -160,10 +160,6 @@ public class InitialData {
 					object.setCommandResponses(commandResponses);
 					object.setItems(itemList);;
 				}
-				/*
-				 * Need to add extraction of command responses
-				 * 
-				 */
 			
 				objectList.add(object);
 			}

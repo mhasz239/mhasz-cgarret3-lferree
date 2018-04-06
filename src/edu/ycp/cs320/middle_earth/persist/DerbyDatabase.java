@@ -155,7 +155,7 @@ public class DerbyDatabase implements IDatabase {
 //				PreparedStatement stmt7 = null;
 				
 				try {
-					
+					int tableCounter = 0;
 					stmt1 = conn.prepareStatement(
 							"create table items (" + 
 							"	item_id integer primary key " +
@@ -168,6 +168,7 @@ public class DerbyDatabase implements IDatabase {
 							")"
 					);
 					stmt1.executeUpdate();
+					System.out.println("\t" + ++tableCounter + ". <items> table created");
 					
 					stmt2 = conn.prepareStatement(
 							"create table objects (" +
@@ -179,6 +180,7 @@ public class DerbyDatabase implements IDatabase {
 							")"
 					);
 					stmt2.executeUpdate();
+					System.out.println("\t" + ++tableCounter + ". <objects> table created");
 					
 					stmt3 = conn.prepareStatement(
 							"create table itemstoobjects (" +
@@ -187,6 +189,7 @@ public class DerbyDatabase implements IDatabase {
 							")"
 					);
 					stmt3.executeUpdate();
+					System.out.println("\t" + ++tableCounter + ". <itemstoobjects> table created");
 
 					
 					stmt4 = conn.prepareStatement(
@@ -205,6 +208,7 @@ public class DerbyDatabase implements IDatabase {
 							")"
 					);
 					stmt4.executeUpdate();
+					System.out.println("\t" + ++tableCounter + ". <maptileconnections> table created");
 					
 					stmt5 = conn.prepareStatement(
 							"create table maptiles (" +
@@ -216,6 +220,7 @@ public class DerbyDatabase implements IDatabase {
 							")"
 					);
 					stmt5.executeUpdate();
+					System.out.println("\t" + ++tableCounter + ". <maptiles> table created");
 					
 /*					stmt6 = conn.prepareStatement(
 							"create table map (" +
@@ -226,7 +231,9 @@ public class DerbyDatabase implements IDatabase {
 							"	shortdescription varchar(100)" +
 							")"
 					);
-					stmt6.executeUpdate();*/
+					stmt6.executeUpdate();
+					System.out.println("\t" + ++tableCounter + ". <map> table created");
+					*/
 					
 					return true;
 				} finally {
@@ -270,7 +277,9 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement insertMapTile = null;
 //				PreparedStatement insertMap = null;
 
-				try {					
+				try {		
+					int tableLoadCounter = 0;
+								
 					insertItem = conn.prepareStatement("insert into items (itemname, longdescription, shortdescription, weight, isquestitem) values (?, ?, ?, ?, ?)");
 					for (Item item : itemList) {
 //						insertItem.setInt(1, item.getItemId());		// auto-generated primary key, don't insert this
@@ -282,28 +291,31 @@ public class DerbyDatabase implements IDatabase {
 						insertItem.addBatch();
 					}
 					insertItem.executeBatch();
+					System.out.println("\t" + ++tableLoadCounter + ". <items> table loaded");
 					
 					insertObject = conn.prepareStatement("insert into objects (objectname, longdescription, shortdescription) values (?, ?, ?)");
 					for (Object object : objectList) {
 //						insertObject.setInt(1, object.getobjectId());		// auto-generated primary key, don't insert this
 						//insertObject.setString(1, "climb");
 						
-						insertObject.setString(2, object.getName());
-						insertObject.setString(3, object.getLongDescription());
-						insertObject.setString(4, object.getShortDescription());
+						insertObject.setString(1, object.getName());
+						insertObject.setString(2, object.getLongDescription());
+						insertObject.setString(3, object.getShortDescription());
 						//insertObject.setString(5, object.getCommandResponses().get("climb"));
 						
-						insertItemToObject = conn.prepareStatement("insert into itemstoobjects (item_id, object_id) values (?, ?)");
+					/*	insertItemToObject = conn.prepareStatement("insert into itemstoobjects (item_id, object_id) values (?, ?)");
 						for (Item item : object.getItems()) {
 							insertItemToObject.setInt(1, item.getID());
 							insertItemToObject.setInt(2, object.getID());
 							insertItemToObject.addBatch();
 						}
 						insertItemToObject.executeBatch();
-							
+					*/		
 						insertObject.addBatch();
 					}
 					insertObject.executeBatch();
+					System.out.println("\t" + ++tableLoadCounter + ". <objects> table loaded");
+					//System.out.println("\t" + ++tableLoadCounter + ". <itemstoobjects> table loaded");
 					
 					insertMapTileConnections = conn.prepareStatement("insert into maptileconnections "
 							+ "("
@@ -334,7 +346,7 @@ public class DerbyDatabase implements IDatabase {
 						insertMapTileConnections.addBatch();
 					}
 					insertMapTileConnections.executeBatch();
-					
+					System.out.println("\t" + ++tableLoadCounter + ". <maptileconnections> table loaded");
 					
 					insertMapTile = conn.prepareStatement("insert into maptiles (maptilename, longdescription, shortdescription) values (?, ?, ?)");
 					for (MapTile mapTile : mapTileList) {
@@ -345,9 +357,9 @@ public class DerbyDatabase implements IDatabase {
 						insertMapTile.addBatch();
 					}
 					insertMapTile.executeBatch();
+					System.out.println("\t" + ++tableLoadCounter + ". <maptiles> table loaded");
 					
-					
-					/*insertMap = conn.prepareStatement("insert into maps (mapname, longdescription, shortdescription) values (?, ?, ?)");
+/*					insertMap = conn.prepareStatement("insert into maps (mapname, longdescription, shortdescription) values (?, ?, ?)");
 					for (Map map : mapList) {
 //						insertMap.setInt(1, map.getmapId());		// auto-generated primary key, don't insert this
 						insertMap.setString(1, map.getName());
@@ -355,7 +367,9 @@ public class DerbyDatabase implements IDatabase {
 						insertMap.setString(3, map.getShortDescription());
 						insertMap.addBatch();
 					}
-					insertMap.executeBatch();	*/
+					insertMap.executeBatch();	
+					System.out.println("\t" + ++tableLoadCounter + ". <map> table loaded");
+					*/
 					
 					return true;
 				} finally {
