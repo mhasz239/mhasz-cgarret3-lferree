@@ -13,11 +13,11 @@
     	#header { text-align: center; }
     	#help { 
     		float: left;
-    		width: 25%;
+    		width: 23%;
     	}
     	#game { 
     		float: left;
-    		width: 75%;
+    		width: 73%;
     		height: 75%;
     	}
     	#input { width = 100% }

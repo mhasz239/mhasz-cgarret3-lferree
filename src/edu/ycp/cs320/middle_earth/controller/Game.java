@@ -10,6 +10,7 @@ import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.NPC;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 import edu.ycp.cs320.middle_earth.model.Constructs.Map;
+import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
 import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
 import edu.ycp.cs320.middle_earth.persist.FakeDatabase;
 import edu.ycp.cs320.middle_earth.persist.IDatabase;
@@ -47,6 +48,9 @@ public class Game implements Engine{
 		
 		items = db.getAllItems();
 		map = db.getMap();
+		for (MapTile tile : map.getMapTiles()) {
+			tile.setVisited(false);
+		}
 		//map.setMapTiles(db.getAllMapTiles());
 		quests = db.getAllQuests();
 		characters = db.getAllCharacters();
@@ -71,6 +75,8 @@ public class Game implements Engine{
 				}
 			}
 		}
+		
+		map.getMapTiles().get(get_player().get_location()).setVisited(true);
 	}
 	
 	public Game get_game() {
@@ -490,7 +496,7 @@ public class Game implements Engine{
 		} else {
 			add_dialog("You can't go that way");
 		}
-		
+		map.getMapTiles().get(player.get_location()).setVisited(true);
 		
 	}
 	
