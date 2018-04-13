@@ -46,9 +46,9 @@ public class ObjectTest{
 	
 	@Test
 	public void testAddItem(){
-		Item sword = new Weapon();
+		Item sword = new Item();
 		sword.setName("Sword");
-		Item helmet = new Armor();
+		Item helmet = new Item();
 		helmet.setName("Helmet");
 		
 		assertEquals(0, object.getItems().size());
