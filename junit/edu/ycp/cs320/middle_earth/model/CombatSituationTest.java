@@ -99,4 +99,10 @@ public class CombatSituationTest{
 		int attack = battle.calculateAttack(0);
 		assertTrue(attack >= min && attack <= max);
 	}
+	
+	@Test
+	public void testCalculateDamagePlayerFullArmor(){
+		// Create Helmet
+		
+	}
 }

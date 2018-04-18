@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import edu.ycp.cs320.middle_earth.model.Quest;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
+import edu.ycp.cs320.middle_earth.model.Constructs.ItemType;
 
 public class Player extends Character{
 	private int experience;
@@ -50,6 +51,9 @@ public class Player extends Character{
 	}
 	
 	public void set_helm(Item helm) {
+		if(helm.get_ItemType() != ItemType.HELM){
+			throw new IllegalArgumentException("This must be a helm!");
+		}
 		this.helm = helm;
 	}
 	
@@ -58,6 +62,9 @@ public class Player extends Character{
 	}
 	
 	public void set_braces(Item braces) {
+		if(braces.get_ItemType() != ItemType.BRACES){
+			throw new IllegalArgumentException("This must be braces!");
+		}
 		this.braces = braces;
 	}
 	
@@ -66,6 +73,9 @@ public class Player extends Character{
 	}
 	
 	public void set_chest(Item chest) {
+		if(chest.get_ItemType() != ItemType.CHEST){
+			throw new IllegalArgumentException("This must be a chest!");
+		}
 		this.chest = chest;
 	}
 	
@@ -74,6 +84,9 @@ public class Player extends Character{
 	}
 	
 	public void set_legs(Item legs) {
+		if(legs.get_ItemType() != ItemType.LEGS){
+			throw new IllegalArgumentException("This must be legs!");
+		}
 		this.legs = legs;
 	}
 	
@@ -82,6 +95,9 @@ public class Player extends Character{
 	}
 	
 	public void set_boots(Item boots) {
+		if(boots.get_ItemType() != ItemType.BOOTS){
+			throw new IllegalArgumentException("This must be boots!");
+		}
 		this.boots = boots;
 	}
 	
@@ -90,6 +106,10 @@ public class Player extends Character{
 	}
 	
 	public void set_l_hand(Item l_hand) {
+		if(l_hand.get_ItemType() != ItemType.L_HAND){
+			// TODO: Maybe just HAND?
+			throw new IllegalArgumentException("This must be L HAND!");
+		}
 		this.l_hand = l_hand;
 	}
 	
@@ -98,6 +118,10 @@ public class Player extends Character{
 	}
 	
 	public void set_r_hand(Item r_hand) {
+		if(r_hand.get_ItemType() != ItemType.R_HAND){
+			// TODO: Maybe just HAND?
+			throw new IllegalArgumentException("This must be R HAND!");
+		}
 		this.r_hand = r_hand;
 	}
 	
