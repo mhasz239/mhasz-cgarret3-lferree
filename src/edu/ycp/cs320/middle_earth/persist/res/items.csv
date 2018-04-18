@@ -1,4 +1,4 @@
-1|Pointy Stick|Hmmm… I think this might have served as that troll's toothpick.  Wish me luck|A finely pointed stick|5|false
-2|Shabby Tunic|Tattered and torn but crafted from hardy leather|Leather Chest Armor|2|false
-3|Ornate Key|Hand carved and certainly one of a kind|I wonder if I can use this|0|true
-4|Fork|Why. Why do you need more information about this|A fork.  That is all|0|false
+Pointy Stick|Hmmm… I think this might have served as that troll's toothpick. Wish me luck|A finely pointed stick|You have broken the pointy stick|0|0|0|5|HAND|0|0
+Shabby Tunic|Tattered and torn but crafted from hardy leather|Leather Chest Armor|This item is of no use|0|0|0|2|CHEST|0|0
+Ornate Key|Hand carved and certainly one of a kind|I wonder if I can use this|You have used the key|0|0|0|0|QUEST|0|0
+Fork|Why. Why do you need more information about this|A fork. That is all|You have solved the riddle! But it is still just a fork|0|0|0|0|MISC|0|0

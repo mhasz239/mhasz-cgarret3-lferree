@@ -23,22 +23,26 @@ public class QueryForPlayer {
 			System.out.println("No player found");
 		}
 		else {
-			System.out.println(player.get_race() + "\n"
+			System.out.println(
+					  player.get_race() + "\n"
 					+ player.get_name() + "\n"
 					+ player.get_gender() + "\n"
 					+ player.get_level() + "\n"
 					+ player.get_hit_points() + "\n"
+					
 					+ player.get_magic_points() + "\n"
 					+ player.get_attack() + "\n"
 					+ player.get_defense() + "\n"
 					+ player.get_special_attack() + "\n"
 					+ player.get_special_defense() + "\n"
+					
 					+ player.get_coins() + "\n"
 					+ player.get_location() + "\n"
+					+ player.get_inventory_id() + "\n"
 					+ player.get_experience() + "\n"
 					+ player.get_carry_weight() + "\n");		
 				
-			System.out.println(player.get_inventory().get_weight());
+/*			System.out.println(player.get_inventory().get_weight());
 			for (Item item : player.get_inventory().get_items()) {
 				System.out.println("item_id = " + item.getID() + "\n" 
 						+ item.getName() + "\n" + item.getLongDescription() + "\n" 
@@ -54,7 +58,7 @@ public class QueryForPlayer {
 				}
 				System.out.println(quest.getRewardCoins());
 				System.out.println(quest.getDialogue());					
-			}
+			} */
 		}
 	}
 }

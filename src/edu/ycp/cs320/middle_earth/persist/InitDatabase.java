@@ -5,6 +5,6 @@ import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
 
 public class InitDatabase {
 	public static void init() {
-				DatabaseProvider.setInstance(new FakeDatabase());
+				DatabaseProvider.setInstance(new DerbyDatabase());
 	}
 }

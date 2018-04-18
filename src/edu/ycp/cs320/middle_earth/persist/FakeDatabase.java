@@ -42,7 +42,7 @@ public class FakeDatabase implements IDatabase {
 	public void readInitialData() {
 		try {
 			itemList.addAll(InitialData.getItems());
-			inventoryList.addAll(InitialData.getAllInventories());
+//			inventoryList.addAll(InitialData.getItemsToInventories());
 			objectList.addAll(InitialData.getObjects());
 			mapTileList.addAll(InitialData.getMapTiles());
 			map = InitialData.getMap();
@@ -54,10 +54,12 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	
+	@Override
 	public ArrayList<Item> getAllItems() {
 		return itemList;
 	}
 	
+	@Override
 	public ArrayList<Object> getAllObjects() {
 		
 		for(Object object : objectList) {
@@ -80,6 +82,7 @@ public class FakeDatabase implements IDatabase {
 		return objectList;
 	}
 	
+	@Override
 	public ArrayList<MapTile> getAllMapTiles() {
 		
 		for (MapTile mapTile :mapTileList) {
@@ -101,6 +104,7 @@ public class FakeDatabase implements IDatabase {
 		return mapTileList;
 	}
 	
+	@Override
 	public Map getMap() {
 		getAllItems();
 		getAllObjects();
@@ -111,12 +115,14 @@ public class FakeDatabase implements IDatabase {
 		return map;
 	}
 	
+	@Override
 	public ArrayList<Character> getAllCharacters() {
 		return characterList;
 	}
 	
+	@Override
 	public Player getPlayer() {
-		getAllInventories();
+		
 		for(Inventory inventory : inventoryList) {
 			if(inventory.get_inventory_id() == player.get_inventory_id()) {
 				player.set_inventory(inventory);
@@ -125,6 +131,7 @@ public class FakeDatabase implements IDatabase {
 		return player;
 	}
 	
+	@Override
 	public ArrayList<Inventory> getAllInventories() {
 		for(Inventory inventory : inventoryList) {
 			for(Item item : inventory.get_items()) {
@@ -144,6 +151,7 @@ public class FakeDatabase implements IDatabase {
 		return inventoryList;
 	}
 	
+	@Override
 	public ArrayList<Quest> getAllQuests() {
 		for(Quest quest : questList) {
 			if(quest.getRewardItems() != null) {
@@ -167,6 +175,7 @@ public class FakeDatabase implements IDatabase {
 	
 	
 	
+	@Override
 	public Item getItemByID(int itemID) {
 		for(Item item : itemList) {
 			if(item.getID() == itemID) {
@@ -178,6 +187,7 @@ public class FakeDatabase implements IDatabase {
 		return null;
 	}
 	
+	@Override
 	public Object getObjectByID(int objectID) {
 		for(Object object : objectList) {
 			if(object.getID() == objectID) {
@@ -189,6 +199,7 @@ public class FakeDatabase implements IDatabase {
 		return null;
 	}
 	
+	@Override
 	public MapTile getMapTileByID(int mapTileID) {
 		for(MapTile mapTile : mapTileList) {
 			if(mapTile.getID() == mapTileID) {
@@ -200,6 +211,7 @@ public class FakeDatabase implements IDatabase {
 		return null;
 	}
 	
+	@Override
 	public Character getCharacterByName(String characterName) {
 		for(Character character : characterList) {
 			if(character.get_name() == characterName) {
