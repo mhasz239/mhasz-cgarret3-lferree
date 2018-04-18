@@ -1,6 +1,7 @@
 package edu.ycp.cs320.middle_earth.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,7 @@ public class CombatSituationTest{
 		// Create Player
 		player = new Player();
 		player.set_hit_points(100);
+		player.set_attack(25);
 		
 		// Add Player to Game
 		ArrayList<Character> characters = new ArrayList<Character>();
@@ -63,9 +65,6 @@ public class CombatSituationTest{
 	
 	@Test
 	public void testCalculateDamageEnemy(){
-		int min = 9;
-		int max = 11;
-		
 		int mins = 0;
 		int mids = 0;
 		int maxs = 0;
@@ -88,5 +87,16 @@ public class CombatSituationTest{
 		System.out.println("Min(9):  " + mins);
 		System.out.println("Mid(10): " + mids);
 		System.out.println("Max(11): " + maxs);
+	}
+	
+	@Test
+	public void testCalculateDamagePlayerNoArmor(){
+		// Min and Max based off of 25 as base player attack
+		int min = 22;
+		int max = 28;
+		
+		// Get attack calculated and ensure it falls inside range
+		int attack = battle.calculateAttack(0);
+		assertTrue(attack >= min && attack <= max);
 	}
 }

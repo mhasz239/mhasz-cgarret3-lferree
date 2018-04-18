@@ -85,13 +85,28 @@ public class CombatSituation{
 		Character chr = characters.get(character);
 		int attack = chr.get_attack();
 		if(chr instanceof Player){
-			attack += ((Player) chr).get_helm().get_attack_bonus();
-			attack += ((Player) chr).get_braces().get_attack_bonus();
-			attack += ((Player) chr).get_chest().get_attack_bonus();
-			attack += ((Player) chr).get_legs().get_attack_bonus();
-			attack += ((Player) chr).get_boots().get_attack_bonus();
-			attack += ((Player) chr).get_l_hand().get_attack_bonus();
-			attack += ((Player) chr).get_r_hand().get_attack_bonus();
+			Player player = (Player) chr;
+			if(player.get_helm() != null){
+				attack += player.get_helm().get_attack_bonus();
+			}
+			if(player.get_braces() != null){
+				attack += player.get_braces().get_attack_bonus();
+			}
+			if(player.get_chest() != null){
+				attack += player.get_chest().get_attack_bonus();
+			}
+			if(player.get_legs() != null){
+				attack += player.get_legs().get_attack_bonus();
+			}
+			if(player.get_boots() != null){
+				attack += player.get_boots().get_attack_bonus();
+			}
+			if(player.get_l_hand() != null){
+				attack += player.get_l_hand().get_attack_bonus();
+			}
+			if(player.get_r_hand() != null){
+				attack += player.get_r_hand().get_attack_bonus();
+			}
 		}
 		Random rand = new Random(System.currentTimeMillis());
 		int range = (int) (attack*0.2);
@@ -103,13 +118,28 @@ public class CombatSituation{
 		Character chr = characters.get(character);
 		int defense = chr.get_defense();
 		if(chr instanceof Player){
-			defense += ((Player) chr).get_helm().get_defense_bonus();
-			defense += ((Player) chr).get_braces().get_defense_bonus();
-			defense += ((Player) chr).get_chest().get_defense_bonus();
-			defense += ((Player) chr).get_legs().get_defense_bonus();
-			defense += ((Player) chr).get_boots().get_defense_bonus();
-			defense += ((Player) chr).get_l_hand().get_defense_bonus();
-			defense += ((Player) chr).get_r_hand().get_defense_bonus();
+			Player player = (Player) chr;
+			if(player.get_helm() != null){
+				defense += player.get_helm().get_defense_bonus();
+			}
+			if(player.get_braces() != null){
+				defense += player.get_braces().get_defense_bonus();
+			}
+			if(player.get_chest() != null){
+				defense += player.get_chest().get_defense_bonus();
+			}
+			if(player.get_legs() != null){
+				defense += player.get_legs().get_defense_bonus();
+			}
+			if(player.get_boots() != null){
+				defense += player.get_boots().get_defense_bonus();
+			}
+			if(player.get_l_hand() != null){
+				defense += player.get_l_hand().get_defense_bonus();
+			}
+			if(player.get_r_hand() != null){
+				defense += player.get_r_hand().get_defense_bonus();
+			}
 		}
 		return defense;
 	}

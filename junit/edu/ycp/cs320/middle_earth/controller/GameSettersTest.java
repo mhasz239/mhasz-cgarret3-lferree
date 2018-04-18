@@ -269,29 +269,29 @@ public class GameSettersTest{
 	}
 	
 	@Test
-	public void testAdd_Dialog_Over30(){
+	public void testAdd_Dialog_Over25(){
 		Game game = new Game();
 		
 		assertEquals(0, game.get_dialog().size());
 		
-		for(int i = 0; i < 30; i++){
+		for(int i = 0; i < 25; i++){
 			game.add_dialog("Test: " + i);
 			assertEquals(i+1, game.get_dialog().size());
 			for(int j = 0; j < i; j++){
 				assertEquals("Test: " + j, game.get_dialog().get(j));
 			}
 		}
-		assertEquals(30, game.get_dialog().size());
+		assertEquals(25, game.get_dialog().size());
 		
 		game.add_dialog("Derp");
 		
-		// 30 = max dialog length
-		assertEquals(30, game.get_dialog().size());
+		// 25 = max dialog length
+		assertEquals(25, game.get_dialog().size());
 		
-		for(int i = 0; i < 29; i++){
+		for(int i = 0; i < 24; i++){
 			assertEquals("Test: " + (i+1), game.get_dialog().get(i));
 		}
-		assertEquals("Derp", game.get_dialog().get(29));
+		assertEquals("Derp", game.get_dialog().get(24));
 	}
 	
 	@Test
