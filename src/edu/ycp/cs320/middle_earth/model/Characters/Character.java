@@ -198,9 +198,9 @@ public abstract class Character{
 	}
 	
 	public void set_l_hand(Item l_hand) {
-		if(l_hand.get_ItemType() != ItemType.L_HAND){
+		if(l_hand.get_ItemType() != ItemType.HAND){
 			// TODO: Maybe just HAND?
-			throw new IllegalArgumentException("This must be L HAND!");
+			throw new IllegalArgumentException("This must be a HAND type!");
 		}
 		this.l_hand = l_hand;
 	}
@@ -210,9 +210,9 @@ public abstract class Character{
 	}
 	
 	public void set_r_hand(Item r_hand) {
-		if(r_hand.get_ItemType() != ItemType.R_HAND){
+		if(r_hand.get_ItemType() != ItemType.HAND){
 			// TODO: Maybe just HAND?
-			throw new IllegalArgumentException("This must be R HAND!");
+			throw new IllegalArgumentException("This must be a HAND type!");
 		}
 		this.r_hand = r_hand;
 	}

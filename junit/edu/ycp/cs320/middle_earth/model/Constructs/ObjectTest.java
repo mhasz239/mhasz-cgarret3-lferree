@@ -44,7 +44,7 @@ public class ObjectTest{
 	public void testAddItem(){
 		Item sword = new Item();
 		sword.setName("Sword");
-		sword.set_ItemType(ItemType.R_HAND);
+		sword.set_ItemType(ItemType.HAND);
 		Item helmet = new Item();
 		helmet.setName("Helmet");
 		helmet.set_ItemType(ItemType.HELM);
