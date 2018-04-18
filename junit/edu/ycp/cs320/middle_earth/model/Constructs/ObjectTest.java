@@ -18,38 +18,36 @@ public class ObjectTest{
 	
 	@Test
 	public void testSetCommandResponses(){
+		// Create a HashMap
 		HashMap<String, String> responses = new HashMap<String, String>();
 		responses.put("open", "what'd you say open?");
 		
+		// Set it in object
 		object.setCommandResponses(responses);
 		
-		assertEquals("what'd you say open?", object.getCommandResponses().get("open"));
-	}
-	
-	@Test
-	public void testResetCommandResponses(){
-		HashMap<String, String> responses = new HashMap<String, String>();
-		responses.put("open", "what'd you say open?");
-		
-		object.setCommandResponses(responses);
-		
+		// Check it's right
 		assertEquals("what'd you say open?", object.getCommandResponses().get("open"));
 		
+		// Make another HashMap
 		HashMap<String, String> responses2 = new HashMap<String, String>();
 		responses2.put("climb", "Climb? Are you crazy?");
 		
+		// Reset it in object (to ensure no crazy stuff)
 		object.setCommandResponses(responses2);
 		
+		// Check it gucci
 		assertEquals("Climb? Are you crazy?", object.getCommandResponses().get("climb"));
 		assertEquals(null, object.getCommandResponses().get("open"));
 	}
 	
 	@Test
 	public void testAddItem(){
-		Item sword = new Weapon();
+		Item sword = new Item();
 		sword.setName("Sword");
-		Item helmet = new Armor();
+		sword.set_ItemType(ItemType.HAND);
+		Item helmet = new Item();
 		helmet.setName("Helmet");
+		helmet.set_ItemType(ItemType.HELM);
 		
 		assertEquals(0, object.getItems().size());
 		

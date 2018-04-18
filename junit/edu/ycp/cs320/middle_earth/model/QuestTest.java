@@ -9,9 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.ycp.cs320.middle_earth.model.Characters.NPC;
-import edu.ycp.cs320.middle_earth.model.Constructs.Armor;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
-import edu.ycp.cs320.middle_earth.model.Constructs.Weapon;
 
 public class QuestTest{
 	private Quest quest;
@@ -24,9 +22,9 @@ public class QuestTest{
 	@Test
 	public void testSetRewardItems(){
 		ArrayList<Item> items = new ArrayList<Item>();
-		Weapon stick = new Weapon();
+		Item stick = new Item();
 		stick.setName("Stick");
-		Armor chestplate = new Armor();
+		Item chestplate = new Item();
 		chestplate.setName("Chestplate");
 		items.add(stick);
 		items.add(chestplate);
@@ -41,9 +39,9 @@ public class QuestTest{
 	@Test
 	public void testResetRewardItems(){
 		ArrayList<Item> items = new ArrayList<Item>();
-		Weapon stick = new Weapon();
+		Item stick = new Item();
 		stick.setName("Stick");
-		Armor chestplate = new Armor();
+		Item chestplate = new Item();
 		chestplate.setName("Chestplate");
 		items.add(stick);
 		items.add(chestplate);
@@ -55,9 +53,9 @@ public class QuestTest{
 		assertEquals(chestplate, quest.getRewardItems().get(1));
 		
 		ArrayList<Item> items2 = new ArrayList<Item>();
-		Weapon sword = new Weapon();
+		Item sword = new Item();
 		sword.setName("Sword");
-		Armor helmet = new Armor();
+		Item helmet = new Item();
 		helmet.setName("Helmet");
 		items2.add(sword);
 		items2.add(helmet);

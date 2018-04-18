@@ -22,13 +22,6 @@ public class PlayerTest{
 		player.set_experience(938);
 		
 		assertEquals(938, player.get_experience());
-	}
-	
-	@Test
-	public void testReset_Experience(){
-		player.set_experience(938);
-		
-		assertEquals(938, player.get_experience());
 		
 		player.set_experience(2834);
 		
@@ -40,13 +33,6 @@ public class PlayerTest{
 		player.set_carry_weight(837);
 		
 		assertEquals(837, player.get_carry_weight());
-	}
-	
-	@Test
-	public void testReset_Carry_Weight(){
-		player.set_carry_weight(837);
-		
-		assertEquals(837, player.get_carry_weight());
 		
 		player.set_carry_weight(29384);
 		
@@ -55,18 +41,6 @@ public class PlayerTest{
 	
 	@Test
 	public void testSet_Quests(){
-		ArrayList<Quest> quests = new ArrayList<Quest>();
-		Quest quest = new Quest();
-		quests.add(quest);
-		
-		player.set_quests(quests);
-		
-		assertEquals(1, player.get_quests().size());
-		assertEquals(quest, player.get_quests().get(0));
-	}
-	
-	@Test
-	public void testReset_Quests(){
 		ArrayList<Quest> quests = new ArrayList<Quest>();
 		Quest quest = new Quest();
 		quests.add(quest);

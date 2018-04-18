@@ -3,6 +3,8 @@ package edu.ycp.cs320.middle_earth.model.Characters;
 import java.util.ArrayList;
 
 import edu.ycp.cs320.middle_earth.model.Quest;
+import edu.ycp.cs320.middle_earth.model.Constructs.Item;
+import edu.ycp.cs320.middle_earth.model.Constructs.ItemType;
 
 public class Player extends Character{
 	private int experience;
@@ -40,4 +42,6 @@ public class Player extends Character{
 	public ArrayList<Quest> get_quests(){
 		return quests;
 	}
+	
+	
 }

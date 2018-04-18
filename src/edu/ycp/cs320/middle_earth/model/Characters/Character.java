@@ -1,5 +1,8 @@
 package edu.ycp.cs320.middle_earth.model.Characters;
 
+import edu.ycp.cs320.middle_earth.model.Constructs.Item;
+import edu.ycp.cs320.middle_earth.model.Constructs.ItemType;
+
 public abstract class Character{
 	private String race;
 	private String name;
@@ -15,6 +18,13 @@ public abstract class Character{
 	private int map_location;
 	private int inventory_id;
 	private Inventory inventory;
+	private Item helm;
+	private Item braces;
+	private Item chest;
+	private Item legs;
+	private Item boots;
+	private Item l_hand;
+	private Item r_hand;
 
 	public Character() {
 		
@@ -130,5 +140,84 @@ public abstract class Character{
 	
 	public void set_inventory(Inventory inventory){
 		this.inventory = inventory;
+	}
+	
+	public void set_helm(Item helm) {
+		if(helm.get_ItemType() != ItemType.HELM){
+			throw new IllegalArgumentException("This must be a helm!");
+		}
+		this.helm = helm;
+	}
+	
+	public Item get_helm(){
+		return helm;
+	}
+	
+	public void set_braces(Item braces) {
+		if(braces.get_ItemType() != ItemType.BRACES){
+			throw new IllegalArgumentException("This must be braces!");
+		}
+		this.braces = braces;
+	}
+	
+	public Item get_braces(){
+		return braces;
+	}
+	
+	public void set_chest(Item chest) {
+		if(chest.get_ItemType() != ItemType.CHEST){
+			throw new IllegalArgumentException("This must be a chest!");
+		}
+		this.chest = chest;
+	}
+	
+	public Item get_chest(){
+		return chest;
+	}
+	
+	public void set_legs(Item legs) {
+		if(legs.get_ItemType() != ItemType.LEGS){
+			throw new IllegalArgumentException("This must be legs!");
+		}
+		this.legs = legs;
+	}
+	
+	public Item get_legs(){
+		return legs;
+	}
+	
+	public void set_boots(Item boots) {
+		if(boots.get_ItemType() != ItemType.BOOTS){
+			throw new IllegalArgumentException("This must be boots!");
+		}
+		this.boots = boots;
+	}
+	
+	public Item get_boots(){
+		return boots;
+	}
+	
+	public void set_l_hand(Item l_hand) {
+		if(l_hand.get_ItemType() != ItemType.HAND){
+			// TODO: Maybe just HAND?
+			throw new IllegalArgumentException("This must be a HAND type!");
+		}
+		this.l_hand = l_hand;
+	}
+	
+	public Item get_l_hand(){
+		return l_hand;
+	}
+	
+	public void set_r_hand(Item r_hand) {
+		if(r_hand.get_ItemType() != ItemType.HAND){
+			// TODO: Maybe just HAND?
+			throw new IllegalArgumentException("This must be a HAND type!");
+		}
+		this.r_hand = r_hand;
+	}
+	
+	public Item get_r_hand(){
+		return r_hand;
 	}
 }

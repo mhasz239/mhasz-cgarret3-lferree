@@ -27,7 +27,7 @@ public class InitialData {
 				}
 				Iterator<String> i = tuple.iterator();
 				
-				//map.setID(Integer.parseInt(i.next()));
+				map.setID(Integer.parseInt(i.next()));
 				map.setName(i.next());
 				map.setShortDescription(i.next());
 				map.setLongDescription(i.next());
@@ -44,7 +44,7 @@ public class InitialData {
 		MapTile nullMapTile = new MapTile();
 		mapTileList.add(nullMapTile);
 		
-		ReadCSV readMapTiles = new ReadCSV("maptiles.csv");
+		ReadCSV readMapTiles = new ReadCSV("mapTiles.csv");
 		try {
 			int mapTileID = 1;
 			while (true) {
@@ -87,34 +87,24 @@ public class InitialData {
 		}
 	}
 	
-	public static ArrayList<HashMap<String, Integer>> getMapTileConnections() throws IOException {
-		ArrayList<HashMap<String, Integer>> mapTileConnectionsList = new ArrayList<HashMap<String, Integer>>();
-		ReadCSV readMapTileConnections = new ReadCSV("maptileconnections.csv");
+/*	public static ArrayList<HashMap<String, MapTile>> getMapTileConnections(mapTileList) throws IOException {
+		ArrayList<HashMap<String, MapTile>> connectionList = new ArrayList<HashMap<String, MapTile>>();
 		try {
 			while (true) {
-				List<String> tuple = readMapTileConnections.next();
-				HashMap<String, Integer> mapTileConnections = new HashMap<String, Integer>();
-				
+				List<String> tuple = readConnections.next();
 				if(tuple == null) {
 					break;
 				}
 				Iterator<String> i = tuple.iterator();
-				mapTileConnections.put("north", Integer.parseInt(i.next()));
-				mapTileConnections.put("northeast", Integer.parseInt(i.next()));
-				mapTileConnections.put("east", Integer.parseInt(i.next()));
-				mapTileConnections.put("southeast", Integer.parseInt(i.next()));
-				mapTileConnections.put("south", Integer.parseInt(i.next()));
-				mapTileConnections.put("southwest", Integer.parseInt(i.next()));
-				mapTileConnections.put("west", Integer.parseInt(i.next()));
-				mapTileConnections.put("northwest", Integer.parseInt(i.next()));
-					
-				mapTileConnectionsList.add(mapTileConnections);
+				
+				HashMap<String, MapTile> connections = new HashMap<String, MapTile>();
+				connections = i.next();
 			}
-			return mapTileConnectionsList;
+		return connectionList;
 		} finally {
-			readMapTileConnections.close();
+			readConnections.close();
 		}
-	}
+	} */
 	
 	public static ArrayList<Object> getObjects() throws IOException {
 		ArrayList<Object> objectList = new ArrayList<Object>();
@@ -160,6 +150,10 @@ public class InitialData {
 					object.setCommandResponses(commandResponses);
 					object.setItems(itemList);;
 				}
+				/*
+				 * Need to add extraction of command responses
+				 * 
+				 */
 			
 				objectList.add(object);
 			}

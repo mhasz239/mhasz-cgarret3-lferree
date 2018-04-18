@@ -146,7 +146,9 @@ public class HandleMovementCommands{
 		assertEquals(destination.getID(), game.get_player().get_location());
 		
 		// Ensure 2 lines have been added to the dialog.
-		assertEquals(2, game.get_dialog().size());
+		// Note: Cannot check that it's 2 lines exactly because of Combat now
+		// Combat can add another line that you encountered an enemy.
+		//assertEquals(2, game.get_dialog().size());
 		// Ensure the first line is the new tile's name.
 		assertEquals(destination.getName(), game.get_dialog().get(0));
 		// Ensure the second line is the new tile's longDescription.

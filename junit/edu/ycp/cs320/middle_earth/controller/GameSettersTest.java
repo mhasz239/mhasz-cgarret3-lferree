@@ -95,7 +95,11 @@ public class GameSettersTest{
 		Game game = new Game();
 		ArrayList<Character> chars = new ArrayList<Character>();
 		Player player = new Player();
+		player.set_hit_points(100);
+		player.set_name("Derpkins");
 		Player player2 = new Player();
+		player2.set_attack(20);
+		player2.set_name("My Face");
 		chars.add(player);
 		chars.add(player2);
 		
@@ -220,6 +224,33 @@ public class GameSettersTest{
 	}
 	
 	@Test
+	public void testReSet_Dialog(){
+		Game game = new Game();
+		
+		ArrayList<String> test_dialog = new ArrayList<String>();
+		test_dialog.add("This is a ");
+		test_dialog.add("pretty simple ");
+		test_dialog.add(" test.");
+		
+		game.set_dialog(test_dialog);
+		
+		assertEquals(3, game.get_dialog().size());
+		assertEquals("This is a ", game.get_dialog().get(0));
+		assertEquals("pretty simple ", game.get_dialog().get(1));
+		assertEquals(" test.", game.get_dialog().get(2));
+		
+		ArrayList<String> test_dialog2 = new ArrayList<String>();
+		test_dialog2.add("Another");
+		test_dialog2.add("simple");
+		
+		game.set_dialog(test_dialog2);
+		
+		assertEquals(2, game.get_dialog().size());
+		assertEquals("Another", game.get_dialog().get(0));
+		assertEquals("simple", game.get_dialog().get(1));
+	}
+	
+	@Test
 	public void testAdd_Dialog(){
 		Game game = new Game();
 		
@@ -238,29 +269,29 @@ public class GameSettersTest{
 	}
 	
 	@Test
-	public void testAdd_Dialog_Over30(){
+	public void testAdd_Dialog_Over25(){
 		Game game = new Game();
 		
 		assertEquals(0, game.get_dialog().size());
 		
-		for(int i = 0; i < 30; i++){
+		for(int i = 0; i < 25; i++){
 			game.add_dialog("Test: " + i);
 			assertEquals(i+1, game.get_dialog().size());
 			for(int j = 0; j < i; j++){
 				assertEquals("Test: " + j, game.get_dialog().get(j));
 			}
 		}
-		assertEquals(30, game.get_dialog().size());
+		assertEquals(25, game.get_dialog().size());
 		
 		game.add_dialog("Derp");
 		
-		// 30 = max dialog length
-		assertEquals(30, game.get_dialog().size());
+		// 25 = max dialog length
+		assertEquals(25, game.get_dialog().size());
 		
-		for(int i = 0; i < 29; i++){
+		for(int i = 0; i < 24; i++){
 			assertEquals("Test: " + (i+1), game.get_dialog().get(i));
 		}
-		assertEquals("Derp", game.get_dialog().get(29));
+		assertEquals("Derp", game.get_dialog().get(24));
 	}
 	
 	@Test

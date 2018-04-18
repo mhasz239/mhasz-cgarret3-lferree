@@ -13,6 +13,15 @@ public class Map extends Construct{
 		return mapTiles;
 	}
 	
+	public MapTile getMapTileByID(int id){
+		for(MapTile m: mapTiles){
+			if(m.getID() == id){
+				return m;
+			}
+		}
+		return null;
+	}
+	
 	public void addMapTile(MapTile tile){
 		mapTiles.add(tile);
 	}

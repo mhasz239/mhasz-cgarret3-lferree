@@ -6,6 +6,7 @@ import java.util.HashMap;
 public class Object extends Construct{
 	private HashMap<String, String> commandResponses;
 	private ArrayList<Item> items;
+	private String description_update;
 	
 	// TODO: Figure out how to put location in here???
 	public Object() {
@@ -41,5 +42,13 @@ public class Object extends Construct{
 	
 	public ArrayList<Item> getItems() {
 		return this.items;
+	}
+	
+	public void set_description_update(String string){
+		this.description_update = string;
+	}
+	
+	public String get_description_update(){
+		return description_update;
 	}
 }
