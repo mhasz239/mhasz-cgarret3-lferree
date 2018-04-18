@@ -8,8 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.ycp.cs320.middle_earth.model.Quest;
-import edu.ycp.cs320.middle_earth.model.Constructs.Item;
-import edu.ycp.cs320.middle_earth.model.Constructs.ItemType;
 
 public class PlayerTest{
 	private Player player;
@@ -81,45 +79,5 @@ public class PlayerTest{
 		assertEquals(2, player.get_quests().size());
 		assertEquals(quest1, player.get_quests().get(0));
 		assertEquals(quest2, player.get_quests().get(1));
-	}
-	
-	@Test
-	public void testSet_Helm(){
-		// Create Helmet
-		Item helmet = new Item();
-		helmet.set_ItemType(ItemType.HELM);
-		helmet.setName("Iron Helm");
-		
-		// Set the Helmet
-		player.set_helm(helmet);
-		
-		// Ensure it's right
-		assertEquals(helmet, player.get_helm());
-		
-		// Create another Helmet
-		Item helmet2 = new Item();
-		helmet2.set_ItemType(ItemType.HELM);
-		helmet2.setName("Golden Helmet");
-		
-		// Set the new helmet
-		player.set_helm(helmet2);
-		
-		// Check it again
-		assertEquals(helmet2, player.get_helm());
-	}
-	
-	@Test
-	public void testSet_HelmNotHelm(){
-		// Create fake helmet
-		Item notHelmet = new Item();
-		notHelmet.set_ItemType(ItemType.MISC);
-		
-		// Ensure an IllegalArgumentException
-		try{
-			player.set_helm(notHelmet);
-			assertEquals("You are ", "not gucci");
-		}catch(IllegalArgumentException e){
-			assertEquals("You gucci", "You gucci");
-		}
 	}
 }

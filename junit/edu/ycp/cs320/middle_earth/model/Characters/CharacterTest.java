@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
+import edu.ycp.cs320.middle_earth.model.Constructs.ItemType;
 
 public class CharacterTest{
 	private Character character;
@@ -227,5 +228,85 @@ public class CharacterTest{
 		
 		// Ensure it's again right
 		assertEquals(inventory2, character.get_inventory());
+	}
+	
+	@Test
+	public void testSet_Helm(){
+		// Create Helmet
+		Item helmet = new Item();
+		helmet.set_ItemType(ItemType.HELM);
+		helmet.setName("Iron Helm");
+		
+		// Set the Helmet
+		character.set_helm(helmet);
+		
+		// Ensure it's right
+		assertEquals(helmet, character.get_helm());
+		
+		// Create another Helmet
+		Item helmet2 = new Item();
+		helmet2.set_ItemType(ItemType.HELM);
+		helmet2.setName("Golden Helmet");
+		
+		// Set the new helmet
+		character.set_helm(helmet2);
+		
+		// Check it again
+		assertEquals(helmet2, character.get_helm());
+	}
+	
+	@Test
+	public void testSet_HelmNotHelm(){
+		// Create fake helmet
+		Item notHelmet = new Item();
+		notHelmet.set_ItemType(ItemType.MISC);
+		
+		// Ensure an IllegalArgumentException
+		try{
+			character.set_helm(notHelmet);
+			assertEquals("You are ", "not gucci");
+		}catch(IllegalArgumentException e){
+			assertEquals("You gucci", "You gucci");
+		}
+	}
+	
+	@Test
+	public void testSet_Braces(){
+		// Create Braces
+		Item braces = new Item();
+		braces.set_ItemType(ItemType.BRACES);
+		braces.setName("Iron Braces");
+		
+		// Set the Braces
+		character.set_braces(braces);
+		
+		// Ensure it's right
+		assertEquals(braces, character.get_braces());
+		
+		// Create another Braces
+		Item braces2 = new Item();
+		braces2.set_ItemType(ItemType.BRACES);
+		braces2.setName("Golden Braces");
+		
+		// Set the new braces
+		character.set_braces(braces2);
+		
+		// Check it again
+		assertEquals(braces2, character.get_braces());
+	}
+	
+	@Test
+	public void testSet_BracesNotBraces(){
+		// Create fake braces
+		Item notBraces = new Item();
+		notBraces.set_ItemType(ItemType.MISC);
+		
+		// Ensure an IllegalArgumentException
+		try{
+			character.set_braces(notBraces);
+			assertEquals("You are ", "not gucci");
+		}catch(IllegalArgumentException e){
+			assertEquals("You gucci", "You gucci");
+		}
 	}
 }
