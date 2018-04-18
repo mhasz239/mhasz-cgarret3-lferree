@@ -3,8 +3,10 @@ package edu.ycp.cs320.middle_earth.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import edu.ycp.cs320.middle_earth.model.Constructs.Object;
+import edu.ycp.cs320.middle_earth.model.CombatSituation;
 import edu.ycp.cs320.middle_earth.model.Quest;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.NPC;
@@ -23,6 +25,7 @@ public class Game implements Engine{
 	private ArrayList<Item> items;
 	private ArrayList<String> dialog;
 	private String mode;
+	private CombatSituation battle;
 	
 	public Game(){
 		// dialog and mode are passed back and forth with each servlet/jsp call
@@ -173,7 +176,9 @@ public class Game implements Engine{
 	}
 
 	public boolean mode_change(String command){
-		if(command.equalsIgnoreCase("inventory")){
+		if(command == null){
+			return false;
+		}else if(command.equalsIgnoreCase("inventory")){
 			check_inventory();
 			return true;
 		}else if(command.equalsIgnoreCase("character")){
@@ -270,10 +275,18 @@ public class Game implements Engine{
 				}
 			}*/else if(command.equalsIgnoreCase("look")){
 				look();
-			}else if(command.equalsIgnoreCase("attack") && get_player().get_location() == 7) {
-				add_dialog("You take the pointy stick and throw it at the troll.;It manages to poke him in the eye and knock him off balance.;"
+			}else if(command.equalsIgnoreCase("attack")){
+					if(get_player().get_location() == 7) {
+						add_dialog("You take the pointy stick and throw it at the troll.;It manages to poke him in the eye and knock him off balance.;"
 						+"As he falls he drops his sword, you quickly spring into action.;You grab his sword off the ground and lay waste to the foul beast.;"
 						+"!!!CONGRATULATIONS!!! You have conqured this small land and laid waste the the evil plauging it.");
+					}else{
+						if(battle == null){
+							add_dialog("You're not in combat!");
+						}else{
+							battle.doRound(this);
+						}
+					}
 			}else{
 				if(!handle_object_commands(commandStr)){
 					// Changed this to add_dialog due to our conversation about having mode = game have all text 
@@ -492,6 +505,11 @@ public class Game implements Engine{
 				player.set_location(player.get_location() + moveValue);
 				add_dialog(map.getMapTiles().get(player.get_location()).getName());
 				add_dialog(map.getMapTiles().get(player.get_location()).getLongDescription());
+				Random rand = new Random(System.currentTimeMillis());
+				int encounterCheck = rand.nextInt(10);
+				if(encounterCheck == 0){
+					battle = new CombatSituation(this);
+				}
 			}
 		} else {
 			add_dialog("You can't go that way");

@@ -95,7 +95,11 @@ public class GameSettersTest{
 		Game game = new Game();
 		ArrayList<Character> chars = new ArrayList<Character>();
 		Player player = new Player();
+		player.set_hit_points(100);
+		player.set_name("Derpkins");
 		Player player2 = new Player();
+		player2.set_attack(20);
+		player2.set_name("My Face");
 		chars.add(player);
 		chars.add(player2);
 		

@@ -9,6 +9,7 @@ public class MapTile extends Construct{
 	//private ArrayList<CombatSituation> random_encounters;
 	private ArrayList<Object> objects;
 	private boolean visited;
+	private String enemyString;
 	
 	public MapTile() {
 		connections = new HashMap<String, Integer>();
@@ -50,6 +51,22 @@ public class MapTile extends Construct{
 	
 	public boolean getVisited() {
 		return this.visited;
+	}
+	
+	public String getEnemyString(){
+		return enemyString;
+	}
+	
+	public void setEnemyString(String enemyString){
+		this.enemyString = enemyString;
+	}
+	
+	public ArrayList<Integer> getEnemyIDs(){
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+		for(String s: enemyString.split(",")){
+			ids.add(Integer.parseInt(s));
+		}
+		return ids;
 	}
 	
 }

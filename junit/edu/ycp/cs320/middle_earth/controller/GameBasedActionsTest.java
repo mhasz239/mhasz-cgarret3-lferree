@@ -48,6 +48,7 @@ public class GameBasedActionsTest{
 		assertEquals("inventory", game.get_mode());
 	}
 	
+	/* TODO: JUNIT: Remove? Note: Commented out these in Game.
 	@Test
 	public void testAlreadyInInventory(){
 		game.set_mode("inventory");
@@ -58,6 +59,7 @@ public class GameBasedActionsTest{
 		assertEquals(1, game.get_dialog().size());
 		assertEquals("You're already in it!", game.get_dialog().get(0));
 	}
+	*/
 	
 	/*
 	 * Check Map
@@ -69,6 +71,7 @@ public class GameBasedActionsTest{
 		assertEquals("map", game.get_mode());
 	}
 	
+	/* TODO: JUNIT: Remove? Note: Commented out these in Game.
 	@Test
 	public void testAlreadyInMap(){
 		game.set_mode("map");
@@ -79,6 +82,7 @@ public class GameBasedActionsTest{
 		assertEquals(1, game.get_dialog().size());
 		assertEquals("You're already in it!", game.get_dialog().get(0));
 	}
+	*/
 	
 	/*
 	 * Return to Game
@@ -110,6 +114,7 @@ public class GameBasedActionsTest{
 		assertEquals("game", game.get_mode());
 	}
 	
+	/* TODO: JUNIT: Remove? Note: Commented out these in Game.
 	@Test
 	public void testAlreadyInGame(){
 		game.set_mode("game");
@@ -120,6 +125,7 @@ public class GameBasedActionsTest{
 		assertEquals(1, game.get_dialog().size());
 		assertEquals("You're playing it!", game.get_dialog().get(0));
 	}
+	*/
 	
 	/*
 	 * Save
