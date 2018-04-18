@@ -64,7 +64,7 @@ public class CombatSituationTest{
 	}
 	
 	@Test
-	public void testCalculateDamageEnemy(){
+	public void testCalculateAttackEnemy(){
 		int mins = 0;
 		int mids = 0;
 		int maxs = 0;
@@ -90,7 +90,7 @@ public class CombatSituationTest{
 	}
 	
 	@Test
-	public void testCalculateDamagePlayerNoArmor(){
+	public void testCalculateAttackPlayerNoArmor(){
 		// Min and Max based off of 25 as base player attack
 		int min = 22;
 		int max = 28;
