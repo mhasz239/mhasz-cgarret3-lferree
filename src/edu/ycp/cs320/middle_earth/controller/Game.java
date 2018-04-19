@@ -351,11 +351,7 @@ public class Game implements Engine{
 	
 	@Override
 	public void check_character_sheet(){
-		if(mode.equalsIgnoreCase("character")){
-			add_dialog("You're already in it!");
-		}else{
 			mode = "character";
-		}
 	}
 	
 	@Override
