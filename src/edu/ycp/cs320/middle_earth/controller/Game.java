@@ -15,6 +15,7 @@ import edu.ycp.cs320.middle_earth.model.Constructs.Map;
 import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
 import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
 import edu.ycp.cs320.middle_earth.persist.FakeDatabase;
+import edu.ycp.cs320.middle_earth.persist.DerbyDatabase;
 import edu.ycp.cs320.middle_earth.persist.IDatabase;
 
 public class Game implements Engine{
@@ -26,6 +27,7 @@ public class Game implements Engine{
 	private ArrayList<String> dialog;
 	private String mode;
 	private CombatSituation battle;
+	private IDatabase db;
 	
 	public Game(){
 		// dialog and mode are passed back and forth with each servlet/jsp call
@@ -46,7 +48,7 @@ public class Game implements Engine{
 		
 		//Fake Database is rebuilt each time and populated into the respective fields.
 		DatabaseProvider.setInstance(new FakeDatabase());
-		IDatabase db = DatabaseProvider.getInstance();
+		db = DatabaseProvider.getInstance();
 		//######################################################
 		
 		items = db.getAllItems();
@@ -312,7 +314,9 @@ public class Game implements Engine{
 				} else {
 					returnMessage = "Please designate the item # you want to view more details of.";
 				}
-			}else{
+			}else if (commandStr.equalsIgnoreCase("save")){
+				db.saveGame(this);
+			} else {
 				// Checking if command isn't empty, since it can't be null -> initialized in here to "";
 				// Simply changed to else... I may have lost the null command message.
 				// Not sure if this message is still okay for a null command error?
