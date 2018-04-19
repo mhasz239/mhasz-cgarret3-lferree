@@ -168,10 +168,14 @@ public class DerbyDatabase implements IDatabase {
 		player.set_location(resultSet.getInt(index++));
 		player.set_inventory_id(resultSet.getInt(index++));
 
-//		player.set_inventory(getInventoryByID(player.get_inventory_id()));
-/*
-		Implement getInventoryByID
-*/
+		int carryWeight = 0;
+		player.set_inventory(getInventoryByID(player.get_inventory_id()));
+		
+		// Sum up inventory weight
+		for(Item item : player.get_inventory().get_items()) {
+			carryWeight += item.getItemWeight();
+		}
+
 		Item emptyItemSlot = new Item();
 		emptyItemSlot.set_attack_bonus(0);
 		emptyItemSlot.set_defense_bonus(0);
@@ -186,7 +190,6 @@ public class DerbyDatabase implements IDatabase {
 		emptyItemSlot.setName("Empty Slot");
 
 		int itemID;
-		int carryWeight = 0;
 		
 		// helm
 		if((itemID = resultSet.getInt(index++)) == 0) {
@@ -251,8 +254,11 @@ public class DerbyDatabase implements IDatabase {
 			carryWeight += player.get_r_hand().getItemWeight();
 		}
 		
-		player.set_carry_weight(carryWeight);
+		player.set_carry_weight(index++);
 		player.set_experience(resultSet.getInt(index++));
+		
+		// Add the sum total of weight to the inventory
+		player.get_inventory().set_weight(carryWeight);
 		
 		} catch (SQLException e) {
 			System.out.println("Not implemented\n" + e );
@@ -1170,12 +1176,49 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 
-/*	public Inventory getInventoryByID (int inventoryID) {
-		return executeTransaction(new Transaction <ArrayList<ItemInventory>>() {
+	public Inventory getInventoryByID (int inventoryID) {
+		return executeTransaction(new Transaction <Inventory>() {
 			@Override
-			public Inventory execute
+			public Inventory execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"select items.item_id "
+							+ "from items, itemstoinventories "
+							+ "where items.item_id = itemstoinventories.item_id "
+							+ "AND itemstoinventories.inventory_id = ? "
+						);
+					stmt.setInt(1, inventoryID);
+					
+					resultSet = stmt.executeQuery();
+					
+					Inventory inventory = new Inventory();
+					ArrayList<Item> itemList = new ArrayList<Item>();
+					Item item = new Item();
+					
+					Boolean found = false;
+					while(resultSet.next()) {
+						found = true;
+						
+						item = getItemByID(resultSet.getInt(1));
+						itemList.add(item);
+					}
+					if(!found) {
+						System.out.println("This inventory is empty");
+					}
+					inventory.set_items(itemList);
+					
+					return inventory;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
 		});
-	}*/
+	}
 	
 	@Override
 	public Character getCharacterByName(String characterName) {

@@ -25,6 +25,7 @@ public interface IDatabase {
 	public Item getItemByID(int itemID);
 	public Object getObjectByID(int objectID);
 	public MapTile getMapTileByID(int mapTileID);
+	public Inventory getInventoryByID(int inventoryID);
 	
 	public Character getCharacterByName(String characterName);
 }

@@ -221,4 +221,10 @@ public class FakeDatabase implements IDatabase {
 		System.out.println("No character exists by that name");
 		return null;
 	}
+
+	@Override
+	public Inventory getInventoryByID(int inventoryID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 } 
