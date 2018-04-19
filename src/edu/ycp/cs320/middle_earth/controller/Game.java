@@ -281,7 +281,7 @@ public class Game implements Engine{
 						+"As he falls he drops his sword, you quickly spring into action.;You grab his sword off the ground and lay waste to the foul beast.;"
 						+"!!!CONGRATULATIONS!!! You have conqured this small land and laid waste the the evil plauging it.");
 					}else{
-						if(battle == null){
+						if(battle == null || battle.isDone()){
 							add_dialog("You're not in combat!");
 						}else{
 							battle.doRound(this);

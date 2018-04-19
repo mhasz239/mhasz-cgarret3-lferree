@@ -11,20 +11,28 @@ import edu.ycp.cs320.middle_earth.model.Characters.Player;
 public class CombatSituation{
 	// Assuming for now that character 0 is Player, character 1 is Enemy
 	private ArrayList<Character> characters;
+	private Random random;
+	private boolean done;
 	
 	public CombatSituation(Game game){
 		characters = new ArrayList<Character>();
 		characters.add(game.get_player());
-		Random rand = new Random(System.currentTimeMillis());
+		random = new Random(System.nanoTime());
 		try{
 			ArrayList<Integer> enemyIDs = game.get_map().getMapTileByID(game.get_player().get_location()).getEnemyIDs();
-			int enemyChoice = rand.nextInt(enemyIDs.size());
+			int enemyChoice = random.nextInt(enemyIDs.size());
 			int enemyID = enemyIDs.get(enemyChoice);
 			
 		}catch(Exception e){
 			characters.add(createEnemy());
 		}
 		game.add_dialog("A " + characters.get(1).get_name() + " appeared out of nowhere!");
+		done = false;
+		
+		// TODO: Remove this
+		// This is Temporary Stuff due to current stats setup
+		characters.get(0).set_attack(40);
+		characters.get(0).set_defense(5);
 	}
 	
 	public ArrayList<Character> getCharacters(){
@@ -33,17 +41,32 @@ public class CombatSituation{
 	
 	public Enemy createEnemy(){
 		Enemy enemy = new Enemy();
-		enemy.set_attack(10);
+		enemy.set_attack(15);
 		enemy.set_defense(25);
-		enemy.set_hit_points(200);
+		enemy.set_hit_points(100);
 		enemy.set_level(1);
 		enemy.set_name("Goblin");
 		return enemy;
 	}
 	
 	public void doRound(Game game){
+		// Player attacks Enemy
 		playerAttackEnemy(game);
-		enemyAttackPlayer(game);
+		
+		// Check if Enemy has died
+		if(characters.get(1).get_hit_points() <= 0){
+			// Do Player Won Battle
+			doPlayerWon(game);
+		}else{
+			// Enemy attacks Player
+			enemyAttackPlayer(game);
+			
+			// Check if Player has died
+			if(characters.get(0).get_hit_points() <= 0){
+				// Do Player Died
+				doPlayerDied(game);
+			}
+		}
 	}
 	
 	public void playerAttackEnemy(Game game){
@@ -108,9 +131,8 @@ public class CombatSituation{
 				attack += player.get_r_hand().get_attack_bonus();
 			}
 		}
-		Random rand = new Random(System.currentTimeMillis());
 		int range = (int) (attack*0.2);
-		attack = (int) (attack + (rand.nextInt(range+1) - range/2.0));
+		attack = (int) (attack + (random.nextInt(range+1) - range/2.0));
 		return attack;
 	}
 	
@@ -142,5 +164,22 @@ public class CombatSituation{
 			}
 		}
 		return defense;
+	}
+	
+	public boolean isDone(){
+		return done;
+	}
+	
+	public void doPlayerWon(Game game){
+		done = true;
+		game.add_dialog("You killed the " + characters.get(1).get_name() + "!");
+		game.add_dialog("You have been awarded 10 experience!");
+		((Player) characters.get(0)).set_experience(((Player) characters.get(0)).get_experience() + 10);
+	}
+	
+	public void doPlayerDied(Game game){
+		done = true;
+		game.add_dialog("You have died!");
+		game.add_dialog("Restart if you think you can do better!");
 	}
 }

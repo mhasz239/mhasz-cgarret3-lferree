@@ -26,7 +26,8 @@ public class CombatSituationTest{
 		// Create Player
 		player = new Player();
 		player.set_hit_points(100);
-		player.set_attack(25);
+		player.set_attack(40);
+		player.set_defense(5);
 		
 		// Add Player to Game
 		ArrayList<Character> characters = new ArrayList<Character>();
@@ -56,9 +57,9 @@ public class CombatSituationTest{
 		Enemy enemy = battle.createEnemy();
 		
 		// Check that Stats and Stuff are correct (based on current setup)
-		assertEquals(10, enemy.get_attack());
+		assertEquals(15, enemy.get_attack());
 		assertEquals(25, enemy.get_defense());
-		assertEquals(200, enemy.get_hit_points());
+		assertEquals(100, enemy.get_hit_points());
 		assertEquals(1, enemy.get_level());
 		assertEquals("Goblin", enemy.get_name());
 	}
@@ -66,16 +67,22 @@ public class CombatSituationTest{
 	@Test
 	public void testCalculateAttackEnemy(){
 		int mins = 0;
+		int minmids = 0;
 		int mids = 0;
+		int midmaxs = 0;
 		int maxs = 0;
 		
 		for(int i = 0; i < 300; i++){
 			int result = battle.calculateAttack(1);
-			if(result == 9){
+			if(result == 13){
 				mins++;
-			}else if(result == 10){
+			}else if(result == 14){
+				minmids++;
+			}else if(result == 15){
 				mids++;
-			}else if(result == 11){
+			}else if(result == 16){
+				midmaxs++;
+			}else if(result == 17){
 				maxs++;
 			}else{
 				// Should never get here!
@@ -84,16 +91,18 @@ public class CombatSituationTest{
 		}
 		
 		System.out.println("CalculateAttack for Enemy Distribution");
-		System.out.println("Min(9):  " + mins);
-		System.out.println("Mid(10): " + mids);
-		System.out.println("Max(11): " + maxs);
+		System.out.println("Min(13):  " + mins);
+		System.out.println("Mmid(14): " + minmids);
+		System.out.println("Mid(15):  " + mids);
+		System.out.println("Mmax(16): " + midmaxs);
+		System.out.println("Max(17):  " + maxs);
 	}
 	
 	@Test
 	public void testCalculateAttackPlayerNoArmor(){
-		// Min and Max based off of 25 as base player attack
-		int min = 22;
-		int max = 28;
+		// Min and Max based off of 40 as base player attack
+		int min = 36;
+		int max = 44;
 		
 		// Get attack calculated and ensure it falls inside range
 		int attack = battle.calculateAttack(0);

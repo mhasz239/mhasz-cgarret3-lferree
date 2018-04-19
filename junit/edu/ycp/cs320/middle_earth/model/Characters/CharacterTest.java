@@ -309,4 +309,204 @@ public class CharacterTest{
 			assertEquals("You gucci", "You gucci");
 		}
 	}
+	
+	@Test
+	public void testSet_Chest(){
+		// Create Chest
+		Item chest = new Item();
+		chest.set_ItemType(ItemType.CHEST);
+		chest.setName("Iron Chest");
+		
+		// Set the Chest
+		character.set_chest(chest);
+		
+		// Ensure it's right
+		assertEquals(chest, character.get_chest());
+		
+		// Create another Chest
+		Item chest2 = new Item();
+		chest2.set_ItemType(ItemType.CHEST);
+		chest2.setName("Golden Chest");
+		
+		// Set the new chest
+		character.set_chest(chest2);
+		
+		// Check it again
+		assertEquals(chest2, character.get_chest());
+	}
+	
+	@Test
+	public void testSet_ChestNotChest(){
+		// Create fake chest
+		Item notChest = new Item();
+		notChest.set_ItemType(ItemType.MISC);
+		
+		// Ensure an IllegalArgumentException
+		try{
+			character.set_chest(notChest);
+			assertEquals("You are ", "not gucci");
+		}catch(IllegalArgumentException e){
+			assertEquals("You gucci", "You gucci");
+		}
+	}
+	
+	@Test
+	public void testSet_Legs(){
+		// Create Legs
+		Item legs = new Item();
+		legs.set_ItemType(ItemType.LEGS);
+		legs.setName("Iron Legs");
+		
+		// Set the Legs
+		character.set_legs(legs);
+		
+		// Ensure it's right
+		assertEquals(legs, character.get_legs());
+		
+		// Create another Legs
+		Item legs2 = new Item();
+		legs2.set_ItemType(ItemType.LEGS);
+		legs2.setName("Golden Legs");
+		
+		// Set the new legs
+		character.set_legs(legs2);
+		
+		// Check it again
+		assertEquals(legs2, character.get_legs());
+	}
+	
+	@Test
+	public void testSet_LegsNotLegs(){
+		// Create fake legs
+		Item notLegs = new Item();
+		notLegs.set_ItemType(ItemType.MISC);
+		
+		// Ensure an IllegalArgumentException
+		try{
+			character.set_legs(notLegs);
+			assertEquals("You are ", "not gucci");
+		}catch(IllegalArgumentException e){
+			assertEquals("You gucci", "You gucci");
+		}
+	}
+	
+	@Test
+	public void testSet_Boots(){
+		// Create Boots
+		Item boots = new Item();
+		boots.set_ItemType(ItemType.BOOTS);
+		boots.setName("Iron Boots");
+		
+		// Set the Boots
+		character.set_boots(boots);
+		
+		// Ensure it's right
+		assertEquals(boots, character.get_boots());
+		
+		// Create another Boots
+		Item boots2 = new Item();
+		boots2.set_ItemType(ItemType.BOOTS);
+		boots2.setName("Golden Boots");
+		
+		// Set the new boots
+		character.set_boots(boots2);
+		
+		// Check it again
+		assertEquals(boots2, character.get_boots());
+	}
+	
+	@Test
+	public void testSet_BootsNotBoots(){
+		// Create fake boots
+		Item notBoots = new Item();
+		notBoots.set_ItemType(ItemType.MISC);
+		
+		// Ensure an IllegalArgumentException
+		try{
+			character.set_boots(notBoots);
+			assertEquals("You are ", "not gucci");
+		}catch(IllegalArgumentException e){
+			assertEquals("You gucci", "You gucci");
+		}
+	}
+	
+	@Test
+	public void testSet_L_Hand(){
+		// Create hand
+		Item hand = new Item();
+		hand.set_ItemType(ItemType.HAND);
+		hand.setName("Iron Shield");
+		
+		// Set the Hand
+		character.set_l_hand(hand);
+		
+		// Ensure it's right
+		assertEquals(hand, character.get_l_hand());
+		
+		// Create another hand
+		Item hand2 = new Item();
+		hand2.set_ItemType(ItemType.HAND);
+		hand2.setName("Golden Shield");
+		
+		// Set the new hand
+		character.set_l_hand(hand2);
+		
+		// Check it again
+		assertEquals(hand2, character.get_l_hand());
+	}
+	
+	@Test
+	public void testSet_L_HandNotHand(){
+		// Create fake hand
+		Item notHand = new Item();
+		notHand.set_ItemType(ItemType.MISC);
+		
+		// Ensure an IllegalArgumentException
+		try{
+			character.set_l_hand(notHand);
+			assertEquals("You are ", "not gucci");
+		}catch(IllegalArgumentException e){
+			assertEquals("You gucci", "You gucci");
+		}
+	}
+	
+	@Test
+	public void testSet_R_Hand(){
+		// Create hand
+		Item hand = new Item();
+		hand.set_ItemType(ItemType.HAND);
+		hand.setName("Iron Sword");
+		
+		// Set the Hand
+		character.set_r_hand(hand);
+		
+		// Ensure it's right
+		assertEquals(hand, character.get_r_hand());
+		
+		// Create another hand
+		Item hand2 = new Item();
+		hand2.set_ItemType(ItemType.HAND);
+		hand2.setName("Golden Sword");
+		
+		// Set the new hand
+		character.set_r_hand(hand2);
+		
+		// Check it again
+		assertEquals(hand2, character.get_r_hand());
+	}
+	
+	@Test
+	public void testSet_R_HandNotHand(){
+		// Create fake hand
+		Item notHand = new Item();
+		notHand.set_ItemType(ItemType.MISC);
+		
+		// Ensure an IllegalArgumentException
+		try{
+			character.set_r_hand(notHand);
+			assertEquals("You are ", "not gucci");
+		}catch(IllegalArgumentException e){
+			assertEquals("You gucci", "You gucci");
+		}
+	}
 }
