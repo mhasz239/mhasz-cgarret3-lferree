@@ -12,6 +12,8 @@ import edu.ycp.cs320.middle_earth.controller.Game;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.Enemy;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
+import edu.ycp.cs320.middle_earth.model.Constructs.Item;
+import edu.ycp.cs320.middle_earth.model.Constructs.ItemType;
 
 public class CombatSituationTest{
 	private Game game;
@@ -110,8 +112,22 @@ public class CombatSituationTest{
 	}
 	
 	@Test
-	public void testCalculateDamagePlayerFullArmor(){
+	public void testCalculateDamagePlayerHelmet(){
 		// Create Helmet
+		Item helmet = new Item();
+		helmet.set_ItemType(ItemType.HELM);
+		helmet.setName("Generic Helmet");
+		helmet.set_attack_bonus(10);
 		
+		// Give the Player the Helmet
+		player.set_helm(helmet);
+		
+		// These based off of 50 as base attack (40 + 10)
+		int min = 45;
+		int max = 55;
+		
+		// Get attack calculated and ensure it falls inside range
+		int attack = battle.calculateAttack(0);
+		assertTrue(attack >= min && attack <= max);
 	}
 }
