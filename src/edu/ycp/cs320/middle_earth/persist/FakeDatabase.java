@@ -227,4 +227,28 @@ public class FakeDatabase implements IDatabase {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Item removeItemFromInventory(int itemID, int inventoryID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Item removeItemFromObject(int itemID, int objectID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Item addItemToInventory(int itemID, int inventoryID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Item addItemToObject(int itemID, int objectID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 } 

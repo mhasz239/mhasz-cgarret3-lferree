@@ -28,4 +28,10 @@ public interface IDatabase {
 	public Inventory getInventoryByID(int inventoryID);
 	
 	public Character getCharacterByName(String characterName);
+	
+	public Item removeItemFromInventory(int itemID, int inventoryID);
+	public Item removeItemFromObject(int itemID, int objectID);
+	
+	public Item addItemToInventory(int itemID, int inventoryID);
+	public Item addItemToObject(int itemID, int objectID);
 }

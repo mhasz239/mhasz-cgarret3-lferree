@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1230,88 +1229,120 @@ public class DerbyDatabase implements IDatabase {
 	 * 											Insert Methods
 	 *******************************************************************************************************/
 	
-	public Integer InsertNewItem(Item item, int object_id) {
-		return executeTransaction(new Transaction<Integer>() {
+	// addItemToInventory
+	
+	public Item addItemToInventory(final int itemID, final int inventoryID) {
+		return executeTransaction(new Transaction <Item>() {
 			@Override
-			public Integer execute(Connection conn) throws SQLException {
+			public Item execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				
-				ResultSet resultSet1 = null;
-				
 				try {
-					
-					
-					
-					
-					
-					// Does an item with the same name exist already?
 					stmt = conn.prepareStatement(
-							"select * from items where items.name = ?"
-							);
-					stmt.setString(1, item.getName());
+							"insert into itemstoinventories (item_id, inventory_id) "
+							+ "values (?, ?)");
+					stmt.setInt(1, itemID);
+					stmt.setInt(2, inventoryID);
+					stmt.executeUpdate();
 					
+					Item item = new Item();
+					item = getItemByID(itemID);
 					
-					
-					
-					
-					
-					
-
-					return item.getID();
+					return item;
 				} finally {
-					DBUtil.closeQuietly(resultSet1);
 					DBUtil.closeQuietly(stmt);
 				}
-				
 			}
 		});
-		
-	}
+	}	
 	
-	public Integer InsertNewObject(Object object, int mapTile_id) {
-		return executeTransaction(new Transaction<Integer>() {
+	public Item addItemToObject(final int itemID, final int objectID) {
+		return executeTransaction(new Transaction <Item>() {
 			@Override
-			public Integer execute(Connection conn) throws SQLException {
+			public Item execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				
-				ResultSet resultSet1 = null;
-				
 				try {
-					
-					
-					
-					
-					
-					// Does an item with the same name exist already?
 					stmt = conn.prepareStatement(
-							"select * from items where items.name = ?"
-							);
-					stmt.setString(1, object.getName());
+							"insert into itemstoobjects (item_id, object_id) "
+							+ "values (?, ?)");
+							
+					stmt.setInt(1, itemID);
+					stmt.setInt(2, objectID);
+					stmt.executeUpdate();
 					
+					Item item = new Item();
+					item = getItemByID(itemID);
 					
-					
-					
-					
-					
-					
-
-					return object.getID();
+					return item;
 				} finally {
-					DBUtil.closeQuietly(resultSet1);
 					DBUtil.closeQuietly(stmt);
 				}
-				
 			}
 		});
-		
 	}
-	
 	/*******************************************************************************************************
 	 * 											Remove Methods
 	 *******************************************************************************************************/
 	
+	public Item removeItemFromInventory(final int itemID, final int inventoryID) {
+		return executeTransaction(new Transaction <Item>() {
+			@Override
+			public Item execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"delete from itemstoinventories "
+							+ "where itemstoinventories.item_id = ? "
+							+ "AND itemstoinventories.inventory_id = ? ");
+					stmt.setInt(1, itemID);
+					stmt.setInt(2, inventoryID);
+					stmt.executeUpdate();
+					
+					Item item = new Item();
+					item = getItemByID(itemID);
+					
+					return item;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public Item removeItemFromObject(final int itemID, final int objectID) {
+		return executeTransaction(new Transaction <Item>() {
+			@Override
+			public Item execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"delete from itemstoobjects "
+							+ "where itemstoobjects.item_id = ? "
+							+ "AND itemstoobjects.object_id = ? ");
+					stmt.setInt(1, itemID);
+					stmt.setInt(2, objectID);
+					stmt.executeUpdate();
+					
+					Item item = new Item();
+					item = getItemByID(itemID);
+					
+					return item;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
 	
 	
+	/*******************************************************************************************************
+	 * 									Combinations of Multi-Methods
+	 *******************************************************************************************************/
+	
+	// Take from Object - Remove from itemstoobjects table, add to itemstoinventories table
 	
 	
 	/*******************************************************************************************************
