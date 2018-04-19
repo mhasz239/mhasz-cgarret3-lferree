@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import edu.ycp.cs320.middle_earth.model.Characters.Inventory;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
+import edu.ycp.cs320.middle_earth.controller.Game;
 import edu.ycp.cs320.middle_earth.model.Quest;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
@@ -34,4 +35,6 @@ public interface IDatabase {
 	
 	public Item addItemToInventory(int itemID, int inventoryID);
 	public Item addItemToObject(int itemID, int objectID);
+	
+	public void saveGame(Game game);
 }

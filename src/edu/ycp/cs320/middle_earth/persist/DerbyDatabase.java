@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import edu.ycp.cs320.middle_earth.controller.Game;
 import edu.ycp.cs320.middle_earth.model.Quest;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.Inventory;
@@ -282,6 +283,7 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt6 = null;		// objectstomaptiles table
 				PreparedStatement stmt7 = null;		// itemstoinventories table 
 				PreparedStatement stmt8 = null;		// players table
+				PreparedStatement stmt9 = null; 	// objectcommandresponses table
 													//maps table
 													//quests table
 				
@@ -411,6 +413,13 @@ public class DerbyDatabase implements IDatabase {
 					);
 					stmt8.executeUpdate();
 					
+					stmt9 = conn.prepareStatement(
+							"create table objectcommandresponses ("
+							+ "object_id int, "
+							+ "command varchar(10), "
+							+ "response varchar (40)"
+							+ ")");
+					
 /*					stmt457 = conn.prepareStatement(
 							"create table map (" +
 							"   maptile_id integer primary key " +
@@ -433,6 +442,7 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt6);
 					DBUtil.closeQuietly(stmt7);
 					DBUtil.closeQuietly(stmt8);
+					DBUtil.closeQuietly(stmt9);
 				}
 			}
 		});
@@ -1305,9 +1315,12 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
+	/*******************************************************************************************************
+	*
+	********************************************************************************************************/
 	
 	/*******************************************************************************************************
-	 * 											Insert Methods
+	 * 											addToConstruct Methods
 	 *******************************************************************************************************/
 	
 	// addItemToInventory
@@ -1386,8 +1399,10 @@ public class DerbyDatabase implements IDatabase {
 			
 		});
 	}
+	
+	
 	/*******************************************************************************************************
-	 * 											Remove Methods
+	 * 											removeFromConstruct Methods
 	 *******************************************************************************************************/
 	
 	public Item removeItemFromInventory(final int itemID, final int inventoryID) {
@@ -1465,5 +1480,11 @@ public class DerbyDatabase implements IDatabase {
 		db.loadInitialData();
 		
 		System.out.println("Success!");
+	}
+
+	@Override
+	public void saveGame(Game game) {
+		// TODO Auto-generated method stub
+		
 	}
 }

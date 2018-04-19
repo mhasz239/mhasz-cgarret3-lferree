@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.ycp.cs320.middle_earth.persist.InitialData;
+import edu.ycp.cs320.middle_earth.controller.Game;
 import edu.ycp.cs320.middle_earth.model.Quest;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.Inventory;
@@ -250,5 +251,11 @@ public class FakeDatabase implements IDatabase {
 	public Item addItemToObject(int itemID, int objectID) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void saveGame(Game game) {
+		// TODO Auto-generated method stub
+		
 	}
 } 
