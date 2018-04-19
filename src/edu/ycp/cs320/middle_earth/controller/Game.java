@@ -314,15 +314,15 @@ public class Game implements Engine{
 				} else {
 					returnMessage = "Please designate the item # you want to view more details of.";
 				}
-			}else if (commandStr.equalsIgnoreCase("save")){
-				db.saveGame(this);
 			} else {
 				// Checking if command isn't empty, since it can't be null -> initialized in here to "";
 				// Simply changed to else... I may have lost the null command message.
 				// Not sure if this message is still okay for a null command error?
 				returnMessage = "Sorry, I didn't understand that.";
 			}
-		}
+		} else if (commandStr.equalsIgnoreCase("save")){
+			db.saveGame(this);
+		} 
 		return returnMessage;
 	}
 	
