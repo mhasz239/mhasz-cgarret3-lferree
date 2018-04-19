@@ -46,7 +46,7 @@ public class FakeDatabase implements IDatabase {
 //			inventoryList.addAll(InitialData.getItemsToInventories());
 			objectList.addAll(InitialData.getObjects());
 			mapTileList.addAll(InitialData.getMapTiles());
-			map = InitialData.getMap();
+			//map = InitialData.getMap();
 			questList.addAll(InitialData.getQuests());
 			player = InitialData.getPlayer();
 		} catch (IOException e) {

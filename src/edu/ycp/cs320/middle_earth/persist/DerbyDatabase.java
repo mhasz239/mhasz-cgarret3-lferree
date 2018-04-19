@@ -19,6 +19,8 @@ import edu.ycp.cs320.middle_earth.model.Constructs.ItemType;
 import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 import persist.dbmod.ItemInventory;
 import persist.dbmod.ItemObject;
+import persist.dbmod.MapTileMap;
+import persist.dbmod.ObjectIDCommandResponse;
 import persist.dbmod.ObjectMapTile;
 import edu.ycp.cs320.middle_earth.model.Constructs.Map;
 import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
@@ -123,7 +125,14 @@ public class DerbyDatabase implements IDatabase {
 		//object.getCommandResponses().put(resultSet.getString(index++), resultSet.getString(index++));
 	}
 	
-	// private void loadObjectCommandResponses
+	private void loadObjectCommandResponse(HashMap<String, String> objectCommandResponse, ResultSet resultSet, int index) {
+		try {
+			objectCommandResponse.put(resultSet.getString(index++), resultSet.getString(index++));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	private void loadMapTileConnections(HashMap<String, Integer> mapTileConnections, ResultSet resultSet, int index) throws SQLException {
 			mapTileConnections.put("north", resultSet.getInt(index++));
@@ -284,8 +293,9 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt7 = null;		// itemstoinventories table 
 				PreparedStatement stmt8 = null;		// players table
 				PreparedStatement stmt9 = null; 	// objectcommandresponses table
-													//maps table
-													//quests table
+				PreparedStatement stmt10 = null;	//	maps table
+				PreparedStatement stmt11 = null;	// maptilestomaps table
+													//	quests table
 				
 				try {
 					stmt0 = conn.prepareStatement(
@@ -326,8 +336,6 @@ public class DerbyDatabase implements IDatabase {
 							")"
 					);
 					stmt2.executeUpdate();
-					
-					/*	object command responses table */
 					
 					stmt3 = conn.prepareStatement(
 							"create table itemstoobjects (" +
@@ -417,20 +425,31 @@ public class DerbyDatabase implements IDatabase {
 							"create table objectcommandresponses ("
 							+ "object_id int, "
 							+ "command varchar(10), "
-							+ "response varchar (40)"
-							+ ")");
+							+ "response varchar (100)"
+							+ ")"
+							);					
+					stmt9.executeUpdate();
 					
-/*					stmt457 = conn.prepareStatement(
-							"create table map (" +
-							"   maptile_id integer primary key " +
+					stmt10 = conn.prepareStatement(
+							"create table maps (" +
+							"   map_id integer primary key " +
 							"       generated always as identity (start with 1, increment by 1), " +
 							"   mapname varchar(40)," +							
 							"	longdescription varchar(200)," +
 							"	shortdescription varchar(100)" +
 							")"
 					);
-					stmt457.executeUpdate();*/
+					stmt10.executeUpdate();
 					
+					stmt11 = conn.prepareStatement(
+							"create table maptilestomaps ("
+							+ "maptile_id int, "
+							+ "map_id int "
+							+ ")"
+							);
+					stmt11.executeUpdate();
+					
+							
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt0);
@@ -443,6 +462,8 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt7);
 					DBUtil.closeQuietly(stmt8);
 					DBUtil.closeQuietly(stmt9);
+					DBUtil.closeQuietly(stmt10);
+					DBUtil.closeQuietly(stmt11);
 				}
 			}
 		});
@@ -455,23 +476,28 @@ public class DerbyDatabase implements IDatabase {
 				ArrayList<Item> itemList;
 				ArrayList<Object> objectList;
 				ArrayList<ItemObject> itemsToObjectsList;
+				ArrayList<ObjectIDCommandResponse> objectCommandResponseList;
 				ArrayList<HashMap<String, Integer>> mapTileConnectionsList;
 				ArrayList<MapTile> mapTileList;
 				ArrayList<ObjectMapTile> objectsToMapTilesList;
 				ArrayList<ItemInventory> itemsToInventoriesList;
 				Player player;
-//				ArrayList<Map> mapList;
+				Map map; 			//	ArrayList<Map> mapList;
+				ArrayList<MapTileMap> mapTilesToMapsList;
 				
 				try {
 					itemList = InitialData.getItems();
 					objectList = InitialData.getObjects();
 					itemsToObjectsList = InitialData.getItemsToObjects();
+					objectCommandResponseList = InitialData.getObjectCommandResponses();
 					mapTileConnectionsList = InitialData.getMapTileConnections();
 					mapTileList = InitialData.getMapTiles();
 					objectsToMapTilesList = InitialData.getObjectsToMapTiles();
 					itemsToInventoriesList = InitialData.getItemsToInventories();
 					player = InitialData.getPlayer();
-//					mapList = InitialData.getMapList();
+					map = InitialData.getMap();		//	mapList = InitialData.getMapList();
+					mapTilesToMapsList = InitialData.getMapTilesToMaps();
+					
 					
 				} catch (IOException e) {
 					throw new SQLException("Couldn't read initial data", e);
@@ -485,7 +511,10 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement insertObjectsToMapTiles = null;
 				PreparedStatement insertItemsToInventories = null;
 				PreparedStatement insertPlayers = null;
-//				PreparedStatement insertMap = null;
+				PreparedStatement insertMap = null;			//insertMaps
+				PreparedStatement insertMapTilesToMaps = null;
+				PreparedStatement insertObjectCommandResponses = null;
+				
 
 				try {					
 					insertItem = conn.prepareStatement("insert into items (itemname, longdescription, shortdescription, "
@@ -627,14 +656,31 @@ public class DerbyDatabase implements IDatabase {
 						insertPlayers.addBatch();	
 					insertPlayers.executeBatch();							
 						
-					/*insertMap = conn.prepareStatement("insert into maps (mapname, longdescription, shortdescription) values (?, ?, ?)");
-					for (Map map : mapList) {
+					insertMap = conn.prepareStatement("insert into maps (mapname, longdescription, shortdescription) values (?, ?, ?)");
+					//for (Map map : mapList) {
 						insertMap.setString(1, map.getName());
 						insertMap.setString(2, map.getLongDescription());
 						insertMap.setString(3, map.getShortDescription());
 						insertMap.addBatch();
+					//}
+					insertMap.executeBatch();	
+					
+					insertMapTilesToMaps = conn.prepareStatement(" insert into maptilestomaps (maptile_id, map_id) values (?, ?)");
+					for(MapTileMap mapTileMap : mapTilesToMapsList) {
+						insertMapTilesToMaps.setInt(1, mapTileMap.getMapTileID());
+						insertMapTilesToMaps.setInt(2, mapTileMap.getMapID());
+						insertMapTilesToMaps.addBatch();
 					}
-					insertMap.executeBatch();	*/
+					insertMapTilesToMaps.executeBatch();
+					
+					insertObjectCommandResponses = conn.prepareStatement(" insert into objectCommandResponses (object_id, command, response) values (?, ?, ?)");
+					for(ObjectIDCommandResponse objectCommandResponse : objectCommandResponseList) {
+						insertObjectCommandResponses.setInt(1, objectCommandResponse.getObjectID());
+						insertObjectCommandResponses.setString(2, objectCommandResponse.getCommand());
+						insertObjectCommandResponses.setString(3, objectCommandResponse.getResponse());
+						insertObjectCommandResponses.addBatch();
+					}
+					insertObjectCommandResponses.executeBatch();					
 					
 					return true;
 				} finally {
@@ -663,7 +709,8 @@ public class DerbyDatabase implements IDatabase {
 			@Override
 			public Map execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
-				ResultSet resultSet = null;
+				ResultSet resultSetMap = null;
+				ResultSet resultSetMapTiles = null;
 				
 				try {
 					// retrieve all attributes
@@ -672,20 +719,29 @@ public class DerbyDatabase implements IDatabase {
 							"  from maps "
 					);
 					
-					Map result = new Map();
+					Map map = new Map();
 					
-					resultSet = stmt.executeQuery();
+					resultSetMap = stmt.executeQuery();
 					
 					// for testing that a result was returned
 					Boolean found = false;
 					
-					while (resultSet.next()) {
+					while (resultSetMap.next()) {
 						found = true;
+						loadMap(map, resultSetMap, 1);
 						
-						Map map = new Map();
-						loadMap(map, resultSet, 1);
+						stmt = conn.prepareStatement(
+								" select maptilestomaps.maptile_id "
+								+ "from maptilestomaps "
+								+ "where maptilestomaps.map_id = ? "
+								);
+						resultSetMapTiles = stmt.executeQuery();
 						
-						result = map;
+						while(resultSetMapTiles.next()) {
+							MapTile mapTile = new MapTile();
+							loadMapTile(mapTile, resultSetMap, 1);
+							map.addMapTile(mapTile);
+						}
 					}
 					
 					// check if the maps were found
@@ -693,9 +749,10 @@ public class DerbyDatabase implements IDatabase {
 						System.out.println("<maps> table is empty");
 					}
 					
-					return result;
+					return map;
 				} finally {
-					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(resultSetMapTiles);
+					DBUtil.closeQuietly(resultSetMap);
 					DBUtil.closeQuietly(stmt);
 				}
 			}
@@ -789,7 +846,9 @@ public class DerbyDatabase implements IDatabase {
 			@Override
 			public ArrayList<Object> execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
+				PreparedStatement stmt2 = null;
 				ResultSet resultSetObjects = null;
+				ResultSet resultSetObjectCommandResponses = null;
 				ResultSet resultSetItems = null;
 				
 				try {
@@ -811,6 +870,29 @@ public class DerbyDatabase implements IDatabase {
 						
 						Object object = new Object();
 						loadObject(object, resultSetObjects, 1);
+						
+						// Now get the commandResponses
+						stmt2 = conn.prepareStatement( 
+								"select objectcommandresponses.command, objectcommandresponses.response "
+								+ "from objectcommandresponses "
+								+ "where objectcommandresponses.object_id = ?"
+						);
+						stmt2.setInt(1, object.getID());		
+						ArrayList<HashMap<String, String>> resultObjectCommandResponses = new ArrayList<HashMap<String, String>>();
+						
+						resultSetObjectCommandResponses = stmt2.executeQuery();
+						
+						while (resultSetObjectCommandResponses.next()) {
+							HashMap<String, String> objectCommandResponse = new HashMap<String, String>();
+							loadObjectCommandResponse(objectCommandResponse, resultSetObjectCommandResponses, 1);
+							
+							resultObjectCommandResponses.add(objectCommandResponse);
+						}
+						if(!resultObjectCommandResponses.isEmpty()) {
+							for(HashMap<String, String> objectCommandResponse : resultObjectCommandResponses) {
+								object.setCommandResponses(objectCommandResponse);
+							}
+						}		
 						
 						// Now get the items in the object
 						stmt = conn.prepareStatement(
@@ -848,7 +930,9 @@ public class DerbyDatabase implements IDatabase {
 					return resultObjects;
 				} finally {
 					DBUtil.closeQuietly(resultSetItems);
+					DBUtil.closeQuietly(resultSetObjectCommandResponses);
 					DBUtil.closeQuietly(resultSetObjects);
+					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt);
 				}
 			}
@@ -861,8 +945,10 @@ public class DerbyDatabase implements IDatabase {
 			@Override
 			public ArrayList<MapTile> execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
+				PreparedStatement stmt2 = null;
 				ResultSet resultSetMapTiles = null;
 				ResultSet resultSetObjects = null;
+				ResultSet resultSetObjectCommandResponses = null;
 				ResultSet resultSetItems = null;
 				
 				try {
@@ -906,6 +992,29 @@ public class DerbyDatabase implements IDatabase {
 						while(resultSetObjects.next()) {
 							Object object = new Object();
 							loadObject(object, resultSetObjects, 1);
+							
+							// Now get the commandResponses
+							stmt2 = conn.prepareStatement( 
+									"select objectcommandresponses.command, objectcommandresponses.response "
+									+ "from objectcommandresponses "
+									+ "where objectcommandresponses.object_id = ?"
+							);
+							stmt2.setInt(1, object.getID());		
+							ArrayList<HashMap<String, String>> resultObjectCommandResponses = new ArrayList<HashMap<String, String>>();
+							
+							resultSetObjectCommandResponses = stmt2.executeQuery();
+							
+							while (resultSetObjectCommandResponses.next()) {
+								HashMap<String, String> objectCommandResponse = new HashMap<String, String>();
+								loadObjectCommandResponse(objectCommandResponse, resultSetObjectCommandResponses, 1);
+								
+								resultObjectCommandResponses.add(objectCommandResponse);
+							}
+							if(!resultObjectCommandResponses.isEmpty()) {
+								for(HashMap<String, String> objectCommandResponse : resultObjectCommandResponses) {
+									object.setCommandResponses(objectCommandResponse);
+								}
+							}		
 						
 							// Now get the items in the object
 							stmt = conn.prepareStatement(
@@ -949,8 +1058,10 @@ public class DerbyDatabase implements IDatabase {
 					return resultMapTiles;
 				} finally {
 					DBUtil.closeQuietly(resultSetItems);
+					DBUtil.closeQuietly(resultSetObjectCommandResponses);
 					DBUtil.closeQuietly(resultSetObjects);
 					DBUtil.closeQuietly(resultSetMapTiles);
+					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt);
 				}
 			}
@@ -1069,22 +1180,25 @@ public class DerbyDatabase implements IDatabase {
 			@Override
 			public Object execute(Connection conn) throws SQLException {
 
-				PreparedStatement stmt = null;
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;
 				ResultSet resultSet = null;
+				ResultSet resultSetObjectCommandResponses = null;
 				ResultSet resultSetItems = null;
 				
 				try {
 					// retrieve all attributes
-					stmt = conn.prepareStatement(
+					stmt1 = conn.prepareStatement(
 							"select * "
 							+ "from objects "
 							+ "where objects.object_id = ? "
 					);
-					stmt.setInt(1, objectID);
+					stmt1.setInt(1, objectID);
 					
-					resultSet = stmt.executeQuery();
+					resultSet = stmt1.executeQuery();
 					
-					Object result = new Object();
+					Object resultObject = new Object();
 
 					// for testing that a result was returned
 					Boolean found = false;
@@ -1092,20 +1206,43 @@ public class DerbyDatabase implements IDatabase {
 					while (resultSet.next()) {
 						found = true;
 						
-						loadObject(result, resultSet, 1);
+						loadObject(resultObject, resultSet, 1);
+						
+						// Now get the commandResponses
+						stmt2 = conn.prepareStatement( 
+								"select objectcommandresponses.command, objectcommandresponses.response "
+								+ "from objectcommandresponses "
+								+ "where objectcommandresponses.object_id = ?"
+						);
+						stmt2.setInt(1, resultObject.getID());		
+						ArrayList<HashMap<String, String>> resultObjectCommandResponses = new ArrayList<HashMap<String, String>>();
+						
+						resultSetObjectCommandResponses = stmt2.executeQuery();
+						
+						while (resultSetObjectCommandResponses.next()) {
+							HashMap<String, String> objectCommandResponse = new HashMap<String, String>();
+							loadObjectCommandResponse(objectCommandResponse, resultSetObjectCommandResponses, 1);
+							
+							resultObjectCommandResponses.add(objectCommandResponse);
+						}
+						if(!resultObjectCommandResponses.isEmpty()) {
+							for(HashMap<String, String> objectCommandResponse : resultObjectCommandResponses) {
+								resultObject.setCommandResponses(objectCommandResponse);
+							}
+						}						
 						
 						// Now get the items in the object
-						stmt = conn.prepareStatement(
+						stmt3 = conn.prepareStatement(
 								"select * " +
 								"	from items, itemstoobjects" +
 								"   where itemstoobjects.object_id = ?"
 								+ "AND itemstoobjects.item_id = items.item_id "
 						);
 						
-						stmt.setInt(1, result.getID());
+						stmt3.setInt(1, resultObject.getID());
 						ArrayList<Item> resultItems = new ArrayList<Item>();
 						
-						resultSetItems = stmt.executeQuery();
+						resultSetItems = stmt3.executeQuery();
 						
 						while (resultSetItems.next()) {
 							Item item = new Item();
@@ -1115,7 +1252,7 @@ public class DerbyDatabase implements IDatabase {
 						}
 						if(!resultItems.isEmpty()) {
 							for(Item item : resultItems) {
-								result.addItem(item);
+								resultObject.addItem(item);
 							}
 						}
 					}
@@ -1125,10 +1262,14 @@ public class DerbyDatabase implements IDatabase {
 						System.out.println("no objects with that id");
 					}
 					
-					return result;
+					return resultObject;
 				} finally {
 					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(resultSetObjectCommandResponses);
+					DBUtil.closeQuietly(resultSetItems);
+					DBUtil.closeQuietly(stmt3);
+					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(stmt1);
 				}
 			}
 		});
@@ -1141,8 +1282,10 @@ public class DerbyDatabase implements IDatabase {
 			public MapTile execute(Connection conn) throws SQLException {
 
 				PreparedStatement stmt = null;
+				PreparedStatement stmt2 = null;
 				ResultSet resultSetMapTiles = null;
 				ResultSet resultSetObjects = null;
+				ResultSet resultSetObjectCommandResponses = null;
 				ResultSet resultSetItems = null;
 				try {
 					// retrieve all attributes
@@ -1183,7 +1326,30 @@ public class DerbyDatabase implements IDatabase {
 						while(resultSetObjects.next()) {
 							Object object = new Object();
 							loadObject(object, resultSetObjects, 1);
-						
+							
+							// Now get the commandResponses
+							stmt2 = conn.prepareStatement( 
+									"select objectcommandresponses.command, objectcommandresponses.response "
+									+ "from objectcommandresponses "
+									+ "where objectcommandresponses.object_id = ?"
+							);
+							stmt2.setInt(1, object.getID());		
+							ArrayList<HashMap<String, String>> resultObjectCommandResponses = new ArrayList<HashMap<String, String>>();
+							
+							resultSetObjectCommandResponses = stmt2.executeQuery();
+							
+							while (resultSetObjectCommandResponses.next()) {
+								HashMap<String, String> objectCommandResponse = new HashMap<String, String>();
+								loadObjectCommandResponse(objectCommandResponse, resultSetObjectCommandResponses, 1);
+								
+								resultObjectCommandResponses.add(objectCommandResponse);
+							}
+							if(!resultObjectCommandResponses.isEmpty()) {
+								for(HashMap<String, String> objectCommandResponse : resultObjectCommandResponses) {
+									object.setCommandResponses(objectCommandResponse);
+								}
+							}		
+							
 							// Now get the items in the object
 							stmt = conn.prepareStatement(
 									"select * " +
@@ -1224,9 +1390,11 @@ public class DerbyDatabase implements IDatabase {
 					return mapTile;
 				} finally {
 					DBUtil.closeQuietly(resultSetItems);
+					DBUtil.closeQuietly(resultSetObjectCommandResponses);
 					DBUtil.closeQuietly(resultSetObjects);
 					DBUtil.closeQuietly(resultSetMapTiles);
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(stmt2);
 				}
 			}
 		});
@@ -1316,9 +1484,50 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	/*******************************************************************************************************
-	*
+	*											load/save game
+	********************************************************************************************************/
+	// Will need to take gameID in future
+	public Game loadGame() {
+		
+		Game game = new Game();
+		game.set_map(getMap());
+		game.set_objects(getAllObjects());
+		game.set_items(getAllItems());
+		ArrayList<Character> characterList = new ArrayList<Character>();
+		characterList.add(getPlayer());
+		game.set_characters(characterList);
+		
+		return game;
+	}
+	
+	//public Game saveGame(int gameID)
+	/*******************************************************************************************************
+	 * 										Update Database Methods
 	********************************************************************************************************/
 	
+	private void updateMap() {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+	
+	private void updateMapTiles() {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+	
+	private void updateObjects() {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+	
+	private void updateItems() {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+	
+	private void updateCharacters() {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+	
+	private void updatePlayer() {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
 	/*******************************************************************************************************
 	 * 											addToConstruct Methods
 	 *******************************************************************************************************/

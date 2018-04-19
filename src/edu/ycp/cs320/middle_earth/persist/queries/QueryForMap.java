@@ -33,22 +33,33 @@ public class QueryForMap {
 					System.out.println("No objects");
 				} else {	
 					for (Object object : mapTile.getObjects()) {
-						System.out.println("\t" + object.getID() + "\n" 
-								+ "\t" + object.getName() + "\n" 
-								+ "\t" + object.getLongDescription() + "\n" 
-								+ "\t" + object.getShortDescription() + "\n" 
-								+ "\t" + object.getCommandResponses() + "\n");
+						System.out.println("\tOBJECTS ON MAPTILE:"
+							+ "\n\tObject Name = " + object.getName() 
+							+ "\n\tLong Desc = " + object.getLongDescription() 
+							+ "\n\tShort Desc = " + object.getShortDescription() 
+							+ "\n\tCommand Responses: " + object.getCommandResponses());
 						if(object.getItems().isEmpty()) {
-							System.out.println("No items");
+							System.out.println("\tNo items in object");
 						} else {
 							for(Item item : object.getItems()) {
-								System.out.println("\t\titem_id = " + item.getID() + "\n" 
-										+ "\t\t" + item.getName() + "\n\t\t" + item.getLongDescription() + "\n" 
-										+ "\t\t" + item.getShortDescription() + "\n\t\titem weight = " + item.getItemWeight() 
-										+ "\t\t" + "\n\t\tIs a quest item? " + item.getIsQuestItem() + "\n");
+								System.out.println("\n\t\tITEMS IN OBJECT:"
+									+ "\n\t\tItem ID = " + item.getID() 
+									+ "\n\t\tItem Name = " + item.getName() 
+									+ "\n\t\tLong Desc = " + item.getLongDescription() 
+									+ "\n\t\tShort Desc = " + item.getShortDescription() 
+						
+									+ "\n\t\tDesc Update = " + item.get_description_update()
+									+ "\n\t\tAttack Bonus = " + item.get_attack_bonus()
+									+ "\n\t\tDefense Bonus = " + item.get_defense_bonus()
+									+ "\n\t\tHP Bonus = " + item.get_hp_bonus() 
+						
+									+ "\n\t\tItem Weight = " + item.getItemWeight() 
+									+ "\n\t\tItem Type = " + item.get_ItemType()
+									+ "\n\t\tLevel Requirement = " + item.get_lvl_requirement()
+						
+									+ "\n\t\tIs a quest item? " + item.getIsQuestItem() + "\n\n");
 							}
 						}
-						System.out.println("\n");
 					}
 				}
 			}

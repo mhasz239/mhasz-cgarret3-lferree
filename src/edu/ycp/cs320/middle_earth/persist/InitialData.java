@@ -9,6 +9,8 @@ import java.util.List;
 import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 import persist.dbmod.ItemInventory;
 import persist.dbmod.ItemObject;
+import persist.dbmod.MapTileMap;
+import persist.dbmod.ObjectIDCommandResponse;
 import persist.dbmod.ObjectMapTile;
 import persist.dbmod.User;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
@@ -150,7 +152,7 @@ public class InitialData {
 	
 	public static Map getMap() throws IOException {
 		Map map = new Map();
-		ReadCSV readMap = new ReadCSV("maps.csv");
+		ReadCSV readMap = new ReadCSV("map.csv");
 		try {
 			while (true) {
 				List<String> tuple = readMap.next();
@@ -167,6 +169,27 @@ public class InitialData {
 		} finally {
 			readMap.close();
 		}
+	}
+	
+	public static ArrayList<MapTileMap> getMapTilesToMaps() throws IOException {
+		ArrayList<MapTileMap> mapTileMapList = new ArrayList<MapTileMap>();
+		ReadCSV readMapTilesToMaps = new ReadCSV("maptilestomaps.csv");
+		try {
+			while (true) {
+				List<String> tuple = readMapTilesToMaps.next();
+				if(tuple == null) {
+					break;
+				}
+				Iterator<String> i = tuple.iterator();
+				MapTileMap mapTileMap = new MapTileMap();
+				mapTileMap.setMapTileID(Integer.parseInt(i.next()));
+				mapTileMap.setMapTileID(Integer.parseInt(i.next()));
+				mapTileMapList.add(mapTileMap);
+			}
+			return mapTileMapList;
+		} finally {
+			readMapTilesToMaps.close();
+		}	
 	}
 	
 	public static ArrayList<HashMap<String, Integer>> getMapTileConnections() throws IOException {
@@ -229,8 +252,8 @@ public class InitialData {
 		}
 	}
 	
-	public static ArrayList<HashMap<String, String>> getObjectCommandResponses() throws IOException {
-		ArrayList<HashMap<String, String>> commandResponseList = new ArrayList<HashMap<String, String>>();
+	public static ArrayList<ObjectIDCommandResponse> getObjectCommandResponses() throws IOException {
+		ArrayList<ObjectIDCommandResponse> objectCommandResponseList = new ArrayList<ObjectIDCommandResponse>();
 		
 		ReadCSV readObjectCommandResponses = new ReadCSV("objectcommandresponses.csv");
 		
@@ -242,15 +265,16 @@ public class InitialData {
 				}
 				Iterator<String> i = tuple.iterator();
 				
-				HashMap<String, String> objectCommandResponses = new HashMap<String, String>();
+				ObjectIDCommandResponse objectCommandResponse = new ObjectIDCommandResponse();
 				
 				while (i.hasNext()) {
-				objectCommandResponses.put(i.next(), i.next());
+					objectCommandResponse.setObjectID(Integer.parseInt(i.next()));
+					objectCommandResponse.setCommand(i.next());
+					objectCommandResponse.setResponse(i.next());
+					objectCommandResponseList.add(objectCommandResponse);
 				}
-				
-				commandResponseList.add(objectCommandResponses);
 			}
-			return commandResponseList;
+			return objectCommandResponseList;
 		} finally {
 			readObjectCommandResponses.close();
 		}
