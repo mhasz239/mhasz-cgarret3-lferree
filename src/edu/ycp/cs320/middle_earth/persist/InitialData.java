@@ -10,6 +10,7 @@ import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 import persist.dbmod.ItemInventory;
 import persist.dbmod.ItemObject;
 import persist.dbmod.ObjectMapTile;
+import persist.dbmod.User;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 import edu.ycp.cs320.middle_earth.model.Constructs.Map;
 import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
@@ -427,4 +428,30 @@ public class InitialData {
 			readQuests.close();
 		}
 	} 
+	
+	public static ArrayList<User> getUsers() throws IOException {
+		ArrayList<User> userList = new ArrayList<User>();
+		ReadCSV readUsers = new ReadCSV("users.csv");
+		try {
+			while (true) {
+				List<String> tuple = readUsers.next();
+				if(tuple == null) {
+					break;
+				}
+				
+				Iterator<String> i = tuple.iterator();
+				
+				User user = new User();
+				
+				user.setUserID(Integer.parseInt(i.next()));
+				user.setPassword(i.next());
+				user.setEmail(i.next());
+				userList.add(user);			
+			} 
+			return userList; 
+		} finally {
+			readUsers.close();
+		}
+	}
+	
 }

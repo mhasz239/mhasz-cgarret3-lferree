@@ -122,6 +122,8 @@ public class DerbyDatabase implements IDatabase {
 		//object.getCommandResponses().put(resultSet.getString(index++), resultSet.getString(index++));
 	}
 	
+	// private void loadObjectCommandResponses
+	
 	private void loadMapTileConnections(HashMap<String, Integer> mapTileConnections, ResultSet resultSet, int index) throws SQLException {
 			mapTileConnections.put("north", resultSet.getInt(index++));
 			mapTileConnections.put("northeast", resultSet.getInt(index++));
@@ -146,8 +148,6 @@ public class DerbyDatabase implements IDatabase {
 		map.setLongDescription(resultSet.getString(index++));
 		map.setShortDescription(resultSet.getString(index++));	
 	}
-	
-
 	
 	private void loadPlayer(Player player, ResultSet resultSet, int index) {
 		try {
@@ -273,6 +273,7 @@ public class DerbyDatabase implements IDatabase {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt0 = null;		// users table
 				PreparedStatement stmt1 = null;		// items table
 				PreparedStatement stmt2 = null;		// objects table
 				PreparedStatement stmt3 = null;		// itemstoobjects table
@@ -281,13 +282,20 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt6 = null;		// objectstomaptiles table
 				PreparedStatement stmt7 = null;		// itemstoinventories table 
 				PreparedStatement stmt8 = null;		// players table
-				
-				
 													//maps table
 													//quests table
-													
 				
 				try {
+					stmt0 = conn.prepareStatement(
+							"create table users (" +
+							" user_id integer primary key " +
+							"		generated always as identity (start with 1, increment by 1), " +
+							" username varchar(20), " +
+							" password varchar(40), " +
+							" email varchar(40))"
+					);
+					stmt0.executeUpdate();
+					
 					stmt1 = conn.prepareStatement(
 							"create table items (" + 
 							"	item_id integer primary key " +
@@ -416,6 +424,7 @@ public class DerbyDatabase implements IDatabase {
 					
 					return true;
 				} finally {
+					DBUtil.closeQuietly(stmt0);
 					DBUtil.closeQuietly(stmt1);
 					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt3);
@@ -564,7 +573,7 @@ public class DerbyDatabase implements IDatabase {
 					insertItemsToInventories.executeBatch();
 					
 					
-					// Can be changed to Players
+					// Can easily be changed to Players with a for each
 					insertPlayers = conn.prepareStatement("insert into players ("
 							+ "race, name, gender, level, hit_points, "
 							+ "magic_points, attack, defense, sp_attack, sp_defense, "
@@ -606,11 +615,7 @@ public class DerbyDatabase implements IDatabase {
 						insertPlayers.setInt(i++, player.get_carry_weight());
 							
 						insertPlayers.addBatch();	
-					
-					insertPlayers.executeBatch();	
-						
-						
-						
+					insertPlayers.executeBatch();							
 						
 					/*insertMap = conn.prepareStatement("insert into maps (mapname, longdescription, shortdescription) values (?, ?, ?)");
 					for (Map map : mapList) {
@@ -636,6 +641,7 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
+	
 	
 	/**************************************************************************************************
 	 * 										*Get All* Methods
@@ -943,10 +949,14 @@ public class DerbyDatabase implements IDatabase {
 
 	@Override
 	public ArrayList<Character> getAllCharacters() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Character> characterList = new ArrayList<Character>();
+		characterList.add(getPlayer());
+		return characterList;
 	}
 
+	/*
+		This method is unnecessary now that getPlayers populates the inventory
+	*/
 	@Override
 	public ArrayList<Inventory> getAllInventories() {
 		// TODO Auto-generated method stub
@@ -959,6 +969,43 @@ public class DerbyDatabase implements IDatabase {
 		return null;
 	}
 
+	public ArrayList<String> getAllUserNames() {
+		return executeTransaction(new Transaction<ArrayList<String>>() {
+			public ArrayList<String> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					
+					stmt = conn.prepareStatement(
+							"select users.userName "
+							+ "from users");
+					
+					resultSet = stmt.executeQuery();
+					
+					String user = new String();
+					ArrayList<String> userList = new ArrayList<String>();
+					
+					Boolean found = false;
+					while(resultSet.next()) {
+						found = true;
+						user = resultSet.getString(1);
+						userList.add(user);
+					}
+					
+					if(!found) {
+						System.out.println("UserList is empty");
+					}
+					
+					return userList;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
 	/******************************************************************************************************
 	 * 										*Get Specific* Methods
 	 ******************************************************************************************************/
@@ -1225,6 +1272,40 @@ public class DerbyDatabase implements IDatabase {
 		return null;
 	}	
 	
+	public String getUserPasswordByUserName(final String userName) {
+		return executeTransaction(new Transaction<String>() {
+			public String execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultPassword = null;
+				try {
+					stmt = conn.prepareStatement(
+							"select users.password "
+							+ "from users "
+							+ "where users.username = ? ");
+					stmt.setString(1, userName);
+					resultPassword = stmt.executeQuery();
+					
+					String password = new String();
+					
+					Boolean found = false;
+					while(resultPassword.next()) {
+						found = true;
+						password = resultPassword.getString(1);
+					}
+					
+					if(!found) {
+						System.out.println("That username was not found");
+					}
+					
+					return password;
+				} finally {
+					DBUtil.closeQuietly(resultPassword);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
 	/*******************************************************************************************************
 	 * 											Insert Methods
 	 *******************************************************************************************************/
@@ -1279,6 +1360,30 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt);
 				}
 			}
+		});
+	}
+	
+	public String addUser(final String userName, final String password, final String email) {
+		return executeTransaction(new Transaction<String>() {
+			@Override
+			public String execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"insert int users (userName, password, email) "
+							+ "values (?, ?, ?)");
+					stmt.setString(1, userName);
+					stmt.setString(2, password);
+					stmt.setString(3, email);
+					stmt.executeUpdate();		
+					
+					return userName;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+			
 		});
 	}
 	/*******************************************************************************************************

@@ -16,8 +16,6 @@ public class QueryForObjectByID {
 
 		IDatabase db = DatabaseProvider.getInstance();
 		
-		db.addItemToObject(1, 1);
-		
 		Object object = db.getObjectByID(1);
 		
 		// check if anything was returned and output the list
