@@ -723,6 +723,8 @@ public class DerbyDatabase implements IDatabase {
 					);
 					
 					Map map = new Map();
+					MapTile emptyMapTile = new MapTile();
+					map.addMapTile(emptyMapTile);
 					
 					resultSetMap = stmt.executeQuery();
 					
