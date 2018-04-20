@@ -38,4 +38,6 @@ public interface IDatabase {
 	
 	public Game loadGame();
 	public void saveGame(Game game);
+	
+	public String getUserPasswordByUserName(String username);
 }

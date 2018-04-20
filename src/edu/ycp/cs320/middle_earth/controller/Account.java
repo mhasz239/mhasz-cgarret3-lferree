@@ -34,7 +34,7 @@ public class Account{
 		IDatabase db = DatabaseProvider.getInstance();
 		
 		
-		if () {
+		if (password == db.getUserPasswordByUserName(username)) {
 			//update user_token and game_id
 			return "Success!";
 		} else {

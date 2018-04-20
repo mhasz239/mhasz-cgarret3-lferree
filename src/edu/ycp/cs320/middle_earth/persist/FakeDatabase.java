@@ -264,4 +264,10 @@ public class FakeDatabase implements IDatabase {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String getUserPasswordByUserName(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 } 
