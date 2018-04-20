@@ -26,9 +26,7 @@ public class Account{
 	}
 	
 	public String login(String username, String password){
-		// TODO: Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
-		if () {
+		if (true) {
 			//update user_token and game_id
 			return "Success!";
 		} else {

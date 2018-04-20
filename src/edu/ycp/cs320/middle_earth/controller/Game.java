@@ -51,7 +51,11 @@ public class Game implements Engine{
 		db = DatabaseProvider.getInstance();
 		//######################################################
 		
-		db.loadGame();
+		Game loadfile = db.loadGame();
+		map = loadfile.get_map();
+		characters = loadfile.get_characters();
+		objects = loadfile.get_objects();
+		items = loadfile.get_items();
 		
 		
 		map.getMapTiles().get(get_player().get_location()).setVisited(true);
