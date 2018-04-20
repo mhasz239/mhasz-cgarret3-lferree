@@ -15,6 +15,7 @@ import edu.ycp.cs320.middle_earth.model.Constructs.Map;
 import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
 import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
 import edu.ycp.cs320.middle_earth.persist.FakeDatabase;
+import edu.ycp.cs320.middle_earth.persist.DerbyDatabase;
 import edu.ycp.cs320.middle_earth.persist.IDatabase;
 
 public class Game implements Engine{
@@ -45,41 +46,11 @@ public class Game implements Engine{
 		 */
 		
 		//Fake Database is rebuilt each time and populated into the respective fields.
-		DatabaseProvider.setInstance(new FakeDatabase());
-		IDatabase db = DatabaseProvider.getInstance();
+		//DatabaseProvider.setInstance(new DerbyDatabase());
+		//db = DatabaseProvider.getInstance();
 		//######################################################
 		
-		items = db.getAllItems();
-		map = db.getMap();
-		for (MapTile tile : map.getMapTiles()) {
-			tile.setVisited(false);
-		}
-		//map.setMapTiles(db.getAllMapTiles());
-		quests = db.getAllQuests();
-		characters = db.getAllCharacters();
-		// ######################################################
-		// Wouldn't db.getAllCharacters() already grab player?
-		// ######################################################
-		characters.add(db.getPlayer());
-		objects = db.getAllObjects();
-		for (Object object : objects) {
-			if (!object.getItems().isEmpty()) {
-				for (String key : object.getCommandResponses().keySet()) {
-					String items_list = new String();
-					
-					for (Item item : object.getItems()){
-						if (object.getItems().size() == 1) {
-							items_list = "a " + item.getName();
-						} else {
-							items_list = items_list + "a " + item.getName() + ", ";
-						}
-					}
-					object.getCommandResponses().put(key, object.getCommandResponses().get(key) + "You see " + items_list);
-				}
-			}
-		}
-		
-		map.getMapTiles().get(get_player().get_location()).setVisited(true);
+		//map.getMapTiles().get(get_player().get_location()).setVisited(true);
 	}
 	
 	public Game get_game() {
@@ -229,7 +200,11 @@ public class Game implements Engine{
 			 * be the block that gets executed.
 			 * #################################
 			 */
-		if(mode.equalsIgnoreCase("game")){
+		if (commandStr.equalsIgnoreCase("save")){
+			DatabaseProvider.setInstance(new DerbyDatabase());
+			IDatabase db = DatabaseProvider.getInstance();
+			db.saveGame(this);
+		} else if(mode.equalsIgnoreCase("game")){
 			if(command.equalsIgnoreCase("move")){
 				if(args[1].equalsIgnoreCase("north") || arg.equalsIgnoreCase("south") || 
 						arg.equalsIgnoreCase("east") || arg.equalsIgnoreCase("west") ||
@@ -312,13 +287,13 @@ public class Game implements Engine{
 				} else {
 					returnMessage = "Please designate the item # you want to view more details of.";
 				}
-			}else{
+			} else {
 				// Checking if command isn't empty, since it can't be null -> initialized in here to "";
 				// Simply changed to else... I may have lost the null command message.
 				// Not sure if this message is still okay for a null command error?
 				returnMessage = "Sorry, I didn't understand that.";
 			}
-		}
+		} 
 		return returnMessage;
 	}
 	
@@ -489,6 +464,7 @@ public class Game implements Engine{
 		Character player = characters.get(0);
 		int moveValue = map.getMapTiles().get(player.get_location()).getMoveValue(direction.toLowerCase());
 		if (moveValue != 0) {
+			System.out.println(player.get_location());
 			if (player.get_location() == 8 && direction.equalsIgnoreCase("west")) {
 				boolean key = false;
 				for (Item item : player.get_inventory().get_items()) {

@@ -7,7 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.ycp.cs320.middle_earth.controller.Account;
 import edu.ycp.cs320.middle_earth.controller.Game;
+import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
+import edu.ycp.cs320.middle_earth.persist.DerbyDatabase;
+import edu.ycp.cs320.middle_earth.persist.IDatabase;
 
 
 public class IndexServlet extends HttpServlet {
@@ -18,6 +22,7 @@ public class IndexServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		System.out.println("Index Servlet: doGet");
+		//req.getSession().getAttribute("userToken");
 		req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
 	}
 	
@@ -32,7 +37,10 @@ public class IndexServlet extends HttpServlet {
 		
 		String page = req.getParameter("submit");
 		if(page.equalsIgnoreCase("Start Game")){
-			Game game = new Game();
+			//Account account = (Account)req.getSession().getAttribute("account");
+			DatabaseProvider.setInstance(new DerbyDatabase());
+			IDatabase db = DatabaseProvider.getInstance();
+			Game game = db.loadGame();
 			req.getSession().setAttribute("game", game);
 			req.setAttribute("mode", game.get_mode());
 			req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);

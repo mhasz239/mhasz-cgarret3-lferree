@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.ycp.cs320.middle_earth.persist.InitialData;
+import edu.ycp.cs320.middle_earth.controller.Game;
 import edu.ycp.cs320.middle_earth.model.Quest;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.Inventory;
@@ -42,10 +43,10 @@ public class FakeDatabase implements IDatabase {
 	public void readInitialData() {
 		try {
 			itemList.addAll(InitialData.getItems());
-			inventoryList.addAll(InitialData.getAllInventories());
+//			inventoryList.addAll(InitialData.getItemsToInventories());
 			objectList.addAll(InitialData.getObjects());
 			mapTileList.addAll(InitialData.getMapTiles());
-			map = InitialData.getMap();
+			//map = InitialData.getMap();
 			questList.addAll(InitialData.getQuests());
 			player = InitialData.getPlayer();
 		} catch (IOException e) {
@@ -54,10 +55,12 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	
+	@Override
 	public ArrayList<Item> getAllItems() {
 		return itemList;
 	}
 	
+	@Override
 	public ArrayList<Object> getAllObjects() {
 		
 		for(Object object : objectList) {
@@ -80,6 +83,7 @@ public class FakeDatabase implements IDatabase {
 		return objectList;
 	}
 	
+	@Override
 	public ArrayList<MapTile> getAllMapTiles() {
 		
 		for (MapTile mapTile :mapTileList) {
@@ -101,6 +105,7 @@ public class FakeDatabase implements IDatabase {
 		return mapTileList;
 	}
 	
+	@Override
 	public Map getMap() {
 		getAllItems();
 		getAllObjects();
@@ -111,12 +116,14 @@ public class FakeDatabase implements IDatabase {
 		return map;
 	}
 	
+	@Override
 	public ArrayList<Character> getAllCharacters() {
 		return characterList;
 	}
 	
+	@Override
 	public Player getPlayer() {
-		getAllInventories();
+		
 		for(Inventory inventory : inventoryList) {
 			if(inventory.get_inventory_id() == player.get_inventory_id()) {
 				player.set_inventory(inventory);
@@ -125,6 +132,7 @@ public class FakeDatabase implements IDatabase {
 		return player;
 	}
 	
+	@Override
 	public ArrayList<Inventory> getAllInventories() {
 		for(Inventory inventory : inventoryList) {
 			for(Item item : inventory.get_items()) {
@@ -144,6 +152,7 @@ public class FakeDatabase implements IDatabase {
 		return inventoryList;
 	}
 	
+	@Override
 	public ArrayList<Quest> getAllQuests() {
 		for(Quest quest : questList) {
 			if(quest.getRewardItems() != null) {
@@ -167,6 +176,7 @@ public class FakeDatabase implements IDatabase {
 	
 	
 	
+	@Override
 	public Item getItemByID(int itemID) {
 		for(Item item : itemList) {
 			if(item.getID() == itemID) {
@@ -178,6 +188,7 @@ public class FakeDatabase implements IDatabase {
 		return null;
 	}
 	
+	@Override
 	public Object getObjectByID(int objectID) {
 		for(Object object : objectList) {
 			if(object.getID() == objectID) {
@@ -189,6 +200,7 @@ public class FakeDatabase implements IDatabase {
 		return null;
 	}
 	
+	@Override
 	public MapTile getMapTileByID(int mapTileID) {
 		for(MapTile mapTile : mapTileList) {
 			if(mapTile.getID() == mapTileID) {
@@ -200,6 +212,7 @@ public class FakeDatabase implements IDatabase {
 		return null;
 	}
 	
+	@Override
 	public Character getCharacterByName(String characterName) {
 		for(Character character : characterList) {
 			if(character.get_name() == characterName) {
@@ -207,6 +220,48 @@ public class FakeDatabase implements IDatabase {
 			}
 		}
 		System.out.println("No character exists by that name");
+		return null;
+	}
+
+	@Override
+	public Inventory getInventoryByID(int inventoryID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Item removeItemFromInventory(int itemID, int inventoryID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Item removeItemFromObject(int itemID, int objectID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Item addItemToInventory(int itemID, int inventoryID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Item addItemToObject(int itemID, int objectID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void saveGame(Game game) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public Game loadGame(){
+		// TODO Auto-generated method stub
 		return null;
 	}
 } 

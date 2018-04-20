@@ -24,10 +24,21 @@ public class QueryForItems {
 		}
 		else {
 			for (Item item : itemList) {
-				System.out.println("item_id = " + item.getID() + "\n" 
-						+ item.getName() + "\n" + item.getLongDescription() + "\n" 
-						+ item.getShortDescription() + "\nitem weight = " + item.getItemWeight() 
-						+ "\nIs a quest item? " + item.getIsQuestItem() + "\n");
+				System.out.println("Item ID = " + item.getID() 
+					+ "\nItem Name = " + item.getName() 
+					+ "\nLong Desc = " + item.getLongDescription() 
+					+ "\nShort Desc = " + item.getShortDescription() 
+				
+					+ "\nDesc Update = " + item.get_description_update()
+					+ "\nAttack Bonus = " + item.get_attack_bonus()
+					+ "\nDefense Bonus = " + item.get_defense_bonus()
+					+ "\nHP Bonus = " + item.get_hp_bonus() 
+				
+					+ "\nItem Weight = " + item.getItemWeight() 
+					+ "\nItem Type = " + item.get_ItemType()
+					+ "\nLevel Requirement = " + item.get_lvl_requirement()
+				
+					+ "\nIs a quest item? " + item.getIsQuestItem() + "\n\n");
 			}
 		}
 	}
