@@ -47,7 +47,7 @@ public class Game implements Engine{
 		 */
 		
 		//Fake Database is rebuilt each time and populated into the respective fields.
-		DatabaseProvider.setInstance(new FakeDatabase());
+		DatabaseProvider.setInstance(new DerbyDatabase());
 		db = DatabaseProvider.getInstance();
 		//######################################################
 		
@@ -231,7 +231,9 @@ public class Game implements Engine{
 			 * be the block that gets executed.
 			 * #################################
 			 */
-		if(mode.equalsIgnoreCase("game")){
+		if (commandStr.equalsIgnoreCase("save")){
+			db.saveGame(this);
+		} else if(mode.equalsIgnoreCase("game")){
 			if(command.equalsIgnoreCase("move")){
 				if(args[1].equalsIgnoreCase("north") || arg.equalsIgnoreCase("south") || 
 						arg.equalsIgnoreCase("east") || arg.equalsIgnoreCase("west") ||
@@ -320,8 +322,6 @@ public class Game implements Engine{
 				// Not sure if this message is still okay for a null command error?
 				returnMessage = "Sorry, I didn't understand that.";
 			}
-		} else if (commandStr.equalsIgnoreCase("save")){
-			db.saveGame(this);
 		} 
 		return returnMessage;
 	}
