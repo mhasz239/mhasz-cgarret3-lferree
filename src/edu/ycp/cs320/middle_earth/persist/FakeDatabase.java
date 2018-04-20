@@ -258,4 +258,10 @@ public class FakeDatabase implements IDatabase {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public Game loadGame(){
+		// TODO Auto-generated method stub
+		return null;
+	}
 } 
