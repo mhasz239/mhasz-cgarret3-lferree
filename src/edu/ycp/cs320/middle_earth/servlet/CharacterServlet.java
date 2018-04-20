@@ -41,8 +41,20 @@ public class CharacterServlet extends HttpServlet {
         player.set_special_attack(0);
         player.set_special_defense(0);
         
-        req.setAttribute("player", player);
+        req.setAttribute("attack", player.get_attack());
+        req.setAttribute("coins", player.get_coins());
+        req.setAttribute("defense", player.get_defense());
+        req.setAttribute("experience", player.get_experience());
+        req.setAttribute("gender", player.get_gender());
+        req.setAttribute("hp", player.get_hit_points());
+        req.setAttribute("level", player.get_level());
+        req.setAttribute("magic", player.get_magic_points());
+        req.setAttribute("name", player.get_name());
+        req.setAttribute("race", player.get_race());
+        req.setAttribute("specialAttack", player.get_special_attack());
+        req.setAttribute("specialDefense", player.get_special_defense());
         
+        req.getRequestDispatcher("/_view/character.jsp").forward(req, resp);
     }
 
     @Override
