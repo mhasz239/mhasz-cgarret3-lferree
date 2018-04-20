@@ -1,5 +1,9 @@
 package edu.ycp.cs320.middle_earth.controller;
 
+import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
+import edu.ycp.cs320.middle_earth.persist.DerbyDatabase;
+import edu.ycp.cs320.middle_earth.persist.IDatabase;
+
 public class Account{
 	private String user_token;
 	private int game_id;
@@ -26,7 +30,11 @@ public class Account{
 	}
 	
 	public String login(String username, String password){
-		if (true) {
+		DatabaseProvider.setInstance(new DerbyDatabase());
+		IDatabase db = DatabaseProvider.getInstance();
+		
+		
+		if () {
 			//update user_token and game_id
 			return "Success!";
 		} else {

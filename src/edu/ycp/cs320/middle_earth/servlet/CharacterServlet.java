@@ -28,18 +28,18 @@ public class CharacterServlet extends HttpServlet {
         
         game.set_mode("character");
         Player player = (Player) game.get_player();
-        player.set_attack(1);
-        player.set_coins(9999);
-        player.set_defense(1);
-        player.set_experience(10);
-        player.set_gender("male");
-        player.set_hit_points(100);
-        player.set_level(1);
-        player.set_magic_points(0);
-        player.set_name("BlueHawk");
-        player.set_race("human");
-        player.set_special_attack(0);
-        player.set_special_defense(0);
+        //player.set_attack(1);
+        //player.set_coins(9999);
+        //player.set_defense(1);
+        //player.set_experience(10);
+        //player.set_gender("male");
+        //player.set_hit_points(100);
+        //player.set_level(1);
+        //player.set_magic_points(0);
+        //player.set_name("BlueHawk");
+        //player.set_race("human");
+        //player.set_special_attack(0);
+        //player.set_special_defense(0);
         
         req.setAttribute("attack", player.get_attack());
         req.setAttribute("coins", player.get_coins());
