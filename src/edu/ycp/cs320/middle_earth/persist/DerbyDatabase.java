@@ -1558,9 +1558,13 @@ public class DerbyDatabase implements IDatabase {
 		
 		// adds every object in the maptile.getObjects() objectList
 		// to the objectstomaptiles table
-		for (Object object : mapTile.getObjects()) {
-			addObjectToMapTile(object.getID(), mapTile.getID());
-		}		
+		int count = 0;
+		if (mapTile.getObjects() != null) {
+			for (Object object : mapTile.getObjects()) {
+				count++;
+				addObjectToMapTile(object.getID(), mapTile.getID());
+			}
+		}
 	}
 	
 	private void updateObject(final Object object) {
@@ -1570,9 +1574,11 @@ public class DerbyDatabase implements IDatabase {
 		
 		// adds every item in the current object.getItems() itemList
 		// to the itemstoobjects table
-		for(Item item : object.getItems()) {
-			addItemToObject(item.getID(), object.getID());
-		}		
+		if (!object.getItems().isEmpty()) {
+			for(Item item : object.getItems()) {
+				addItemToObject(item.getID(), object.getID());
+			}
+		}
 	}
 	
 	private void updateCharacters(ArrayList<Character> characterList) {
@@ -1588,9 +1594,10 @@ public class DerbyDatabase implements IDatabase {
 				
 				try {
 					stmtRemovePlayer = conn.prepareStatement(
-							"remove from players "
-							+ "where players.playerID = ? "
+							"delete from players "
+							+ "where players.name = ? "
 					);
+					stmtRemovePlayer.setString(1, player.get_name());
 					stmtRemovePlayer.executeUpdate();
 					
 					stmtUpdatePlayer = conn.prepareStatement(
@@ -1890,9 +1897,10 @@ public class DerbyDatabase implements IDatabase {
 				try {
 					removeObject = conn.prepareStatement(
 							"delete from objectstomaptiles "
-							+ "where objectstomaptiles.maptileID = ? "
+							+ "where objectstomaptiles.maptile_ID = ? "
 					);
 					removeObject.setInt(1, mapTileID);
+					removeObject.executeUpdate();
 					
 					return true;
 				} finally {

@@ -528,11 +528,14 @@ public class Game implements Engine{
 				player.set_location(player.get_location() + moveValue);
 				add_dialog(map.getMapTiles().get(player.get_location()).getName());
 				String string = map.getMapTiles().get(player.get_location()).getLongDescription();
+				int count = 0;
 				if (map.getMapTileByID(player.get_location()).getObjects() != null) {
 					for (Object object : map.getMapTileByID(player.get_location()).getObjects()){
 						string = string + " " + object.getLongDescription();
+						count++;
 					}
 				}
+				System.out.println(count);
 				add_dialog(string);
 				Random rand = new Random(System.currentTimeMillis());
 				int encounterCheck = rand.nextInt(10);
