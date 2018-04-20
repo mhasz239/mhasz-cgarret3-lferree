@@ -38,6 +38,7 @@ public class LoginServlet extends HttpServlet {
 				req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
 			} else {
 				req.setAttribute("errorMessage", check);
+				req.getRequestDispatcher("/_view/login.jsp").forward(req, resp);
 			}
 		}
 	}

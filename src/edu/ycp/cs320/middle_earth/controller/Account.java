@@ -33,7 +33,6 @@ public class Account{
 		DatabaseProvider.setInstance(new DerbyDatabase());
 		IDatabase db = DatabaseProvider.getInstance();
 		
-		
 		if (password == db.getUserPasswordByUserName(username)) {
 			//update user_token and game_id
 			return "Success!";
