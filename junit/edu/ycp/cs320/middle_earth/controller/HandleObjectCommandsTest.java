@@ -19,46 +19,67 @@ public class HandleObjectCommandsTest{
 	
 	@Before
 	public void setup(){
+		// Create the Game
 		game = new Game();
 		
-		ArrayList<Character> chars = new ArrayList<Character>();
+		// Create Player
 		Player player = new Player();
 		player.set_location(0);
+		
+		// Create Characters Array and Put in Player
+		ArrayList<Character> chars = new ArrayList<Character>();
 		chars.add(player);
 		
+		// Set Characters Array in Game
+		game.set_characters(chars);
+		
+		// Create a generic MapTile
 		MapTile tile = new MapTile();
 		tile.setName("Derp");
 		tile.setID(0);
 		
+		// Create a MapTiles array and add the Tile to it
 		ArrayList<MapTile> tiles = new ArrayList<MapTile>();
 		tiles.add(tile);
+		
+		// Create the Map and set the MapTiles Array to it
 		Map map = new Map();
 		map.setMapTiles(tiles);
+		
+		// Set the Map to the Game
 		game.set_map(map);
 		
+		// Create a tree
 		Object IDontKnowAnymore = new Object();
 		IDontKnowAnymore.setName("Tree");
 		HashMap<String, String> commandResponses = new HashMap<String, String>();
 		commandResponses.put("climb", "Hello now");
 		IDontKnowAnymore.setCommandResponses(commandResponses);
 		
+		// Create an Objects Array with the Tree included
 		ArrayList<Object> objs = new ArrayList<Object>();
 		objs.add(IDontKnowAnymore);
+		
+		// Set the Objects Array to the MapTile
 		tile.setObjects(objs);
 	}
 	
 	@Test
 	public void testClimbTreeCommand(){
+		// Run the command
 		game.handle_command("climb tree");
 		
+		// Check that dialog was updated correctly
 		assertEquals(1, game.get_dialog().size());
 		assertEquals("Hello now", game.get_dialog().get(0));
 	}
 	
 	@Test
 	public void testClimbTreeCommandWeirdCapitals(){
+		// Run the command
 		game.handle_command("cLImB TReE");
 		
+		// Check that dialog was updated correctly
 		assertEquals(1, game.get_dialog().size());
 		assertEquals("Hello now", game.get_dialog().get(0));
 	}

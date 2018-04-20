@@ -50,8 +50,37 @@ public class Game implements Engine{
 		//db = DatabaseProvider.getInstance();
 		//######################################################
 		
+		items = db.getAllItems();
+		map = db.getMap();
+		for (MapTile tile : map.getMapTiles()) {
+			tile.setVisited(false);
+		}
+		//map.setMapTiles(db.getAllMapTiles());
+		quests = db.getAllQuests();
+		characters = db.getAllCharacters();
+		// ######################################################
+		// Wouldn't db.getAllCharacters() already grab player?
+		// ######################################################
+		characters.add(db.getPlayer());
+		objects = db.getAllObjects();
+		for (Object object : objects) {
+			if (!object.getItems().isEmpty()) {
+				for (String key : object.getCommandResponses().keySet()) {
+					String items_list = new String();
+					
+					for (Item item : object.getItems()){
+						if (object.getItems().size() == 1) {
+							items_list = "a " + item.getName();
+						} else {
+							items_list = items_list + "a " + item.getName() + ", ";
+						}
+					}
+					object.getCommandResponses().put(key, object.getCommandResponses().get(key) + "You see " + items_list);
+				}
+			}
+		}
 		
-		//map.getMapTiles().get(get_player().get_location()).setVisited(true);
+		map.getMapTiles().get(get_player().get_location()).setVisited(true);
 	}
 	
 	public Game get_game() {
@@ -257,7 +286,7 @@ public class Game implements Engine{
 						+"As he falls he drops his sword, you quickly spring into action.;You grab his sword off the ground and lay waste to the foul beast.;"
 						+"!!!CONGRATULATIONS!!! You have conqured this small land and laid waste the the evil plauging it.");
 					}else{
-						if(battle == null){
+						if(battle == null || battle.isDone()){
 							add_dialog("You're not in combat!");
 						}else{
 							battle.doRound(this);
@@ -311,7 +340,13 @@ public class Game implements Engine{
 		}
 		
 		Object action_object = null;
-		for (Object object : map.getMapTiles().get(get_player().get_location()).getObjects()){
+		ArrayList<Object> objects = map.getMapTiles().get(get_player().get_location()).getObjects();
+		if(objects == null){
+			return false;
+		}
+		for (Object object : objects){
+			// TODO: NOTE: This doesn't account for capitals (e.g. if someone types Climb instead of climb)
+			// I would change it, but it's 9:11 PM the night before Milestone 3 so I'm afraid of breaking stuff
 			if (object.getCommandResponses().containsKey(command)) {
 				if (object.getName().toLowerCase().contains(arg.toLowerCase())) {
 					action_object = object;
@@ -327,11 +362,7 @@ public class Game implements Engine{
 	
 	@Override
 	public void check_character_sheet(){
-		if(mode.equalsIgnoreCase("character")){
-			add_dialog("You're already in it!");
-		}else{
 			mode = "character";
-		}
 	}
 	
 	@Override

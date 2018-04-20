@@ -27,6 +27,7 @@ public class GameBasedActionsTest{
 		assertEquals("character", game.get_mode());
 	}
 	
+	/* TODO: JUNIT: Remove? Note: Commented out these in Game.
 	@Test
 	public void testAlreadyInCharacter(){
 		game.set_mode("character");
@@ -37,6 +38,7 @@ public class GameBasedActionsTest{
 		assertEquals(1, game.get_dialog().size());
 		assertEquals("You're already in it!", game.get_dialog().get(0));
 	}
+	*/
 	
 	/*
 	 * Check Inventory
