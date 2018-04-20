@@ -699,6 +699,37 @@ public class DerbyDatabase implements IDatabase {
 	}
 	
 	
+	/**	This should only be called after checking if item exists in items table already **/
+	private void insertItem(Item item) {		
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement insertItem = null;
+				try {					
+					insertItem = conn.prepareStatement("insert into items (itemname, longdescription, shortdescription, "
+							+ "descriptionupdate, attackbonus, defensebonus, hpbonus, "
+							+ "weight, itemtype, levelreq) "
+							+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+						insertItem.setString(1, item.getName());
+						insertItem.setString(2, item.getLongDescription());
+						insertItem.setString(3, item.getShortDescription());
+						insertItem.setString(4, item.get_description_update());
+						insertItem.setInt(5, item.get_attack_bonus());
+						insertItem.setInt(6, item.get_defense_bonus());
+						insertItem.setInt(7, item.get_hp_bonus());						
+						insertItem.setFloat(8,  item.getItemWeight());
+						insertItem.setString(9, String.valueOf(item.get_ItemType())); 
+						insertItem.setInt(10, item.get_lvl_requirement());
+						insertItem.addBatch();
+					insertItem.executeBatch();
+					return true;
+				} finally {
+				insertItem.close();
+				}
+			}
+		});
+	}
+	
 	/**************************************************************************************************
 	 * 										*Get All* Methods
 	 **************************************************************************************************/
@@ -1505,27 +1536,134 @@ public class DerbyDatabase implements IDatabase {
 	 * 										Update Database Methods
 	********************************************************************************************************/
 	
-	private void updateMap() {
+/*	private void updateMap(final Map map) {
+		// In the future will need to update map for Editor
+		// update all maptiles
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 	
-	private void updateMapTiles() {
+	private void updateMapTiles(final ArrayList<MapTile> mapTileList) {
+		// update all objects on maptile
+			// remove them all
+			// add the ones passed in maptile.getObjects()
+		
+		// update mapTile Connections
+		// Update Enemy String
+		// update maptile visited
+		
+		// Will need to update random_encounters
+		
+		for(MapTile mapTile : mapTileList) {
+			updateMapTile(mapTile);
+		}
+	}
+	
+	private void updateMapTile(final MapTile mapTile) {
+		removeObjectsFromMapTile(mapTile.getID());
+		updateObjectsToMapTile(mapTile.getObjects(), mapTile.getID());
+	}
+	
+	private void removeAllObjectsFromMapTile(final int mapTileID) {
+		
+	}
+	
+	private void updateObjectsToMapTile(final ArrayList<Object> objectList, final int mapTileID) {
+		// update all items in object
+			// remove them all
+			// add the ones passed in object.getItems()
+		
+		// update commandResponses
+		// update description_update
+		
+		for(Object object : objectList) {
+			addObjectToMapTile(object.getID(), mapTileID);
+		}
+	}
+	
+	private void updateObject(final Object object) {
+		
+		// removes all items from itemstoobjects table
+		removeAllItemsFromObject(object.getID());		
+		
+		// adds every item in the current object.getItems() itemList
+		// to the object
+		for(Item item : object.getItems()) {
+			addItemToObject(item.getID(), object.getID());
+		}
+		
+		// removes all CommandResponses from the objectcommandresponses table
+		removeAllObjectCommandResponses(object.getID());
+		
+		// adds every CommandResponse in the object.getCommandResponses
+	}
+	
+	private void removeAllObjectCommandResponses(int objectID) {
+		executeTransaction(new Transaction<Boolean>() {
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"delete from objectcommandresponses "
+							+ "where objectcommandresponses.object_id = ? "
+					);
+					stmt.setInt(1, objectID);
+					stmt.executeUpdate();
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+			
+		});
+	}
+	
+	private void addCommandResponseToObject(HashMap<String, String> commandResponse, int objectID) {
+		executeTransaction(new Transaction<Boolean>() {
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					
+					
+					
+					
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	} */
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	private void updateCharacters(ArrayList<Character> characterList) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 	
-	private void updateObjects() {
+	private void updatePlayer(Player player) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 	
-	private void updateItems() {
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
-	
-	private void updateCharacters() {
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
-	
-	private void updatePlayer() {
+	private void updateInventory(Inventory inventory) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 	/*******************************************************************************************************
@@ -1640,7 +1778,7 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	public Item removeItemFromObject(final int itemID, final int objectID) {
+ 	public Item removeItemFromObject(final int itemID, final int objectID) {
 		return executeTransaction(new Transaction <Item>() {
 			@Override
 			public Item execute(Connection conn) throws SQLException {
@@ -1665,7 +1803,26 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
-	
+ 	
+	private void removeAllItemsFromObject(final int objectID) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement removeItem = null;
+				try {
+					removeItem = conn.prepareStatement(
+							"delete from itemstoobjects "
+							+ "where itemstoobjects.objectID = ? "
+					);
+					removeItem.setInt(1, objectID);
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(removeItem);
+				}
+			}
+		});
+	}
 	
 	/*******************************************************************************************************
 	 * 									Combinations of Multi-Methods
