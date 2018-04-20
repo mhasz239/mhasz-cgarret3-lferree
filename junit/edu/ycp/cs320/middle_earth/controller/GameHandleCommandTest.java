@@ -410,18 +410,23 @@ public class GameHandleCommandTest{
 	
 	@Test
 	public void testTakeCommandNotInModeGame(){
+		// Set mode to inventory
 		game.set_mode("inventory");
 		
+		// Check that stuff is like this before command run
 		assertEquals(3, player.get_inventory().get_items().size());
 		assertEquals(1, game.get_items().size());
 		assertEquals(wood, game.get_items().get(0));
 		
-		game.handle_command("take wood");
+		// Run command and get response
+		String response = game.handle_command("take wood");
 		
+		// Make sure stuff wasn't changed
 		assertEquals(1, game.get_items().size());
 		assertEquals(3, player.get_inventory().get_items().size());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		
+		// Check that response is correct
+		assertEquals("Sorry, I didn't understand that.", response);
 	}
 	
 	/*
@@ -455,12 +460,14 @@ public class GameHandleCommandTest{
 	
 	@Test
 	public void testLookCommandNotInModeGame(){
+		// Set mode to inventory
 		game.set_mode("inventory");
 		
-		game.handle_command("look");
+		// Run command and get response
+		String response = game.handle_command("look");
 		
-		assertEquals(1, game.get_dialog().size());
-		assertEquals(invalidMode, game.get_dialog().get(0));
+		// Check that response is correct
+		assertEquals("Sorry, I didn't understand that.", response);
 	}
 	
 	/*
