@@ -54,6 +54,14 @@ public class CharacterServlet extends HttpServlet {
         req.setAttribute("specialAttack", player.get_special_attack());
         req.setAttribute("specialDefense", player.get_special_defense());
         
+        req.setAttribute("helm", player.get_helm().getName());
+        req.setAttribute("chest", player.get_chest().getName());
+        req.setAttribute("braces", player.get_braces().getName());
+        req.setAttribute("legs", player.get_legs().getName());
+        req.setAttribute("boots", player.get_boots().getName());
+        req.setAttribute("l_hand", player.get_l_hand().getName());
+        req.setAttribute("r_hand", player.get_r_hand().getName());
+        
         req.getRequestDispatcher("/_view/character.jsp").forward(req, resp);
     }
 

@@ -291,25 +291,32 @@ public class Game implements Engine{
 			} else if(command.equalsIgnoreCase("equip")) {
 				if (arg != null)
 					try {
-						int Item_num = Integer.parseInt(arg);
-						if (get_player().get_inventory().get_items().size() < Item_num || Item_num < 1 ) {
+						int Item_num = Integer.parseInt(arg) - 1;
+						if (get_player().get_inventory().get_items().size() - 1 < Item_num || Item_num < 0 ) {
 							returnMessage = "Sorry you dont have an item at that index";
 						} else {
 							Item item = get_player().get_inventory().get_items().get(Item_num);
 							if (item.get_ItemType() == ItemType.HELM) {
 								get_player().set_helm(item);
+								returnMessage = "You have equiped " + item.getName();
 							} else if (item.get_ItemType() == ItemType.BOOTS) {
 								get_player().set_boots(item);
+								returnMessage = "You have equiped " + item.getName();
 							} else if (item.get_ItemType() == ItemType.BRACES) {
 								get_player().set_braces(item);
+								returnMessage = "You have equiped " + item.getName();
 							} else if (item.get_ItemType() == ItemType.CHEST) {
 								get_player().set_chest(item);
+								returnMessage = "You have equiped " + item.getName();
 							} else if (item.get_ItemType() == ItemType.L_HAND) {
 								get_player().set_l_hand(item);
+								returnMessage = "You have equiped " + item.getName();
 							} else if (item.get_ItemType() == ItemType.R_HAND) {
 								get_player().set_r_hand(item);
+								returnMessage = "You have equiped " + item.getName();
 							} else if (item.get_ItemType() == ItemType.LEGS) {
 								get_player().set_legs(item);
+								returnMessage = "You have equiped " + item.getName();
 							}
 						}
 				} catch (NumberFormatException nfe) {
