@@ -711,6 +711,7 @@ public class DerbyDatabase implements IDatabase {
 			@Override
 			public Map execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
+				PreparedStatement stmt2 = null;
 				ResultSet resultSetMap = null;
 				ResultSet resultSetMapTiles = null;
 				

@@ -23,6 +23,7 @@ public class QueryForMap {
 			System.out.println("No map found");
 		}
 		else {
+			System.out.println("Map ID = " + map.getID());
 			for (MapTile mapTile : map.getMapTiles()) {
 				System.out.println(mapTile.getID() + "\n" 
 						+ mapTile.getName() + "\n" 

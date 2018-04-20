@@ -183,7 +183,7 @@ public class InitialData {
 				Iterator<String> i = tuple.iterator();
 				MapTileMap mapTileMap = new MapTileMap();
 				mapTileMap.setMapTileID(Integer.parseInt(i.next()));
-				mapTileMap.setMapTileID(Integer.parseInt(i.next()));
+				mapTileMap.setMapID(Integer.parseInt(i.next()));
 				mapTileMapList.add(mapTileMap);
 			}
 			return mapTileMapList;
