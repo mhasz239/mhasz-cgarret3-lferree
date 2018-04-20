@@ -467,7 +467,7 @@ public class InitialData {
 				
 				User user = new User();
 				
-				user.setUserID(Integer.parseInt(i.next()));
+				//user.setUserID(Integer.parseInt(i.next()));
 				user.setPassword(i.next());
 				user.setEmail(i.next());
 				userList.add(user);			

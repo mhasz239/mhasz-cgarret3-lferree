@@ -22,6 +22,7 @@ import persist.dbmod.ItemObject;
 import persist.dbmod.MapTileMap;
 import persist.dbmod.ObjectIDCommandResponse;
 import persist.dbmod.ObjectMapTile;
+import persist.dbmod.User;
 import edu.ycp.cs320.middle_earth.model.Constructs.Map;
 import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
 
@@ -484,6 +485,7 @@ public class DerbyDatabase implements IDatabase {
 				Player player;
 				Map map; 			//	ArrayList<Map> mapList;
 				ArrayList<MapTileMap> mapTilesToMapsList;
+				ArrayList<User> userList;
 				
 				try {
 					itemList = InitialData.getItems();
@@ -497,7 +499,7 @@ public class DerbyDatabase implements IDatabase {
 					player = InitialData.getPlayer();
 					map = InitialData.getMap();		//	mapList = InitialData.getMapList();
 					mapTilesToMapsList = InitialData.getMapTilesToMaps();
-					
+					userList = InitialData.getUsers();
 					
 				} catch (IOException e) {
 					throw new SQLException("Couldn't read initial data", e);
@@ -514,6 +516,7 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement insertMap = null;			//insertMaps
 				PreparedStatement insertMapTilesToMaps = null;
 				PreparedStatement insertObjectCommandResponses = null;
+				PreparedStatement insertUsers = null;
 				
 
 				try {					
@@ -682,6 +685,15 @@ public class DerbyDatabase implements IDatabase {
 					}
 					insertObjectCommandResponses.executeBatch();					
 					
+					insertUsers = conn.prepareStatement(" insert into users (username, password, email) values (?, ?, ?)");
+					for(User user : userList) {
+						insertUsers.setString(1, user.getUserName());
+						insertUsers.setString(2, user.getPassword());
+						insertUsers.setString(3, user.getEmail());
+						insertUsers.addBatch();
+					}
+					insertUsers.executeBatch();
+					
 					return true;
 				} finally {
 //					DBUtil.closeQuietly(insertMap);
@@ -693,6 +705,7 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(insertItemsToObjects);
 					DBUtil.closeQuietly(insertObject);
 					DBUtil.closeQuietly(insertItem);
+					DBUtil.closeQuietly(insertUsers);
 				}
 			}
 		});
