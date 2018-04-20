@@ -248,7 +248,7 @@ public class DerbyDatabase implements IDatabase {
 		
 		// l_hand
 		if((itemID = resultSet.getInt(index++)) == 0) {
-			emptyItemSlot.set_ItemType(ItemType.HAND);
+			emptyItemSlot.set_ItemType(ItemType.L_HAND);
 			player.set_l_hand(emptyItemSlot);
 		} else {
 			player.set_l_hand(getItemByID(itemID));
@@ -257,7 +257,7 @@ public class DerbyDatabase implements IDatabase {
 		
 		// r_hand
 		if((itemID = resultSet.getInt(index++)) == 0) {
-			emptyItemSlot.set_ItemType(ItemType.HAND);
+			emptyItemSlot.set_ItemType(ItemType.R_HAND);
 			player.set_r_hand(emptyItemSlot);
 		} else {
 			player.set_r_hand(getItemByID(itemID));

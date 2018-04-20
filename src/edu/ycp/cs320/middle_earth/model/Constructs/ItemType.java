@@ -6,7 +6,8 @@ public enum ItemType {
 	CHEST,
 	LEGS,
 	BOOTS,
-	HAND,
+	L_HAND,
+	R_HAND,
 	QUEST,
 	MISC;
 }

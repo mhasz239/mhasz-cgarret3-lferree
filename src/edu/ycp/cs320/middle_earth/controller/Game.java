@@ -11,6 +11,7 @@ import edu.ycp.cs320.middle_earth.model.Quest;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.NPC;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
+import edu.ycp.cs320.middle_earth.model.Constructs.ItemType;
 import edu.ycp.cs320.middle_earth.model.Constructs.Map;
 import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
 import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
@@ -287,13 +288,42 @@ public class Game implements Engine{
 				} else {
 					returnMessage = "Please designate the item # you want to view more details of.";
 				}
+			} else if(command.equalsIgnoreCase("equip")) {
+				if (arg != null)
+					try {
+						int Item_num = Integer.parseInt(arg);
+						if (get_player().get_inventory().get_items().size() < Item_num || Item_num < 1 ) {
+							returnMessage = "Sorry you dont have an item at that index";
+						} else {
+							Item item = get_player().get_inventory().get_items().get(Item_num);
+							if (item.get_ItemType() == ItemType.HELM) {
+								get_player().set_helm(item);
+							} else if (item.get_ItemType() == ItemType.BOOTS) {
+								get_player().set_boots(item);
+							} else if (item.get_ItemType() == ItemType.BRACES) {
+								get_player().set_braces(item);
+							} else if (item.get_ItemType() == ItemType.CHEST) {
+								get_player().set_chest(item);
+							} else if (item.get_ItemType() == ItemType.L_HAND) {
+								get_player().set_l_hand(item);
+							} else if (item.get_ItemType() == ItemType.R_HAND) {
+								get_player().set_r_hand(item);
+							} else if (item.get_ItemType() == ItemType.LEGS) {
+								get_player().set_legs(item);
+							}
+						}
+				} catch (NumberFormatException nfe) {
+					returnMessage = "Invalid item selection. Example: 'equip 1' to see the equip item at position 1";
+				}
 			} else {
 				// Checking if command isn't empty, since it can't be null -> initialized in here to "";
 				// Simply changed to else... I may have lost the null command message.
 				// Not sure if this message is still okay for a null command error?
 				returnMessage = "Sorry, I didn't understand that.";
 			}
-		} 
+		} else if(mode.equalsIgnoreCase("character")){
+			
+		}
 		return returnMessage;
 	}
 	
@@ -325,9 +355,17 @@ public class Game implements Engine{
 			}
 		}
 		if (action_object != null) {
-			dialog.add(action_object.getCommandResponses().get(command));
+			String string = action_object.getCommandResponses().get(command);
+			for (Item item : action_object.getItems()) {
+				string = string + " " + item.get_description_update();
+			}
+			dialog.add(string);
 		}
 		return isObjectCommand;
+	}
+	
+	private void equip(){
+		
 	}
 	
 	@Override
@@ -482,7 +520,13 @@ public class Game implements Engine{
 			} else {
 				player.set_location(player.get_location() + moveValue);
 				add_dialog(map.getMapTiles().get(player.get_location()).getName());
-				add_dialog(map.getMapTiles().get(player.get_location()).getLongDescription());
+				String string = map.getMapTiles().get(player.get_location()).getLongDescription();
+				if (map.getMapTileByID(player.get_location()).getObjects() != null) {
+					for (Object object : map.getMapTileByID(player.get_location()).getObjects()){
+						string = string + " " + object.getLongDescription();
+					}
+				}
+				add_dialog(string);
 				Random rand = new Random(System.currentTimeMillis());
 				int encounterCheck = rand.nextInt(10);
 				if(encounterCheck == 0){

@@ -393,12 +393,12 @@ public class InitialData {
 			player.set_boots(item);
 			
 			// l_hand
-			item.set_ItemType(ItemType.HAND);
+			item.set_ItemType(ItemType.L_HAND);
 			item.setID(Integer.parseInt(i.next()));
 			player.set_l_hand(item);
 			
 			// r_hand
-			item.set_ItemType(ItemType.HAND);
+			item.set_ItemType(ItemType.R_HAND);
 			item.setID(Integer.parseInt(i.next()));
 			player.set_r_hand(item);
 			
