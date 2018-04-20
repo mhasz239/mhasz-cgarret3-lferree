@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
 
 		Account account = new Account();
 		
-		String page = req.getParameter("Login");
+		String page = req.getParameter("LogIn");
 		if (page.equalsIgnoreCase("Login")) {
 			String check = account.login(req.getParameter("username"), req.getParameter("password"));
 			if (check.equals("Success!")) {

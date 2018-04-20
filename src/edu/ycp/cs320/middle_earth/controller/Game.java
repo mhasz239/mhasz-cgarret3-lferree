@@ -464,6 +464,7 @@ public class Game implements Engine{
 		Character player = characters.get(0);
 		int moveValue = map.getMapTiles().get(player.get_location()).getMoveValue(direction.toLowerCase());
 		if (moveValue != 0) {
+			System.out.println(player.get_location());
 			if (player.get_location() == 8 && direction.equalsIgnoreCase("west")) {
 				boolean key = false;
 				for (Item item : player.get_inventory().get_items()) {
