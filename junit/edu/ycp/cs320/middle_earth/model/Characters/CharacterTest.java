@@ -434,7 +434,7 @@ public class CharacterTest{
 	public void testSet_L_Hand(){
 		// Create hand
 		Item hand = new Item();
-		hand.set_ItemType(ItemType.HAND);
+		hand.set_ItemType(ItemType.L_HAND);
 		hand.setName("Iron Shield");
 		
 		// Set the Hand
@@ -445,7 +445,7 @@ public class CharacterTest{
 		
 		// Create another hand
 		Item hand2 = new Item();
-		hand2.set_ItemType(ItemType.HAND);
+		hand2.set_ItemType(ItemType.L_HAND);
 		hand2.setName("Golden Shield");
 		
 		// Set the new hand
@@ -474,7 +474,7 @@ public class CharacterTest{
 	public void testSet_R_Hand(){
 		// Create hand
 		Item hand = new Item();
-		hand.set_ItemType(ItemType.HAND);
+		hand.set_ItemType(ItemType.R_HAND);
 		hand.setName("Iron Sword");
 		
 		// Set the Hand
@@ -485,7 +485,7 @@ public class CharacterTest{
 		
 		// Create another hand
 		Item hand2 = new Item();
-		hand2.set_ItemType(ItemType.HAND);
+		hand2.set_ItemType(ItemType.R_HAND);
 		hand2.setName("Golden Sword");
 		
 		// Set the new hand

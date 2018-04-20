@@ -218,7 +218,7 @@ public class CombatSituationTest{
 	public void testCalculateAttackPlayerLHand(){
 		// Create Shield
 		Item shield = new Item();
-		shield.set_ItemType(ItemType.HAND);
+		shield.set_ItemType(ItemType.L_HAND);
 		shield.setName("Generic Shield");
 		shield.set_attack_bonus(10);
 		
@@ -238,7 +238,7 @@ public class CombatSituationTest{
 	public void testCalculateAttackPlayerRHand(){
 		// Create Sword
 		Item sword = new Item();
-		sword.set_ItemType(ItemType.HAND);
+		sword.set_ItemType(ItemType.R_HAND);
 		sword.setName("Generic Sword");
 		sword.set_attack_bonus(10);
 		
@@ -303,7 +303,7 @@ public class CombatSituationTest{
 		
 		// Create Shield
 		Item shield = new Item();
-		shield.set_ItemType(ItemType.HAND);
+		shield.set_ItemType(ItemType.L_HAND);
 		shield.setName("Generic Shield");
 		shield.set_attack_bonus(10);
 		
@@ -312,7 +312,7 @@ public class CombatSituationTest{
 
 		// Create Sword
 		Item sword = new Item();
-		sword.set_ItemType(ItemType.HAND);
+		sword.set_ItemType(ItemType.R_HAND);
 		sword.setName("Generic Sword");
 		sword.set_attack_bonus(10);
 		
@@ -419,7 +419,7 @@ public class CombatSituationTest{
 	public void testCalculateDefensePlayerWithShield(){
 		// Create Shield
 		Item shield = new Item();
-		shield.set_ItemType(ItemType.HAND);
+		shield.set_ItemType(ItemType.L_HAND);
 		shield.setName("Generic Shield");
 		shield.set_defense_bonus(10);
 		
@@ -434,7 +434,7 @@ public class CombatSituationTest{
 	public void testCalculateDefensePlayerWithSword(){
 		// Create Sword
 		Item sword = new Item();
-		sword.set_ItemType(ItemType.HAND);
+		sword.set_ItemType(ItemType.R_HAND);
 		sword.setName("Generic Sword");
 		sword.set_defense_bonus(10);
 		
@@ -494,7 +494,7 @@ public class CombatSituationTest{
 		
 		// Create Shield
 		Item shield = new Item();
-		shield.set_ItemType(ItemType.HAND);
+		shield.set_ItemType(ItemType.L_HAND);
 		shield.setName("Generic Shield");
 		shield.set_defense_bonus(10);
 		
@@ -503,7 +503,7 @@ public class CombatSituationTest{
 
 		// Create Sword
 		Item sword = new Item();
-		sword.set_ItemType(ItemType.HAND);
+		sword.set_ItemType(ItemType.R_HAND);
 		sword.setName("Generic Sword");
 		sword.set_defense_bonus(10);
 		
