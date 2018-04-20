@@ -734,16 +734,17 @@ public class DerbyDatabase implements IDatabase {
 						loadMap(map, resultSetMap, 1);
 						
 						stmt = conn.prepareStatement(
-								" select maptilestomaps.maptile_id "
-								+ "from maptilestomaps "
-								+ "where maptilestomaps.map_id = ? "
+								" select maptiles.* "
+								+ "from maptilestomaps, maptiles "
+								+ "where maptilestomaps.map_id = ?"
+								+ "AND maptiles.maptile_id = maptilestomaps.maptile_id "
 								);
 						stmt.setInt(1, map.getID());
 						resultSetMapTiles = stmt.executeQuery();
 						
 						while(resultSetMapTiles.next()) {
 							MapTile mapTile = new MapTile();
-							loadMapTile(mapTile, resultSetMap, 1);
+							loadMapTile(mapTile, resultSetMapTiles, 1);
 							map.addMapTile(mapTile);
 						}
 					}
