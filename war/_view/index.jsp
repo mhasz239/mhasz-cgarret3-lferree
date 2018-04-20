@@ -6,10 +6,6 @@
 	</head>
 
 	<body>
-	<div>
-	<p>${map}</p>
-	<p>${characters}</p>
-	</div>
 		<form action="${pageContext.servletContext.contextPath}/index" method="post">
 			<table>
 				<tr>

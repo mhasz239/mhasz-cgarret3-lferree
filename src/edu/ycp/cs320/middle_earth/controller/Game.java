@@ -47,7 +47,7 @@ public class Game implements Engine{
 		 */
 		
 		//Fake Database is rebuilt each time and populated into the respective fields.
-		DatabaseProvider.setInstance(new FakeDatabase());
+		DatabaseProvider.setInstance(new DerbyDatabase());
 		db = DatabaseProvider.getInstance();
 		//######################################################
 		
