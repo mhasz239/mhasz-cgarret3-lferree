@@ -36,5 +36,6 @@ public interface IDatabase {
 	public Item addItemToInventory(int itemID, int inventoryID);
 	public Item addItemToObject(int itemID, int objectID);
 	
+	public Game loadGame();
 	public void saveGame(Game game);
 }
