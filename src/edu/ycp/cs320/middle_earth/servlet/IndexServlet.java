@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.middle_earth.controller.Account;
 import edu.ycp.cs320.middle_earth.controller.Game;
+import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
+import edu.ycp.cs320.middle_earth.persist.DerbyDatabase;
+import edu.ycp.cs320.middle_earth.persist.IDatabase;
 
 
 public class IndexServlet extends HttpServlet {
@@ -35,7 +38,9 @@ public class IndexServlet extends HttpServlet {
 		String page = req.getParameter("submit");
 		if(page.equalsIgnoreCase("Start Game")){
 			//Account account = (Account)req.getSession().getAttribute("account");
-			Game game = new Game();
+			DatabaseProvider.setInstance(new DerbyDatabase());
+			IDatabase db = DatabaseProvider.getInstance();
+			Game game = db.loadGame();
 			req.getSession().setAttribute("game", game);
 			req.setAttribute("mode", game.get_mode());
 			req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);

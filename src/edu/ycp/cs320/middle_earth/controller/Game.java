@@ -27,7 +27,6 @@ public class Game implements Engine{
 	private ArrayList<String> dialog;
 	private String mode;
 	private CombatSituation battle;
-	private IDatabase db;
 	
 	public Game(){
 		// dialog and mode are passed back and forth with each servlet/jsp call
@@ -47,18 +46,12 @@ public class Game implements Engine{
 		 */
 		
 		//Fake Database is rebuilt each time and populated into the respective fields.
-		DatabaseProvider.setInstance(new DerbyDatabase());
-		db = DatabaseProvider.getInstance();
+		//DatabaseProvider.setInstance(new DerbyDatabase());
+		//db = DatabaseProvider.getInstance();
 		//######################################################
 		
-		Game loadfile = db.loadGame();
-		map = loadfile.get_map();
-		characters = loadfile.get_characters();
-		objects = loadfile.get_objects();
-		items = loadfile.get_items();
 		
-		
-		map.getMapTiles().get(get_player().get_location()).setVisited(true);
+		//map.getMapTiles().get(get_player().get_location()).setVisited(true);
 	}
 	
 	public Game get_game() {
@@ -209,6 +202,8 @@ public class Game implements Engine{
 			 * #################################
 			 */
 		if (commandStr.equalsIgnoreCase("save")){
+			DatabaseProvider.setInstance(new DerbyDatabase());
+			IDatabase db = DatabaseProvider.getInstance();
 			db.saveGame(this);
 		} else if(mode.equalsIgnoreCase("game")){
 			if(command.equalsIgnoreCase("move")){
