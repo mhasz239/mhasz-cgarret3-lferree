@@ -737,6 +737,7 @@ public class DerbyDatabase implements IDatabase {
 								+ "from maptilestomaps "
 								+ "where maptilestomaps.map_id = ? "
 								);
+						stmt.setInt(1, map.getID());
 						resultSetMapTiles = stmt.executeQuery();
 						
 						while(resultSetMapTiles.next()) {
