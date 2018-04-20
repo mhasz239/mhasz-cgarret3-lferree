@@ -22,7 +22,7 @@ public class CombatSituation{
 			ArrayList<Integer> enemyIDs = game.get_map().getMapTileByID(game.get_player().get_location()).getEnemyIDs();
 			int enemyChoice = random.nextInt(enemyIDs.size());
 			int enemyID = enemyIDs.get(enemyChoice);
-			
+			throw new IllegalArgumentException("This isn't setup yet!");
 		}catch(Exception e){
 			characters.add(createEnemy());
 		}

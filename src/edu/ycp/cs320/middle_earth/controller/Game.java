@@ -336,6 +336,8 @@ public class Game implements Engine{
 		
 		Object action_object = null;
 		for (Object object : map.getMapTiles().get(get_player().get_location()).getObjects()){
+			// TODO: NOTE: This doesn't account for capitals (e.g. if someone types Climb instead of climb)
+			// I would change it, but it's 9:11 PM the night before Milestone 3 so I'm afraid of breaking stuff
 			if (object.getCommandResponses().containsKey(command)) {
 				if (object.getName().toLowerCase().contains(arg.toLowerCase())) {
 					action_object = object;
