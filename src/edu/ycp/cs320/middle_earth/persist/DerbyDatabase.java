@@ -1121,19 +1121,19 @@ public class DerbyDatabase implements IDatabase {
 				try {
 					
 					stmt = conn.prepareStatement(
-							"select users.userName "
+							"select * "
 							+ "from users");
 					
 					resultSet = stmt.executeQuery();
 					
-					String user = new String();
+					String username = new String();
 					ArrayList<String> userList = new ArrayList<String>();
 					
 					Boolean found = false;
 					while(resultSet.next()) {
 						found = true;
-						user = resultSet.getString(1);
-						userList.add(user);
+						username = resultSet.getString(3);
+						userList.add(username);
 					}
 					
 					if(!found) {
