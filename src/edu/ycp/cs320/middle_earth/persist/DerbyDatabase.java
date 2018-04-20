@@ -713,7 +713,7 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt = null;
 				PreparedStatement stmt2 = null;
 				ResultSet resultSetMap = null;
-				ResultSet resultSetMapTiles = null;
+				ResultSet resultSetMapTileIDs = null;
 				
 				try {
 					// retrieve all attributes
@@ -740,11 +740,12 @@ public class DerbyDatabase implements IDatabase {
 								+ "AND maptiles.maptile_id = maptilestomaps.maptile_id "
 								);
 						stmt.setInt(1, map.getID());
-						resultSetMapTiles = stmt.executeQuery();
+						resultSetMapTileIDs = stmt.executeQuery();
 						
-						while(resultSetMapTiles.next()) {
+						while(resultSetMapTileIDs.next()) {
 							MapTile mapTile = new MapTile();
-							loadMapTile(mapTile, resultSetMapTiles, 1);
+							mapTile.setID(resultSetMapTileIDs.getInt(1));
+							mapTile = getMapTileByID(mapTile.getID());
 							map.addMapTile(mapTile);
 						}
 					}
@@ -756,8 +757,9 @@ public class DerbyDatabase implements IDatabase {
 					
 					return map;
 				} finally {
-					DBUtil.closeQuietly(resultSetMapTiles);
+					DBUtil.closeQuietly(resultSetMapTileIDs);
 					DBUtil.closeQuietly(resultSetMap);
+					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt);
 				}
 			}
