@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.Inventory;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
@@ -46,6 +47,13 @@ public class InventoryModeActionsTest{
 		Inventory inventory = new Inventory();
 		inventory.set_items(playerItems);
 		player.set_inventory(inventory);
+		
+		// Setup Character Array
+		ArrayList<Character> chars = new ArrayList<Character>();
+		chars.add(player);
+		
+		// Put Player into Game
+		game.set_characters(chars);
 	}
 	
 	/*
@@ -54,34 +62,40 @@ public class InventoryModeActionsTest{
 	 */
 	@Test
 	public void testItemDetailsLowEndOf0(){
-		game.item_details(0);
+		// Run and get response
+		String response = game.item_details(0);
 		
+		// Set item to sword for easier stuff
 		Item item = sword;
 		
-		assertEquals(1, game.get_dialog().size());
+		// Check that response is correct
 		assertEquals(item.getName() + ": " + item.getLongDescription() + ";Weight: " + item.getItemWeight() + 
-				";Quest item: " + String.valueOf(item.getIsQuestItem()), game.get_dialog().get(0));
+				";Quest item: " + String.valueOf(item.getIsQuestItem()), response);
 	}
 	
 	@Test
 	public void testItemDetailsMidIndexOf1(){
-		game.item_details(1);
+		// Run and get response
+		String response = game.item_details(1);
 		
+		// Set item to helmet for easiness
 		Item item = helmet;
 		
-		assertEquals(1, game.get_dialog().size());
+		// Check that response is correct
 		assertEquals(item.getName() + ": " + item.getLongDescription() + ";Weight: " + item.getItemWeight() + 
-				";Quest item: " + String.valueOf(item.getIsQuestItem()), game.get_dialog().get(0));
+				";Quest item: " + String.valueOf(item.getIsQuestItem()), response);
 	}
 	
 	@Test
 	public void testItemDetailsHighEndOf2(){
-		game.item_details(2);
+		// Run and get response
+		String response = game.item_details(2);
 		
+		// Set item to key for easy sauce
 		Item item = key;
 		
-		assertEquals(1, game.get_dialog().size());
+		// Check that response is correct
 		assertEquals(item.getName() + ": " + item.getLongDescription() + ";Weight: " + item.getItemWeight() + 
-				";Quest item: " + String.valueOf(item.getIsQuestItem()), game.get_dialog().get(0));
+				";Quest item: " + String.valueOf(item.getIsQuestItem()), response);
 	}
 }
