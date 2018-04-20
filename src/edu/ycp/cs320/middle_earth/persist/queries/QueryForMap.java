@@ -22,7 +22,7 @@ public class QueryForMap {
 		if (map == null) {
 			System.out.println("No map found");
 		}
-		else {
+/*		else {
 			for (MapTile mapTile : map.getMapTiles()) {
 				System.out.println(mapTile.getID() + "\n" 
 						+ mapTile.getName() + "\n" 
@@ -63,6 +63,6 @@ public class QueryForMap {
 					}
 				}
 			}
-		}
+		}*/
 	}
 }

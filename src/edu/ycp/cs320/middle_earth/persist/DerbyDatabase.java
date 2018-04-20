@@ -699,36 +699,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 	
 	
-	/**	This should only be called after checking if item exists in items table already **/
-	private void insertItem(Item item) {		
-		executeTransaction(new Transaction<Boolean>() {
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				PreparedStatement insertItem = null;
-				try {					
-					insertItem = conn.prepareStatement("insert into items (itemname, longdescription, shortdescription, "
-							+ "descriptionupdate, attackbonus, defensebonus, hpbonus, "
-							+ "weight, itemtype, levelreq) "
-							+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-						insertItem.setString(1, item.getName());
-						insertItem.setString(2, item.getLongDescription());
-						insertItem.setString(3, item.getShortDescription());
-						insertItem.setString(4, item.get_description_update());
-						insertItem.setInt(5, item.get_attack_bonus());
-						insertItem.setInt(6, item.get_defense_bonus());
-						insertItem.setInt(7, item.get_hp_bonus());						
-						insertItem.setFloat(8,  item.getItemWeight());
-						insertItem.setString(9, String.valueOf(item.get_ItemType())); 
-						insertItem.setInt(10, item.get_lvl_requirement());
-						insertItem.addBatch();
-					insertItem.executeBatch();
-					return true;
-				} finally {
-				insertItem.close();
-				}
-			}
-		});
-	}
+
 	
 	/**************************************************************************************************
 	 * 										*Get All* Methods
@@ -1531,15 +1502,18 @@ public class DerbyDatabase implements IDatabase {
 		return game;
 	}
 	
-	//public Game saveGame(int gameID)
+	public void saveGame(Game game) {
+		updateMap(game.get_map());
+		updateCharacters(game.get_characters());
+	}
 	/*******************************************************************************************************
 	 * 										Update Database Methods
 	********************************************************************************************************/
 	
-/*	private void updateMap(final Map map) {
+	private void updateMap(final Map map) {
 		// In the future will need to update map for Editor
 		// update all maptiles
-		throw new UnsupportedOperationException("Not yet implemented");
+		updateMapTiles(map.getMapTiles());
 	}
 	
 	private void updateMapTiles(final ArrayList<MapTile> mapTileList) {
@@ -1547,7 +1521,7 @@ public class DerbyDatabase implements IDatabase {
 			// remove them all
 			// add the ones passed in maptile.getObjects()
 		
-		// update mapTile Connections
+		// update mapTile Connections										// For the editor
 		// Update Enemy String
 		// update maptile visited
 		
@@ -1559,25 +1533,14 @@ public class DerbyDatabase implements IDatabase {
 	}
 	
 	private void updateMapTile(final MapTile mapTile) {
-		removeObjectsFromMapTile(mapTile.getID());
-		updateObjectsToMapTile(mapTile.getObjects(), mapTile.getID());
-	}
-	
-	private void removeAllObjectsFromMapTile(final int mapTileID) {
+		// removes all objects from the objectstomaptile table
+		removeAllObjectsFromMapTile(mapTile.getID());
 		
-	}
-	
-	private void updateObjectsToMapTile(final ArrayList<Object> objectList, final int mapTileID) {
-		// update all items in object
-			// remove them all
-			// add the ones passed in object.getItems()
-		
-		// update commandResponses
-		// update description_update
-		
-		for(Object object : objectList) {
-			addObjectToMapTile(object.getID(), mapTileID);
-		}
+		// adds every object in the maptile.getObjects() objectList
+		// to the objectstomaptiles table
+		for (Object object : mapTile.getObjects()) {
+			addObjectToMapTile(object.getID(), mapTile.getID());
+		}		
 	}
 	
 	private void updateObject(final Object object) {
@@ -1586,85 +1549,114 @@ public class DerbyDatabase implements IDatabase {
 		removeAllItemsFromObject(object.getID());		
 		
 		// adds every item in the current object.getItems() itemList
-		// to the object
+		// to the itemstoobjects table
 		for(Item item : object.getItems()) {
 			addItemToObject(item.getID(), object.getID());
-		}
-		
-		// removes all CommandResponses from the objectcommandresponses table
-		removeAllObjectCommandResponses(object.getID());
-		
-		// adds every CommandResponse in the object.getCommandResponses
+		}		
 	}
-	
-	private void removeAllObjectCommandResponses(int objectID) {
-		executeTransaction(new Transaction<Boolean>() {
-			public Boolean execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = null;
-				
-				try {
-					stmt = conn.prepareStatement(
-							"delete from objectcommandresponses "
-							+ "where objectcommandresponses.object_id = ? "
-					);
-					stmt.setInt(1, objectID);
-					stmt.executeUpdate();
-					
-					return true;
-				} finally {
-					DBUtil.closeQuietly(stmt);
-				}
-			}
-			
-		});
-	}
-	
-	private void addCommandResponseToObject(HashMap<String, String> commandResponse, int objectID) {
-		executeTransaction(new Transaction<Boolean>() {
-			public Boolean execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = null;
-				ResultSet resultSet = null;
-				
-				try {
-					
-					
-					
-					
-					
-					return true;
-				} finally {
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt);
-				}
-			}
-		});
-	} */
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	private void updateCharacters(ArrayList<Character> characterList) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		updatePlayer(characterList.get(0));
+		characterList.get(0).set_inventory(getInventoryByID(characterList.get(0).get_inventory_id()));
 	}
 	
-	private void updatePlayer(Player player) {
-		throw new UnsupportedOperationException("Not yet implemented");
+	private void updatePlayer(Character player) {
+		executeTransaction(new Transaction<Boolean>() {
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmtRemovePlayer = null;
+				PreparedStatement stmtUpdatePlayer = null;
+				
+				try {
+					stmtRemovePlayer = conn.prepareStatement(
+							"remove from players "
+							+ "where players.playerID = ? "
+					);
+					stmtRemovePlayer.executeUpdate();
+					
+					stmtUpdatePlayer = conn.prepareStatement(
+							"insert into players ("
+							+ "race, name, gender, level, hit_points, "
+							+ "magic_points, attack, defense, sp_attack, sp_defense, "
+							+ "coins, map_location, inventory_id, helm_item_id, braces_item_id, "
+							+ "chest_item_id, legs_item_id, boots_item_id, l_hand_item_id, r_hand_item_id) "
+							+ "values("
+							+ "?, ?, ?, ?, ?,"
+							+ "?, ?, ?, ?, ?,"
+							+ "?, ?, ?, ?, ?,"
+							+ "?, ?, ?, ?, ?)" 
+					);
+					
+						int i = 1;
+						stmtUpdatePlayer.setString(i++, player.get_race());
+						stmtUpdatePlayer.setString(i++, player.get_name());
+						stmtUpdatePlayer.setString(i++, player.get_gender());
+						stmtUpdatePlayer.setInt(i++, player.get_level());
+						stmtUpdatePlayer.setInt(i++, player.get_hit_points());
+						
+						stmtUpdatePlayer.setInt(i++, player.get_magic_points());
+						stmtUpdatePlayer.setInt(i++, player.get_attack());
+						stmtUpdatePlayer.setInt(i++, player.get_defense());
+						stmtUpdatePlayer.setInt(i++, player.get_special_attack());
+						stmtUpdatePlayer.setInt(i++, player.get_special_defense());
+						
+						stmtUpdatePlayer.setInt(i++, player.get_coins());
+						stmtUpdatePlayer.setInt(i++, player.get_location());
+						stmtUpdatePlayer.setInt(i++, player.get_inventory_id());
+						stmtUpdatePlayer.setInt(i++, player.get_helm().getID());
+						stmtUpdatePlayer.setInt(i++, player.get_braces().getID());
+						
+						stmtUpdatePlayer.setInt(i++, player.get_chest().getID());
+						stmtUpdatePlayer.setInt(i++, player.get_legs().getID());
+						stmtUpdatePlayer.setInt(i++, player.get_boots().getID());
+						stmtUpdatePlayer.setInt(i++, player.get_l_hand().getID());
+						stmtUpdatePlayer.setInt(i++, player.get_r_hand().getID());
+							
+						stmtUpdatePlayer.addBatch();	
+						stmtUpdatePlayer.executeBatch();	
+						
+					return true;
+				
+				} finally {
+					DBUtil.closeQuietly(stmtRemovePlayer);
+					DBUtil.closeQuietly(stmtUpdatePlayer);
+				}
+			}
+		});
 	}
 	
 	private void updateInventory(Inventory inventory) {
 		throw new UnsupportedOperationException("Not yet implemented");
+	}
+	
+	/**	This should only be called after checking if item exists in items table already **/
+	private void insertItem(Item item) {		
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement insertItem = null;
+				try {					
+					insertItem = conn.prepareStatement("insert into items (itemname, longdescription, shortdescription, "
+							+ "descriptionupdate, attackbonus, defensebonus, hpbonus, "
+							+ "weight, itemtype, levelreq) "
+							+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+						insertItem.setString(1, item.getName());
+						insertItem.setString(2, item.getLongDescription());
+						insertItem.setString(3, item.getShortDescription());
+						insertItem.setString(4, item.get_description_update());
+						insertItem.setInt(5, item.get_attack_bonus());
+						insertItem.setInt(6, item.get_defense_bonus());
+						insertItem.setInt(7, item.get_hp_bonus());						
+						insertItem.setFloat(8,  item.getItemWeight());
+						insertItem.setString(9, String.valueOf(item.get_ItemType())); 
+						insertItem.setInt(10, item.get_lvl_requirement());
+						insertItem.addBatch();
+					insertItem.executeBatch();
+					return true;
+				} finally {
+				insertItem.close();
+				}
+			}
+		});
 	}
 	/*******************************************************************************************************
 	 * 											addToConstruct Methods
@@ -1717,6 +1709,31 @@ public class DerbyDatabase implements IDatabase {
 					
 					return item;
 				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}	
+	
+	private void addCommandResponsesToObject(HashMap<String, String> commandResponses, int objectID) {
+		executeTransaction(new Transaction<Boolean>() {
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(" insert into objectCommandResponses (object_id, command, response) values (?, ?, ?)");
+							for(String key : commandResponses.keySet()) {
+								stmt.setInt(1, objectID);
+								stmt.setString(2, key);
+								stmt.setString(3, commandResponses.get(key));
+								stmt.addBatch();
+							}
+							stmt.executeBatch();	
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
 				}
 			}
@@ -1824,6 +1841,69 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
+	private void removeAllObjectCommandResponses(int objectID) {
+		executeTransaction(new Transaction<Boolean>() {
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"delete from objectcommandresponses "
+							+ "where objectcommandresponses.object_id = ? "
+					);
+					stmt.setInt(1, objectID);
+					stmt.executeUpdate();
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}			
+		});
+	} 
+	
+	private void removeAllObjectsFromMapTile(final int mapTileID) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement removeObject = null;
+				try {
+					removeObject = conn.prepareStatement(
+							"delete from objectstomaptiles "
+							+ "where objectstomaptiles.maptileID = ? "
+					);
+					removeObject.setInt(1, mapTileID);
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(removeObject);
+				}
+			}
+		});
+	}
+	
+	private void addObjectToMapTile(final int objectID, final int mapTileID) {
+		executeTransaction(new Transaction <Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"insert into objectstomaptiles (object_id, maptile_id) "
+							+ "values (?, ?)");
+							
+					stmt.setInt(1, objectID);
+					stmt.setInt(2, mapTileID);
+					stmt.executeUpdate();
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
 	/*******************************************************************************************************
 	 * 									Combinations of Multi-Methods
 	 *******************************************************************************************************/
@@ -1846,11 +1926,5 @@ public class DerbyDatabase implements IDatabase {
 		db.loadInitialData();
 		
 		System.out.println("Success!");
-	}
-
-	@Override
-	public void saveGame(Game game) {
-		// TODO Auto-generated method stub
-		
 	}
 }
