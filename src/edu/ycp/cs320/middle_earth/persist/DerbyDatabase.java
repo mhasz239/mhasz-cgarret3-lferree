@@ -303,9 +303,9 @@ public class DerbyDatabase implements IDatabase {
 							"create table users (" +
 							" user_id integer primary key " +
 							"		generated always as identity (start with 1, increment by 1), " +
-							" username varchar(20), " +
-							" password varchar(40), " +
-							" email varchar(40))"
+							" username varchar(100), " +
+							" password varchar(100), " +
+							" email varchar(100))"
 					);
 					stmt0.executeUpdate();
 					
@@ -1121,19 +1121,19 @@ public class DerbyDatabase implements IDatabase {
 				try {
 					
 					stmt = conn.prepareStatement(
-							"select users.userName "
+							"select users.username "
 							+ "from users");
 					
 					resultSet = stmt.executeQuery();
 					
-					String user = new String();
+					String username = new String();
 					ArrayList<String> userList = new ArrayList<String>();
 					
 					Boolean found = false;
 					while(resultSet.next()) {
 						found = true;
-						user = resultSet.getString(1);
-						userList.add(user);
+						username = resultSet.getString(1);
+						userList.add(username);
 					}
 					
 					if(!found) {

@@ -40,4 +40,5 @@ public interface IDatabase {
 	public void saveGame(Game game);
 	
 	public String getUserPasswordByUserName(String username);
+	public ArrayList<String> getAllUserNames();
 }
