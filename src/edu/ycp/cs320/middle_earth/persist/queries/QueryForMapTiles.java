@@ -23,14 +23,15 @@ public class QueryForMapTiles {
 		
 		// check if anything was returned and output the list
 		if (mapTileList.isEmpty()) {
-			System.out.println("No mapTiles found");
+			System.out.println("No MapTiles found");
 		}
 		else {
 			for (MapTile mapTile : mapTileList) {
-				System.out.println("MapTile ID = " + mapTile.getID() + "\n" 
-						+ mapTile.getName() + "\n" 
-						+ mapTile.getLongDescription() + "\n" 
-						+ mapTile.getShortDescription() + "\n"
+				System.out.println("MapTile ID = " + mapTile.getID() 
+						+ "\nMapTile Name = " + mapTile.getName() 
+						+ "\nLong Desc = " + mapTile.getLongDescription() 
+						+ "\nShort Desc = "	+ mapTile.getShortDescription() 
+						+ "\n"
 						+ mapTile.getConnections().get("north") + " north\n"
 						+ mapTile.getConnections().get("northeast") + " northeast\n"
 						+ mapTile.getConnections().get("east") + " east\n"
@@ -38,22 +39,36 @@ public class QueryForMapTiles {
 						+ mapTile.getConnections().get("south") + " south\n"
 						+ mapTile.getConnections().get("southwest") + " southwest\n"
 						+ mapTile.getConnections().get("west") + " west\n"
-						+ mapTile.getConnections().get("northwest") + " northwest\n");
+						+ mapTile.getConnections().get("northwest") + " northwest");
 				if (mapTile.getObjects() == null) {
-					System.out.println("No Objects on mapTile");
+					System.out.println("No Objects on MapTile\n");
 				} else {
 					for (Object object : mapTile.getObjects()) {
-						System.out.println("OBJECT ON MAPTILE:\nobject_id = " + object.getID() + "\nobject_name = " 
-								+ object.getName() + "\nobject_long = " + object.getLongDescription() + "\nobject_short = " 
-								+ object.getShortDescription() + "\nobject commands = " + object.getCommandResponses());
+						System.out.println("\tOBJECTS ON MAPTILE:"
+							+ "\n\tObject Name = " + object.getName() 
+							+ "\n\tLong Desc = " + object.getLongDescription() 
+							+ "\n\tShort Desc = " + object.getShortDescription() 
+							+ "\n\tCommand Responses: " + object.getCommandResponses());
 						if(object.getItems().isEmpty()) {
-							System.out.println("No items in object");
+							System.out.println("\tNo items in object");
 						} else {
 							for(Item item : object.getItems()) {
-								System.out.println("\nITEM IN OBJECT:\nitem_id = " + item.getID() + "\n" 
-										+ item.getName() + "\n" + item.getLongDescription() + "\n" 
-										+ item.getShortDescription() + "\nitem weight = " + item.getItemWeight() 
-										+ "\nIs a quest item? " + item.getIsQuestItem() + "\n");
+								System.out.println("\n\t\tITEMS IN OBJECT:"
+									+ "\n\t\tItem ID = " + item.getID() 
+									+ "\n\t\tItem Name = " + item.getName() 
+									+ "\n\t\tLong Desc = " + item.getLongDescription() 
+									+ "\n\t\tShort Desc = " + item.getShortDescription() 
+						
+									+ "\n\t\tDesc Update = " + item.get_description_update()
+									+ "\n\t\tAttack Bonus = " + item.get_attack_bonus()
+									+ "\n\t\tDefense Bonus = " + item.get_defense_bonus()
+									+ "\n\t\tHP Bonus = " + item.get_hp_bonus() 
+						
+									+ "\n\t\tItem Weight = " + item.getItemWeight() 
+									+ "\n\t\tItem Type = " + item.get_ItemType()
+									+ "\n\t\tLevel Requirement = " + item.get_lvl_requirement()
+						
+									+ "\n\t\tIs a quest item? " + item.getIsQuestItem() + "\n");
 							}
 						}
 					}

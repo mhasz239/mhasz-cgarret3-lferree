@@ -5,3 +5,4 @@
 *.xml
 workspace.xml
 /test.db/
+/derby.log

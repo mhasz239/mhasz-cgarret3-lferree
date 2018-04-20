@@ -51,7 +51,7 @@ public class CombatSituationTest{
 		// Check that dialog was updated appropriately
 		assertEquals(1, game.get_dialog().size());
 		assertEquals("A Goblin appeared out of nowhere!", game.get_dialog().get(0));
-		
+    
 		// Check that done is false
 		assertEquals(false, battle.isDone());
 	}

@@ -15,6 +15,7 @@ import edu.ycp.cs320.middle_earth.model.Constructs.Map;
 import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
 import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
 import edu.ycp.cs320.middle_earth.persist.FakeDatabase;
+import edu.ycp.cs320.middle_earth.persist.DerbyDatabase;
 import edu.ycp.cs320.middle_earth.persist.IDatabase;
 
 public class Game implements Engine{
@@ -45,8 +46,8 @@ public class Game implements Engine{
 		 */
 		
 		//Fake Database is rebuilt each time and populated into the respective fields.
-		DatabaseProvider.setInstance(new FakeDatabase());
-		IDatabase db = DatabaseProvider.getInstance();
+		//DatabaseProvider.setInstance(new DerbyDatabase());
+		//db = DatabaseProvider.getInstance();
 		//######################################################
 		
 		items = db.getAllItems();
@@ -229,7 +230,11 @@ public class Game implements Engine{
 			 * be the block that gets executed.
 			 * #################################
 			 */
-		if(mode.equalsIgnoreCase("game")){
+		if (commandStr.equalsIgnoreCase("save")){
+			DatabaseProvider.setInstance(new DerbyDatabase());
+			IDatabase db = DatabaseProvider.getInstance();
+			db.saveGame(this);
+		} else if(mode.equalsIgnoreCase("game")){
 			if(command.equalsIgnoreCase("move")){
 				if(args[1].equalsIgnoreCase("north") || arg.equalsIgnoreCase("south") || 
 						arg.equalsIgnoreCase("east") || arg.equalsIgnoreCase("west") ||
@@ -312,13 +317,13 @@ public class Game implements Engine{
 				} else {
 					returnMessage = "Please designate the item # you want to view more details of.";
 				}
-			}else{
+			} else {
 				// Checking if command isn't empty, since it can't be null -> initialized in here to "";
 				// Simply changed to else... I may have lost the null command message.
 				// Not sure if this message is still okay for a null command error?
 				returnMessage = "Sorry, I didn't understand that.";
 			}
-		}
+		} 
 		return returnMessage;
 	}
 	

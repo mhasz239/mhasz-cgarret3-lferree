@@ -24,19 +24,30 @@ public class QueryForObjects {
 		}
 		else {
 			for (Object object : objectList) {
-				System.out.println(object.getID() + "\n" 
-						+ object.getName() + "\n" 
-						+ object.getLongDescription() + "\n" 
-						+ object.getShortDescription() + "\n" 
-						+ object.getCommandResponses() + "\n");
+				System.out.println("Object ID = " + object.getID() 
+					+ "\nObject Name = " + object.getName() 
+					+ "\nLong Desc = " + object.getLongDescription() 
+					+ "\nShort Desc = " + object.getShortDescription() 
+					+ "\nCommand Responses: " + object.getCommandResponses());
 				if(object.getItems().isEmpty()) {
-					System.out.println("No items");
+					System.out.println("No items in object\n\n");
 				} else {
 					for(Item item : object.getItems()) {
-						System.out.println("item_id = " + item.getID() + "\n" 
-								+ item.getName() + "\n" + item.getLongDescription() + "\n" 
-								+ item.getShortDescription() + "\nitem weight = " + item.getItemWeight() 
-								+ "\nIs a quest item? " + item.getIsQuestItem() + "\n");
+						System.out.println("\tItem ID = " + item.getID() 
+							+ "\n\tItem Name = " + item.getName() 
+							+ "\n\tLong Desc = " + item.getLongDescription() 
+							+ "\n\tShort Desc = " + item.getShortDescription() 
+					
+							+ "\n\tDesc Update = " + item.get_description_update()
+							+ "\n\tAttack Bonus = " + item.get_attack_bonus()
+							+ "\n\tDefense Bonus = " + item.get_defense_bonus()
+							+ "\n\tHP Bonus = " + item.get_hp_bonus() 
+					
+							+ "\n\tItem Weight = " + item.getItemWeight() 
+							+ "\n\tItem Type = " + item.get_ItemType()
+							+ "\n\tLevel Requirement = " + item.get_lvl_requirement()
+					
+							+ "\n\tIs a quest item? " + item.getIsQuestItem() + "\n\n");
 					}
 				}
 			}
