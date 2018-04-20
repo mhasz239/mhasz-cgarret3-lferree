@@ -50,37 +50,7 @@ public class Game implements Engine{
 		//db = DatabaseProvider.getInstance();
 		//######################################################
 		
-		items = db.getAllItems();
-		map = db.getMap();
-		for (MapTile tile : map.getMapTiles()) {
-			tile.setVisited(false);
-		}
-		//map.setMapTiles(db.getAllMapTiles());
-		quests = db.getAllQuests();
-		characters = db.getAllCharacters();
-		// ######################################################
-		// Wouldn't db.getAllCharacters() already grab player?
-		// ######################################################
-		characters.add(db.getPlayer());
-		objects = db.getAllObjects();
-		for (Object object : objects) {
-			if (!object.getItems().isEmpty()) {
-				for (String key : object.getCommandResponses().keySet()) {
-					String items_list = new String();
-					
-					for (Item item : object.getItems()){
-						if (object.getItems().size() == 1) {
-							items_list = "a " + item.getName();
-						} else {
-							items_list = items_list + "a " + item.getName() + ", ";
-						}
-					}
-					object.getCommandResponses().put(key, object.getCommandResponses().get(key) + "You see " + items_list);
-				}
-			}
-		}
-		
-		map.getMapTiles().get(get_player().get_location()).setVisited(true);
+		//map.getMapTiles().get(get_player().get_location()).setVisited(true);
 	}
 	
 	public Game get_game() {
