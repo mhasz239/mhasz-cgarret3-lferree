@@ -7,6 +7,7 @@ import edu.ycp.cs320.middle_earth.controller.Game;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.Enemy;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
+import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
 
 public class CombatSituation{
 	// Assuming for now that character 0 is Player, character 1 is Enemy
@@ -22,17 +23,14 @@ public class CombatSituation{
 			ArrayList<Integer> enemyIDs = game.get_map().getMapTileByID(game.get_player().get_location()).getEnemyIDs();
 			int enemyChoice = random.nextInt(enemyIDs.size());
 			int enemyID = enemyIDs.get(enemyChoice);
+			// TODO: Ask Chris about either get Character or Enemy by ID (either would work for me)
+			//DatabaseProvider.getInstance().getEnemyByID(enemyID);
 			throw new IllegalArgumentException("This isn't setup yet!");
 		}catch(Exception e){
 			characters.add(createEnemy());
 		}
 		game.add_dialog("A " + characters.get(1).get_name() + " appeared out of nowhere!");
 		done = false;
-		
-		// TODO: Remove this
-		// This is Temporary Stuff due to current stats setup
-		characters.get(0).set_attack(40);
-		characters.get(0).set_defense(5);
 	}
 	
 	public ArrayList<Character> getCharacters(){
@@ -55,6 +53,7 @@ public class CombatSituation{
 		
 		// Check if Enemy has died
 		if(characters.get(1).get_hit_points() <= 0){
+			characters.get(1).set_hit_points(0);
 			// Do Player Won Battle
 			doPlayerWon(game);
 		}else{
@@ -63,6 +62,7 @@ public class CombatSituation{
 			
 			// Check if Player has died
 			if(characters.get(0).get_hit_points() <= 0){
+				characters.get(0).set_hit_points(0);
 				// Do Player Died
 				doPlayerDied(game);
 			}
