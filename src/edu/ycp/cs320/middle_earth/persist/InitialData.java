@@ -150,24 +150,27 @@ public class InitialData {
 		}
 	}
 	
-	public static Map getMap() throws IOException {
-		Map map = new Map();
-		ReadCSV readMap = new ReadCSV("map.csv");
+	public static ArrayList<Map> getMaps() throws IOException {
+		ArrayList<Map> mapList = new ArrayList<Map>();
+		ReadCSV readMaps = new ReadCSV("map.csv");
 		try {
 			while (true) {
-				List<String> tuple = readMap.next();
+				List<String> tuple = readMaps.next();
 				if(tuple == null) {
 					break;
 				}
 				Iterator<String> i = tuple.iterator();
+				Map map = new Map();
 				
 				map.setName(i.next());
 				map.setShortDescription(i.next());
 				map.setLongDescription(i.next());
+				
+				mapList.add(map);
 			}
-			return map;
+			return mapList;
 		} finally {
-			readMap.close();
+			readMaps.close();
 		}
 	}
 	
@@ -182,6 +185,7 @@ public class InitialData {
 				}
 				Iterator<String> i = tuple.iterator();
 				MapTileMap mapTileMap = new MapTileMap();
+				
 				mapTileMap.setMapTileID(Integer.parseInt(i.next()));
 				mapTileMap.setMapID(Integer.parseInt(i.next()));
 				mapTileMapList.add(mapTileMap);
@@ -198,13 +202,12 @@ public class InitialData {
 		try {
 			while (true) {
 				List<String> tuple = readMapTileConnections.next();
-				HashMap<String, Integer> mapTileConnections = new HashMap<String, Integer>();
 				
 				if(tuple == null) {
 					break;
 				}
-				
 				Iterator<String> i = tuple.iterator();
+				HashMap<String, Integer> mapTileConnections = new HashMap<String, Integer>();
 				
 				mapTileConnections.put("north", Integer.parseInt(i.next()));
 				mapTileConnections.put("northeast", Integer.parseInt(i.next()));
@@ -336,11 +339,10 @@ public class InitialData {
 		try {
 			while (true) {
 				List<String> tuple = readPlayers.next();
-	
-				Iterator<String> i = tuple.iterator();
 				if (tuple == null) {
 					break;
 				}
+				Iterator<String> i = tuple.iterator();
 				Player player = new Player();
 				
 				player.set_race(i.next());
@@ -450,10 +452,8 @@ public class InitialData {
 						quest.setRewardCoins(Integer.parseInt(i.next()));
 					}
 				}
-				
 				questList.add(quest);
-			}
-				
+			}	
 			return questList;
 		} finally {
 			readQuests.close();
@@ -469,11 +469,9 @@ public class InitialData {
 				if(tuple == null) {
 					break;
 				}
-				
 				Iterator<String> i = tuple.iterator();
 				
 				User user = new User();
-				
 				//user.setUserID(Integer.parseInt(i.next()));
 				user.setUserName(i.next());
 				user.setPassword(i.next());

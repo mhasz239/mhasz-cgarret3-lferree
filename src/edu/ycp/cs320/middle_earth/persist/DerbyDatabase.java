@@ -479,7 +479,7 @@ public class DerbyDatabase implements IDatabase {
 				ArrayList<ObjectMapTile> objectsToMapTilesList;
 				ArrayList<ItemInventory> itemsToInventoriesList;
 				ArrayList<Player> playerList;
-				Map map; 			//	ArrayList<Map> mapList;
+				ArrayList<Map> mapList;
 				ArrayList<MapTileMap> mapTilesToMapsList;
 				ArrayList<User> userList;
 				
@@ -493,7 +493,7 @@ public class DerbyDatabase implements IDatabase {
 					objectsToMapTilesList = InitialData.getObjectsToMapTiles();
 					itemsToInventoriesList = InitialData.getItemsToInventories();
 					playerList = InitialData.getPlayers();
-					map = InitialData.getMap();		//	mapList = InitialData.getMapList();
+					mapList = InitialData.getMaps();
 					mapTilesToMapsList = InitialData.getMapTilesToMaps();
 					userList = InitialData.getUsers();
 					
@@ -509,7 +509,7 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement insertObjectsToMapTiles = null;
 				PreparedStatement insertItemsToInventories = null;
 				PreparedStatement insertPlayers = null;
-				PreparedStatement insertMap = null;			//insertMaps
+				PreparedStatement insertMaps = null;			
 				PreparedStatement insertMapTilesToMaps = null;
 				PreparedStatement insertObjectCommandResponses = null;
 				PreparedStatement insertUsers = null;
@@ -654,14 +654,14 @@ public class DerbyDatabase implements IDatabase {
 					}
 					insertPlayers.executeBatch();							
 						
-					insertMap = conn.prepareStatement("insert into maps (mapname, longdescription, shortdescription) values (?, ?, ?)");
-					//for (Map map : mapList) {
-						insertMap.setString(1, map.getName());
-						insertMap.setString(2, map.getLongDescription());
-						insertMap.setString(3, map.getShortDescription());
-						insertMap.addBatch();
-					//}
-					insertMap.executeBatch();	
+					insertMaps = conn.prepareStatement("insert into maps (mapname, longdescription, shortdescription) values (?, ?, ?)");
+					for (Map map : mapList) {
+						insertMaps.setString(1, map.getName());
+						insertMaps.setString(2, map.getLongDescription());
+						insertMaps.setString(3, map.getShortDescription());
+						insertMaps.addBatch();
+					}
+					insertMaps.executeBatch();	
 					
 					insertMapTilesToMaps = conn.prepareStatement(" insert into maptilestomaps (maptile_id, map_id) values (?, ?)");
 					for(MapTileMap mapTileMap : mapTilesToMapsList) {
@@ -691,7 +691,7 @@ public class DerbyDatabase implements IDatabase {
 					
 					return true;
 				} finally {
-					DBUtil.closeQuietly(insertMap);
+					DBUtil.closeQuietly(insertMaps);
 					DBUtil.closeQuietly(insertPlayers);
 					DBUtil.closeQuietly(insertItemsToInventories);
 					DBUtil.closeQuietly(insertObjectsToMapTiles);
