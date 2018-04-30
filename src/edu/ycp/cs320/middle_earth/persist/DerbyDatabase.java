@@ -94,9 +94,6 @@ public class DerbyDatabase implements IDatabase {
 		return conn;
 	}
 	
-	
-	
-	
 	/************************************************************************************************
 	 * 										Loading Methods
 	 * **********************************************************************************************/
@@ -123,7 +120,6 @@ public class DerbyDatabase implements IDatabase {
 		object.setName(resultSet.getString(index++));
 		object.setLongDescription(resultSet.getString(index++));
 		object.setShortDescription(resultSet.getString(index++));
-		//object.getCommandResponses().put(resultSet.getString(index++), resultSet.getString(index++));
 	}
 	
 	private void loadObjectCommandResponse(HashMap<String, String> objectCommandResponse, ResultSet resultSet, int index) {
@@ -482,7 +478,7 @@ public class DerbyDatabase implements IDatabase {
 				ArrayList<MapTile> mapTileList;
 				ArrayList<ObjectMapTile> objectsToMapTilesList;
 				ArrayList<ItemInventory> itemsToInventoriesList;
-				Player player;
+				ArrayList<Player> playerList;
 				Map map; 			//	ArrayList<Map> mapList;
 				ArrayList<MapTileMap> mapTilesToMapsList;
 				ArrayList<User> userList;
@@ -496,7 +492,7 @@ public class DerbyDatabase implements IDatabase {
 					mapTileList = InitialData.getMapTiles();
 					objectsToMapTilesList = InitialData.getObjectsToMapTiles();
 					itemsToInventoriesList = InitialData.getItemsToInventories();
-					player = InitialData.getPlayer();
+					playerList = InitialData.getPlayers();
 					map = InitialData.getMap();		//	mapList = InitialData.getMapList();
 					mapTilesToMapsList = InitialData.getMapTilesToMaps();
 					userList = InitialData.getUsers();
@@ -541,13 +537,10 @@ public class DerbyDatabase implements IDatabase {
 					insertItem.executeBatch();
 					
 					insertObject = conn.prepareStatement("insert into objects (objectname, longdescription, shortdescription) values (?, ?, ?)");
-					for (Object object : objectList) {
-						//insertObject.setString(1, "climb");
-						
+					for (Object object : objectList) {						
 						insertObject.setString(1, object.getName());
 						insertObject.setString(2, object.getLongDescription());
 						insertObject.setString(3, object.getShortDescription());
-						//insertObject.setString(5, object.getCommandResponses().get("climb"));
 							
 						insertObject.addBatch();
 					}
@@ -628,6 +621,7 @@ public class DerbyDatabase implements IDatabase {
 							+ "?, ?, ?, ?, ?,"
 							+ "?, ?, ?, ?, ?,"
 							+ "?, ?)" );
+					for(Player player : playerList) {
 						int i = 1;
 						insertPlayers.setString(i++, player.get_race());
 						insertPlayers.setString(i++, player.get_name());
@@ -656,7 +650,8 @@ public class DerbyDatabase implements IDatabase {
 						insertPlayers.setInt(i++, player.get_experience());
 						insertPlayers.setInt(i++, player.get_carry_weight());
 							
-						insertPlayers.addBatch();	
+						insertPlayers.addBatch();
+					}
 					insertPlayers.executeBatch();							
 						
 					insertMap = conn.prepareStatement("insert into maps (mapname, longdescription, shortdescription) values (?, ?, ?)");
@@ -696,7 +691,7 @@ public class DerbyDatabase implements IDatabase {
 					
 					return true;
 				} finally {
-//					DBUtil.closeQuietly(insertMap);
+					DBUtil.closeQuietly(insertMap);
 					DBUtil.closeQuietly(insertPlayers);
 					DBUtil.closeQuietly(insertItemsToInventories);
 					DBUtil.closeQuietly(insertObjectsToMapTiles);
@@ -1558,10 +1553,8 @@ public class DerbyDatabase implements IDatabase {
 		
 		// adds every object in the maptile.getObjects() objectList
 		// to the objectstomaptiles table
-		int count = 0;
 		if (mapTile.getObjects() != null) {
 			for (Object object : mapTile.getObjects()) {
-				count++;
 				addObjectToMapTile(object.getID(), mapTile.getID());
 			}
 		}
