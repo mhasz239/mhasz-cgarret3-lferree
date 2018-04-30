@@ -30,11 +30,11 @@ public interface IDatabase {
 	
 	public Character getCharacterByName(String characterName);
 	
-	public Item removeItemFromInventory(int itemID, int inventoryID);
-	public Item removeItemFromObject(int itemID, int objectID);
+	public Item removeItemFromInventory(Item item, Inventory inventory);
+	public Item removeItemFromObject(Item item, Object object);
 	
-	public Item addItemToInventory(int itemID, int inventoryID);
-	public Item addItemToObject(int itemID, int objectID);
+	public void addItemToInventory(Item item, Inventory inventory);
+	public void addItemToObject(Item item, Object object);
 	
 	public Game loadGame();
 	public void saveGame(Game game);
