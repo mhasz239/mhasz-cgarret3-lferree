@@ -150,24 +150,27 @@ public class InitialData {
 		}
 	}
 	
-	public static Map getMap() throws IOException {
-		Map map = new Map();
-		ReadCSV readMap = new ReadCSV("map.csv");
+	public static ArrayList<Map> getMaps() throws IOException {
+		ArrayList<Map> mapList = new ArrayList<Map>();
+		ReadCSV readMaps = new ReadCSV("map.csv");
 		try {
 			while (true) {
-				List<String> tuple = readMap.next();
+				List<String> tuple = readMaps.next();
 				if(tuple == null) {
 					break;
 				}
 				Iterator<String> i = tuple.iterator();
+				Map map = new Map();
 				
 				map.setName(i.next());
 				map.setShortDescription(i.next());
 				map.setLongDescription(i.next());
+				
+				mapList.add(map);
 			}
-			return map;
+			return mapList;
 		} finally {
-			readMap.close();
+			readMaps.close();
 		}
 	}
 	
@@ -182,6 +185,7 @@ public class InitialData {
 				}
 				Iterator<String> i = tuple.iterator();
 				MapTileMap mapTileMap = new MapTileMap();
+				
 				mapTileMap.setMapTileID(Integer.parseInt(i.next()));
 				mapTileMap.setMapID(Integer.parseInt(i.next()));
 				mapTileMapList.add(mapTileMap);
@@ -198,13 +202,12 @@ public class InitialData {
 		try {
 			while (true) {
 				List<String> tuple = readMapTileConnections.next();
-				HashMap<String, Integer> mapTileConnections = new HashMap<String, Integer>();
 				
 				if(tuple == null) {
 					break;
 				}
-				
 				Iterator<String> i = tuple.iterator();
+				HashMap<String, Integer> mapTileConnections = new HashMap<String, Integer>();
 				
 				mapTileConnections.put("north", Integer.parseInt(i.next()));
 				mapTileConnections.put("northeast", Integer.parseInt(i.next()));
@@ -330,84 +333,90 @@ public class InitialData {
 		}
 	}
 
-	public static Player getPlayer() throws IOException {
-		Player player = new Player();
-		ReadCSV readPlayer = new ReadCSV("players.csv");
+	public static ArrayList<Player> getPlayers() throws IOException {
+		ArrayList<Player> playerList = new ArrayList<Player>();
+		ReadCSV readPlayers = new ReadCSV("players.csv");
 		try {
-			List<String> tuple = readPlayer.next();
-
-			Iterator<String> i = tuple.iterator();
-			
-			player.set_race(i.next());
-			player.set_name(i.next());
-			player.set_gender(i.next());
-			player.set_level(Integer.parseInt(i.next()));
-			player.set_hit_points(Integer.parseInt(i.next()));
-			
-			player.set_magic_points(Integer.parseInt(i.next()));
-			player.set_attack(Integer.parseInt(i.next()));
-			player.set_defense(Integer.parseInt(i.next()));
-			player.set_special_attack(Integer.parseInt(i.next()));
-			player.set_special_defense(Integer.parseInt(i.next()));
-			
-			player.set_coins(Integer.parseInt(i.next()));
-			player.set_location(Integer.parseInt(i.next()));
-			player.set_inventory_id(Integer.parseInt(i.next()));
-			
-			/**
-			 * The next few lines are equipping armor pieces to pass player
-			 * back up to the database.  If there is no item associated with
-			 * a slot, it puts an empty item of the correct ItemType in the
-			 * slot. There is a check in DerbyDatabase to make sure the any 
-			 * item in the slot is of the correct type in actuality, but they
-			 * must be passed assuming so until that check.  It would mean 
-			 * that the database is broken.  Unfortunately you cannot check
-			 * at this stage, you must check after the item is pulled from 
-			 * the masteritems table
-			 */
-			Item item = new Item();
-			
-			// helm
-			item.set_ItemType(ItemType.HELM);
-			item.setID(Integer.parseInt(i.next()));
-			player.set_helm(item);
-			
-			// braces
-			item.set_ItemType(ItemType.BRACES);
-			item.setID(Integer.parseInt(i.next()));
-			player.set_braces(item);
-			
-			// chest
-			item.set_ItemType(ItemType.CHEST);
-			item.setID(Integer.parseInt(i.next()));
-			player.set_chest(item);
-			
-			// legs
-			item.set_ItemType(ItemType.LEGS);
-			item.setID(Integer.parseInt(i.next()));
-			player.set_legs(item);
-			
-			// boots
-			item.set_ItemType(ItemType.BOOTS);
-			item.setID(Integer.parseInt(i.next()));
-			player.set_boots(item);
-			
-			// l_hand
-			item.set_ItemType(ItemType.L_HAND);
-			item.setID(Integer.parseInt(i.next()));
-			player.set_l_hand(item);
-			
-			// r_hand
-			item.set_ItemType(ItemType.R_HAND);
-			item.setID(Integer.parseInt(i.next()));
-			player.set_r_hand(item);
-			
-			player.set_experience(Integer.parseInt(i.next()));
-			player.set_carry_weight(Integer.parseInt(i.next()));
+			while (true) {
+				List<String> tuple = readPlayers.next();
+				if (tuple == null) {
+					break;
+				}
+				Iterator<String> i = tuple.iterator();
+				Player player = new Player();
 				
-			return player;
+				player.set_race(i.next());
+				player.set_name(i.next());
+				player.set_gender(i.next());
+				player.set_level(Integer.parseInt(i.next()));
+				player.set_hit_points(Integer.parseInt(i.next()));
+				
+				player.set_magic_points(Integer.parseInt(i.next()));
+				player.set_attack(Integer.parseInt(i.next()));
+				player.set_defense(Integer.parseInt(i.next()));
+				player.set_special_attack(Integer.parseInt(i.next()));
+				player.set_special_defense(Integer.parseInt(i.next()));
+				
+				player.set_coins(Integer.parseInt(i.next()));
+				player.set_location(Integer.parseInt(i.next()));
+				player.set_inventory_id(Integer.parseInt(i.next()));
+				
+				/**
+				 * The next few lines are equipping armor pieces to pass player
+				 * back up to the database.  If there is no item associated with
+				 * a slot, it puts an empty item of the correct ItemType in the
+				 * slot. There is a check in DerbyDatabase to make sure the any 
+				 * item in the slot is of the correct type in actuality, but they
+				 * must be passed assuming so until that check.  It would mean 
+				 * that the database is broken.  Unfortunately you cannot check
+				 * at this stage, you must check after the item is pulled from 
+				 * the masteritems table
+				 */
+				Item item = new Item();
+				
+				// helm
+				item.set_ItemType(ItemType.HELM);
+				item.setID(Integer.parseInt(i.next()));
+				player.set_helm(item);
+				
+				// braces
+				item.set_ItemType(ItemType.BRACES);
+				item.setID(Integer.parseInt(i.next()));
+				player.set_braces(item);
+				
+				// chest
+				item.set_ItemType(ItemType.CHEST);
+				item.setID(Integer.parseInt(i.next()));
+				player.set_chest(item);
+				
+				// legs
+				item.set_ItemType(ItemType.LEGS);
+				item.setID(Integer.parseInt(i.next()));
+				player.set_legs(item);
+				
+				// boots
+				item.set_ItemType(ItemType.BOOTS);
+				item.setID(Integer.parseInt(i.next()));
+				player.set_boots(item);
+				
+				// l_hand
+				item.set_ItemType(ItemType.L_HAND);
+				item.setID(Integer.parseInt(i.next()));
+				player.set_l_hand(item);
+				
+				// r_hand
+				item.set_ItemType(ItemType.R_HAND);
+				item.setID(Integer.parseInt(i.next()));
+				player.set_r_hand(item);
+				
+				player.set_experience(Integer.parseInt(i.next()));
+				player.set_carry_weight(Integer.parseInt(i.next()));
+			
+				playerList.add(player);
+			}	
+			return playerList;
 		} finally {
-			readPlayer.close();
+			readPlayers.close();
 		}
 	}
 	
@@ -443,10 +452,8 @@ public class InitialData {
 						quest.setRewardCoins(Integer.parseInt(i.next()));
 					}
 				}
-				
 				questList.add(quest);
-			}
-				
+			}	
 			return questList;
 		} finally {
 			readQuests.close();
@@ -462,11 +469,9 @@ public class InitialData {
 				if(tuple == null) {
 					break;
 				}
-				
 				Iterator<String> i = tuple.iterator();
 				
 				User user = new User();
-				
 				//user.setUserID(Integer.parseInt(i.next()));
 				user.setUserName(i.next());
 				user.setPassword(i.next());

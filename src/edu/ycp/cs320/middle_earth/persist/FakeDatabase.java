@@ -25,7 +25,7 @@ public class FakeDatabase implements IDatabase {
 	private ArrayList<Quest> questList;	
 	private ArrayList<Character> characterList;
 	private ArrayList<Inventory> inventoryList;
-	private Player player;	
+	private ArrayList<Player> playerList;	
 	
 	public FakeDatabase() {
 		map = new Map();
@@ -35,7 +35,7 @@ public class FakeDatabase implements IDatabase {
 		questList = new ArrayList<Quest>();
 		characterList = new ArrayList<Character>();
 		inventoryList = new ArrayList<Inventory>();
-		player = new Player();	
+		playerList = new ArrayList<Player>();	
 		
 		readInitialData();
 	}
@@ -48,7 +48,7 @@ public class FakeDatabase implements IDatabase {
 			mapTileList.addAll(InitialData.getMapTiles());
 			//map = InitialData.getMap();
 			questList.addAll(InitialData.getQuests());
-			player = InitialData.getPlayer();
+			playerList = InitialData.getPlayers();
 		} catch (IOException e) {
 			throw new IllegalStateException("Couldn't read initial data", e);
 		}
@@ -125,11 +125,11 @@ public class FakeDatabase implements IDatabase {
 	public Player getPlayer() {
 		
 		for(Inventory inventory : inventoryList) {
-			if(inventory.get_inventory_id() == player.get_inventory_id()) {
-				player.set_inventory(inventory);
+			if(inventory.get_inventory_id() == playerList.get(0).get_inventory_id()) {
+				playerList.get(0).set_inventory(inventory);
 			}
 		}
-		return player;
+		return playerList.get(0);
 	}
 	
 	@Override
@@ -230,27 +230,25 @@ public class FakeDatabase implements IDatabase {
 	}
 
 	@Override
-	public Item removeItemFromInventory(int itemID, int inventoryID) {
+	public Item removeItemFromInventory(Item item, Inventory inventory) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Item removeItemFromObject(int itemID, int objectID) {
+	public Item removeItemFromObject(Item item, Object object) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Item addItemToInventory(int itemID, int inventoryID) {
+	public void addItemToInventory(Item item, Inventory inventory) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
-	public Item addItemToObject(int itemID, int objectID) {
+	public void addItemToObject(Item item, Object object) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
