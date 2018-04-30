@@ -1882,6 +1882,28 @@ public class DerbyDatabase implements IDatabase {
 		});
 	} 
 	
+	private void removeObjectCommandResponseByCommand(final String command, final int objectID) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement removeCommandResponse = null;
+				try {
+					removeCommandResponse = conn.prepareStatement(
+							"delete from objectcommandresponses "
+							+ "where objectcommandresponses.command = ? "
+							+ "AND objectcommandresponses.object_id = ? "
+					);
+					removeCommandResponse.setString(1, command);
+					removeCommandResponse.setInt(2, objectID);
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(removeCommandResponse);
+				}
+			}
+		});
+	}
+	
 	private void removeAllObjectsFromMapTile(final int mapTileID) {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
@@ -1890,7 +1912,7 @@ public class DerbyDatabase implements IDatabase {
 				try {
 					removeObject = conn.prepareStatement(
 							"delete from objectstomaptiles "
-							+ "where objectstomaptiles.maptile_ID = ? "
+							+ "where objectstomaptiles.maptile_id = ? "
 					);
 					removeObject.setInt(1, mapTileID);
 					removeObject.executeUpdate();
