@@ -184,91 +184,68 @@ public class Game implements Engine{
         	command = commandStr;
         }
 		
-		
-			/* #################################
-			 * Here down, the mode is checked primarily, and the valid commands for that mode are within the mode.
-			 * This fixes a couple potential (future) issues
-			 * 1. If a command is valid in 2 modes, it would've been checked via 2 if statements:
-			 * Note: Suppose that inventory is the current mode.
-			 * - command.equalsIgnoreCase("whatever") && modeCheck("game")
-			 * - command.equalsIgnoreCase("whatever") && modeCheck("inventory")
-			 * The modeCheck() method would've added dialog of being in the wrong mode for game, then 
-			 * successfully executed the command for the inventory mode check, giving extra unnecessary data.
-			 * 2. If a valid command is entered for the wrong mode, multiple messages would be returned.
-			 * - First, the message about being in the wrong mode
-			 * - And Second, the message about it being an invalid command
-			 * - The 2nd is due to modeCheck returning false, leading the else statement of invalid command to 
-			 * be the block that gets executed.
-			 * #################################
-			 */
 		if (commandStr.equalsIgnoreCase("save")){
 			DatabaseProvider.setInstance(new DerbyDatabase());
 			IDatabase db = DatabaseProvider.getInstance();
 			db.saveGame(this);
 		} else if(mode.equalsIgnoreCase("game")){
-			if(command.equalsIgnoreCase("move")){
-				if(args[1].equalsIgnoreCase("north") || arg.equalsIgnoreCase("south") || 
-						arg.equalsIgnoreCase("east") || arg.equalsIgnoreCase("west") ||
-						arg.equalsIgnoreCase("northwest") || arg.equalsIgnoreCase("northeast") ||
-						arg.equalsIgnoreCase("southwest") || arg.equalsIgnoreCase("southeast")){
-					move(arg);
+			if(battle != null && !battle.isDone()){
+				if(command.equalsIgnoreCase("attack")){
+					battle.doRound(this);
 				}else{
-					add_dialog("I don't understand that direction.");
-				}
-			}else if((command.equalsIgnoreCase("north") || command.equalsIgnoreCase("N"))){
-				move("north");
-			}else if((command.equalsIgnoreCase("south") || command.equalsIgnoreCase("S"))){
-				move("south");
-			}else if((command.equalsIgnoreCase("east") || command.equalsIgnoreCase("E"))){
-				move("east");
-			}else if((command.equalsIgnoreCase("west") || command.equalsIgnoreCase("W"))){
-				move("west");
-			}else if((command.equalsIgnoreCase("northeast") || command.equalsIgnoreCase("NE"))){
-				move("northeast");
-			}else if((command.equalsIgnoreCase("northwest") || command.equalsIgnoreCase("NW"))){
-				move("northwest");
-			}else if((command.equalsIgnoreCase("southeast") || command.equalsIgnoreCase("SE"))){
-				move("southeast");
-			}else if((command.equalsIgnoreCase("southwest") || command.equalsIgnoreCase("SW"))){
-				move("southwest");
-			}else if(command.equalsIgnoreCase("take")) {
-				if (arg != null) {
-					take(arg);
-				} else {
-					
-				}
-			} /*else if (command.equalsIgnoreCase("climb") && mode_check("game") && arg != null) {
-				boolean climbable = false;
-				ArrayList<Object> Objects = map.getMapTiles().get(get_player().get_location()).getObjects();
-				for (Object climbObject : Objects) {
-					if (climbObject != null && climbObject.getCommandResponses().containsKey("climb") && climbObject.getName().toLowerCase().contains(arg)) {
-						climb(climbObject);
-						climbable = true;
-					}
-				}
-				if (!climbable){
-					add_dialog("What exactly are you trying to climb?");
-				}
-			}*/else if(command.equalsIgnoreCase("look")){
-				look();
-			}else if(command.equalsIgnoreCase("attack")){
-					if(get_player().get_location() == 7) {
-						add_dialog("You take the pointy stick and throw it at the troll.;It manages to poke him in the eye and knock him off balance.;"
-						+"As he falls he drops his sword, you quickly spring into action.;You grab his sword off the ground and lay waste to the foul beast.;"
-						+"!!!CONGRATULATIONS!!! You have conqured this small land and laid waste the the evil plauging it.");
-					}else{
-						if(battle == null || battle.isDone()){
-							add_dialog("You're not in combat!");
-						}else{
-							battle.doRound(this);
-						}
-					}
-			}else{
-				if(!handle_object_commands(commandStr)){
-					// Changed this to add_dialog due to our conversation about having mode = game have all text 
-					// in dialog instead of having a separate error/response message (while other modes still use 
-					// the response message though)
 					add_dialog("Sorry, I didn't understand that.");
+				}
+			}else{
+				if(command.equalsIgnoreCase("move")){
+					if(args[1].equalsIgnoreCase("north") || arg.equalsIgnoreCase("south") || 
+							arg.equalsIgnoreCase("east") || arg.equalsIgnoreCase("west") ||
+							arg.equalsIgnoreCase("northwest") || arg.equalsIgnoreCase("northeast") ||
+							arg.equalsIgnoreCase("southwest") || arg.equalsIgnoreCase("southeast")){
+						move(arg);
+					}else{
+						add_dialog("I don't understand that direction.");
+					}
+				}else if((command.equalsIgnoreCase("north") || command.equalsIgnoreCase("N"))){
+					move("north");
+				}else if((command.equalsIgnoreCase("south") || command.equalsIgnoreCase("S"))){
+					move("south");
+				}else if((command.equalsIgnoreCase("east") || command.equalsIgnoreCase("E"))){
+					move("east");
+				}else if((command.equalsIgnoreCase("west") || command.equalsIgnoreCase("W"))){
+					move("west");
+				}else if((command.equalsIgnoreCase("northeast") || command.equalsIgnoreCase("NE"))){
+					move("northeast");
+				}else if((command.equalsIgnoreCase("northwest") || command.equalsIgnoreCase("NW"))){
+					move("northwest");
+				}else if((command.equalsIgnoreCase("southeast") || command.equalsIgnoreCase("SE"))){
+					move("southeast");
+				}else if((command.equalsIgnoreCase("southwest") || command.equalsIgnoreCase("SW"))){
+					move("southwest");
+				}else if(command.equalsIgnoreCase("take")) {
+					if (arg != null) {
+						take(arg);
+					} else {
+						
+					}
+				}else if(command.equalsIgnoreCase("look")){
+					look();
+				}else if(command.equalsIgnoreCase("attack")){
+						if(get_player().get_location() == 7) {
+							add_dialog("You take the pointy stick and throw it at the troll.;It manages to poke him in the eye and knock him off balance.;"
+							+"As he falls he drops his sword, you quickly spring into action.;You grab his sword off the ground and lay waste to the foul beast.;"
+							+"!!!CONGRATULATIONS!!! You have conqured this small land and laid waste the the evil plauging it.");
+						}else{
+							// This is mainly here simply due to the special case 2 lines above.
+							// Otherwise, this line isn't as necessary.
+							add_dialog("You're not in combat!");
+						}
+				}else{
+					if(!handle_object_commands(commandStr)){
+						// Changed this to add_dialog due to our conversation about having mode = game have all text 
+						// in dialog instead of having a separate error/response message (while other modes still use 
+						// the response message though)
+						add_dialog("Sorry, I didn't understand that.");
+					}
 				}
 			}
 		}else if(mode.equalsIgnoreCase("inventory")){
@@ -528,11 +505,14 @@ public class Game implements Engine{
 				player.set_location(player.get_location() + moveValue);
 				add_dialog(map.getMapTiles().get(player.get_location()).getName());
 				String string = map.getMapTiles().get(player.get_location()).getLongDescription();
+				int count = 0;
 				if (map.getMapTileByID(player.get_location()).getObjects() != null) {
 					for (Object object : map.getMapTileByID(player.get_location()).getObjects()){
 						string = string + " " + object.getLongDescription();
+						count++;
 					}
 				}
+				System.out.println(count);
 				add_dialog(string);
 				Random rand = new Random(System.currentTimeMillis());
 				int encounterCheck = rand.nextInt(10);
