@@ -12,7 +12,18 @@
         td.label {
             text-align: right;
         }
+        #box{
+			overflow: auto;
+			position: relative;
+		}
     </style>
+    
+    <style type='text/javascript'>
+		function scrollToBottom() {
+			var objDiv = document.getElementById("#box");
+        	objDiv.scrollTop = objDiv.scrollHeight;
+    }
+	</style>
 </head>
 
 <body>
@@ -24,7 +35,7 @@
 
 
 
-<div>
+<div id="box" onload="scrollToBottom()">
 <!-- <h1><u>Adventures of Middle Earth</u></h1> -->
 <ol>
 <c:forTokens items = "${dialog}" delims = ";" var = "item" >
