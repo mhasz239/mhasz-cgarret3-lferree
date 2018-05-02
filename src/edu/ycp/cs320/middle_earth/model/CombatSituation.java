@@ -45,11 +45,17 @@ public class CombatSituation{
 				// Enemy will already have name, race, gender?
 				throw new IllegalArgumentException("This isn't setup yet!");
 			}catch(Exception e){
-				enemy = createEnemy(game);
+				enemy = createEnemy();
 			}
 			game.get_characters().add(enemy);
 			characterIDs.add(game.get_characters().size() - 1);
-			combatString += " is staring into the eyes of a " + enemy.get_race();
+			if(i == 0){
+				combatString += " is staring into the eyes of a " + enemy.get_race();
+			}else if(i != enemies - 1){
+				combatString += ", a " + enemy.get_race();
+			}else{
+				combatString += " and a " + enemy.get_race(); 
+			}
 		}
 		game.add_dialog(combatString);
 		done = false;
@@ -68,44 +74,65 @@ public class CombatSituation{
 	// Set level, hp, mp, att, def, spAtt, spDef, coins, equipment, inventory
 	// inventory = call .getItemByID
 	// wood, steel, dwarven, elven, legendary (item types, increasing rarity/goodness)
-	public Enemy createEnemy(Game game){
+	public Enemy createEnemy(){
 		Enemy enemy = new Enemy();
 		enemy.set_attack(15);
 		enemy.set_defense(0);
 		enemy.set_hit_points(100);
 		enemy.set_level(1);
-		enemy.set_name("Goblin");
+		enemy.set_name("Bob");
+		enemy.set_race("Goblin");
 		return enemy;
 	}
 	
 	public void playerAttackEnemy(Game game, int playerIndex, String target){
+		// Check that it's the player's turn
 		if(characterIDs.get(characterIDs.get(currentIDsIndex)) == playerIndex){
 			Character enemy = null;
 			int enemyIndex = -1;
 			for(int characterIndex: characterIDs){
+				// Find the enemy the Player specified
 				Character chara = game.get_characters().get(characterIndex);
 				if(characterIndex != playerIndex && (chara.get_name().equalsIgnoreCase(target) || 
-						chara.get_race().equalsIgnoreCase("target"))){
+						chara.get_race().equalsIgnoreCase(target))){
 					enemy = chara;
 					enemyIndex = characterIndex;
 				}
 			}
 			if(enemy == null){
+				// Enemy not found
 				game.add_dialog("No one by the name/race of " + target + " was found in combat with you!");
 			}else{
+				// Do attack against enemy
 				int enemyHP = enemy.get_hit_points();
 				int damage = calculateDamage(game, playerIndex, enemyIndex);
 				enemy.set_hit_points(enemyHP - damage);
 				game.add_dialog("You attacked " + enemy.get_name() + " for " + damage + " damage.");
 				
+				
+				
 				// Advance to next turn and check if it's an enemy to do their turn.
-				currentIDsIndex++;
-				if(!(game.get_characters().get(characterIDs.get(currentIDsIndex)) instanceof Player)){
-					enemyAttackPlayer(game);
-				}
+				advanceTurn(game);
 			}
 		}else{
+			// Not player's turn
 			game.add_dialog("It's not your turn!");
+		}
+	}
+	
+	public void advanceTurn(Game game){
+		// Advance index
+		currentIDsIndex++;
+		
+		// Loop index if too high
+		if(currentIDsIndex >= characterIDs.size()){
+			currentIDsIndex = 0;
+		}
+		
+		// Check if it's now a non-player turn (Enemy)
+		if(!(game.get_characters().get(characterIDs.get(currentIDsIndex)) instanceof Player)){
+			// Do enemy turn
+			enemyAttackPlayer(game);
 		}
 	}
 	
@@ -137,10 +164,7 @@ public class CombatSituation{
 		game.add_dialog("You have " + player.get_hit_points() + " HP left.");
 		
 		// Advance to next turn and check if it's an enemy to do their turn.
-		currentIDsIndex++;
-		if(!(game.get_characters().get(characterIDs.get(currentIDsIndex)) instanceof Player)){
-			enemyAttackPlayer(game);
-		}
+		advanceTurn(game);
 	}
 	
 	public int calculateDamage(Game game, int attacker, int defender){
@@ -224,7 +248,7 @@ public class CombatSituation{
 	public void doPlayerWon(Game game){
 		// TODO: Change this for multiple enemies and players and stuff
 		done = true;
-		game.add_dialog("You killed the " + game.get_characters().get(1).get_name() + "!");
+		game.add_dialog("You killed " + game.get_characters().get(1).get_name() + "!");
 		game.add_dialog("You have been awarded 10 experience!");
 		((Player) game.get_characters().get(0)).set_experience(((Player) game.get_characters().get(0)).get_experience() + 10);
 	}

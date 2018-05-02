@@ -9,12 +9,7 @@ public class Account{
 	private int[] game_ids;
 	
 	
-	public int get_user_token(String username){
-		DatabaseProvider.setInstance(new DerbyDatabase());
-		IDatabase db = DatabaseProvider.getInstance();
-		
-		//Need to add getUserID to database calls.
-		//return db.getUserID(username);
+	public int get_user_token(){
 		return user_id;
 	}
 	
@@ -22,17 +17,12 @@ public class Account{
 		this.user_id = user_id;
 	}
 	
-	public int[] get_game_ids(String username){
-		DatabaseProvider.setInstance(new DerbyDatabase());
-		IDatabase db = DatabaseProvider.getInstance();
-		
-		//Need to add getGameIDs to database calls.
-		//return db.getGameIDs(username);
+	public int[] get_game_ids(){
 		return game_ids;
 	}
 	
-	public void set_game_id(int game_id, int game_slot){
-		this.game_ids[game_slot] = game_id;
+	public void set_game_ids(int[] game_ids){
+		this.game_ids = game_ids;
 	}
 	
 	public void create_account(String username, String password, String email){
@@ -45,7 +35,9 @@ public class Account{
 		IDatabase db = DatabaseProvider.getInstance();
 		
 		if (password.equals(db.getUserPasswordByUserName(username))) {
-			//update user_token and game_id
+			//TODO: update user_token and game_id (Need to add to database calls)
+			//user_id = db.getUserID(username);
+			//game_ids = db.getGameIDs(username);
 			
 			return "Success!";
 		} else {
