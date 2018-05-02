@@ -22,7 +22,8 @@ public class IndexServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		System.out.println("Index Servlet: doGet");
-		//req.getSession().getAttribute("userToken");
+		String playerToken = (String) req.getSession().getAttribute("player");
+		req.setAttribute("playerToken", playerToken);
 		req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
 	}
 	
@@ -34,9 +35,28 @@ public class IndexServlet extends HttpServlet {
 
 		
 		String errorMessage = null;
+
 		
-		String page = req.getParameter("submit");
-		if(page.equalsIgnoreCase("Start Game")){
+		
+		String form = req.getParameter("submit");
+		System.out.println(form);
+		if (form.equalsIgnoreCase("Login")) {
+			Account account = new Account();
+			String check = account.login(req.getParameter("username"), req.getParameter("password"));
+			if (check.equals("Success!")) {
+				//req.getSession().setAttribute("account", account);
+				//account.set_user_token(user_id);
+				
+				//Placeholder for now is just setting the player attribute as the username only if login succeeds.
+				req.getSession().setAttribute("player", req.getParameter("username"));
+				req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
+			} else {
+				req.setAttribute("errorMessage", check);
+				req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
+			}
+		}
+		
+		else if(form.equalsIgnoreCase("Start Game")){
 			//Account account = (Account)req.getSession().getAttribute("account");
 			DatabaseProvider.setInstance(new DerbyDatabase());
 			IDatabase db = DatabaseProvider.getInstance();
@@ -44,9 +64,12 @@ public class IndexServlet extends HttpServlet {
 			req.getSession().setAttribute("game", game);
 			req.setAttribute("mode", game.get_mode());
 			req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
-		}else{
+		} else if(form.equalsIgnoreCase("Log out")){
+			req.getSession().setAttribute("player", "");
+			req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
+		} else{
 			// Shouldn't reach this...
-			errorMessage = "Invalid Option";
+			errorMessage = "Shouldn't be possible";
 			req.setAttribute("errorMessage", errorMessage);
 			req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
 		}

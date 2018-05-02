@@ -76,7 +76,7 @@ public class Game implements Engine{
 	
 	public void add_dialog(String line){
 		dialog.add(line);
-		while(dialog.size() > 25){
+		if (dialog.size() > 35){
 			dialog.remove(0);
 		}
 	}
