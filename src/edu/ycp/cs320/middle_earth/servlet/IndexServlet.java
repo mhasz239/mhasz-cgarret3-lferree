@@ -39,7 +39,7 @@ public class IndexServlet extends HttpServlet {
 		
 		
 		String form = req.getParameter("submit");
-		System.out.println(form);
+		
 		if (form.equalsIgnoreCase("Login")) {
 			Account account = new Account();
 			String check = account.login(req.getParameter("username"), req.getParameter("password"));
