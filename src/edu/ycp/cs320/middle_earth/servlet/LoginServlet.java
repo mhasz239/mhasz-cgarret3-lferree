@@ -35,6 +35,8 @@ public class LoginServlet extends HttpServlet {
 			String check = account.login(req.getParameter("username"), req.getParameter("password"));
 			if (check.equals("Success!")) {
 				//req.getSession().setAttribute("account", account);
+				//account.set_user_token(user_id);
+				//req.getSession().setAttribute("player", account.get_user_token());
 				req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
 			} else {
 				req.setAttribute("errorMessage", check);
