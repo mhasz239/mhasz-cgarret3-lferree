@@ -63,7 +63,7 @@ public class CombatSituationTest{
 		Enemy enemy = battle.createEnemy();
 		
 		// Check that Stats and Stuff are correct (based on current setup)
-		assertEquals(15, enemy.get_attack());
+		assertEquals(10, enemy.get_attack());
 		assertEquals(0, enemy.get_defense());
 		assertEquals(100, enemy.get_hit_points());
 		assertEquals(1, enemy.get_level());
@@ -74,22 +74,16 @@ public class CombatSituationTest{
 	@Test
 	public void testCalculateAttackEnemy(){
 		int mins = 0;
-		int minmids = 0;
 		int mids = 0;
-		int midmaxs = 0;
 		int maxs = 0;
 		
 		for(int i = 0; i < 300; i++){
 			int result = battle.calculateAttack(game, 1);
-			if(result == 13){
+			if(result == 9){
 				mins++;
-			}else if(result == 14){
-				minmids++;
-			}else if(result == 15){
+			}else if(result == 10){
 				mids++;
-			}else if(result == 16){
-				midmaxs++;
-			}else if(result == 17){
+			}else if(result == 11){
 				maxs++;
 			}else{
 				// Should never get here!
@@ -98,11 +92,9 @@ public class CombatSituationTest{
 		}
 		
 		System.out.println("CalculateAttack for Enemy Distribution");
-		System.out.println("Min(13):  " + mins);
-		System.out.println("Mmid(14): " + minmids);
-		System.out.println("Mid(15):  " + mids);
-		System.out.println("Mmax(16): " + midmaxs);
-		System.out.println("Max(17):  " + maxs);
+		System.out.println("Min(9):  " + mins);
+		System.out.println("Mid(10):  " + mids);
+		System.out.println("Max(11):  " + maxs);
 	}
 	
 	@Test
@@ -518,16 +510,20 @@ public class CombatSituationTest{
 	
 	@Test
 	public void testDoPlayerWon(){
+		// Set Bob's HP to 0 (to make sure combat will be done at the end)
+		game.get_characters().get(1).set_hit_points(0);
+		
 		// Check that Player has 0 experience (to confirm 10 was added later)
 		assertEquals(0, player.get_experience());
 		
 		// Run doPlayerWon
-		battle.doPlayerWon(game);
+		battle.doPlayerWon(game, 0, 1);
 		
 		// Check that dialog was added to appropriately
-		assertEquals(3, game.get_dialog().size());
+		assertEquals(4, game.get_dialog().size());
 		assertEquals("You killed Bob!", game.get_dialog().get(1));
 		assertEquals("You have been awarded 10 experience!", game.get_dialog().get(2));
+		assertEquals("You have killed everyone! (in this combat situation here)", game.get_dialog().get(3));
 		
 		// Check that Player got 10 experience
 		assertEquals(10, player.get_experience());
@@ -539,7 +535,7 @@ public class CombatSituationTest{
 	@Test
 	public void testDoPlayerDied(){
 		// Run doPlayerDied
-		battle.doPlayerDied(game);
+		battle.doPlayerDied(game, 0);
 		
 		// Check that dialog was added to appropriately
 		assertEquals(3, game.get_dialog().size());
@@ -552,9 +548,9 @@ public class CombatSituationTest{
 	
 	@Test
 	public void testCalculateDamageEnemyToPlayer(){
-		// Enemy can do 13-17, Player has 5 defense
-		int min = 8;
-		int max = 12;
+		// Enemy can do 9-11, Player has 5 defense
+		int min = 4;
+		int max = 6;
 		
 		// Get damage calculated
 		int damage = battle.calculateDamage(game, 1, 0);

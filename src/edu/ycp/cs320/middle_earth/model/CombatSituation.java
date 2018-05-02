@@ -76,7 +76,7 @@ public class CombatSituation{
 	// wood, steel, dwarven, elven, legendary (item types, increasing rarity/goodness)
 	public Enemy createEnemy(){
 		Enemy enemy = new Enemy();
-		enemy.set_attack(15);
+		enemy.set_attack(10);
 		enemy.set_defense(0);
 		enemy.set_hit_points(100);
 		enemy.set_level(1);
@@ -109,7 +109,10 @@ public class CombatSituation{
 				enemy.set_hit_points(enemyHP - damage);
 				game.add_dialog("You attacked " + enemy.get_name() + " for " + damage + " damage.");
 				
-				
+				// Check if the enemy is dead
+				if(enemy.get_hit_points() <= 0){
+					doPlayerWon(game, playerIndex, enemyIndex);
+				}
 				
 				// Advance to next turn and check if it's an enemy to do their turn.
 				advanceTurn(game);
@@ -121,18 +124,20 @@ public class CombatSituation{
 	}
 	
 	public void advanceTurn(Game game){
-		// Advance index
-		currentIDsIndex++;
-		
-		// Loop index if too high
-		if(currentIDsIndex >= characterIDs.size()){
-			currentIDsIndex = 0;
-		}
-		
-		// Check if it's now a non-player turn (Enemy)
-		if(!(game.get_characters().get(characterIDs.get(currentIDsIndex)) instanceof Player)){
-			// Do enemy turn
-			enemyAttackPlayer(game);
+		if(!done){
+			// Advance index
+			currentIDsIndex++;
+			
+			// Loop index if too high
+			if(currentIDsIndex >= characterIDs.size()){
+				currentIDsIndex = 0;
+			}
+			
+			// Check if it's now a non-player turn (Enemy)
+			if(!(game.get_characters().get(characterIDs.get(currentIDsIndex)) instanceof Player)){
+				// Do enemy turn
+				enemyAttackPlayer(game);
+			}
 		}
 	}
 	
@@ -162,6 +167,12 @@ public class CombatSituation{
 		player.set_hit_points(playerHP - damage);
 		game.add_dialog(enemy.get_name() + " attacked you for " + damage + " damage.");
 		game.add_dialog("You have " + player.get_hit_points() + " HP left.");
+		
+		// Check if player has died
+		if(player.get_hit_points() <= 0){
+			player.set_hit_points(0);
+			doPlayerDied(game, playerIndex);
+		}
 		
 		// Advance to next turn and check if it's an enemy to do their turn.
 		advanceTurn(game);
@@ -245,17 +256,51 @@ public class CombatSituation{
 		return done;
 	}
 	
-	public void doPlayerWon(Game game){
-		// TODO: Change this for multiple enemies and players and stuff
-		done = true;
-		game.add_dialog("You killed " + game.get_characters().get(1).get_name() + "!");
+	public void doPlayerWon(Game game, int playerIndex, int killedIndex){
+		// Let player know what they have done.
+		game.add_dialog("You killed " + game.get_characters().get(killedIndex).get_name() + "!");
+		
+		// Change player exp
+		int currentXP = ((Player) game.get_characters().get(playerIndex)).get_experience();
+		((Player) game.get_characters().get(playerIndex)).set_experience(currentXP + 10);
+		
+		// Let player know what they have earned.
 		game.add_dialog("You have been awarded 10 experience!");
-		((Player) game.get_characters().get(0)).set_experience(((Player) game.get_characters().get(0)).get_experience() + 10);
+		
+		// Default is done
+		done = true;
+		
+		// Check for alive combatant that isn't the player.
+		for(int characterIndex: characterIDs){
+			if(characterIndex != playerIndex && game.get_characters().get(characterIndex).get_hit_points() > 0){
+				// If any aren't dead, combat isn't over.
+				done = false;
+			}
+		}
+		
+		if(done){
+			// Let player know
+			game.add_dialog("You have killed everyone! (in this combat situation here)");
+		}
 	}
 	
-	public void doPlayerDied(Game game){
-		done = true;
+	public void doPlayerDied(Game game, int playerIndex){
+		// TODO: Change this for multiple players and stuff
+		// Not sure how to notify correct player or whatever
+		
+		// Let player know they died
 		game.add_dialog("You have died!");
 		game.add_dialog("Restart if you think you can do better!");
+		
+		// Default is done
+		done = true;
+		
+		// Check for alive players yet
+		for(int characterIndex: characterIDs){
+			if(characterIndex != playerIndex && game.get_characters().get(characterIndex) instanceof Player &&
+					game.get_characters().get(characterIndex).get_hit_points() > 0){
+				done = false;
+			}
+		}
 	}
 }
