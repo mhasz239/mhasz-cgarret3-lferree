@@ -28,9 +28,15 @@
             text-align: right;
         }
     </style>
+    
+    <style type='text/javascript'>
+		function scrollToBottom() {
+			document.frames['frame'].contentWindow.scrollTo(0, 9999);
+    	}
+    </style>
 </head>
-
-<body>
+<!-- onLoad="javascript:document.frames['frame'].scrollBy(0, 110)" -->
+<body onload="scrollToBottom()">
 <!--
 <c:if test="${! empty errorMessage}">
     <div class="error">${errorMessage}</div>
@@ -44,8 +50,15 @@
 <div id="help">
 <p> This is in the help div. </p>
 </div>
-<div id="game">
-<iframe style="width:100%;height:100%"src="${pageContext.servletContext.contextPath}/${mode}"></iframe>
+<div id="game" >
+	<c:choose>
+	<c:when test="${mode == 'game'}">
+		<iframe id="frame" style="width:100%;height:100%"src="${pageContext.servletContext.contextPath}/${mode}#end" ></iframe>
+	</c:when>
+	<c:otherwise>
+		<iframe id="frame" style="width:100%;height:100%"src="${pageContext.servletContext.contextPath}/${mode}" ></iframe>
+	</c:otherwise>
+	</c:choose>
 </div>
 
 <div id="input"> 

@@ -76,7 +76,7 @@ public class Game implements Engine{
 	
 	public void add_dialog(String line){
 		dialog.add(line);
-		if(dialog.size() > 25){
+		if (dialog.size() > 35){
 			dialog.remove(0);
 		}
 	}
@@ -236,9 +236,11 @@ public class Game implements Engine{
 					look();
 				}else if(command.equalsIgnoreCase("attack")){
 						if(get_player().get_location() == 7) {
-							add_dialog("You take the pointy stick and throw it at the troll.;It manages to poke him in the eye and knock him off balance.;"
-							+"As he falls he drops his sword, you quickly spring into action.;You grab his sword off the ground and lay waste to the foul beast.;"
-							+"!!!CONGRATULATIONS!!! You have conqured this small land and laid waste the the evil plauging it.");
+							add_dialog("You take the pointy stick and throw it at the troll.");
+							add_dialog("It manages to poke him in the eye and knock him off balance.");
+							add_dialog("As he falls he drops his sword, you quickly spring into action.");
+							add_dialog("You grab his sword off the ground and lay waste to the foul beast.");
+							add_dialog("!!!CONGRATULATIONS!!! You have conqured this small land and laid waste the the evil plauging it.");
 						}else{
 							// This is mainly here simply due to the special case 2 lines above.
 							// Otherwise, this line isn't as necessary.
