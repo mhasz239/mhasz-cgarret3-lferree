@@ -48,7 +48,22 @@
 <h1><u>Adventures of Middle Earth</u></h1>
 </div>
 <div id="help">
-<p> This is in the help div. </p>
+<h3>Help</h3>
+<p>
+The basics of the game are as follows:<br/></br>
+
+Switching display: There are 4 displays you can use to switch between them you simply type their name in the command box.</br>
+The 4 displays are: game, inventory, character, map</br></br>
+
+Movement: "move (direction)" directions are north, northeast, east, southeast, south, southwest, west, northwest<br/></br>
+
+When you enter into combat: command to use is "attack"</br></br>
+
+If you see a description of something on the try finding what command can be used on that object. I.E. if you see a bike, try "ride bike"</br>
+Or if you think it might be an item try "take bike"</br></br>
+
+The rest is up to you to find out.
+</p>
 </div>
 <div id="game" >
 	<c:choose>

@@ -56,13 +56,14 @@ public class IndexServlet extends HttpServlet {
 			}
 		}
 		
-		else if(form.equalsIgnoreCase("Start Game")){
+		else if(form.equalsIgnoreCase("Create Game 1") || form.equalsIgnoreCase("Load Game 1")){
 			//Account account = (Account)req.getSession().getAttribute("account");
 			DatabaseProvider.setInstance(new DerbyDatabase());
 			IDatabase db = DatabaseProvider.getInstance();
 			Game game = db.loadGame();
 			req.getSession().setAttribute("game", game);
 			req.setAttribute("mode", game.get_mode());
+			req.getSession().setAttribute("game1", "True");
 			req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
 		} else if(form.equalsIgnoreCase("Log out")){
 			req.getSession().setAttribute("player", "");
