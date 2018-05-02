@@ -191,13 +191,18 @@ public class Game implements Engine{
 		} else if(mode.equalsIgnoreCase("game")){
 			if(battle != null && !battle.isDone()){
 				if(command.equalsIgnoreCase("attack")){
-					battle.doRound(this);
+					if(arg == null){
+						add_dialog("What do you want to attack? (use name or race)");
+					}else{
+						// TODO: Currently Player index is 0, need to find it based on current player (for multiplayer)
+						battle.playerAttackEnemy(this, 0, arg);
+					}
 				}else{
-					add_dialog("Sorry, I didn't understand that.");
+					add_dialog("You're in combat!");
 				}
 			}else{
 				if(command.equalsIgnoreCase("move")){
-					if(args[1].equalsIgnoreCase("north") || arg.equalsIgnoreCase("south") || 
+					if(arg.equalsIgnoreCase("north") || arg.equalsIgnoreCase("south") || 
 							arg.equalsIgnoreCase("east") || arg.equalsIgnoreCase("west") ||
 							arg.equalsIgnoreCase("northwest") || arg.equalsIgnoreCase("northeast") ||
 							arg.equalsIgnoreCase("southwest") || arg.equalsIgnoreCase("southeast")){
@@ -514,10 +519,14 @@ public class Game implements Engine{
 				}
 				System.out.println(count);
 				add_dialog(string);
+				
+				// TODO: Check if on the same tile as another player to trigger pvp combat (and thus not do an encounter check)
+				
 				Random rand = new Random(System.currentTimeMillis());
 				int encounterCheck = rand.nextInt(10);
 				if(encounterCheck == 0){
-					battle = new CombatSituation(this);
+					// TODO: Currently Player index is 0, need to find it based on current player (for multiplayer)
+					battle = new CombatSituation(this, 1, 0);
 				}
 			}
 		} else {

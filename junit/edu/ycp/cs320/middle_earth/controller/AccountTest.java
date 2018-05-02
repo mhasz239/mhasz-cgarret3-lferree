@@ -11,24 +11,38 @@ public class AccountTest{
 	@Before
 	public void setup(){
 		account = new Account();
+		account.set_user_token(null);
+		account.set_game_id(-1);
 	}
 	
 	@Test
 	public void testSet_User_Token(){
+		// Set that token!
 		account.set_user_token("39r3jff43r9");
 		
+		// Check that token!
 		assertEquals("39r3jff43r9", account.get_user_token());
+		
+		// Set it again! (Checking against weird add stuff)
+		account.set_user_token("dfi4f94jf");
+		
+		// Check it again!
+		assertEquals("dfi4f94jf", account.get_user_token());
 	}
 	
 	@Test
-	public void testReset_User_Token(){
-		account.set_user_token("39r3jff43r9");
+	public void testSet_Game_ID(){
+		// Set that ID!
+		account.set_game_id(1029);
 		
-		assertEquals("39r3jff43r9", account.get_user_token());
+		// Check that ID!
+		assertEquals(1029, account.get_game_id());
 		
-		account.set_user_token("dfi4f94jf");
+		// Set it again! (Checking against weird add stuff)
+		account.set_game_id(2938);
 		
-		assertEquals("dfi4f94jf", account.get_user_token());
+		// Check it again!
+		assertEquals(2938, account.get_game_id());
 	}
 	
 	@Test
@@ -41,7 +55,7 @@ public class AccountTest{
 	
 	@Test
 	public void testCreate_AccountUsernameTaken(){
-		account.create_account("Tadukoo", "Imma_steal_his_acc_;)", "theREALtadukoo@something.com");
+		account.create_account("lferree", "Imma_steal_his_acc_;)", "theREALtadukoo@something.com");
 		
 		// TODO: JUNIT: Test that it fails somehow? Perhaps an errorMessage in Account?
 		throw new UnsupportedOperationException("Not sure how to test this yet... Doesn't matter though it's not implemented");
@@ -49,7 +63,7 @@ public class AccountTest{
 	
 	@Test
 	public void testCreate_AccountEmailTaken(){
-		account.create_account("Totally New", "yeah_Im_new", "realtadukoo@gmail.com");
+		account.create_account("Totally New", "yeah_Im_new", "lferree@ycp.edu");
 		
 		// TODO: JUNIT: Test that it fails somehow? Perhaps an errorMessage in Account?
 		throw new UnsupportedOperationException("Not sure how to test this yet... Doesn't matter though it's not implemented");
@@ -57,25 +71,40 @@ public class AccountTest{
 	
 	@Test
 	public void testLogin(){
-		account.login("Tadukoo", "tadukoopassword");
+		// Run the login and get response
+		String response = account.login("lferree", "password");
 		
-		// TODO: JUNIT: Test that login passes (assuming above info is in database)
-		throw new UnsupportedOperationException("Not sure how to test this yet... Doesn't matter though it's not implemented");
+		// Check that response is accurate
+		assertEquals("Success!", response);
+		
+		// TODO: JUNIT: Test that user_token and game_id are set
+		//assertEquals(3, account.get_user_token());
+		//assertEquals(1, account.get_game_id());
 	}
 	
 	@Test
 	public void testLoginUsernameDoesntExist(){
-		account.login("Derp Not Here", "anything_really");
+		// Run the login and get response
+		String response = account.login("Derp Not Here", "anything_really");
 		
-		// TODO: JUNIT: Test that login fails (username not in database)? Perhaps an errorMessage in Account?
-		throw new UnsupportedOperationException("Not sure how to test this yet... Doesn't matter though it's not implemented");
+		// Check that response is accurate
+		assertEquals("Invalid Username or Password", response);
+		
+		// Check that user_token and game_id aren't set
+		assertEquals(null, account.get_user_token());
+		assertEquals(-1, account.get_game_id());
 	}
 	
 	@Test
 	public void testLoginIncorrectPassword(){
-		account.login("Tadukoo", "not_my_password");
+		// Run the login and get response
+		String response = account.login("lferree", "not_my_password");
 		
-		// TODO: JUNIT: Test that login fails (password incorrect)? Perhaps an errorMessage in Account?
-		throw new UnsupportedOperationException("Not sure how to test this yet... Doesn't matter though it's not implemented");
+		// Check that response is accurate
+		assertEquals("Invalid Username or Password", response);
+		
+		// Check that user_token and game_id aren't set
+		assertEquals(null, account.get_user_token());
+		assertEquals(-1, account.get_game_id());
 	}
 }

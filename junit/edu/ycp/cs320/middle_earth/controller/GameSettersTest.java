@@ -87,6 +87,11 @@ public class GameSettersTest{
 	public void testGet_Player(){
 		Game game = new Game();
 		
+		ArrayList<Character> characters = new ArrayList<Character>();
+		characters.add(new Player());
+		
+		game.set_characters(characters);
+		
 		assertEquals(game.get_characters().get(0), game.get_player());
 	}
 	

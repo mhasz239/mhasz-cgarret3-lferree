@@ -10,85 +10,142 @@ import edu.ycp.cs320.middle_earth.model.Characters.Player;
 import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
 
 public class CombatSituation{
-	// Assuming for now that character 0 is Player, character 1 is Enemy
-	private ArrayList<Character> characters;
+	private ArrayList<Integer> characterIDs;
+	private int currentIDsIndex;
 	private Random random;
 	private boolean done;
 	
-	public CombatSituation(Game game){
-		characters = new ArrayList<Character>();
-		characters.add(game.get_player());
-		random = new Random(System.nanoTime());
-		try{
-			ArrayList<Integer> enemyIDs = game.get_map().getMapTileByID(game.get_player().get_location()).getEnemyIDs();
-			int enemyChoice = random.nextInt(enemyIDs.size());
-			int enemyID = enemyIDs.get(enemyChoice);
-			// TODO: Ask Chris about either get Character or Enemy by ID (either would work for me)
-			//DatabaseProvider.getInstance().getEnemyByID(enemyID);
-			throw new IllegalArgumentException("This isn't setup yet!");
-		}catch(Exception e){
-			characters.add(createEnemy());
+	/**
+	 * @param game The Game this is happening in
+	 * @param enemies How many Enemies in this CombatSituation
+	 * @param players Any Players involved in the Combat.
+	 */
+	public CombatSituation(Game game, int enemies, int ... players){
+		characterIDs = new ArrayList<Integer>();
+		String combatString = "";
+		for(int i = 0; i < players.length; i++){
+			characterIDs.add(players[i]);
+			if(i == 0){
+				combatString += game.get_characters().get(i).get_name();
+			}else if(i != players.length - 1){
+				combatString += ", " + game.get_characters().get(i).get_name();
+			}else{
+				combatString += " and " + game.get_characters().get(i).get_name() + " have entered combat!";
+			}
 		}
-		game.add_dialog("A " + characters.get(1).get_name() + " appeared out of nowhere!");
+		random = new Random(System.nanoTime());
+		for(int i = 0; i < enemies; i++){
+			Enemy enemy = null;
+			try{
+				ArrayList<Integer> enemyIDs = game.get_map().getMapTileByID(game.get_player().get_location()).getEnemyIDs();
+				int enemyChoice = random.nextInt(enemyIDs.size());
+				int enemyID = enemyIDs.get(enemyChoice);
+				// TODO: Ask Chris about either get Character or Enemy by ID (either would work for me)
+				//DatabaseProvider.getInstance().getEnemyByID(enemyID);
+				// Enemy will already have name, race, gender?
+				throw new IllegalArgumentException("This isn't setup yet!");
+			}catch(Exception e){
+				enemy = createEnemy(game);
+			}
+			game.get_characters().add(enemy);
+			characterIDs.add(game.get_characters().size() - 1);
+			combatString += " is staring into the eyes of a " + enemy.get_race();
+		}
+		game.add_dialog(combatString);
 		done = false;
+		currentIDsIndex = 0;
 	}
 	
-	public ArrayList<Character> getCharacters(){
-		return characters;
+	public ArrayList<Integer> getCharacterIDs(){
+		return characterIDs;
 	}
 	
-	public Enemy createEnemy(){
+	public int getCurrentIDsIndex(){
+		return currentIDsIndex;
+	}
+	
+	// TODO: Change this to randomize enemy
+	// Set level, hp, mp, att, def, spAtt, spDef, coins, equipment, inventory
+	// inventory = call .getItemByID
+	// wood, steel, dwarven, elven, legendary (item types, increasing rarity/goodness)
+	public Enemy createEnemy(Game game){
 		Enemy enemy = new Enemy();
 		enemy.set_attack(15);
-		enemy.set_defense(25);
+		enemy.set_defense(0);
 		enemy.set_hit_points(100);
 		enemy.set_level(1);
 		enemy.set_name("Goblin");
 		return enemy;
 	}
 	
-	public void doRound(Game game){
-		// Player attacks Enemy
-		playerAttackEnemy(game);
-		
-		// Check if Enemy has died
-		if(characters.get(1).get_hit_points() <= 0){
-			characters.get(1).set_hit_points(0);
-			// Do Player Won Battle
-			doPlayerWon(game);
-		}else{
-			// Enemy attacks Player
-			enemyAttackPlayer(game);
-			
-			// Check if Player has died
-			if(characters.get(0).get_hit_points() <= 0){
-				characters.get(0).set_hit_points(0);
-				// Do Player Died
-				doPlayerDied(game);
+	public void playerAttackEnemy(Game game, int playerIndex, String target){
+		if(characterIDs.get(characterIDs.get(currentIDsIndex)) == playerIndex){
+			Character enemy = null;
+			int enemyIndex = -1;
+			for(int characterIndex: characterIDs){
+				Character chara = game.get_characters().get(characterIndex);
+				if(characterIndex != playerIndex && (chara.get_name().equalsIgnoreCase(target) || 
+						chara.get_race().equalsIgnoreCase("target"))){
+					enemy = chara;
+					enemyIndex = characterIndex;
+				}
 			}
+			if(enemy == null){
+				game.add_dialog("No one by the name/race of " + target + " was found in combat with you!");
+			}else{
+				int enemyHP = enemy.get_hit_points();
+				int damage = calculateDamage(game, playerIndex, enemyIndex);
+				enemy.set_hit_points(enemyHP - damage);
+				game.add_dialog("You attacked " + enemy.get_name() + " for " + damage + " damage.");
+				
+				// Advance to next turn and check if it's an enemy to do their turn.
+				currentIDsIndex++;
+				if(!(game.get_characters().get(characterIDs.get(currentIDsIndex)) instanceof Player)){
+					enemyAttackPlayer(game);
+				}
+			}
+		}else{
+			game.add_dialog("It's not your turn!");
 		}
 	}
 	
-	public void playerAttackEnemy(Game game){
-		Character enemy = characters.get(1);
-		int enemyHP = enemy.get_hit_points();
-		int damage = calculateDamage(0, 1);
-		enemy.set_hit_points(enemyHP - damage);
-		game.add_dialog("You attacked " + enemy.get_name() + " for " + damage + " damage.");
-	}
-	
 	public void enemyAttackPlayer(Game game){
-		Character player = characters.get(0);
+		// Get number of Players
+		ArrayList<Integer> playerIndices = new ArrayList<Integer>();
+		for(int characterIndex: characterIDs){
+			if(game.get_characters().get(characterIndex) instanceof Player){
+				playerIndices.add(characterIndex);
+			}
+		}
+		
+		// Determine target Player
+		int playerNum = random.nextInt(playerIndices.size());
+		int playerIndex = playerIndices.get(playerNum);
+		
+		// Get player
+		Character player = game.get_characters().get(playerIndex);
+		
+		// Get Enemy
+		int enemyIndex = characterIDs.get(currentIDsIndex);
+		Character enemy = game.get_characters().get(enemyIndex);
+		
+		// Do damage to player
 		int playerHP = player.get_hit_points();
-		int damage = calculateDamage(1, 0);
+		int damage = calculateDamage(game, playerIndex, characterIDs.get(currentIDsIndex));
 		player.set_hit_points(playerHP - damage);
-		game.add_dialog(characters.get(1).get_name() + " attacked you for " + damage + " damage.");
+		game.add_dialog(enemy.get_name() + " attacked you for " + damage + " damage.");
 		game.add_dialog("You have " + player.get_hit_points() + " HP left.");
+		
+		// Advance to next turn and check if it's an enemy to do their turn.
+		currentIDsIndex++;
+		if(!(game.get_characters().get(characterIDs.get(currentIDsIndex)) instanceof Player)){
+			enemyAttackPlayer(game);
+		}
 	}
 	
-	public int calculateDamage(int attacker, int defender){
-		int attackDamage = calculateAttack(attacker);
-		int defense = calculateDefense(defender);
+	public int calculateDamage(Game game, int attacker, int defender){
+		int attackDamage = calculateAttack(game, attacker);
+		int defense = calculateDefense(game, defender);
 		int damage = attackDamage - defense;
 		if(damage < 0){
 			damage = 0;
@@ -104,8 +161,8 @@ public class CombatSituation{
 	// Escape/Flee (chance on enemy)
 	// Only 1 Enemy for now (grab possibilities from MapTile)
 	
-	public int calculateAttack(int character){
-		Character chr = characters.get(character);
+	public int calculateAttack(Game game, int character){
+		Character chr = game.get_characters().get(character);
 		int attack = chr.get_attack();
 		if(chr.get_helm() != null){
 			attack += chr.get_helm().get_attack_bonus();
@@ -133,8 +190,8 @@ public class CombatSituation{
 		return attack;
 	}
 	
-	public int calculateDefense(int character){
-		Character chr = characters.get(character);
+	public int calculateDefense(Game game, int character){
+		Character chr = game.get_characters().get(character);
 		int defense = chr.get_defense();
 		if(chr.get_helm() != null){
 			defense += chr.get_helm().get_defense_bonus();
@@ -165,10 +222,11 @@ public class CombatSituation{
 	}
 	
 	public void doPlayerWon(Game game){
+		// TODO: Change this for multiple enemies and players and stuff
 		done = true;
-		game.add_dialog("You killed the " + characters.get(1).get_name() + "!");
+		game.add_dialog("You killed the " + game.get_characters().get(1).get_name() + "!");
 		game.add_dialog("You have been awarded 10 experience!");
-		((Player) characters.get(0)).set_experience(((Player) characters.get(0)).get_experience() + 10);
+		((Player) game.get_characters().get(0)).set_experience(((Player) game.get_characters().get(0)).get_experience() + 10);
 	}
 	
 	public void doPlayerDied(Game game){
