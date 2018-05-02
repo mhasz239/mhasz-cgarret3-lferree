@@ -211,6 +211,19 @@ public class HandleMovementCommands{
 	}
 	
 	/*
+	 * That one weird issue
+	 */
+	@Test
+	public void testInvalidDirection(){
+		// Run command
+		game.handle_command("move deprirber0oger");
+		
+		// Check that correct error stuff is set
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("I don't understand that direction.", game.get_dialog().get(0));
+	}
+	
+	/*
 	 * North Command Working
 	 */
 	@Test

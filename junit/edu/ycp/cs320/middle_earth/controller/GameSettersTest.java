@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import edu.ycp.cs320.middle_earth.model.CombatSituation;
 import edu.ycp.cs320.middle_earth.model.Quest;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
@@ -375,5 +376,25 @@ public class GameSettersTest{
 		game.set_map(map);
 		
 		assertEquals(starting.getName(), game.get_mapTile_name());
+	}
+	
+	@Test
+	public void testSet_Battle(){
+		Game game = new Game();
+		
+		ArrayList<Character> chars = new ArrayList<Character>();
+		chars.add(new Player());
+		game.set_characters(chars);
+		
+		CombatSituation sitch = new CombatSituation(game, 1, 0);
+		game.setBattle(sitch);
+		
+		assertEquals(sitch, game.getBattle());
+		
+		// Do it again (for weird adding)
+		CombatSituation burp = new CombatSituation(game, 2, 0);
+		game.setBattle(burp);
+		
+		assertEquals(burp, game.getBattle());
 	}
 }

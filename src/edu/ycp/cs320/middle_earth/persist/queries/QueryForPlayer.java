@@ -1,7 +1,5 @@
 package edu.ycp.cs320.middle_earth.persist.queries;
 
-
-import edu.ycp.cs320.middle_earth.model.Quest;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;

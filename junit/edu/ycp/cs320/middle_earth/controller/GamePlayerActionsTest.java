@@ -66,14 +66,6 @@ public class GamePlayerActionsTest{
 		HashMap<String, String> responses = new HashMap<String, String>();
 		responses.put("climb", "It's high up here!");
 		tree.setCommandResponses(responses);
-		//TODO: JUNIT: Set Tree location to 0 (starting MapTile).
-		
-		ladder = new Object();
-		ladder.setName("Ladder");
-		HashMap<String, String> responses2 = new HashMap<String, String>();
-		responses2.put("climb", "It's not so high up here...");
-		ladder.setCommandResponses(responses2);
-		//TODO: JUNIT: Set Ladder location to 1 (northOfStarting MapTile).
 		
 		// MapTiles		8 1 2
 		//				7 0 3
@@ -98,17 +90,16 @@ public class GamePlayerActionsTest{
 		wood.setName("Wood");
 		items.add(wood);
 		game.set_items(items);
-		// TODO: JUNIT: Set wood location to 0 (starting).
+		
+		ArrayList<Object> objs = new ArrayList<Object>();
+		objs.add(tree);
+		Object derp = new Object();
+		ArrayList<Item> its = new ArrayList<Item>();
+		its.add(wood);
+		derp.setItems(its);
+		objs.add(derp);
+		starting.setObjects(objs);
 	}
-	
-	/*
-	 * Open(Object)
-	 * TODO: JUNIT: Open(Object) Tests
-	 */
-	/*
-	 * Close(Object)
-	 * TODO: JUNIT: Close(Object) Tests
-	 */
 	
 	/*
 	 * Take(Item)
@@ -116,21 +107,19 @@ public class GamePlayerActionsTest{
 	@Test
 	public void testTakeCommand(){
 		assertEquals(3, player.get_inventory().get_items().size());
-		assertEquals(1, game.get_items().size());
-		assertEquals(wood, game.get_items().get(0));
+		assertEquals(1, starting.getObjects().get(1).getItems().size());
+		assertEquals(wood, starting.getObjects().get(1).getItems().get(0));
 		
 		game.take(wood.getName());
 		
-		assertEquals(0, game.get_items().size());
+		assertEquals(0, starting.getObjects().get(1).getItems().size());
 		assertEquals(4, player.get_inventory().get_items().size());
-		assertEquals(wood, player.get_inventory().get_items().get(0));
-		// TODO: JUNIT: Check dialog
+		assertEquals(wood, player.get_inventory().get_items().get(3));
+		
+		// Check dialog
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("You have taken " + wood.getName(), game.get_dialog().get(0));
 	}
-	
-	/* 
-	 * Take(Object, Item)
-	 * TODO: JUNIT: Take(Object, Item) Tests
-	 */
 	
 	/*
 	 * Look
@@ -158,21 +147,4 @@ public class GamePlayerActionsTest{
 		assertEquals(northOfStarting.getName(), game.get_dialog().get(0));
 		assertEquals(northOfStarting.getLongDescription(), game.get_dialog().get(1));
 	}
-	
-	/*
-	 * Fast Travel
-	 * TODO: JUNIT: Fast Travel Tests
-	 */
-	/*
-	 * Buy(Item)
-	 * TODO: JUNIT: Buy(Item) Tests
-	 */
-	/*
-	 * Sell(Item)
-	 * TODO: JUNIT: Sell(Item) Tests
-	 */
-	/*
-	 * Talk(NPC)
-	 * TODO: JUNIT: Talk(NPC) Tests
-	 */
 }

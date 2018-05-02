@@ -1,21 +1,16 @@
 package edu.ycp.cs320.middle_earth.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 
 import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 import edu.ycp.cs320.middle_earth.model.CombatSituation;
 import edu.ycp.cs320.middle_earth.model.Quest;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
-import edu.ycp.cs320.middle_earth.model.Characters.NPC;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 import edu.ycp.cs320.middle_earth.model.Constructs.ItemType;
 import edu.ycp.cs320.middle_earth.model.Constructs.Map;
-import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
 import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
-import edu.ycp.cs320.middle_earth.persist.FakeDatabase;
 import edu.ycp.cs320.middle_earth.persist.DerbyDatabase;
 import edu.ycp.cs320.middle_earth.persist.IDatabase;
 
@@ -133,6 +128,14 @@ public class Game implements Engine{
 	public String get_mapTile_name(){
 		return map.getMapTiles().get(get_player().get_location()).getName();
 	}
+	
+	public CombatSituation getBattle(){
+		return battle;
+	}
+	
+	public void setBattle(CombatSituation battle){
+		this.battle = battle;
+	}
 
 	public String get_display_text(){
 		String display_text = "";
@@ -169,12 +172,10 @@ public class Game implements Engine{
 	
 	@Override
 	public String handle_command(String commandStr){
-		// TODO: Implement all the command calls in here
 		String returnMessage = null;
 		String command = "";
 		String arg = null;
 		String[] args = commandStr.split(" ");
-		// Fixed these if-else if blocks (previously the Too many arguments was not being executed).
 		if(args.length > 2){
 			return "Too many arguments in your command";
 		}else if(args.length == 2){
@@ -185,9 +186,7 @@ public class Game implements Engine{
         }
 		
 		if (commandStr.equalsIgnoreCase("save")){
-			DatabaseProvider.setInstance(new DerbyDatabase());
-			IDatabase db = DatabaseProvider.getInstance();
-			db.saveGame(this);
+			save();
 		} else if(mode.equalsIgnoreCase("game")){
 			if(battle != null && !battle.isDone()){
 				if(command.equalsIgnoreCase("attack")){
@@ -238,9 +237,9 @@ public class Game implements Engine{
 						if(get_player().get_location() == 7) {
 							add_dialog("You take the pointy stick and throw it at the troll.");
 							add_dialog("It manages to poke him in the eye and knock him off balance.");
-							add_dialog("As he falls he drops his sword, you quickly spring into action.");
+							add_dialog("As he falls, he drops his sword and you quickly spring into action.");
 							add_dialog("You grab his sword off the ground and lay waste to the foul beast.");
-							add_dialog("!!!CONGRATULATIONS!!! You have conqured this small land and laid waste the the evil plauging it.");
+							add_dialog("!!!CONGRATULATIONS!!! You have conquered this small land and laid waste to the evil plaguing it!");
 						}else{
 							// This is mainly here simply due to the special case 2 lines above.
 							// Otherwise, this line isn't as necessary.
@@ -338,6 +337,7 @@ public class Game implements Engine{
 		for (Object object : objects){
 			// TODO: NOTE: This doesn't account for capitals (e.g. if someone types Climb instead of climb)
 			// I would change it, but it's 9:11 PM the night before Milestone 3 so I'm afraid of breaking stuff
+			command = command.toLowerCase();
 			if (object.getCommandResponses().containsKey(command)) {
 				if (object.getName().toLowerCase().contains(arg.toLowerCase())) {
 					action_object = object;
@@ -355,46 +355,31 @@ public class Game implements Engine{
 		return isObjectCommand;
 	}
 	
-	private void equip(){
-		
-	}
-	
 	@Override
 	public void check_character_sheet(){
-			mode = "character";
+		mode = "character";
 	}
 	
 	@Override
 	public void check_inventory(){
-		//if(mode.equalsIgnoreCase("inventory")){
-		//	add_dialog("You're already in it!");
-		//}else{
-			mode = "inventory";
-		//}
+		mode = "inventory";
 	}
 	
 	@Override
 	public void check_map(){
-		//if(mode.equalsIgnoreCase("map")){
-		//	add_dialog("You're already in it!");
-		//}else{
-			mode = "map";
-		//}
+		mode = "map";
 	}
 	
 	@Override
 	public void return_to_game(){
-		//if(mode.equalsIgnoreCase("game")){
-		//	add_dialog("You're playing it!");
-		//}else{
-			mode = "game";
-		//}
+		mode = "game";
 	}
 	
 	@Override
 	public void save(){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
+		DatabaseProvider.setInstance(new DerbyDatabase());
+		IDatabase db = DatabaseProvider.getInstance();
+		db.saveGame(this);
 	}
 
 	
@@ -408,18 +393,6 @@ public class Game implements Engine{
 	 */
 	
 	@Override
-	public void open(Object object){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-	
-	@Override
-	public void close(Object object){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-	
-	@Override
 	public void take(String name){
 		int location = get_player().get_location();
 		Object holder = new Object();
@@ -428,7 +401,7 @@ public class Game implements Engine{
 			for (Object object : map.getMapTiles().get(location).getObjects()) {
 				ArrayList<Item> items = object.getItems();
 				for (Item item : items) {
-					if (item.getName().toLowerCase().contains(name)) {
+					if (item.getName().toLowerCase().contains(name.toLowerCase())) {
 						lookFor = item;
 						holder = object;
 						get_player().get_inventory().get_items().add(item);
@@ -446,42 +419,11 @@ public class Game implements Engine{
 		}
 		
 	}
-
-	@Override
-	public void take(Object object, Item item){
-		
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
 	
 	@Override
 	public void look(){
 		add_dialog(get_mapTile_name());
     	add_dialog(get_mapTile_longDescription());
-	}
-	
-	@Override
-	public void fast_travel(){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-	
-	@Override
-	public void buy(Item item){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-	
-	@Override
-	public void sell(Item item){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-	
-	@Override
-	public void talk(NPC npc){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
 	}
 	
 	/*
@@ -536,17 +478,5 @@ public class Game implements Engine{
 		}
 		map.getMapTiles().get(player.get_location()).setVisited(true);
 		
-	}
-	
-	@Override
-	public void attack(Character character){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-	
-	@Override
-	public void loot(Character character){
-		// TODO Implement
-		throw new UnsupportedOperationException("Not implemented yet!");
 	}
 }

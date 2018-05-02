@@ -1,7 +1,5 @@
 package edu.ycp.cs320.middle_earth.persist.queries;
 
-import java.util.ArrayList;
-
 import edu.ycp.cs320.middle_earth.model.Characters.Inventory;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;

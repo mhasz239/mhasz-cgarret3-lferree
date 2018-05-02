@@ -2,11 +2,9 @@ package edu.ycp.cs320.middle_earth.persist.queries;
 
 import java.util.ArrayList;
 
-import edu.ycp.cs320.middle_earth.model.Constructs.Map;
 import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
 import edu.ycp.cs320.middle_earth.persist.IDatabase;
 import edu.ycp.cs320.middle_earth.persist.InitDatabase;
-import persist.dbmod.User;
 
 public class QueryForUsers {
 	public static void main(String[] args) throws Exception {

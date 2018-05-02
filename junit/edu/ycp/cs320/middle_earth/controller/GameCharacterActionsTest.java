@@ -1,7 +1,5 @@
 package edu.ycp.cs320.middle_earth.controller;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
 
 import org.junit.Before;
@@ -201,14 +199,4 @@ public class GameCharacterActionsTest{
 	public void testMoveNorthWestInvalid(){
 		testInvalidMove(game, northOfStarting, "northwest");
 	}
-	
-	/*
-	 * Attack
-	 * TODO: JUNIT: Attack tests
-	 */
-	
-	/*
-	 * Loot
-	 * TODO: JUNIT: Loot tests
-	 */
 }

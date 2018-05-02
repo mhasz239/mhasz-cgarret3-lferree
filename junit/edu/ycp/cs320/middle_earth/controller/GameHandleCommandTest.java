@@ -8,6 +8,7 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.ycp.cs320.middle_earth.model.CombatSituation;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.Inventory;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
@@ -21,8 +22,6 @@ import edu.ycp.cs320.middle_earth.model.Constructs.Object;
  * tested in other Test classes.
  * 
  * Movement Commands are in a separate class due to there being a lot of different ones.
- * 
- * TODO: JUNIT: Get Matt's commit of Game, then test get_dialog() for every command tested.
  */
 public class GameHandleCommandTest{
 	private Game game;
@@ -36,7 +35,6 @@ public class GameHandleCommandTest{
 	private MapTile starting;
 	private MapTile northOfStarting;
 	private MapTile northEastOfStarting;
-	private String invalidMode;
 	private String noComprend;
 	
 	@Before
@@ -98,15 +96,6 @@ public class GameHandleCommandTest{
 		map.addMapTile(northEastOfStarting);
 		game.set_map(map);
 		
-		tree = new Object();
-		tree.setName("Tree");
-		HashMap<String, String> responses = new HashMap<String, String>();
-		responses.put("climb", "It's high up here!");
-		tree.setCommandResponses(responses);
-		ArrayList<Object> objs = new ArrayList<Object>();
-		objs.add(tree);
-		starting.setObjects(objs);
-		
 		ladder = new Object();
 		ladder.setName("Ladder");
 		HashMap<String, String> responses2 = new HashMap<String, String>();
@@ -116,15 +105,25 @@ public class GameHandleCommandTest{
 		objs2.add(ladder);
 		northOfStarting.setObjects(objs2);
 		
-		invalidMode = "You can't use that command here.";
-		
 		wood = new Item();
 		wood.setName("wood");
-		// TODO: JUNIT: Set wood location to 0 (starting).
 		
 		ArrayList<Item> items = new ArrayList<Item>();
 		items.add(wood);
-		game.set_items(items);
+		
+		// Object burple holds wood
+		Object burple = new Object();
+		burple.setItems(items);
+		
+		tree = new Object();
+		tree.setName("Tree");
+		HashMap<String, String> responses = new HashMap<String, String>();
+		responses.put("climb", "It's high up here!");
+		tree.setCommandResponses(responses);
+		ArrayList<Object> objs = new ArrayList<Object>();
+		objs.add(tree);
+		objs.add(burple);
+		starting.setObjects(objs);
 		
 		noComprend = "Sorry, I didn't understand that.";
 	}
@@ -293,12 +292,6 @@ public class GameHandleCommandTest{
 				";Quest item: " + String.valueOf(item.getIsQuestItem()), response);
 	}
 	
-	/*
-	 * Player-Specific Commands
-	 * TODO: JUNIT: Open(Object) Tests
-	 * TODO: JUNIT: Close(Object) Tests
-	 */
-	
 	/* 
 	 * Player-Specific Commands
 	 * Climb(Object) Commands
@@ -365,47 +358,55 @@ public class GameHandleCommandTest{
 	@Test
 	public void testTakeCommand(){
 		assertEquals(3, player.get_inventory().get_items().size());
-		assertEquals(1, game.get_items().size());
-		assertEquals(wood, game.get_items().get(0));
+		assertEquals(1, starting.getObjects().get(1).getItems().size());
+		assertEquals(wood, starting.getObjects().get(1).getItems().get(0));
 		
 		game.handle_command("take wood");
 		
-		assertEquals(0, game.get_items().size());
+		assertEquals(0, starting.getObjects().get(1).getItems().size());
 		assertEquals(4, player.get_inventory().get_items().size());
-		assertEquals(wood, player.get_inventory().get_items().get(0));
-		// TODO: JUNIT: Check dialog here.
+		assertEquals(wood, player.get_inventory().get_items().get(3));
+		
+		// Check dialog
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("You have taken " + wood.getName(), game.get_dialog().get(0));
 	}
 	
 	@Test
 	public void testTakeCommandItemNotOnTile(){
-		// TODO: JUNIT: Set location of wood to a different tile than starting.
+		// Set location of wood to a different tile than starting.
+		starting.setObjects(null);
+		ArrayList<Object> objs = new ArrayList<Object>();
+		Object derp = new Object();
+		ArrayList<Item> items = new ArrayList<Item>();
+		items.add(wood);
+		derp.setItems(items);
+		objs.add(derp);
+		northOfStarting.setObjects(objs);
+		
 		assertEquals(3, player.get_inventory().get_items().size());
-		assertEquals(1, game.get_items().size());
-		assertEquals(wood, game.get_items().get(0));
+		assertEquals(wood, northOfStarting.getObjects().get(0).getItems().get(0));
 		
 		game.handle_command("take wood");
 		
-		assertEquals(0, game.get_items().size());
-		assertEquals(4, player.get_inventory().get_items().size());
-		assertEquals(wood, player.get_inventory().get_items().get(0));
-		throw new UnsupportedOperationException("Cannot set location of wood to do this test yet.");
-		// TODO: JUNIT: Check dialog here
+		assertEquals(1, northOfStarting.getObjects().get(0).getItems().size());
+		assertEquals(wood, northOfStarting.getObjects().get(0).getItems().get(0));
+		assertEquals(3, player.get_inventory().get_items().size());
+		
+		// Check dialog
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("There is nothing to take here.", game.get_dialog().get(0));
 	}
 	
 	@Test
 	public void testTakeCommandItemDoesntExist(){
 		assertEquals(3, player.get_inventory().get_items().size());
-		assertEquals(1, game.get_items().size());
-		assertEquals(wood, game.get_items().get(0));
 		
 		game.handle_command("take cheese");
 		
-		assertEquals(1, game.get_items().size());
 		assertEquals(3, player.get_inventory().get_items().size());
-		// TODO: JUNIT: Figure out what the message would be for not having item there. (Also for previous test).
-		//assertEquals(1, game.get_dialog().size());
-		//assertEquals("", game.get_dialog().get(0));
-		throw new UnsupportedOperationException("Don't know error message yet.");
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("You cannot take cheese here.", game.get_dialog().get(0));
 	}
 	
 	@Test
@@ -415,24 +416,16 @@ public class GameHandleCommandTest{
 		
 		// Check that stuff is like this before command run
 		assertEquals(3, player.get_inventory().get_items().size());
-		assertEquals(1, game.get_items().size());
-		assertEquals(wood, game.get_items().get(0));
 		
 		// Run command and get response
 		String response = game.handle_command("take wood");
 		
 		// Make sure stuff wasn't changed
-		assertEquals(1, game.get_items().size());
 		assertEquals(3, player.get_inventory().get_items().size());
 		
 		// Check that response is correct
 		assertEquals("Sorry, I didn't understand that.", response);
 	}
-	
-	/*
-	 * Player-Specific Commands
-	 * TODO: JUNIT: Take(Object, Item) Tests
-	 */
 	
 	/*
 	 * Player-Specific Commands
@@ -472,21 +465,61 @@ public class GameHandleCommandTest{
 	
 	/*
 	 * Player-Specific Commands
-	 * TODO: JUNIT: Fast Travel Tests
-	 * TODO: JUNIT: Buy(Item) Tests
-	 * TODO: JUNIT: Sell(Item) Tests
-	 * TODO: JUNIT: Talk(NPC) Tests
+	 * Attack Tests
 	 */
+	@Test
+	public void testAttackNotInCombat(){
+		// Run command
+		game.handle_command("attack");
+		
+		// Check proper error stuff
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("You're not in combat!", game.get_dialog().get(0));
+	}
 	
-	/*
-	 * Character-Specific Actions
-	 * Attack Command
-	 * TODO: JUNIT: Attack command tests
-	 */
+	@Test
+	public void testAttackOnBossTile(){
+		// Set up pre-conditions
+		game.get_player().set_location(7);
+		
+		// Run command
+		game.handle_command("attack");
+		
+		// Check proper messages
+		assertEquals(5, game.get_dialog().size());
+		assertEquals("You take the pointy stick and throw it at the troll.", game.get_dialog().get(0));
+		assertEquals("It manages to poke him in the eye and knock him off balance.", game.get_dialog().get(1));
+		assertEquals("As he falls, he drops his sword and you quickly spring into action.", game.get_dialog().get(2));
+		assertEquals("You grab his sword off the ground and lay waste to the foul beast.", game.get_dialog().get(3));
+		assertEquals("!!!CONGRATULATIONS!!! You have conquered this small land and laid waste to the evil plaguing it!", 
+				game.get_dialog().get(4));
+	}
 	
-	/*
-	 * Character-Specific Actions
-	 * Loot Command
-	 * TODO: JUNIT: Loot command tests
-	 */
+	@Test
+	public void testAttackNoTarget(){
+		// Set up pre-conditions
+		game.setBattle(new CombatSituation(game, 1, 0));
+		game.set_dialog(new ArrayList<String>());
+		
+		// Run command
+		game.handle_command("attack");
+		
+		// Check error
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("What do you want to attack? (use name or race)", game.get_dialog().get(0));
+	}
+	
+	@Test
+	public void testNonAttackCommandInCombat(){
+		// Set up pre-conditions
+		game.setBattle(new CombatSituation(game, 1, 0));
+		game.set_dialog(new ArrayList<String>());
+		
+		// Run command
+		game.handle_command("boogledee boo");
+		
+		// Check error
+		assertEquals(1, game.get_dialog().size());
+		assertEquals("You're in combat!", game.get_dialog().get(0));
+	}
 }
