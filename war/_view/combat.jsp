@@ -66,7 +66,7 @@
 		<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	</head>
 
-	<body onload="getScreen()">
+	<body>
 		<div id="wrapper" style="height:100%;">
 			<div id="dialog">
 				<ul>
@@ -119,11 +119,5 @@
 				</div>
 			</c:if>
 		</div>
-		<script>
-		function getScreen(){
-			console.log($(window).height());
-			console.log($(window).width());
-		}
-		</script>
 	</body>
 </html>
