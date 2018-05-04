@@ -31,7 +31,7 @@ public class ImageServlet extends HttpServlet {
     	File currentDirFile = new File(".");
 		String path = currentDirFile.getAbsolutePath();
 		path = path.substring(0, path.length()-1);
-		path = path+"src/edu/ycp/cs320/middle_earth/images";
+		path = path+"static";
         this.imagePath = path;
 
         // In a Windows environment with the Applicationserver running on the
@@ -55,7 +55,6 @@ public class ImageServlet extends HttpServlet {
 
         // Decode the file name (might contain spaces and on) and prepare file object.
         File image = new File(imagePath, URLDecoder.decode(requestedImage, "UTF-8"));
-        System.out.println(imagePath + URLDecoder.decode(requestedImage, "UTF-8"));
         // Check if file actually exists in filesystem.
         if (!image.exists()) {
             // Do your thing if the file appears to be non-existing.

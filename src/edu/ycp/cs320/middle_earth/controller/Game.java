@@ -142,6 +142,31 @@ public class Game implements Engine{
 		this.battle = battle;
 	}
 
+	public String get_combat_text(){
+		String combat_text = "";
+		if (this.dialog.size() > 10) {
+			for (int i = this.dialog.size()-11; i < this.dialog.size(); i++) {
+				// Is it supposed to have a \n before the first line? (Not sure)
+				if (i == 0) {
+					combat_text = this.dialog.get(i);
+				} else {
+					combat_text = combat_text+";"+this.dialog.get(i);
+				}
+			}
+		} else {
+			for (int i = 0; i < this.dialog.size(); i++) {
+				// Is it supposed to have a \n before the first line? (Not sure)
+				if (i == 0) {
+					combat_text = this.dialog.get(i);
+				} else {
+					combat_text = combat_text+";"+this.dialog.get(i);
+				}
+			}
+		}
+		
+		return combat_text;
+	}
+	
 	public String get_display_text(){
 		String display_text = "";
 		for (int i = 0; i < this.dialog.size(); i++) {
@@ -192,7 +217,7 @@ public class Game implements Engine{
 		
 		if (commandStr.equalsIgnoreCase("save")){
 			save();
-		} else if(mode.equalsIgnoreCase("game")){
+		} else if (mode.equalsIgnoreCase("combat")){
 			if(battle != null && !battle.isDone()){
 				if(command.equalsIgnoreCase("attack")){
 					if(arg == null){
@@ -202,6 +227,23 @@ public class Game implements Engine{
 						battle.playerAttackEnemy(this, 0, arg);
 					}
 				}else{
+					add_dialog("You're in combat!");
+				}
+			} else {
+				mode_change("game");
+			}
+		} else if(mode.equalsIgnoreCase("game")){
+			if(battle != null && !battle.isDone()){
+				if(command.equalsIgnoreCase("attack")){
+					if(arg == null){
+						add_dialog("What do you want to attack? (use name or race)");
+					}else{
+						// TODO: Currently Player index is 0, need to find it based on current player (for multiplayer)
+						battle.playerAttackEnemy(this, 0, arg);
+					}
+				}else if (command.equalsIgnoreCase("combat")){
+					
+				} else {
 					add_dialog("You're in combat!");
 				}
 			}else{

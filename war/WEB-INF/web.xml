@@ -35,8 +35,8 @@
     <servlet-class>edu.ycp.cs320.middle_earth.servlet.CharacterServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>LoginServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.middle_earth.servlet.LoginServlet</servlet-class>
+    <servlet-name>CombatServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.middle_earth.servlet.CombatServlet</servlet-class>
   </servlet>
   
   
@@ -70,8 +70,8 @@
     <url-pattern>/character</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>LoginServlet</servlet-name>
-    <url-pattern>/login</url-pattern>
+    <servlet-name>CombatServlet</servlet-name>
+    <url-pattern>/combat</url-pattern>
   </servlet-mapping>
   
 

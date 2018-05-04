@@ -91,7 +91,7 @@ public class TileMap {
 					String path = currentDirFile.getAbsolutePath();
 					path = path.substring(0, path.length()-1);
 					String mapPath = path + "src/edu/ycp/cs320/middle_earth/images/mapTiles/"+rc+".png";
-					String playerPath = path + "src/edu/ycp/cs320/middle_earth/images/mapTiles/player.png";
+					String playerPath = path + "static/players/player1.png";
 					BufferedImage img = null;
 					try {
 						img = ImageIO.read(new File(mapPath));

@@ -119,7 +119,9 @@ public class MapPanel  extends JPanel implements Runnable {
 			File currentDirFile = new File(".");
 			String path = currentDirFile.getAbsolutePath();
 			path = path.substring(0, path.length()-1);
-			ImageIO.write(image,"jpeg", new File (path+"src/edu/ycp/cs320/middle_earth/images/map.jpeg"));
+			path = path+"static/map/map.jpeg";
+			System.out.println(path);
+			ImageIO.write(image,"jpeg", new File (path));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -131,7 +133,7 @@ public class MapPanel  extends JPanel implements Runnable {
 		File currentDirFile = new File(".");
 		String path = currentDirFile.getAbsolutePath();
 		path = path.substring(0, path.length()-1);
-		path = path+"src/edu/ycp/cs320/middle_earth/images/"+username+"/map"+gameID+".txt";
+		path = path+"static/map/"+username+gameID+".txt";
 		tileMap.save(path);
 	}
 }

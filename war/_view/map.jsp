@@ -17,7 +17,7 @@
    	 		width:  100%;
    	 	}
    	 	#map {
-   	 		background-image: url("${pageContext.request.contextPath}/image/map.jpeg");
+   	 		background-image: url("${pageContext.request.contextPath}/image/map/map.jpeg");
    	 		background-repeat: no-repeat;
    	 		height: 400px;
    	 		width: 400px;

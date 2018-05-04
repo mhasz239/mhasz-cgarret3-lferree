@@ -92,7 +92,7 @@
 						</tr>
 					</table>
 				</form>	
-			                	</div>
+				</div>
 					
 			</c:otherwise>
 		

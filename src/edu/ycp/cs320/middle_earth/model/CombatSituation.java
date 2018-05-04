@@ -21,6 +21,7 @@ public class CombatSituation{
 	 * @param players Any Players involved in the Combat.
 	 */
 	public CombatSituation(Game game, int enemies, int ... players){
+		game.set_mode("combat");
 		characterIDs = new ArrayList<Integer>();
 		String combatString = "";
 		for(int i = 0; i < players.length; i++){
@@ -166,7 +167,7 @@ public class CombatSituation{
 		int damage = calculateDamage(game, playerIndex, characterIDs.get(currentIDsIndex));
 		player.set_hit_points(playerHP - damage);
 		game.add_dialog(enemy.get_name() + " attacked you for " + damage + " damage.");
-		game.add_dialog("You have " + player.get_hit_points() + " HP left.");
+		//game.add_dialog("You have " + player.get_hit_points() + " HP left.");
 		
 		// Check if player has died
 		if(player.get_hit_points() <= 0){
@@ -269,6 +270,7 @@ public class CombatSituation{
 		
 		// Default is done
 		done = true;
+		game.set_mode("game");
 		
 		// Check for alive combatant that isn't the player.
 		for(int characterIndex: characterIDs){

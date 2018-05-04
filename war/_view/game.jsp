@@ -16,37 +16,13 @@
 </head>
 
 <body>
-<!--
-<c:if test="${! empty errorMessage}">
-    <div class="error">${errorMessage}</div>
-</c:if>
--->
-
-
-
-<div>
-<!-- <h1><u>Adventures of Middle Earth</u></h1> -->
-<ol>
-<c:forTokens items = "${dialog}" delims = ";" var = "item" >
-<li><c:out value = "${item}"/></li>
-</c:forTokens>
-</ol>
-</div>
-<span id="end"></span>
-
-<!--
-<div>
-<p>${map}</p>
-</div>
-<form action="${pageContext.servletContext.contextPath}/game" method="post">
-    <table>
-        <tr>
-            <td class="label">Text Command:</td>
-            <td><input type="text" name="command" size="12" value="" /></td>
-        </tr>
-    </table>
-    <input type="Submit" name="submit" value="Submit">
-</form>
--->
+	<div>
+		<ol>
+			<c:forTokens items = "${dialog}" delims = ";" var = "item" >
+				<li><c:out value = "${item}"/></li>
+			</c:forTokens>
+		</ol>
+	</div>
+	<span id="end"></span>
 </body>
 </html>
