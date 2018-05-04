@@ -27,7 +27,6 @@ public class GameServlet extends HttpServlet {
         game.set_mode("game");
         if (command != null) {
         	// holds the error message text, if there is any
-        	System.out.println(command);
         	String errorMessage = null;
         	
         	errorMessage = game.handle_command(command);
@@ -35,7 +34,6 @@ public class GameServlet extends HttpServlet {
         		game.add_dialog(errorMessage);
         	}
         } else {
-        	System.out.println("command = null");
         	game.add_dialog(game.get_mapTile_name());
         	game.add_dialog(game.get_mapTile_longDescription());
         }

@@ -3,7 +3,10 @@ package edu.ycp.cs320.middle_earth.controller;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JFrame;
+
 import edu.ycp.cs320.middle_earth.model.Constructs.Object;
+import edu.ycp.cs320.middle_earth.images.MapPanel;
 import edu.ycp.cs320.middle_earth.model.CombatSituation;
 import edu.ycp.cs320.middle_earth.model.Quest;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
@@ -23,12 +26,17 @@ public class Game implements Engine{
 	private ArrayList<String> dialog;
 	private String mode;
 	private CombatSituation battle;
+	private JFrame mapIMG = new JFrame("Map");
+	private MapPanel mapPanel = new MapPanel();
 	
 	public Game(){
 		// dialog and mode are passed back and forth with each servlet/jsp call
 		dialog = new ArrayList<String>();
 		mode = "game";
 		
+		mapIMG.setContentPane(mapPanel);
+		mapIMG.pack();
+		mapIMG.setVisible(false);
 		//####################################################
 		/* This does not work for us, because it resets the database everytime a new page is called
 		 * this means that we reset the location of the player, reset his inventory, reset the entire
@@ -435,7 +443,6 @@ public class Game implements Engine{
 		Character player = characters.get(0);
 		int moveValue = map.getMapTiles().get(player.get_location()).getMoveValue(direction.toLowerCase());
 		if (moveValue != 0) {
-			System.out.println(player.get_location());
 			if (player.get_location() == 8 && direction.equalsIgnoreCase("west")) {
 				boolean key = false;
 				for (Item item : player.get_inventory().get_items()) {
@@ -444,6 +451,7 @@ public class Game implements Engine{
 					}
 				}
 				if (key) {
+					mapPanel.setDirection(direction);
 					add_dialog("You use the Ornate Key and open the gate.");
 					player.set_location(player.get_location() + moveValue);
 					add_dialog(map.getMapTiles().get(player.get_location()).getLongDescription());
@@ -451,17 +459,17 @@ public class Game implements Engine{
 					add_dialog("You seem to be missing something to be able to go that direction.");
 				}
 			} else {
+				mapPanel.setDirection(direction);
 				player.set_location(player.get_location() + moveValue);
 				add_dialog(map.getMapTiles().get(player.get_location()).getName());
 				String string = map.getMapTiles().get(player.get_location()).getLongDescription();
-				int count = 0;
+				
 				if (map.getMapTileByID(player.get_location()).getObjects() != null) {
 					for (Object object : map.getMapTileByID(player.get_location()).getObjects()){
 						string = string + " " + object.getLongDescription();
-						count++;
+						
 					}
 				}
-				System.out.println(count);
 				add_dialog(string);
 				
 				// TODO: Check if on the same tile as another player to trigger pvp combat (and thus not do an encounter check)
@@ -479,4 +487,10 @@ public class Game implements Engine{
 		map.getMapTiles().get(player.get_location()).setVisited(true);
 		
 	}
+	
+	
+	public void testing(String username){
+		mapPanel.save(username, 1);
+	}
+	
 }

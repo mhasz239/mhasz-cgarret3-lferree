@@ -4,8 +4,12 @@
               http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5"
          xmlns="http://java.sun.com/xml/ns/javaee">
-
+	
   <!-- Servlets -->
+  <servlet>
+    <servlet-name>ImageServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.middle_earth.servlet.ImageServlet</servlet-class>
+  </servlet>
   <servlet>
     <servlet-name>IndexServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.middle_earth.servlet.IndexServlet</servlet-class>
@@ -38,6 +42,10 @@
   
   <!-- Servlet mappings -->
   <servlet-mapping>
+    <servlet-name>ImageServlet</servlet-name>
+    <url-pattern>/image</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
     <servlet-name>IndexServlet</servlet-name>
     <url-pattern>/index</url-pattern>
   </servlet-mapping>
@@ -68,6 +76,6 @@
   
 
   <welcome-file-list>
-    <welcome-file>login</welcome-file>
+    <welcome-file>index</welcome-file>
   </welcome-file-list>
 </web-app>

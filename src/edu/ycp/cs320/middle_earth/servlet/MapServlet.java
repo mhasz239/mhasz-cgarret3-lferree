@@ -23,12 +23,14 @@ public class MapServlet extends HttpServlet {
 
         //Load data for the initial call to the inventory jsp
         Game game = (Game) req.getSession().getAttribute("game");
+        
+        /*
         for( MapTile tile : game.get_map().getMapTiles()) {
         	String attrName = "tile"+tile.getID();
         	req.setAttribute(attrName, tile.getVisited());
         	System.out.println(attrName + ": " + tile.getVisited());
         }
-        
+        */
         
         
         req.getRequestDispatcher("/_view/map.jsp").forward(req, resp);
