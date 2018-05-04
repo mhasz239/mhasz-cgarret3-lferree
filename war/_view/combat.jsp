@@ -10,7 +10,9 @@
         }
         #wrapper {
     		height: 100%; 
+    		min-height: 467px;
    	 		width:  100%;
+   	 		min-width: 810px;
    	 	}
    	 	#p1{
    	 		font-size:12px;
@@ -61,9 +63,10 @@
 			font-size:12px;
 		}
 		</style>
+		<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	</head>
 
-	<body>
+	<body onload="getScreen()">
 		<div id="wrapper" style="height:100%;">
 			<div id="dialog">
 				<ul>
@@ -116,5 +119,11 @@
 				</div>
 			</c:if>
 		</div>
+		<script>
+		function getScreen(){
+			console.log($(window).height());
+			console.log($(window).width());
+		}
+		</script>
 	</body>
 </html>

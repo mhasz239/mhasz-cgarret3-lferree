@@ -19,6 +19,8 @@
     		float: left;
     		width: 73%;
     		height: 75%;
+    		min-height: 467px;
+   	 		min-width: 810px;
     	}
     	#input { width = 100% }
         .error {
@@ -28,6 +30,7 @@
             text-align: right;
         }
     </style>
+    
 </head>
 <body>
 
@@ -46,7 +49,7 @@
 
 				Movement: "move (direction)" directions are north, northeast, east, southeast, south, southwest, west, northwest<br/></br>
 
-				When you enter into combat: command to use is "attack"</br></br>
+				When you are looking an enemy in the eyes, type "combat". While in combat use "attack (enemy name)"</br></br>
 
 				If you see a description of something on the try finding what command can be used on that object. I.E. if you see a bike, try "ride bike"</br>
 				Or if you think it might be an item try "take bike"</br></br>
