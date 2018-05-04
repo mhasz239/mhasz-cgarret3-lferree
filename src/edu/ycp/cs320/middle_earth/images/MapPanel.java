@@ -2,6 +2,9 @@ package edu.ycp.cs320.middle_earth.images;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+
+import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
+
 import java.awt.*;
 import java.awt.image.*;
 import java.io.File;
@@ -16,6 +19,7 @@ public class MapPanel  extends JPanel implements Runnable {
 	private Thread thread;
 	private boolean running;
 	private String direction = "";
+	private MapTile tile = new MapTile();
 	
 	private BufferedImage image;
 	private Graphics2D g;
@@ -24,6 +28,7 @@ public class MapPanel  extends JPanel implements Runnable {
 	private int targetTime = 1000 / FPS;
 	
 	private TileMap tileMap;
+	
 	
 	public MapPanel() {
 		super();
@@ -53,7 +58,7 @@ public class MapPanel  extends JPanel implements Runnable {
 		while (running) {
 			startTime = System.nanoTime();
 			if (direction != "") {
-				update(direction);
+				update(direction, tile);
 				direction = "";
 				render();
 				draw();
@@ -81,7 +86,7 @@ public class MapPanel  extends JPanel implements Runnable {
 		File currentDirFile = new File(".");
 		String path = currentDirFile.getAbsolutePath();
 		path = path.substring(0, path.length()-1);
-		tileMap = new TileMap((path + "src/edu/ycp/cs320/middle_earth/images/map.txt"), 20);
+		tileMap = new TileMap((path + "src/edu/ycp/cs320/middle_earth/images/map.txt"), 20, tile);
 		
 		
 		
@@ -94,8 +99,12 @@ public class MapPanel  extends JPanel implements Runnable {
 		this.direction = direction;
 	}
 	
-	private void update(String direction) {
-		tileMap.update(direction);
+	public void setMapTile(MapTile tile){
+		this.tile = tile;
+	}
+	
+	private void update(String direction, MapTile tile) {
+		tileMap.update(direction, tile);
 	}
 	
 	private void render() {

@@ -46,10 +46,6 @@ public class GameViewServlet extends HttpServlet {
         Game game = (Game) req.getSession().getAttribute("game");
         req.getSession().setAttribute("command", req.getParameter("command"));
         
-        if (req.getParameter("command").equalsIgnoreCase("testing")) {
-        	System.out.println((String) req.getSession().getAttribute("player"));
-        	game.testing((String) req.getSession().getAttribute("player"));
-        }
         if(game.mode_change(req.getParameter("command"))){
         	req.getSession().setAttribute("command", null);
         }

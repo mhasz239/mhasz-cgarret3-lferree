@@ -34,9 +34,6 @@ public class Game implements Engine{
 		dialog = new ArrayList<String>();
 		mode = "game";
 		
-		mapIMG.setContentPane(mapPanel);
-		mapIMG.pack();
-		mapIMG.setVisible(false);
 		//####################################################
 		/* This does not work for us, because it resets the database everytime a new page is called
 		 * this means that we reset the location of the player, reset his inventory, reset the entire
@@ -451,15 +448,17 @@ public class Game implements Engine{
 					}
 				}
 				if (key) {
-					mapPanel.setDirection(direction);
+					
 					add_dialog("You use the Ornate Key and open the gate.");
 					player.set_location(player.get_location() + moveValue);
 					add_dialog(map.getMapTiles().get(player.get_location()).getLongDescription());
+					mapPanel.setDirection(direction);
+					mapPanel.setMapTile(map.getMapTiles().get(player.get_location()));
 				} else {
 					add_dialog("You seem to be missing something to be able to go that direction.");
 				}
 			} else {
-				mapPanel.setDirection(direction);
+				
 				player.set_location(player.get_location() + moveValue);
 				add_dialog(map.getMapTiles().get(player.get_location()).getName());
 				String string = map.getMapTiles().get(player.get_location()).getLongDescription();
@@ -472,6 +471,8 @@ public class Game implements Engine{
 				}
 				add_dialog(string);
 				
+				mapPanel.setDirection(direction);
+				mapPanel.setMapTile(map.getMapTiles().get(player.get_location()));
 				// TODO: Check if on the same tile as another player to trigger pvp combat (and thus not do an encounter check)
 				
 				Random rand = new Random(System.currentTimeMillis());
@@ -489,8 +490,11 @@ public class Game implements Engine{
 	}
 	
 	
-	public void testing(String username){
-		mapPanel.save(username, 1);
+	public void startMap(){
+		mapPanel.setMapTile(map.getMapTileByID(get_player().get_location()));
+		mapIMG.setContentPane(mapPanel);
+		mapIMG.pack();
+		mapIMG.setVisible(false);
 	}
 	
 }

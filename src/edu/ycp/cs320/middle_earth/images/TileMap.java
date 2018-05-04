@@ -1,7 +1,12 @@
 package edu.ycp.cs320.middle_earth.images;
 
 import java.io.*;
+
+import javax.imageio.ImageIO;
+
+import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class TileMap {
 	private int x;
@@ -15,7 +20,7 @@ public class TileMap {
 	private int player_x;
 	private int player_y;
 	
-	public TileMap(String s, int tileSize) {
+	public TileMap(String s, int tileSize, MapTile tile) {
 		this.tileSize = tileSize;
 		
 		try {
@@ -35,6 +40,9 @@ public class TileMap {
 					map[row][col] = Integer.parseInt(tokens[col]);
 				}
 			}
+			String imgFile = getMapTileString(tile);
+			map[player_y][player_x] = Integer.parseInt(imgFile);
+			
 			
 			br.close();
 			
@@ -43,8 +51,7 @@ public class TileMap {
 		
 		}
 		
-	public void update(String direction) {
-		map[player_y][player_x] = 1;
+	public void update(String direction, MapTile tile) {
 		if (direction == "north") {
 			player_y--;
 		} else if (direction == "south") {
@@ -66,7 +73,7 @@ public class TileMap {
 			player_y++;
 			player_x--;
 		}
-		map[player_y][player_x] = 2;
+		map[player_y][player_x] = Integer.parseInt(getMapTileString(tile));
 			
 	}
 
@@ -77,15 +84,25 @@ public class TileMap {
 				
 				if (rc == 0) {
 					g.setColor(Color.BLACK);
+					g.fillRect(x + col * tileSize,  y + row * tileSize,  tileSize,  tileSize);
 				}
-				if (rc == 1) {
-					g.setColor(Color.WHITE);
-				}
-				if (rc == 2 ) {
-					g.setColor(Color.RED);
+				else {
+					File currentDirFile = new File(".");
+					String path = currentDirFile.getAbsolutePath();
+					path = path.substring(0, path.length()-1);
+					path = path + "src/edu/ycp/cs320/middle_earth/images/mapTiles/"+rc+".png";
+					BufferedImage img = null;
+					System.out.println(path);
+					try {
+						img = ImageIO.read(new File(path));
+					 
+						g.drawImage(img, x + col * tileSize, y + row * tileSize, x + (col+1) * tileSize, y + (row+1) * tileSize, 0, 0, 100, 100, null);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				
-				g.fillRect(x + col * tileSize,  y + row * tileSize,  tileSize,  tileSize);
 			}
 		}
 	}
@@ -119,5 +136,37 @@ public class TileMap {
 			}
 		}
 		
+	}
+	
+	private String getMapTileString(MapTile tile) {
+		String connection = "";
+		if (tile.getConnections().get("northwest") == 0) {
+			connection = connection + "1";
+		}
+		if (tile.getConnections().get("north") == 0) {
+			connection = connection + "2";
+		}
+		if (tile.getConnections().get("northeast") == 0) {
+			connection = connection + "3";
+		}
+		if (tile.getConnections().get("east") == 0) {
+			connection = connection + "4";
+		}
+		if (tile.getConnections().get("southeast") == 0) {
+			connection = connection + "5";
+		}
+		if (tile.getConnections().get("south") == 0) {
+			connection = connection + "6";
+		}
+		if (tile.getConnections().get("southwest") == 0) {
+			connection = connection + "7";
+		}
+		if (tile.getConnections().get("west") == 0) {
+			connection = connection + "8";
+		}
+		if (connection == "") {
+			connection = "0";
+		}
+		return connection;
 	}
 }
