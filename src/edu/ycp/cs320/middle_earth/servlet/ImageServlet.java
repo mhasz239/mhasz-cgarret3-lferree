@@ -45,7 +45,6 @@ public class ImageServlet extends HttpServlet {
 
         // Get requested image by path info.
         String requestedImage = request.getPathInfo();
-        System.out.println(requestedImage);
         // Check if file name is actually supplied to the request URI.
         if (requestedImage == null) {
             // Do your thing if the image is not supplied to the request URI.

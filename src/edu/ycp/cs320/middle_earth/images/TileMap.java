@@ -90,13 +90,18 @@ public class TileMap {
 					File currentDirFile = new File(".");
 					String path = currentDirFile.getAbsolutePath();
 					path = path.substring(0, path.length()-1);
-					path = path + "src/edu/ycp/cs320/middle_earth/images/mapTiles/"+rc+".png";
+					String mapPath = path + "src/edu/ycp/cs320/middle_earth/images/mapTiles/"+rc+".png";
+					String playerPath = path + "src/edu/ycp/cs320/middle_earth/images/mapTiles/player.png";
 					BufferedImage img = null;
-					System.out.println(path);
 					try {
-						img = ImageIO.read(new File(path));
+						img = ImageIO.read(new File(mapPath));
 					 
 						g.drawImage(img, x + col * tileSize, y + row * tileSize, x + (col+1) * tileSize, y + (row+1) * tileSize, 0, 0, 100, 100, null);
+						
+						if (col == player_x && row == player_y) {
+							img = ImageIO.read(new File(playerPath));
+							g.drawImage(img, x + col * tileSize, y + row * tileSize, x + (col+1) * tileSize, y + (row+1) * tileSize, 0, 0, 100, 100, null);
+						}
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -104,6 +109,7 @@ public class TileMap {
 				}
 				
 			}
+			
 		}
 	}
 	

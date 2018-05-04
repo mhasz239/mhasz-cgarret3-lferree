@@ -22,7 +22,7 @@ public class MapServlet extends HttpServlet {
         System.out.println("Map Servlet: doGet");
 
         //Load data for the initial call to the inventory jsp
-        Game game = (Game) req.getSession().getAttribute("game");
+        //Game game = (Game) req.getSession().getAttribute("game");
         
         /*
         for( MapTile tile : game.get_map().getMapTiles()) {
@@ -40,6 +40,6 @@ public class MapServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        System.out.println("Inventory Servlet: doPost");
+        System.out.println("Map Servlet: doPost");
     }
 }
