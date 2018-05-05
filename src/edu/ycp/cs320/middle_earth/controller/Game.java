@@ -490,12 +490,12 @@ public class Game implements Engine{
 					}
 				}
 				if (key) {
-					
 					add_dialog("You use the Ornate Key and open the gate.");
 					player.set_location(player.get_location() + moveValue);
 					add_dialog(map.getMapTiles().get(player.get_location()).getLongDescription());
 					mapPanel.setDirection(direction);
 					mapPanel.setMapTile(map.getMapTiles().get(player.get_location()));
+					battle = new CombatSituation(this, 1, 0);
 				} else {
 					add_dialog("You seem to be missing something to be able to go that direction.");
 				}
