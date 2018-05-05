@@ -54,6 +54,14 @@
    	 		top: 125px;
    	 		right: 25px;
    	 	}
+   	 	#boss{
+   	 		font-size:18px;
+   	 		height: 200px;
+   	 		width: 200px;
+   	 		position: absolute;
+   	 		top: 25px;
+   	 		right: 250px;
+   	 	}
 		#dialog{
 			position: absolute;
 			top:0px;
@@ -116,6 +124,13 @@
 					<p>Name: ${e3Name}</p>
 					<p>Health: ${e3Health}</p>
 					<img src="${pageContext.request.contextPath}/image/enemies/${e3Race}.png"/>
+				</div>
+			</c:if>
+			<c:if test="${! empty b1}">
+				<div id="boss">
+					<p>Name: ${bossName}</p>
+					<p>Health: ${bossHealth}</p>
+					<img src="${pageContext.request.contextPath}/image/enemies/${bossRace}.png"/>
 				</div>
 			</c:if>
 		</div>
