@@ -90,7 +90,7 @@ public class TileMap {
 					File currentDirFile = new File(".");
 					String path = currentDirFile.getAbsolutePath();
 					path = path.substring(0, path.length()-1);
-					String mapPath = path + "src/edu/ycp/cs320/middle_earth/images/mapTiles/"+rc+".png";
+					String mapPath = path + "src/edu/ycp/cs320/middle_earth/images/"+rc+".png";
 					String playerPath = path + "src/edu/ycp/cs320/middle_earth/images/player.png";
 					BufferedImage img = null;
 					try {
