@@ -37,6 +37,14 @@ public class MapPanel  extends JPanel implements Runnable {
 		requestFocus();
 	}
 	
+	public MapPanel(MapTile tile) {
+		super();
+		setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		setFocusable(true);
+		requestFocus();
+		this.tile = tile;
+	}
+	
 	public void addNotify() {
 		super.addNotify();
 		if (thread == null) {
@@ -86,6 +94,7 @@ public class MapPanel  extends JPanel implements Runnable {
 		File currentDirFile = new File(".");
 		String path = currentDirFile.getAbsolutePath();
 		path = path.substring(0, path.length()-1);
+		System.out.println(tile);
 		tileMap = new TileMap((path + "src/edu/ycp/cs320/middle_earth/images/map5-5.txt"), 80, tile);
 		
 		
