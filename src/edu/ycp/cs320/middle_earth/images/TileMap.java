@@ -81,7 +81,6 @@ public class TileMap {
 		for (int row = 0; row < mapHeight; row++){
 			for (int col = 0; col < mapWidth; col++) {
 				int rc = map[row][col];
-				
 				if (rc == 0) {
 					g.setColor(Color.BLACK);
 					g.fillRect(x + col * tileSize,  y + row * tileSize,  tileSize,  tileSize);
@@ -90,7 +89,7 @@ public class TileMap {
 					File currentDirFile = new File(".");
 					String path = currentDirFile.getAbsolutePath();
 					path = path.substring(0, path.length()-1);
-					String mapPath = path + "src/edu/ycp/cs320/middle_earth/images/"+rc+".png";
+					String mapPath = path + "src/edu/ycp/cs320/middle_earth/images/mapTiles/"+rc+".png";
 					String playerPath = path + "src/edu/ycp/cs320/middle_earth/images/player.png";
 					BufferedImage img = null;
 					try {

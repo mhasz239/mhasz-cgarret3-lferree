@@ -24,8 +24,6 @@ public class MapPanel  extends JPanel implements Runnable {
 	private BufferedImage image;
 	private Graphics2D g;
 	
-	private int FPS = 30;
-	private int targetTime = 1000 / FPS;
 	
 	private TileMap tileMap;
 	
@@ -35,6 +33,14 @@ public class MapPanel  extends JPanel implements Runnable {
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setFocusable(true);
 		requestFocus();
+	}
+	
+	public MapPanel(MapTile tile) {
+		super();
+		setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		setFocusable(true);
+		requestFocus();
+		this.tile = tile;
 	}
 	
 	public void addNotify() {
@@ -48,31 +54,16 @@ public class MapPanel  extends JPanel implements Runnable {
 	public void run() {
 		init();
 		
-		long startTime;
-		long urdTime;
-		long waitTime;
-		
 		render();
 		draw();
 		
 		while (running) {
-			startTime = System.nanoTime();
 			if (direction != "") {
 				update(direction, tile);
 				direction = "";
 				render();
 				draw();
 			}
-			
-			urdTime = (System.nanoTime() - startTime) / 100000;
-			waitTime = targetTime - urdTime; 
-			
-			try{
-				Thread.sleep(waitTime);
-			} catch (Exception e) {
-				
-			}
-			
 		}
 	}
 	
@@ -120,7 +111,6 @@ public class MapPanel  extends JPanel implements Runnable {
 			String path = currentDirFile.getAbsolutePath();
 			path = path.substring(0, path.length()-1);
 			path = path+"static/map/map.jpeg";
-			System.out.println(path);
 			ImageIO.write(image,"jpeg", new File (path));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
