@@ -28,6 +28,7 @@ public class QueryForMapTileByID {
 					+ mapTile.getName() + "\n" 
 					+ mapTile.getLongDescription() + "\n" 
 					+ mapTile.getShortDescription() + "\n"
+					+ mapTile.getAreaDifficulty() + "\n"
 					+ mapTile.getConnections().get("north") + " north\n"
 					+ mapTile.getConnections().get("northeast") + " northeast\n"
 					+ mapTile.getConnections().get("east") + " east\n"

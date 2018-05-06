@@ -390,7 +390,8 @@ public class DerbyDatabase implements IDatabase {
 							"       generated always as identity (start with 1, increment by 1), " +
 							"   maptilename varchar(40)," +							
 							"	longdescription varchar(200)," +
-							"	shortdescription varchar(100)" +
+							"	shortdescription varchar(100)," +
+							"	difficulty int" +
 							")"
 					);
 					stmt5.executeUpdate();
@@ -636,11 +637,12 @@ public class DerbyDatabase implements IDatabase {
 					}
 					insertMapTileConnections.executeBatch();
 					
-					insertMapTile = conn.prepareStatement("insert into maptiles (maptilename, longdescription, shortdescription) values (?, ?, ?)");
+					insertMapTile = conn.prepareStatement("insert into maptiles (maptilename, longdescription, shortdescription, difficulty) values (?, ?, ?, ?)");
 					for (MapTile mapTile : mapTileList) {
 						insertMapTile.setString(1, mapTile.getName());
 						insertMapTile.setString(2, mapTile.getLongDescription());
 						insertMapTile.setString(3, mapTile.getShortDescription());
+						insertMapTile.setInt(4, mapTile.getAreaDifficulty());
 						
 						insertMapTile.addBatch();
 					}

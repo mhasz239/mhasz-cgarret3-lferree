@@ -31,6 +31,7 @@ public class QueryForMapTiles {
 						+ "\nMapTile Name = " + mapTile.getName() 
 						+ "\nLong Desc = " + mapTile.getLongDescription() 
 						+ "\nShort Desc = "	+ mapTile.getShortDescription() 
+						+ "\nArea Difficulty = " + mapTile.getAreaDifficulty()
 						+ "\n"
 						+ mapTile.getConnections().get("north") + " north\n"
 						+ mapTile.getConnections().get("northeast") + " northeast\n"

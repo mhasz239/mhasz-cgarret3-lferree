@@ -273,6 +273,7 @@ public class InitialData {
 				mapTile.setName(i.next());
 				mapTile.setLongDescription(i.next());
 				mapTile.setShortDescription(i.next());
+				mapTile.setAreaDifficulty(Integer.parseInt(i.next()));
 				
 				mapTileList.add(mapTile);
 			}
