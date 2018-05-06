@@ -38,18 +38,10 @@ public class CombatSituation{
 		}
 		random = new Random(System.nanoTime());
 		for(int i = 0; i < enemies; i++){
-			Enemy enemy = null;
-			try{
-				ArrayList<Integer> enemyIDs = game.get_map().getMapTileByID(game.get_player().get_location()).getEnemyIDs();
-				int enemyChoice = random.nextInt(enemyIDs.size());
-				int enemyID = enemyIDs.get(enemyChoice);
-				// TODO: Ask Chris about either get Character or Enemy by ID (either would work for me)
-				//DatabaseProvider.getInstance().getEnemyByID(enemyID);
-				// Enemy will already have name, race, gender?
-				throw new IllegalArgumentException("This isn't setup yet!");
-			}catch(Exception e){
-				enemy = createEnemy();
-			}
+			Enemy enemy = createEnemy();
+			// set enemy level to "areaDifficulty" of maptile == player location.
+			// enemy.set_level(game.map.get(player.get_location).getAreaDifficulty);
+	
 			game.get_characters().add(enemy);
 			characterIDs.add(game.get_characters().size() - 1);
 			if(i == 0){
@@ -73,10 +65,6 @@ public class CombatSituation{
 		return currentIDsIndex;
 	}
 	
-	// TODO: Change this to randomize enemy
-	// Set level, hp, mp, att, def, spAtt, spDef, coins, equipment, inventory
-	// inventory = call .getItemByID
-	// wood, steel, dwarven, elven, legendary (item types, increasing rarity/goodness)
 	public Enemy createEnemy(){
 		// Grabs a random enemy
 		InitDatabase.init();
