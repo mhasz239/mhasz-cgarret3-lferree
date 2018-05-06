@@ -287,4 +287,10 @@ public class FakeDatabase implements IDatabase {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public ArrayList<String> getAllEnemyRaces() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 } 

@@ -45,4 +45,5 @@ public interface IDatabase {
 	
 	public Enemy getEnemyByRace(String race);
 	public ArrayList<Enemy> getAllEnemies();
+	public ArrayList<String> getAllEnemyRaces();
 }

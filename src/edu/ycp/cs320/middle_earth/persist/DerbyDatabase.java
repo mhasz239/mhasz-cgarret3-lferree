@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Scanner;
 
 import edu.ycp.cs320.middle_earth.controller.Game;
 import edu.ycp.cs320.middle_earth.model.Quest;
@@ -291,7 +292,7 @@ public class DerbyDatabase implements IDatabase {
 		player.get_inventory().set_weight(carryWeight);
 		
 		} catch (SQLException e) {
-			System.out.println("Not implemented\n" + e );
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -313,10 +314,12 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt7 = null;		// itemstoinventories table 
 				PreparedStatement stmt8 = null;		// players table
 				PreparedStatement stmt9 = null; 	// objectcommandresponses table
-				PreparedStatement stmt10 = null;	//	maps table
+				PreparedStatement stmt10 = null;	// maps table
 				PreparedStatement stmt11 = null;	// maptilestomaps table
 				PreparedStatement stmt12 = null;	// enemies table
 				PreparedStatement stmt13 = null;	// names table
+				PreparedStatement stmt14 = null;	// gamestousers table
+				PreparedStatement stmt15 = null;	// mapstogames table
 													//	quests table
 				
 				try {
@@ -494,7 +497,24 @@ public class DerbyDatabase implements IDatabase {
 							+ ")"
 					);
 					stmt13.executeUpdate();
-							
+					
+					stmt14 = conn.prepareStatement(
+							"create table gamestousers ("
+							+ "game_id int primary key "
+							+ "		generated always as identity (start with 1, increment by 1), "
+							+ "user_id int"
+							+ ")"
+					);
+					stmt14.executeUpdate();
+					
+					stmt15 = conn.prepareStatement(
+							"create table mapstogames ("
+							+ "game_id int, "
+							+ "map_id int"
+							+ ")"
+					);
+					stmt15.executeUpdate();
+					
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt0);
@@ -510,11 +530,15 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt10);
 					DBUtil.closeQuietly(stmt11);
 					DBUtil.closeQuietly(stmt12);
-					DBUtil.closeQuietly(stmt13);					
+					DBUtil.closeQuietly(stmt13);		
+					DBUtil.closeQuietly(stmt14);
+					DBUtil.closeQuietly(stmt15);
 				}
 			}
 		});
 	}
+	
+	
 	
 	public void loadInitialData() {
 		executeTransaction(new Transaction<Boolean>() {
@@ -791,11 +815,184 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
+	/**************************************************************************************************
+	 * 										Init new game
+	***************************************************************************************************/
+	
+	public void createSinglePlayerGame(String username, int mapID) {		
+		Game game = new Game();
+		
+		Player player = createPlayer();
+		
+		game.set_map(createMap());
+		
+		
+		
+	}
+	
+	public void createMultiplayerGame(String username1, String username2, int mapID) {
+		throw new UnsupportedOperationException("Working on it!");
+	}
+	
+	private Map createMap() {
+		Map map = new Map();
+		System.out.println("Which map will you play?");
+		ArrayList<String> mapNameList = getAllMapNames();
+		for(String mapName : mapNameList) {
+			System.out.println("\t" + mapName);
+		}
+		
+		PreparedStatement createMapTable = null;
+		ResultSet resultSet = null;
+		
+		return map;
+	}
+	
+	@SuppressWarnings("null")
+	private Player createPlayer() {
+		Player player = new Player();
+		Scanner keyboard = null;
+		
+		System.out.println("Choose your name: ");
+		player.set_name(keyboard.next());
+		
+		System.out.println("Choose your race: ");
+		System.out.println("Human, Elf, Dwarf");
+		String race = null;
+		
+		while(race != "Elf" && race != "Human" && race != "Dwarf") {
+			keyboard.next();
+		}
+		player.set_race(race);
+		
+		System.out.println("Choose your gender");
+		player.set_gender(keyboard.next());
+		
+		/*
+		 * Stat Distribution
+		*/
+		player.set_level(1);
+		player.set_hit_points(100);
+		
+		player.set_magic_points(25);
+		player.set_attack(10);
+		player.set_defense(10);
+		player.set_special_attack(15);
+		player.set_special_defense(10);
+		
+		player.set_coins(0);
+		player.set_location(1);
+
+		int carryWeight = 0;
+
+		Item emptyItemSlot = new Item();
+		emptyItemSlot.set_attack_bonus(0);
+		emptyItemSlot.set_defense_bonus(0);
+		emptyItemSlot.set_description_update("You haven't equipped one");
+		emptyItemSlot.set_hp_bonus(0);
+		emptyItemSlot.set_lvl_requirement(0);
+		emptyItemSlot.setID(0);
+		emptyItemSlot.setIsQuestItem(false);
+		emptyItemSlot.setItemWeight(0);
+		emptyItemSlot.setLongDescription("Empty Slot");
+		emptyItemSlot.setShortDescription("Empty Slot");
+		emptyItemSlot.setName("Empty Slot");
+
+		int itemID;
+		
+		// helm
+		emptyItemSlot.set_ItemType(ItemType.HELM);
+		player.set_helm(emptyItemSlot);
+		
+		// braces
+		emptyItemSlot.set_ItemType(ItemType.BRACES);
+		player.set_braces(emptyItemSlot);
+		
+		// chest
+		emptyItemSlot.set_ItemType(ItemType.CHEST);
+		player.set_chest(emptyItemSlot);
+		
+		emptyItemSlot.set_ItemType(ItemType.LEGS);
+		player.set_legs(emptyItemSlot);
+		
+		// boots
+		emptyItemSlot.set_ItemType(ItemType.BOOTS);
+		player.set_boots(emptyItemSlot);
+		
+		// l_hand
+		emptyItemSlot.set_ItemType(ItemType.L_HAND);
+		player.set_l_hand(emptyItemSlot);
+		
+		// r_hand
+		emptyItemSlot.set_ItemType(ItemType.R_HAND);
+		player.set_r_hand(emptyItemSlot);
+		
+		player.set_carry_weight(20);
+		player.set_experience(0);
+		
+		// Add the sum total of weight to the inventory
+		player.get_inventory().set_weight(carryWeight);
+		return player;
+	}
 	
 	/**************************************************************************************************
 	 * 										*Get All* Methods
 	 **************************************************************************************************/
-
+	@Override
+	public ArrayList<String> getAllEnemyRaces() {
+		return executeTransaction(new Transaction<ArrayList<String>>() {
+			@Override
+			public ArrayList<String> execute(Connection conn) throws SQLException {
+				ResultSet resultSet = null;
+				PreparedStatement stmt = null;
+				ArrayList<String> enemyRaceList = new ArrayList<String>();
+				try {
+					stmt = conn.prepareStatement(
+							"select enemies.race "
+							+ "from enemies"
+					);
+					resultSet = stmt.executeQuery();
+					while (resultSet.next()) {
+						enemyRaceList.add(resultSet.getString(1));
+					}
+					return enemyRaceList;
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}			
+		});
+	}
+	
+	private ArrayList<String> getAllMapNames() {
+		ResultSet resultSet = null;		
+		PreparedStatement stmt = null;
+		Connection conn = null;
+		
+		ArrayList<String> mapNameList = new ArrayList<String>();
+		try {
+			
+			stmt = conn.prepareStatement(
+					"select maps.name from maps"
+			);
+			resultSet = stmt.executeQuery();
+			
+			int i = 1;
+			while(resultSet.next()) {
+				mapNameList.add(resultSet.getString(i++));
+			}			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			DBUtil.closeQuietly(conn);
+			DBUtil.closeQuietly(resultSet);
+			DBUtil.closeQuietly(stmt);
+		}
+		return mapNameList;
+	}
+	
 	@Override
 	public Map getMap() {
 		return executeTransaction(new Transaction <Map>() {
@@ -854,6 +1051,7 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(resultSetMap);
 					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -888,6 +1086,7 @@ public class DerbyDatabase implements IDatabase {
 				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
+					edu.ycp.cs320.sqldemo.DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -933,6 +1132,7 @@ public class DerbyDatabase implements IDatabase {
 				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -1030,6 +1230,7 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(resultSetObjects);
 					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -1158,6 +1359,7 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(resultSetMapTiles);
 					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -1219,6 +1421,7 @@ public class DerbyDatabase implements IDatabase {
 				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -1254,6 +1457,7 @@ public class DerbyDatabase implements IDatabase {
 				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 			
@@ -1299,6 +1503,7 @@ public class DerbyDatabase implements IDatabase {
 				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
 				}
 			}			
 		});
@@ -1337,6 +1542,7 @@ public class DerbyDatabase implements IDatabase {
 				} finally {
 					DBUtil.closeQuietly(stmt);
 					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -1379,6 +1585,7 @@ public class DerbyDatabase implements IDatabase {
 				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -1480,6 +1687,7 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt3);
 					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -1605,6 +1813,7 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(resultSetMapTiles);
 					DBUtil.closeQuietly(stmt);
 					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -1615,7 +1824,6 @@ public class DerbyDatabase implements IDatabase {
 			@Override
 			public Inventory execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
-				
 				ResultSet resultSet = null;
 				
 				try {
@@ -1649,6 +1857,7 @@ public class DerbyDatabase implements IDatabase {
 				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -1689,6 +1898,7 @@ public class DerbyDatabase implements IDatabase {
 				} finally {
 					DBUtil.closeQuietly(resultPassword);
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -1832,6 +2042,7 @@ public class DerbyDatabase implements IDatabase {
 				} finally {
 					DBUtil.closeQuietly(stmtRemovePlayer);
 					DBUtil.closeQuietly(stmtUpdatePlayer);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -1866,7 +2077,8 @@ public class DerbyDatabase implements IDatabase {
 					insertItem.executeBatch();
 					return true;
 				} finally {
-				insertItem.close();
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(insertItem);
 				}
 			}
 		});
@@ -1894,6 +2106,7 @@ public class DerbyDatabase implements IDatabase {
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -1917,6 +2130,7 @@ public class DerbyDatabase implements IDatabase {
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -1942,6 +2156,7 @@ public class DerbyDatabase implements IDatabase {
 				} finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -1965,6 +2180,7 @@ public class DerbyDatabase implements IDatabase {
 					return userName;
 				} finally {
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -1988,6 +2204,7 @@ public class DerbyDatabase implements IDatabase {
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -2019,6 +2236,7 @@ public class DerbyDatabase implements IDatabase {
 					return item;
 				} finally {
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -2046,6 +2264,7 @@ public class DerbyDatabase implements IDatabase {
 					return item;
 				} finally {
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -2066,6 +2285,7 @@ public class DerbyDatabase implements IDatabase {
 					return true;
 				} finally {
 					DBUtil.closeQuietly(removeItem);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -2087,6 +2307,7 @@ public class DerbyDatabase implements IDatabase {
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
 				}
 			}			
 		});
@@ -2109,6 +2330,7 @@ public class DerbyDatabase implements IDatabase {
 					return true;
 				} finally {
 					DBUtil.closeQuietly(removeCommandResponse);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
@@ -2130,6 +2352,7 @@ public class DerbyDatabase implements IDatabase {
 					return true;
 				} finally {
 					DBUtil.closeQuietly(removeObject);
+					DBUtil.closeQuietly(conn);
 				}
 			}
 		});

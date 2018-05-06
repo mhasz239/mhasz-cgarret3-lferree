@@ -8,6 +8,8 @@ import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.Enemy;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
 import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
+import edu.ycp.cs320.middle_earth.persist.IDatabase;
+import edu.ycp.cs320.middle_earth.persist.InitDatabase;
 
 public class CombatSituation{
 	private ArrayList<Integer> characterIDs;
@@ -76,14 +78,12 @@ public class CombatSituation{
 	// inventory = call .getItemByID
 	// wood, steel, dwarven, elven, legendary (item types, increasing rarity/goodness)
 	public Enemy createEnemy(){
-		Enemy enemy = new Enemy();
-		enemy.set_attack(10);
-		enemy.set_defense(0);
-		enemy.set_hit_points(100);
-		enemy.set_level(1);
-		enemy.set_name("Bob");
-		enemy.set_race("Goblin");
-		return enemy;
+		// Grabs a random enemy
+		InitDatabase.init();
+		IDatabase db = DatabaseProvider.getInstance();
+		ArrayList<String> enemyRaceList = db.getAllEnemyRaces();
+		Random rand = new Random();
+		return db.getEnemyByRace(enemyRaceList.get(rand.nextInt(enemyRaceList.size() - 1)));
 	}
 	
 	public void playerAttackEnemy(Game game, int playerIndex, String target){
