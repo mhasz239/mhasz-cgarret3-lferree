@@ -150,6 +150,7 @@ public class DerbyDatabase implements IDatabase {
 		mapTile.setName(resultSet.getString(index++));
 		mapTile.setLongDescription(resultSet.getString(index++));
 		mapTile.setShortDescription(resultSet.getString(index++));		
+		mapTile.setAreaDifficulty(resultSet.getInt(index++));
 	}
 	 
 	private void loadMap(Map map, ResultSet resultSet, int index) throws SQLException {
@@ -663,8 +664,6 @@ public class DerbyDatabase implements IDatabase {
 					}
 					insertItemsToInventories.executeBatch();
 					
-					
-					// Can easily be changed to Players with a for each
 					insertPlayers = conn.prepareStatement("insert into players ("
 							+ "race, name, gender, level, hit_points, "
 							+ "magic_points, attack, defense, sp_attack, sp_defense, "
@@ -870,11 +869,9 @@ public class DerbyDatabase implements IDatabase {
 					stmt = conn.prepareStatement("select * from players");
 					
 					Player result = new Player();
-					
 					resultSet = stmt.executeQuery();
 					
 					Boolean found = false;
-					
 					while(resultSet.next()) {
 						found = true;
 						
@@ -958,12 +955,10 @@ public class DerbyDatabase implements IDatabase {
 					);
 					
 					ArrayList<Object> resultObjects = new ArrayList<Object>();
-					
 					resultSetObjects = stmt.executeQuery();
 					
 					// for testing that a result was returned
 					Boolean found = false;
-					
 					while (resultSetObjects.next()) {
 						found = true;
 						
@@ -1073,7 +1068,6 @@ public class DerbyDatabase implements IDatabase {
 						
 						// remember to skip an index for the repeated maptile_id from the connections table
 						loadMapTileConnections(mapTile.getConnections(), resultSetMapTiles, 6);
-						
 						
 						// Now get all objects associated with the mapTile
 						stmt = conn.prepareStatement(
@@ -1971,7 +1965,6 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt);
 				}
 			}
-			
 		});
 	}
 	

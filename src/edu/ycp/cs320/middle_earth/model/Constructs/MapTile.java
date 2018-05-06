@@ -10,6 +10,7 @@ public class MapTile extends Construct{
 	private ArrayList<Object> objects;
 	private boolean visited;
 	private String enemyString;
+	private int areaDifficulty;
 	
 	public MapTile() {
 		connections = new HashMap<String, Integer>();
@@ -40,7 +41,6 @@ public class MapTile extends Construct{
 		return this.connections;
 	}
 	
-	
 	public int getMoveValue(String direction) {
 		return connections.get(direction);
 	}
@@ -69,4 +69,11 @@ public class MapTile extends Construct{
 		return ids;
 	}
 	
+	public void setAreaDifficulty(int areaDifficulty) {
+		this.areaDifficulty = areaDifficulty;
+	}
+	
+	public int getAreaDifficulty() {
+		return this.areaDifficulty;
+	}
 }
