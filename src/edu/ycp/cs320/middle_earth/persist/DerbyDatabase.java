@@ -8,10 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import edu.ycp.cs320.middle_earth.controller.Game;
 import edu.ycp.cs320.middle_earth.model.Quest;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
+import edu.ycp.cs320.middle_earth.model.Characters.Enemy;
 import edu.ycp.cs320.middle_earth.model.Characters.Inventory;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
@@ -22,6 +24,7 @@ import persist.dbmod.ItemObject;
 import persist.dbmod.MapTileMap;
 import persist.dbmod.ObjectIDCommandResponse;
 import persist.dbmod.ObjectMapTile;
+import persist.dbmod.StringPair;
 import persist.dbmod.User;
 import edu.ycp.cs320.middle_earth.model.Constructs.Map;
 import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
@@ -132,14 +135,14 @@ public class DerbyDatabase implements IDatabase {
 	}
 	
 	private void loadMapTileConnections(HashMap<String, Integer> mapTileConnections, ResultSet resultSet, int index) throws SQLException {
-			mapTileConnections.put("north", resultSet.getInt(index++));
-			mapTileConnections.put("northeast", resultSet.getInt(index++));
-			mapTileConnections.put("east", resultSet.getInt(index++));
-			mapTileConnections.put("southeast", resultSet.getInt(index++));
-			mapTileConnections.put("south", resultSet.getInt(index++));
-			mapTileConnections.put("southwest", resultSet.getInt(index++));
-			mapTileConnections.put("west", resultSet.getInt(index++));
-			mapTileConnections.put("northwest", resultSet.getInt(index++));
+		mapTileConnections.put("north", resultSet.getInt(index++));
+		mapTileConnections.put("northeast", resultSet.getInt(index++));
+		mapTileConnections.put("east", resultSet.getInt(index++));
+		mapTileConnections.put("southeast", resultSet.getInt(index++));
+		mapTileConnections.put("south", resultSet.getInt(index++));
+		mapTileConnections.put("southwest", resultSet.getInt(index++));
+		mapTileConnections.put("west", resultSet.getInt(index++));
+		mapTileConnections.put("northwest", resultSet.getInt(index++));
 	}
 	
 	private void loadMapTile(MapTile mapTile, ResultSet resultSet, int index) throws SQLException {
@@ -154,6 +157,26 @@ public class DerbyDatabase implements IDatabase {
 		map.setName(resultSet.getString(index++));
 		map.setLongDescription(resultSet.getString(index++));
 		map.setShortDescription(resultSet.getString(index++));	
+	}
+	
+	private void loadEnemy(Enemy enemy, ResultSet resultSet, int index) throws SQLException {
+		enemy.set_race(resultSet.getString(index++));
+		enemy.set_hit_points(resultSet.getInt(index++));
+		enemy.set_magic_points(resultSet.getInt(index++));
+		
+		StringPair randNameGender = getRandomName();
+		
+		enemy.set_name(randNameGender.getString1());
+		enemy.set_gender(randNameGender.getString2());
+		enemy.set_attack(resultSet.getInt(index++));
+		enemy.set_defense(resultSet.getInt(index++));
+		enemy.set_special_attack(resultSet.getInt(index++));
+		enemy.set_special_defense(resultSet.getInt(index++));		
+	}
+	
+	private void loadNameGender(StringPair nameGender, ResultSet resultSet, int index) throws SQLException {
+		nameGender.setString1(resultSet.getString(index++));
+		nameGender.setString2(resultSet.getString(index++));
 	}
 	
 	private void loadPlayer(Player player, ResultSet resultSet, int index) {
@@ -271,7 +294,6 @@ public class DerbyDatabase implements IDatabase {
 		}
 	}
 
-
 	/**************************************************************************************************
 	 * 										Building the Database
 	 **************************************************************************************************/
@@ -292,6 +314,8 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt9 = null; 	// objectcommandresponses table
 				PreparedStatement stmt10 = null;	//	maps table
 				PreparedStatement stmt11 = null;	// maptilestomaps table
+				PreparedStatement stmt12 = null;	// enemies table
+				PreparedStatement stmt13 = null;	// names table
 													//	quests table
 				
 				try {
@@ -424,7 +448,7 @@ public class DerbyDatabase implements IDatabase {
 							+ "command varchar(10), "
 							+ "response varchar (100)"
 							+ ")"
-							);					
+					);					
 					stmt9.executeUpdate();
 					
 					stmt10 = conn.prepareStatement(
@@ -443,9 +467,31 @@ public class DerbyDatabase implements IDatabase {
 							+ "maptile_id int, "
 							+ "map_id int "
 							+ ")"
-							);
+					);
 					stmt11.executeUpdate();
 					
+					stmt12 = conn.prepareStatement(
+							"create table enemies ("
+							+ "race varchar(40), "
+							+ "hp int, "
+							+ "mp int, "
+							+ "attack int, "
+							+ "defense int, "
+							+ "sp_atk int, "
+							+ "sp_def int "
+							+ ")"
+					);
+					stmt12.executeUpdate();
+					
+					stmt13 = conn.prepareStatement(
+							"create table names ("
+							+ "number int primary key "
+							+ "		generated always as identity (start with 1, increment by 1), "
+							+ "name varchar(40), "
+							+ "gender varchar(10)"
+							+ ")"
+					);
+					stmt13.executeUpdate();
 							
 					return true;
 				} finally {
@@ -461,6 +507,8 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt9);
 					DBUtil.closeQuietly(stmt10);
 					DBUtil.closeQuietly(stmt11);
+					DBUtil.closeQuietly(stmt12);
+					DBUtil.closeQuietly(stmt13);					
 				}
 			}
 		});
@@ -482,6 +530,8 @@ public class DerbyDatabase implements IDatabase {
 				ArrayList<Map> mapList;
 				ArrayList<MapTileMap> mapTilesToMapsList;
 				ArrayList<User> userList;
+				ArrayList<Enemy> enemyList;
+				ArrayList<StringPair> nameGenderList;
 				
 				try {
 					itemList = InitialData.getItems();
@@ -496,6 +546,8 @@ public class DerbyDatabase implements IDatabase {
 					mapList = InitialData.getMaps();
 					mapTilesToMapsList = InitialData.getMapTilesToMaps();
 					userList = InitialData.getUsers();
+					enemyList = InitialData.getEnemies();
+					nameGenderList = InitialData.getNameGenderList();
 					
 				} catch (IOException e) {
 					throw new SQLException("Couldn't read initial data", e);
@@ -513,7 +565,8 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement insertMapTilesToMaps = null;
 				PreparedStatement insertObjectCommandResponses = null;
 				PreparedStatement insertUsers = null;
-				
+				PreparedStatement insertEnemies = null;
+				PreparedStatement insertNames = null;				
 
 				try {					
 					insertItem = conn.prepareStatement("insert into items (itemname, longdescription, shortdescription, "
@@ -541,7 +594,7 @@ public class DerbyDatabase implements IDatabase {
 						insertObject.setString(1, object.getName());
 						insertObject.setString(2, object.getLongDescription());
 						insertObject.setString(3, object.getShortDescription());
-							
+		
 						insertObject.addBatch();
 					}
 					insertObject.executeBatch();
@@ -587,6 +640,7 @@ public class DerbyDatabase implements IDatabase {
 						insertMapTile.setString(1, mapTile.getName());
 						insertMapTile.setString(2, mapTile.getLongDescription());
 						insertMapTile.setString(3, mapTile.getShortDescription());
+						
 						insertMapTile.addBatch();
 					}
 					insertMapTile.executeBatch();
@@ -595,6 +649,7 @@ public class DerbyDatabase implements IDatabase {
 					for(ObjectMapTile objectMapTile : objectsToMapTilesList) {
 						insertObjectsToMapTiles.setInt(1, objectMapTile.getObjectID());
 						insertObjectsToMapTiles.setInt(2, objectMapTile.getMapTileID());
+						
 						insertObjectsToMapTiles.addBatch();
 					}
 					insertObjectsToMapTiles.executeBatch();
@@ -603,6 +658,7 @@ public class DerbyDatabase implements IDatabase {
 					for(ItemInventory itemInventory : itemsToInventoriesList) {
 						insertItemsToInventories.setInt(1, itemInventory.getItemID());
 						insertItemsToInventories.setInt(2, itemInventory.getInventoryID());
+						
 						insertItemsToInventories.addBatch();
 					}
 					insertItemsToInventories.executeBatch();
@@ -659,6 +715,7 @@ public class DerbyDatabase implements IDatabase {
 						insertMaps.setString(1, map.getName());
 						insertMaps.setString(2, map.getLongDescription());
 						insertMaps.setString(3, map.getShortDescription());
+						
 						insertMaps.addBatch();
 					}
 					insertMaps.executeBatch();	
@@ -667,6 +724,7 @@ public class DerbyDatabase implements IDatabase {
 					for(MapTileMap mapTileMap : mapTilesToMapsList) {
 						insertMapTilesToMaps.setInt(1, mapTileMap.getMapTileID());
 						insertMapTilesToMaps.setInt(2, mapTileMap.getMapID());
+						
 						insertMapTilesToMaps.addBatch();
 					}
 					insertMapTilesToMaps.executeBatch();
@@ -676,6 +734,7 @@ public class DerbyDatabase implements IDatabase {
 						insertObjectCommandResponses.setInt(1, objectCommandResponse.getObjectID());
 						insertObjectCommandResponses.setString(2, objectCommandResponse.getCommand());
 						insertObjectCommandResponses.setString(3, objectCommandResponse.getResponse());
+						
 						insertObjectCommandResponses.addBatch();
 					}
 					insertObjectCommandResponses.executeBatch();					
@@ -685,9 +744,33 @@ public class DerbyDatabase implements IDatabase {
 						insertUsers.setString(1, user.getUserName());
 						insertUsers.setString(2, user.getPassword());
 						insertUsers.setString(3, user.getEmail());
+						
 						insertUsers.addBatch();
 					}
 					insertUsers.executeBatch();
+					
+					insertEnemies = conn.prepareStatement(" insert into enemies (race, hp, mp, attack, defense, sp_atk, sp_def) values (?, ?, ?, ?, ?, ?, ?)");
+					for(Enemy enemy : enemyList) {
+						insertEnemies.setString(1, enemy.get_race());
+						insertEnemies.setInt(2, enemy.get_hit_points());
+						insertEnemies.setInt(3, enemy.get_magic_points());
+						insertEnemies.setInt(4, enemy.get_attack());
+						insertEnemies.setInt(5, enemy.get_defense());
+						insertEnemies.setInt(6, enemy.get_special_attack());
+						insertEnemies.setInt(7, enemy.get_special_defense());
+						
+						insertEnemies.addBatch();
+					}
+					insertEnemies.executeBatch();
+					
+					insertNames = conn.prepareStatement(" insert into names (name, gender) values(?, ?)");
+					for(StringPair nameGender : nameGenderList) {
+						insertNames.setString(1, nameGender.getString1());
+						insertNames.setString(2, nameGender.getString2());
+						
+						insertNames.addBatch();
+					}
+					insertNames.executeBatch();
 					
 					return true;
 				} finally {
@@ -701,13 +784,12 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(insertObject);
 					DBUtil.closeQuietly(insertItem);
 					DBUtil.closeQuietly(insertUsers);
+					DBUtil.closeQuietly(insertEnemies);
+					DBUtil.closeQuietly(insertNames);
 				}
 			}
 		});
 	}
-	
-	
-
 	
 	/**************************************************************************************************
 	 * 										*Get All* Methods
@@ -1106,9 +1188,11 @@ public class DerbyDatabase implements IDatabase {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	@Override
 	public ArrayList<String> getAllUserNames() {
 		return executeTransaction(new Transaction<ArrayList<String>>() {
+			@Override
 			public ArrayList<String> execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
@@ -1143,18 +1227,133 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
-	
+
+	public ArrayList<Enemy> getAllEnemies() {
+		return executeTransaction(new Transaction<ArrayList<Enemy>>() {
+			public ArrayList<Enemy> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+						"select * "
+						+ "from enemies");
+					resultSet = stmt.executeQuery();
+					
+					ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
+					
+					Boolean found = false;
+					while (resultSet.next()) {
+						found = true;
+						Enemy enemy = new Enemy();
+						loadEnemy(enemy, resultSet, 1);
+						enemyList.add(enemy);
+					}
+					
+					if(!found) {
+						System.out.println("EnemyList is empty");
+					}
+					
+					return enemyList;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+			
+		});
+	}
+
 	/******************************************************************************************************
 	 * 										*Get Specific* Methods
 	 ******************************************************************************************************/
+	@Override
+	public Enemy getEnemyByRace(String race) {
+		return executeTransaction(new Transaction<Enemy>() {
+			@Override
+			public Enemy execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"select * "
+							+ "from enemies "
+							+ "where enemies.race = ?"
+					);
+					stmt.setString(1, race);
+					resultSet = stmt.executeQuery();
+					
+					Enemy enemy = new Enemy();
+
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						loadEnemy(enemy, resultSet, 1);
+					}
+					
+					// check if the item was found
+					if (!found) {
+						System.out.println("no enemies with that race");
+					}
+					
+					return enemy;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}			
+		});
+	}
+	
+	private StringPair getRandomName() {
+		return executeTransaction(new Transaction<StringPair>() {
+			public StringPair execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"select names.name, names.gender "
+							+ "from names "
+							+ "where names.number = ?"
+					);
+					Random rand = new Random();					
+					stmt.setInt(1, rand.nextInt(8) + 1);
+					
+					resultSet = stmt.executeQuery();
+					StringPair nameGender = new StringPair();
+					
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						loadNameGender(nameGender, resultSet, 1);
+					}
+					
+					if (!found) {
+						System.out.println("no names under that number");
+					}
+					
+					return nameGender;
+				} finally {
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(resultSet);
+				}
+			}
+		});
+	}
+	
 	@Override
 	public Item getItemByID(int itemID) {
 		return executeTransaction(new Transaction <Item>() {
 			@Override
 			public Item execute(Connection conn) throws SQLException {
-
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
+				
 				try {
 					// retrieve all attributes 
 					stmt = conn.prepareStatement(
@@ -1163,7 +1362,6 @@ public class DerbyDatabase implements IDatabase {
 							+ "where items.item_id = ? "
 					);
 					stmt.setInt(1, itemID);
-					
 					resultSet = stmt.executeQuery();
 					
 					Item result = new Item();
@@ -1172,8 +1370,7 @@ public class DerbyDatabase implements IDatabase {
 					Boolean found = false;
 					
 					while (resultSet.next()) {
-						found = true;
-						
+						found = true;						
 						loadItem(result, resultSet, 1);
 					}
 					

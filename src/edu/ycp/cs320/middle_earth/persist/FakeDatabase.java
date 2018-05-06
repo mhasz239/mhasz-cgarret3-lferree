@@ -12,6 +12,7 @@ import edu.ycp.cs320.middle_earth.persist.InitialData;
 import edu.ycp.cs320.middle_earth.controller.Game;
 import edu.ycp.cs320.middle_earth.model.Quest;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
+import edu.ycp.cs320.middle_earth.model.Characters.Enemy;
 import edu.ycp.cs320.middle_earth.model.Characters.Inventory;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
 
@@ -271,6 +272,18 @@ public class FakeDatabase implements IDatabase {
 
 	@Override
 	public ArrayList<String> getAllUserNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Enemy getEnemyByRace(String race) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Enemy> getAllEnemies() {
 		// TODO Auto-generated method stub
 		return null;
 	}

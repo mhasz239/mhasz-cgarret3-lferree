@@ -7,6 +7,7 @@ import edu.ycp.cs320.middle_earth.model.Characters.Player;
 import edu.ycp.cs320.middle_earth.controller.Game;
 import edu.ycp.cs320.middle_earth.model.Quest;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
+import edu.ycp.cs320.middle_earth.model.Characters.Enemy;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 import edu.ycp.cs320.middle_earth.model.Constructs.Object;
 import edu.ycp.cs320.middle_earth.model.Constructs.Map;
@@ -41,4 +42,7 @@ public interface IDatabase {
 	
 	public String getUserPasswordByUserName(String username);
 	public ArrayList<String> getAllUserNames();
+	
+	public Enemy getEnemyByRace(String race);
+	public ArrayList<Enemy> getAllEnemies();
 }

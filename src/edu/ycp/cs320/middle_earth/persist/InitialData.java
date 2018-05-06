@@ -12,12 +12,14 @@ import persist.dbmod.ItemObject;
 import persist.dbmod.MapTileMap;
 import persist.dbmod.ObjectIDCommandResponse;
 import persist.dbmod.ObjectMapTile;
+import persist.dbmod.StringPair;
 import persist.dbmod.User;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 import edu.ycp.cs320.middle_earth.model.Constructs.Map;
 import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
 import edu.ycp.cs320.middle_earth.model.Constructs.ItemType;
 import edu.ycp.cs320.middle_earth.model.Quest;
+import edu.ycp.cs320.middle_earth.model.Characters.Enemy;
 import edu.ycp.cs320.middle_earth.model.Characters.Inventory;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
 
@@ -49,27 +51,54 @@ public class InitialData {
 		}
 	}
 	
-	public static ArrayList<Integer> getInventoriesToVendors() throws IOException {
-		ArrayList<Integer> inventoriesToCharactersList = new ArrayList<Integer>();
-		ReadCSV readInventoriesToCharacters = new ReadCSV("inventoriestovendors.csv");
+	*/
+	public static ArrayList<StringPair> getNameGenderList() throws IOException {
+		ArrayList<StringPair> nameGenderList = new ArrayList<StringPair>();
+		ReadCSV readNames = new ReadCSV("names.csv");
 		try {
 			while (true) {
-				List<String> tuple = readInventoriesToCharacters.next();
+				List<String> tuple = readNames.next();
 				if (tuple == null) {
 					break;
 				}
 				Iterator<String> i = tuple.iterator();
-				
-				while (i.hasNext()) {
-					inventoriesToCharactersList.add(Integer.parseInt(i.next()));
-				}
+
+				StringPair nameGender = new StringPair();
+				nameGender.setString1(i.next());
+				nameGender.setString2(i.next());
+				nameGenderList.add(nameGender);
 			}
-			return inventoriesToCharactersList;
+			return nameGenderList;
 			
 		} finally {
-			readInventoriesToCharacters.close();
+			readNames.close();
 		}
-	} */
+	}
+	
+	public static ArrayList<Enemy> getEnemies() throws IOException {
+		ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
+		ReadCSV readEnemies = new ReadCSV("enemies.csv");
+		try {
+			while (true) {
+				List<String> tuple = readEnemies.next();
+				if (tuple == null) {
+					break;
+				}
+				Iterator<String> i = tuple.iterator();
+				Enemy enemy = new Enemy();
+				
+				enemy.set_race(i.next());
+				enemy.set_attack(Integer.parseInt(i.next()));
+				enemy.set_defense(Integer.parseInt(i.next()));
+				enemy.set_hit_points(Integer.parseInt(i.next()));
+				
+				enemyList.add(enemy);
+ 			}
+			return enemyList;
+		} finally {
+			readEnemies.close();
+		}
+	}
 	
 	public static ArrayList<Item> getItems() throws IOException {
 		ArrayList<Item> itemList = new ArrayList<Item>();
@@ -86,7 +115,6 @@ public class InitialData {
 				item.setName(i.next());
  				item.setLongDescription(i.next());
  				item.setShortDescription(i.next());
- 				
  				item.set_description_update(i.next());
 				item.set_attack_bonus(Integer.parseInt(i.next()));
   				item.set_defense_bonus(Integer.parseInt(i.next()));
