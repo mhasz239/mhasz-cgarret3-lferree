@@ -18,7 +18,7 @@ public class InventoryTest{
 	}
 	
 	@Test
-	public void testSet_Items(){
+	public void testsetItems(){
 		// Create an ArrayList of Items that are totally different
 		ArrayList<Item> items = new ArrayList<Item>();
 		Item derp = new Item();
@@ -29,12 +29,12 @@ public class InventoryTest{
 		items.add(otherDerp);
 		
 		// Set that ArrayList in Inventory
-		inventory.set_items(items);
+		inventory.setitems(items);
 		
 		// Ensure that the ArrayList was set correctly
-		assertEquals(2, inventory.get_items().size());
-		assertEquals(derp, inventory.get_items().get(0));
-		assertEquals(otherDerp, inventory.get_items().get(1));
+		assertEquals(2, inventory.getitems().size());
+		assertEquals(derp, inventory.getitems().get(0));
+		assertEquals(otherDerp, inventory.getitems().get(1));
 		
 		// Make another ArrayList of Items
 		ArrayList<Item> items2 = new ArrayList<Item>();
@@ -49,43 +49,43 @@ public class InventoryTest{
 		items2.add(qwop2);
 		
 		// Reset Items in Inventory (in case of crazy adding stuff)
-		inventory.set_items(items2);
+		inventory.setitems(items2);
 		
 		// Ensure set correct
-		assertEquals(3, inventory.get_items().size());
-		assertEquals(flop, inventory.get_items().get(0));
-		assertEquals(qwop, inventory.get_items().get(1));
-		assertEquals(qwop2, inventory.get_items().get(2));
+		assertEquals(3, inventory.getitems().size());
+		assertEquals(flop, inventory.getitems().get(0));
+		assertEquals(qwop, inventory.getitems().get(1));
+		assertEquals(qwop2, inventory.getitems().get(2));
 	}
 	
 	@Test
-	public void testSet_Weight(){
+	public void testsetWeight(){
 		// Set the weight
-		inventory.set_weight(2938);
+		inventory.setweight(2938);
 		
 		// Ensure it was set right
-		assertEquals(2938, inventory.get_weight());
+		assertEquals(2938, inventory.getweight());
 		
 		// Reset it in case of crazy adding
-		inventory.set_weight(9384);
+		inventory.setweight(9384);
 		
 		// Ensure it's reset like that
-		assertEquals(9384, inventory.get_weight());
+		assertEquals(9384, inventory.getweight());
 	}
 	
 	// TODO: JUNIT: Remove this (Inventory ID is unnecessary due to Character ID)
 	@Test
 	public void testSetInventoryID(){
 		// Set the ID
-		inventory.set_inventory_id(203);
+		inventory.setinventory_id(203);
 		
 		// Ensure it was set right
-		assertEquals(203, inventory.get_inventory_id());
+		assertEquals(203, inventory.getinventory_id());
 		
 		// Reset the ID (in case of crazies)
-		inventory.set_inventory_id(329);
+		inventory.setinventory_id(329);
 		
 		// Check reset right
-		assertEquals(329, inventory.get_inventory_id());
+		assertEquals(329, inventory.getinventory_id());
 	}
 }

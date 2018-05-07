@@ -18,37 +18,37 @@ public class PlayerTest{
 	}
 	
 	@Test
-	public void testSet_Experience(){
-		player.set_experience(938);
+	public void testsetExperience(){
+		player.setexperience(938);
 		
-		assertEquals(938, player.get_experience());
+		assertEquals(938, player.getexperience());
 		
-		player.set_experience(2834);
+		player.setexperience(2834);
 		
-		assertEquals(2834, player.get_experience());
+		assertEquals(2834, player.getexperience());
 	}
 	
 	@Test
-	public void testSet_Carry_Weight(){
-		player.set_carry_weight(837);
+	public void testsetCarry_Weight(){
+		player.setcarry_weight(837);
 		
-		assertEquals(837, player.get_carry_weight());
+		assertEquals(837, player.getcarry_weight());
 		
-		player.set_carry_weight(29384);
+		player.setcarry_weight(29384);
 		
-		assertEquals(29384, player.get_carry_weight());
+		assertEquals(29384, player.getcarry_weight());
 	}
 	
 	@Test
-	public void testSet_Quests(){
+	public void testsetQuests(){
 		ArrayList<Quest> quests = new ArrayList<Quest>();
 		Quest quest = new Quest();
 		quests.add(quest);
 		
-		player.set_quests(quests);
+		player.setquests(quests);
 		
-		assertEquals(1, player.get_quests().size());
-		assertEquals(quest, player.get_quests().get(0));
+		assertEquals(1, player.getquests().size());
+		assertEquals(quest, player.getquests().get(0));
 		
 		ArrayList<Quest> quests2 = new ArrayList<Quest>();
 		Quest quest1 = new Quest();
@@ -56,11 +56,11 @@ public class PlayerTest{
 		quests2.add(quest1);
 		quests2.add(quest2);
 		
-		player.set_quests(quests2);
+		player.setquests(quests2);
 		
-		assertEquals(2, player.get_quests().size());
-		assertEquals(quest1, player.get_quests().get(0));
-		assertEquals(quest2, player.get_quests().get(1));
+		assertEquals(2, player.getquests().size());
+		assertEquals(quest1, player.getquests().get(0));
+		assertEquals(quest2, player.getquests().get(1));
 	}
 	
 	@Test
@@ -69,15 +69,15 @@ public class PlayerTest{
 		Quest quest2 = new Quest();
 		quest2.setRewardCoins(20);
 		
-		assertEquals(0, player.get_quests().size());
+		assertEquals(0, player.getquests().size());
 		
 		player.add_quest(quest1);
-		assertEquals(1, player.get_quests().size());
-		assertEquals(quest1, player.get_quests().get(0));
+		assertEquals(1, player.getquests().size());
+		assertEquals(quest1, player.getquests().get(0));
 		
 		player.add_quest(quest2);
-		assertEquals(2, player.get_quests().size());
-		assertEquals(quest1, player.get_quests().get(0));
-		assertEquals(quest2, player.get_quests().get(1));
+		assertEquals(2, player.getquests().size());
+		assertEquals(quest1, player.getquests().get(0));
+		assertEquals(quest2, player.getquests().get(1));
 	}
 }

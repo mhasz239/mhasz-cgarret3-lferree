@@ -46,7 +46,7 @@ public class Item extends Construct{
 		return this.isQuestItem;
 	}
 	
-	public void set_description_update( String string) {
+	public void setdescription_update( String string) {
 		this.description_update = string;
 	}
 	

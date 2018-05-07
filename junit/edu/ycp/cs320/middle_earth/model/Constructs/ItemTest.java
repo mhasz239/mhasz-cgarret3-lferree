@@ -51,84 +51,84 @@ public class ItemTest{
 	@Test
 	public void testSetDescriptionUpdate(){
 		// Set the Description Update (Please tell me you knew that by reading the below line)
-		item.set_description_update("I'm a derp");
+		item.setdescription_update("I'm a derp");
 		
 		// Ensure it was set correctly
-		assertEquals("I'm a derp", item.get_description_update());
+		assertEquals("I'm a derp", item.getdescription_update());
 		
 		// Set it again (to ensure not adding to the string)
-		item.set_description_update("I'm also a derp of some sort.");
+		item.setdescription_update("I'm also a derp of some sort.");
 		
 		// Ensure again it was set correctly
-		assertEquals("I'm also a derp of some sort.", item.get_description_update());
+		assertEquals("I'm also a derp of some sort.", item.getdescription_update());
 	}
 	
 	@Test
 	public void testSetAttackBonus(){
 		// Set the Attack Bonus
-		item.set_attack_bonus(5093);
+		item.setattack_bonus(5093);
 		
 		// Ensure it was set correctly
-		assertEquals(5093, item.get_attack_bonus());
+		assertEquals(5093, item.getattack_bonus());
 		
 		// Reset it (to ensure not being crazy and adding or anything)
-		item.set_attack_bonus(19284);
+		item.setattack_bonus(19284);
 		
 		// Ensure again correct
-		assertEquals(19284, item.get_attack_bonus());
+		assertEquals(19284, item.getattack_bonus());
 	}
 	
 	@Test
 	public void testSetDefenseBonus(){
 		// Set the Defense Bonus
-		item.set_defense_bonus(53);
+		item.setdefense_bonus(53);
 		
 		// Ensure it was set correctly
-		assertEquals(53, item.get_defense_bonus());
+		assertEquals(53, item.getdefense_bonus());
 		
 		// Reset it (to ensure not being crazy and adding or anything)
-		item.set_defense_bonus(283749);
+		item.setdefense_bonus(283749);
 		
 		// Ensure again correct
-		assertEquals(283749, item.get_defense_bonus());
+		assertEquals(283749, item.getdefense_bonus());
 	}
 	
 	@Test
 	public void testSetHPBonus(){
 		// Set the HP Bonus
-		item.set_hp_bonus(3928);
+		item.sethp_bonus(3928);
 		
 		// Ensure it was set correctly
-		assertEquals(3928, item.get_hp_bonus());
+		assertEquals(3928, item.gethp_bonus());
 		
 		// Reset it (to ensure not being crazy and adding or anything)
-		item.set_hp_bonus(209);
+		item.sethp_bonus(209);
 		
 		// Ensure again correct
-		assertEquals(209, item.get_hp_bonus());
+		assertEquals(209, item.gethp_bonus());
 	}
 	
 	@Test
 	public void testSetLvlRequirement(){
 		// Set the Level Requirement
-		item.set_lvl_requirement(1000000);
+		item.setlvl_requirement(1000000);
 		
 		// Ensure it was set correctly
-		assertEquals(1000000, item.get_lvl_requirement());
+		assertEquals(1000000, item.getlvl_requirement());
 		
 		// Reset it (to ensure not being crazy and adding or anything)
-		item.set_lvl_requirement(1);
+		item.setlvl_requirement(1);
 		
 		// Ensure again correct
-		assertEquals(1, item.get_lvl_requirement());
+		assertEquals(1, item.getlvl_requirement());
 	}
 	
 	@Test
 	public void testSetType(){
 		// Set the Type
-		item.set_ItemType(ItemType.QUEST);
+		item.setItemType(ItemType.QUEST);
 		
 		// Check it's right
-		assertEquals(ItemType.QUEST, item.get_ItemType());
+		assertEquals(ItemType.QUEST, item.getItemType());
 	}
 }
