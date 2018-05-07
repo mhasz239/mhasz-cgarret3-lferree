@@ -24,6 +24,7 @@ public class IndexServlet extends HttpServlet {
 		System.out.println("Index Servlet: doGet");
 		String playerToken = (String) req.getSession().getAttribute("player");
 		req.setAttribute("playerToken", playerToken);
+		req.getSession().setAttribute("create", false);
 		req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
 	}
 	
@@ -32,7 +33,7 @@ public class IndexServlet extends HttpServlet {
 			throws ServletException, IOException {
 				
 		System.out.println("Index Servlet: doPost");
-
+		
 		
 		String errorMessage = null;
 
@@ -43,7 +44,7 @@ public class IndexServlet extends HttpServlet {
 		if (form.equalsIgnoreCase("Login")) {
 			Account account = new Account();
 			String check = account.login(req.getParameter("username"), req.getParameter("password"));
-			if (check.equals("Success!")) {
+			if (check.equals("Success!") && !req.getParameter("password").equalsIgnoreCase("")) {
 				//req.getSession().setAttribute("account", account);
 				//account.set_user_token(user_id);
 				
@@ -65,10 +66,13 @@ public class IndexServlet extends HttpServlet {
 			req.getSession().setAttribute("game", game);
 			req.setAttribute("mode", game.get_mode());
 			req.getSession().setAttribute("game1", "True");
+			req.getSession().setAttribute("exit", false);
 			req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
 		} else if(form.equalsIgnoreCase("Log out")){
 			req.getSession().setAttribute("player", "");
 			req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
+		} else if(form.equalsIgnoreCase("Create Account")){
+			req.getRequestDispatcher("/_view/account.jsp").forward(req, resp);
 		} else{
 			// Shouldn't reach this...
 			errorMessage = "Shouldn't be possible";

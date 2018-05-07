@@ -38,6 +38,10 @@
     <servlet-name>CombatServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.middle_earth.servlet.CombatServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>AccountServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.middle_earth.servlet.AccountServlet</servlet-class>
+  </servlet>
   
   
   <!-- Servlet mappings -->
@@ -72,6 +76,10 @@
   <servlet-mapping>
     <servlet-name>CombatServlet</servlet-name>
     <url-pattern>/combat</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AccountServlet</servlet-name>
+    <url-pattern>/account</url-pattern>
   </servlet-mapping>
   
 

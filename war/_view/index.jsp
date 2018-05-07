@@ -23,6 +23,7 @@
 		.features-boxed .item .icon{font-size:60px;color:#1485ee;margin-top:20px;margin-bottom:35px}
 		.features-boxed .item .name{font-weight:700;font-size:18px;margin-bottom:8px;margin-top:0;color:inherit}
 		.features-boxed .item .description{font-size:15px;margin-top:15px;margin-bottom:20px}
+		.error {color:red}
 		</style>
 	</head>
 
@@ -39,27 +40,33 @@
 			            <div class="row justify-content-center features">
 			                <div class="col-sm-6 col-md-5 col-lg-4 item">
 			                    <div class="box"><i class="fas fa-gamepad"></i>
-			                        <h3 class="name">Game 1</h3><c:choose> <c:when test="${! empty game1}"><form action="${pageContext.servletContext.contextPath}/index" method="post"><input class="btn btn-primary" type="submit" name="submit" value="Load Game 1"></form><br/><button class="btn btn-primary" type="button">Delete Game File</button></c:when><c:otherwise><form action="${pageContext.servletContext.contextPath}/index" method="post"><input class="btn btn-primary" type="submit" name="submit" value="Create Game 1"></form></c:otherwise></c:choose></div>
+			                        <h3 class="name">Game 1</h3><c:choose> <c:when test="${! empty game1}"><form action="${pageContext.servletContext.contextPath}/index" method="post"><button class="btn btn-primary" type="submit" name="submit" value="Load Game 1">Load Game</button><br/><button class="btn btn-primary" type="submit" name="submit" value="Delete Game 1">Delete Game File</button></form></c:when><c:otherwise><form action="${pageContext.servletContext.contextPath}/index" method="post"><button class="btn btn-primary" type="submit" name="submit" value="Create Game 1">Create Game</button></form></c:otherwise></c:choose>
+			                    </div>
 			                </div>
 			                <div class="col-sm-6 col-md-5 col-lg-4 item">
 			                    <div class="box"><i class="fas fa-gamepad"></i>
-			                        <h3 class="name">Game 2</h3><c:choose> <c:when test="${! empty game2}"><button class="btn btn-primary" type="button">Load Game</button><br/><button class="btn btn-primary" type="button">Delete Game File</button></c:when><c:otherwise><button class="btn btn-primary" type="button">Create Game</button></c:otherwise></c:choose></div>
+			                        <h3 class="name">Game 2</h3><c:choose> <c:when test="${! empty game2}"><form action="${pageContext.servletContext.contextPath}/index" method="post"><button class="btn btn-primary" type="submit" name="submit" value="Load Game 2">Load Game</button><br/><button class="btn btn-primary" type="submit" name="submit" value="Delete Game 2">Delete Game File</button></form></c:when><c:otherwise><form action="${pageContext.servletContext.contextPath}/index" method="post"><button class="btn btn-primary" type="submit" name="submit" value="Create Game 2">Create Game</button></form></c:otherwise></c:choose>
+			                    </div>
 			                </div>
 			                <div class="col-sm-6 col-md-5 col-lg-4 item">
 			                    <div class="box"><i class="fas fa-gamepad"></i>
-			                        <h3 class="name">Game 3</h3><c:choose> <c:when test="${! empty game3}"><button class="btn btn-primary" type="button">Load Game</button><br/><button class="btn btn-primary" type="button">Delete Game File</button></c:when><c:otherwise><button class="btn btn-primary" type="button">Create Game</button></c:otherwise></c:choose></div>
+			                        <h3 class="name">Game 3</h3><c:choose> <c:when test="${! empty game3}"><form action="${pageContext.servletContext.contextPath}/index" method="post"><button class="btn btn-primary" type="submit" name="submit" value="Load Game 3">Load Game</button><br/><button class="btn btn-primary" type="submit" name="submit" value="Delete Game 3">Delete Game File</button></form></c:when><c:otherwise><form action="${pageContext.servletContext.contextPath}/index" method="post"><button class="btn btn-primary" type="submit" name="submit" value="Create Game 3">Create Game</button></form></c:otherwise></c:choose>
+			                    </div>
 			                </div>
 			                <div class="col-sm-6 col-md-5 col-lg-4 item">
 			                    <div class="box"><i class="fas fa-gamepad"></i>
-			                        <h3 class="name">Game 4</h3><c:choose> <c:when test="${! empty game4}"><button class="btn btn-primary" type="button">Load Game</button><br/><button class="btn btn-primary" type="button">Delete Game File</button></c:when><c:otherwise><button class="btn btn-primary" type="button">Create Game</button></c:otherwise></c:choose></div>
+			                        <h3 class="name">Game 4</h3><c:choose> <c:when test="${! empty game4}"><form action="${pageContext.servletContext.contextPath}/index" method="post"><button class="btn btn-primary" type="submit" name="submit" value="Load Game 4">Load Game</button><br/><button class="btn btn-primary" type="submit" name="submit" value="Delete Game 4">Delete Game File</button></form></c:when><c:otherwise><form action="${pageContext.servletContext.contextPath}/index" method="post"><button class="btn btn-primary" type="submit" name="submit" value="Create Game 4">Create Game</button></form></c:otherwise></c:choose>
+			                    </div>
 			                </div>
 			                <div class="col-sm-6 col-md-5 col-lg-4 item">
 			                    <div class="box"><i class="fas fa-gamepad"></i>
-			                        <h3 class="name">Game 5</h3><c:choose> <c:when test="${! empty game5}"><button class="btn btn-primary" type="button">Load Game</button><br/><button class="btn btn-primary" type="button">Delete Game File</button></c:when><c:otherwise><button class="btn btn-primary" type="button">Create Game</button></c:otherwise></c:choose></div>
+			                        <h3 class="name">Game 5</h3><c:choose> <c:when test="${! empty game5}"><form action="${pageContext.servletContext.contextPath}/index" method="post"><button class="btn btn-primary" type="submit" name="submit" value="Load Game 5">Load Game</button><br/><button class="btn btn-primary" type="submit" name="submit" value="Delete Game 5">Delete Game File</button></form></c:when><c:otherwise><form action="${pageContext.servletContext.contextPath}/index" method="post"><button class="btn btn-primary" type="submit" name="submit" value="Create Game 5">Create Game</button></form></c:otherwise></c:choose>
+			                    </div>
 			                </div>
 			                <div class="col-sm-6 col-md-5 col-lg-4 item">
 			                    <div class="box"><i class="fas fa-gamepad"></i>
-			                        <h3 class="name">Game 6</h3><c:choose> <c:when test="${! empty game6}"><button class="btn btn-primary" type="button">Load Game</button><br/><button class="btn btn-primary" type="button">Delete Game File</button></c:when><c:otherwise><button class="btn btn-primary" type="button">Create Game</button></c:otherwise></c:choose></div>
+			                        <h3 class="name">Game 6</h3><c:choose> <c:when test="${! empty game6}"><form action="${pageContext.servletContext.contextPath}/index" method="post"><button class="btn btn-primary" type="submit" name="submit" value="Load Game 6">Load Game</button><br/><button class="btn btn-primary" type="submit" name="submit" value="Delete Game 6">Delete Game File</button></form></c:when><c:otherwise><form action="${pageContext.servletContext.contextPath}/index" method="post"><button class="btn btn-primary" type="submit" name="submit" value="Create Game 6">Create Game</button></form></c:otherwise></c:choose>
+			                    </div>
 			                </div>
 			            </div>
 			        </div>
@@ -82,15 +89,15 @@
 							<td class="label">Password: </td>
 							<td><input type="password" name="password" size="12" value="${password}" /></td>
 						</tr>
-						<tr>
-							<td><input type="Submit" name="submit" value="Login"></td>
-						</tr>
+							
 						<tr>
 							<c:if test="${! empty errorMessage}">
 						   		<div class="error">${errorMessage}</div>
 							</c:if>
 						</tr>
 					</table>
+					<input type="Submit" name="submit" value="Login">
+					<p></br>Don't have an account? <button type="Submit" name="submit" value="Create Account">Create an Account</button></p>
 				</form>	
 				</div>
 					
