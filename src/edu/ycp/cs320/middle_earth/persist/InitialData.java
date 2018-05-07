@@ -83,10 +83,10 @@ public class InitialData {
 				Iterator<String> i = tuple.iterator();
 				Enemy enemy = new Enemy();
 				
-				enemy.set_race(i.next());
-				enemy.set_attack(Integer.parseInt(i.next()));
-				enemy.set_defense(Integer.parseInt(i.next()));
-				enemy.set_hit_points(Integer.parseInt(i.next()));
+				enemy.setrace(i.next());
+				enemy.setattack(Integer.parseInt(i.next()));
+				enemy.setdefense(Integer.parseInt(i.next()));
+				enemy.sethit_points(Integer.parseInt(i.next()));
 				
 				enemyList.add(enemy);
  			}
@@ -111,7 +111,7 @@ public class InitialData {
 				item.setName(i.next());
  				item.setLongDescription(i.next());
  				item.setShortDescription(i.next());
- 				item.set_description_update(i.next());
+ 				item.setdescription_update(i.next());
 				item.setattack_bonus(Integer.parseInt(i.next()));
   				item.setdefense_bonus(Integer.parseInt(i.next()));
   				item.sethp_bonus(Integer.parseInt(i.next())); 				
@@ -370,21 +370,21 @@ public class InitialData {
 				Iterator<String> i = tuple.iterator();
 				Player player = new Player();
 				
-				player.set_race(i.next());
-				player.set_name(i.next());
-				player.set_gender(i.next());
-				player.set_level(Integer.parseInt(i.next()));
-				player.set_hit_points(Integer.parseInt(i.next()));
+				player.setrace(i.next());
+				player.setname(i.next());
+				player.setgender(i.next());
+				player.setlevel(Integer.parseInt(i.next()));
+				player.sethit_points(Integer.parseInt(i.next()));
 				
-				player.set_magic_points(Integer.parseInt(i.next()));
-				player.set_attack(Integer.parseInt(i.next()));
-				player.set_defense(Integer.parseInt(i.next()));
-				player.set_special_attack(Integer.parseInt(i.next()));
-				player.set_special_defense(Integer.parseInt(i.next()));
+				player.setmagic_points(Integer.parseInt(i.next()));
+				player.setattack(Integer.parseInt(i.next()));
+				player.setdefense(Integer.parseInt(i.next()));
+				player.setspecial_attack(Integer.parseInt(i.next()));
+				player.setspecial_defense(Integer.parseInt(i.next()));
 				
-				player.set_coins(Integer.parseInt(i.next()));
-				player.set_location(Integer.parseInt(i.next()));
-				player.set_inventory_id(Integer.parseInt(i.next()));
+				player.setcoins(Integer.parseInt(i.next()));
+				player.setlocation(Integer.parseInt(i.next()));
+				player.setinventory_id(Integer.parseInt(i.next()));
 				
 				/**
 				 * The next few lines are equipping armor pieces to pass player
@@ -402,40 +402,40 @@ public class InitialData {
 				// helm
 				item.setItemType(ItemType.HELM);
 				item.setID(Integer.parseInt(i.next()));
-				player.set_helm(item);
+				player.sethelm(item);
 				
 				// braces
 				item.setItemType(ItemType.BRACES);
 				item.setID(Integer.parseInt(i.next()));
-				player.set_braces(item);
+				player.setbraces(item);
 				
 				// chest
 				item.setItemType(ItemType.CHEST);
 				item.setID(Integer.parseInt(i.next()));
-				player.set_chest(item);
+				player.setchest(item);
 				
 				// legs
 				item.setItemType(ItemType.LEGS);
 				item.setID(Integer.parseInt(i.next()));
-				player.set_legs(item);
+				player.setlegs(item);
 				
 				// boots
 				item.setItemType(ItemType.BOOTS);
 				item.setID(Integer.parseInt(i.next()));
-				player.set_boots(item);
+				player.setboots(item);
 				
 				// l_hand
 				item.setItemType(ItemType.L_HAND);
 				item.setID(Integer.parseInt(i.next()));
-				player.set_l_hand(item);
+				player.setl_hand(item);
 				
 				// r_hand
 				item.setItemType(ItemType.R_HAND);
 				item.setID(Integer.parseInt(i.next()));
-				player.set_r_hand(item);
+				player.setr_hand(item);
 				
-				player.set_experience(Integer.parseInt(i.next()));
-				player.set_carry_weight(Integer.parseInt(i.next()));
+				player.setexperience(Integer.parseInt(i.next()));
+				player.setcarry_weight(Integer.parseInt(i.next()));
 			
 				playerList.add(player);
 			}	

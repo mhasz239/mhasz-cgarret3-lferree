@@ -24,9 +24,9 @@ public class QueryForInventories {
 		}
 		else {
 			for(Inventory inventory : inventoryList) {
-				System.out.println("Inventory_id = " + inventory.get_inventory_id() + "\n"
-						+ "Inventory weight = " + inventory.get_weight() + "\n");
-				for (Item item : inventory.get_items()) {
+				System.out.println("Inventory_id = " + inventory.getinventory_id() + "\n"
+						+ "Inventory weight = " + inventory.getweight() + "\n");
+				for (Item item : inventory.getitems()) {
 					System.out.println("item_id = " + item.getID() + "\n" 
 							+ item.getName() + "\n" + item.getLongDescription() + "\n" 
 							+ item.getShortDescription() + "\nitem weight = " + item.getItemWeight() 

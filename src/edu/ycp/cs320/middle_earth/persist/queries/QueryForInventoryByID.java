@@ -22,7 +22,7 @@ public class QueryForInventoryByID {
 		} else {
 			System.out.println(
 					"Items:");
-			for(Item item : inventory.get_items()) {
+			for(Item item : inventory.getitems()) {
 				System.out.println("\tItem ID = " + item.getID() 
 				+ "\n\tItem Name = " + item.getName() 
 				+ "\n\tLong Desc = " + item.getLongDescription() 

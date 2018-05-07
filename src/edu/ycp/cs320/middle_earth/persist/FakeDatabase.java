@@ -126,8 +126,8 @@ public class FakeDatabase implements IDatabase {
 	public Player getPlayer() {
 		
 		for(Inventory inventory : inventoryList) {
-			if(inventory.get_inventory_id() == playerList.get(0).get_inventory_id()) {
-				playerList.get(0).set_inventory(inventory);
+			if(inventory.getinventory_id() == playerList.get(0).getinventory_id()) {
+				playerList.get(0).setinventory(inventory);
 			}
 		}
 		return playerList.get(0);
@@ -136,7 +136,7 @@ public class FakeDatabase implements IDatabase {
 	@Override
 	public ArrayList<Inventory> getAllInventories() {
 		for(Inventory inventory : inventoryList) {
-			for(Item item : inventory.get_items()) {
+			for(Item item : inventory.getitems()) {
 				for(Item listedItem : itemList) {
 					if(item.getID() == listedItem.getID())
 					{
@@ -216,7 +216,7 @@ public class FakeDatabase implements IDatabase {
 	@Override
 	public Character getCharacterByName(String characterName) {
 		for(Character character : characterList) {
-			if(character.get_name() == characterName) {
+			if(character.getname() == characterName) {
 				return character;
 			}
 		}

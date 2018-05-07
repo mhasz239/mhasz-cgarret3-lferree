@@ -24,17 +24,17 @@ public class QueryForEnemies {
 			System.out.println("Please note: names and genders are random\n");
 			for(Enemy enemy : enemyList) {
 				System.out.println(
-					"Race = "+  enemy.get_race() + "\n"
-					+ "Name = " + enemy.get_name() + "\n"
-					+ "Gender = " + enemy.get_gender() + "\n"
-					+ "Level = " + enemy.get_level() + "\n"
-					+ "HP = " + enemy.get_hit_points() + "\n"
+					"Race = "+  enemy.getrace() + "\n"
+					+ "Name = " + enemy.getname() + "\n"
+					+ "Gender = " + enemy.getgender() + "\n"
+					+ "Level = " + enemy.getlevel() + "\n"
+					+ "HP = " + enemy.gethit_points() + "\n"
 					
-					+ "MP = " + enemy.get_magic_points() + "\n"
-					+ "ATK = " + enemy.get_attack() + "\n"
-					+ "DEF = " + enemy.get_defense() + "\n"
-					+ "SPATK = " + enemy.get_special_attack() + "\n"
-					+ "SPDEF = " + enemy.get_special_defense() + "\n"
+					+ "MP = " + enemy.getmagic_points() + "\n"
+					+ "ATK = " + enemy.getattack() + "\n"
+					+ "DEF = " + enemy.getdefense() + "\n"
+					+ "SPATK = " + enemy.getspecial_attack() + "\n"
+					+ "SPDEF = " + enemy.getspecial_defense() + "\n"
 				);
 			}
 		}

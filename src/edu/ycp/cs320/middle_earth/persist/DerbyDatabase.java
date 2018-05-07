@@ -106,7 +106,7 @@ public class DerbyDatabase implements IDatabase {
 		item.setLongDescription(resultSet.getString(index++));
 		item.setShortDescription(resultSet.getString(index++));
 		
-		item.set_description_update(resultSet.getString(index++));
+		item.setdescription_update(resultSet.getString(index++));
 		item.setattack_bonus(resultSet.getInt(index++));
   		item.setdefense_bonus(resultSet.getInt(index++));
   		item.sethp_bonus(resultSet.getInt(index++));	
@@ -159,18 +159,18 @@ public class DerbyDatabase implements IDatabase {
 	}
 	
 	private void loadEnemy(Enemy enemy, ResultSet resultSet, int index) throws SQLException {
-		enemy.set_race(resultSet.getString(index++));
-		enemy.set_hit_points(resultSet.getInt(index++));
-		enemy.set_magic_points(resultSet.getInt(index++));
+		enemy.setrace(resultSet.getString(index++));
+		enemy.sethit_points(resultSet.getInt(index++));
+		enemy.setmagic_points(resultSet.getInt(index++));
 		
 		StringPair randNameGender = getRandomName();
 		
-		enemy.set_name(randNameGender.getString1());
-		enemy.set_gender(randNameGender.getString2());
-		enemy.set_attack(resultSet.getInt(index++));
-		enemy.set_defense(resultSet.getInt(index++));
-		enemy.set_special_attack(resultSet.getInt(index++));
-		enemy.set_special_defense(resultSet.getInt(index++));		
+		enemy.setname(randNameGender.getString1());
+		enemy.setgender(randNameGender.getString2());
+		enemy.setattack(resultSet.getInt(index++));
+		enemy.setdefense(resultSet.getInt(index++));
+		enemy.setspecial_attack(resultSet.getInt(index++));
+		enemy.setspecial_defense(resultSet.getInt(index++));		
 	}
 	
 	private void loadNameGender(StringPair nameGender, ResultSet resultSet, int index) throws SQLException {
@@ -180,34 +180,34 @@ public class DerbyDatabase implements IDatabase {
 	
 	private void loadPlayer(Player player, ResultSet resultSet, int index) {
 		try {
-		player.set_race(resultSet.getString(index++));
-		player.set_name(resultSet.getString(index++));
-		player.set_gender(resultSet.getString(index++));
-		player.set_level(resultSet.getInt(index++));
-		player.set_hit_points(resultSet.getInt(index++));
+		player.setrace(resultSet.getString(index++));
+		player.setname(resultSet.getString(index++));
+		player.setgender(resultSet.getString(index++));
+		player.setlevel(resultSet.getInt(index++));
+		player.sethit_points(resultSet.getInt(index++));
 		
-		player.set_magic_points(resultSet.getInt(index++));
-		player.set_attack(resultSet.getInt(index++));
-		player.set_defense(resultSet.getInt(index++));
-		player.set_special_attack(resultSet.getInt(index++));
-		player.set_special_defense(resultSet.getInt(index++));
+		player.setmagic_points(resultSet.getInt(index++));
+		player.setattack(resultSet.getInt(index++));
+		player.setdefense(resultSet.getInt(index++));
+		player.setspecial_attack(resultSet.getInt(index++));
+		player.setspecial_defense(resultSet.getInt(index++));
 		
-		player.set_coins(resultSet.getInt(index++));
-		player.set_location(resultSet.getInt(index++));
-		player.set_inventory_id(resultSet.getInt(index++));
+		player.setcoins(resultSet.getInt(index++));
+		player.setlocation(resultSet.getInt(index++));
+		player.setinventory_id(resultSet.getInt(index++));
 
 		int carryWeight = 0;
-		player.set_inventory(getInventoryByID(player.get_inventory_id()));
+		player.setinventory(getInventoryByID(player.getinventory_id()));
 		
 		// Sum up inventory weight
-		for(Item item : player.get_inventory().get_items()) {
+		for(Item item : player.getinventory().getitems()) {
 			carryWeight += item.getItemWeight();
 		}
 
 		Item emptyItemSlot = new Item();
 		emptyItemSlot.setattack_bonus(0);
 		emptyItemSlot.setdefense_bonus(0);
-		emptyItemSlot.set_description_update("You haven't equipped one");
+		emptyItemSlot.setdescription_update("You haven't equipped one");
 		emptyItemSlot.sethp_bonus(0);
 		emptyItemSlot.setlvl_requirement(0);
 		emptyItemSlot.setID(0);
@@ -222,71 +222,71 @@ public class DerbyDatabase implements IDatabase {
 		// helm
 		if((itemID = resultSet.getInt(index++)) == 0) {
 			emptyItemSlot.setItemType(ItemType.HELM);
-			player.set_helm(emptyItemSlot);
+			player.sethelm(emptyItemSlot);
 		} else {
-			player.set_helm(getItemByID(itemID));
-			carryWeight += player.get_helm().getItemWeight();
+			player.sethelm(getItemByID(itemID));
+			carryWeight += player.gethelm().getItemWeight();
 		}
 		
 		// braces
 		if((itemID = resultSet.getInt(index++)) == 0) {
 			emptyItemSlot.setItemType(ItemType.BRACES);
-			player.set_braces(emptyItemSlot);
+			player.setbraces(emptyItemSlot);
 		} else {
-			player.set_braces(getItemByID(itemID));
-			carryWeight += player.get_braces().getItemWeight();
+			player.setbraces(getItemByID(itemID));
+			carryWeight += player.getbraces().getItemWeight();
 		}		
 		
 		// chest
 		if((itemID = resultSet.getInt(index++)) == 0) {
 			emptyItemSlot.setItemType(ItemType.CHEST);
-			player.set_chest(emptyItemSlot);
+			player.setchest(emptyItemSlot);
 		} else {
-			player.set_chest(getItemByID(itemID));
-			carryWeight += player.get_chest().getItemWeight();
+			player.setchest(getItemByID(itemID));
+			carryWeight += player.getchest().getItemWeight();
 		}
 		
 		// legs
 		if((itemID = resultSet.getInt(index++)) == 0) {
 			emptyItemSlot.setItemType(ItemType.LEGS);
-			player.set_legs(emptyItemSlot);
+			player.setlegs(emptyItemSlot);
 		} else {
-			player.set_legs(getItemByID(itemID));
-			carryWeight += player.get_legs().getItemWeight();
+			player.setlegs(getItemByID(itemID));
+			carryWeight += player.getlegs().getItemWeight();
 		}
 		
 		// boots
 		if((itemID = resultSet.getInt(index++)) == 0) {
 			emptyItemSlot.setItemType(ItemType.BOOTS);
-			player.set_boots(emptyItemSlot);
+			player.setboots(emptyItemSlot);
 		} else {
-			player.set_boots(getItemByID(itemID));
-			carryWeight += player.get_boots().getItemWeight();
+			player.setboots(getItemByID(itemID));
+			carryWeight += player.getboots().getItemWeight();
 		}
 		
 		// l_hand
 		if((itemID = resultSet.getInt(index++)) == 0) {
 			emptyItemSlot.setItemType(ItemType.L_HAND);
-			player.set_l_hand(emptyItemSlot);
+			player.setl_hand(emptyItemSlot);
 		} else {
-			player.set_l_hand(getItemByID(itemID));
-			carryWeight += player.get_l_hand().getItemWeight();
+			player.setl_hand(getItemByID(itemID));
+			carryWeight += player.getl_hand().getItemWeight();
 		}
 		
 		// r_hand
 		if((itemID = resultSet.getInt(index++)) == 0) {
 			emptyItemSlot.setItemType(ItemType.R_HAND);
-			player.set_r_hand(emptyItemSlot);
+			player.setr_hand(emptyItemSlot);
 		} else {
-			player.set_r_hand(getItemByID(itemID));
-			carryWeight += player.get_r_hand().getItemWeight();
+			player.setr_hand(getItemByID(itemID));
+			carryWeight += player.getr_hand().getItemWeight();
 		}
 		
-		player.set_carry_weight(index++);
-		player.set_experience(resultSet.getInt(index++));
+		player.setcarry_weight(index++);
+		player.setexperience(resultSet.getInt(index++));
 		
 		// Add the sum total of weight to the inventory
-		player.get_inventory().set_weight(carryWeight);
+		player.getinventory().setweight(carryWeight);
 		
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -701,32 +701,32 @@ public class DerbyDatabase implements IDatabase {
 							+ "?, ?)" );
 					for(Player player : playerList) {
 						int i = 1;
-						insertPlayers.setString(i++, player.get_race());
-						insertPlayers.setString(i++, player.get_name());
-						insertPlayers.setString(i++, player.get_gender());
-						insertPlayers.setInt(i++, player.get_level());
-						insertPlayers.setInt(i++, player.get_hit_points());
+						insertPlayers.setString(i++, player.getrace());
+						insertPlayers.setString(i++, player.getname());
+						insertPlayers.setString(i++, player.getgender());
+						insertPlayers.setInt(i++, player.getlevel());
+						insertPlayers.setInt(i++, player.gethit_points());
 						
-						insertPlayers.setInt(i++, player.get_magic_points());
-						insertPlayers.setInt(i++, player.get_attack());
-						insertPlayers.setInt(i++, player.get_defense());
-						insertPlayers.setInt(i++, player.get_special_attack());
-						insertPlayers.setInt(i++, player.get_special_defense());
+						insertPlayers.setInt(i++, player.getmagic_points());
+						insertPlayers.setInt(i++, player.getattack());
+						insertPlayers.setInt(i++, player.getdefense());
+						insertPlayers.setInt(i++, player.getspecial_attack());
+						insertPlayers.setInt(i++, player.getspecial_defense());
 						
-						insertPlayers.setInt(i++, player.get_coins());
-						insertPlayers.setInt(i++, player.get_location());
-						insertPlayers.setInt(i++, player.get_inventory_id());
-						insertPlayers.setInt(i++, player.get_helm().getID());
-						insertPlayers.setInt(i++, player.get_braces().getID());
+						insertPlayers.setInt(i++, player.getcoins());
+						insertPlayers.setInt(i++, player.getlocation());
+						insertPlayers.setInt(i++, player.getinventory_id());
+						insertPlayers.setInt(i++, player.gethelm().getID());
+						insertPlayers.setInt(i++, player.getbraces().getID());
 						
-						insertPlayers.setInt(i++, player.get_chest().getID());
-						insertPlayers.setInt(i++, player.get_legs().getID());
-						insertPlayers.setInt(i++, player.get_boots().getID());
-						insertPlayers.setInt(i++, player.get_l_hand().getID());
-						insertPlayers.setInt(i++, player.get_r_hand().getID());
+						insertPlayers.setInt(i++, player.getchest().getID());
+						insertPlayers.setInt(i++, player.getlegs().getID());
+						insertPlayers.setInt(i++, player.getboots().getID());
+						insertPlayers.setInt(i++, player.getl_hand().getID());
+						insertPlayers.setInt(i++, player.getr_hand().getID());
 						
-						insertPlayers.setInt(i++, player.get_experience());
-						insertPlayers.setInt(i++, player.get_carry_weight());
+						insertPlayers.setInt(i++, player.getexperience());
+						insertPlayers.setInt(i++, player.getcarry_weight());
 							
 						insertPlayers.addBatch();
 					}
@@ -773,13 +773,13 @@ public class DerbyDatabase implements IDatabase {
 					
 					insertEnemies = conn.prepareStatement(" insert into enemies (race, hp, mp, attack, defense, sp_atk, sp_def) values (?, ?, ?, ?, ?, ?, ?)");
 					for(Enemy enemy : enemyList) {
-						insertEnemies.setString(1, enemy.get_race());
-						insertEnemies.setInt(2, enemy.get_hit_points());
-						insertEnemies.setInt(3, enemy.get_magic_points());
-						insertEnemies.setInt(4, enemy.get_attack());
-						insertEnemies.setInt(5, enemy.get_defense());
-						insertEnemies.setInt(6, enemy.get_special_attack());
-						insertEnemies.setInt(7, enemy.get_special_defense());
+						insertEnemies.setString(1, enemy.getrace());
+						insertEnemies.setInt(2, enemy.gethit_points());
+						insertEnemies.setInt(3, enemy.getmagic_points());
+						insertEnemies.setInt(4, enemy.getattack());
+						insertEnemies.setInt(5, enemy.getdefense());
+						insertEnemies.setInt(6, enemy.getspecial_attack());
+						insertEnemies.setInt(7, enemy.getspecial_defense());
 						
 						insertEnemies.addBatch();
 					}
@@ -840,7 +840,7 @@ public class DerbyDatabase implements IDatabase {
 		Scanner keyboard = null;
 		
 		System.out.println("Choose your name: ");
-		player.set_name(keyboard.next());
+		player.setname(keyboard.next());
 		
 		System.out.println("Choose your race: ");
 		System.out.println("Human, Elf, Dwarf");
@@ -849,32 +849,32 @@ public class DerbyDatabase implements IDatabase {
 		while(race != "Elf" && race != "Human" && race != "Dwarf") {
 			keyboard.next();
 		}
-		player.set_race(race);
+		player.setrace(race);
 		
 		System.out.println("Choose your gender");
-		player.set_gender(keyboard.next());
+		player.setgender(keyboard.next());
 		
 		/*
 		 * Stat Distribution
 		*/
-		player.set_level(1);
-		player.set_hit_points(100);
+		player.setlevel(1);
+		player.sethit_points(100);
 		
-		player.set_magic_points(25);
-		player.set_attack(10);
-		player.set_defense(10);
-		player.set_special_attack(15);
-		player.set_special_defense(10);
+		player.setmagic_points(25);
+		player.setattack(10);
+		player.setdefense(10);
+		player.setspecial_attack(15);
+		player.setspecial_defense(10);
 		
-		player.set_coins(0);
-		player.set_location(1);
+		player.setcoins(0);
+		player.setlocation(1);
 
 		int carryWeight = 0;
 
 		Item emptyItemSlot = new Item();
 		emptyItemSlot.setattack_bonus(0);
 		emptyItemSlot.setdefense_bonus(0);
-		emptyItemSlot.set_description_update("You haven't equipped one");
+		emptyItemSlot.setdescription_update("You haven't equipped one");
 		emptyItemSlot.sethp_bonus(0);
 		emptyItemSlot.setlvl_requirement(0);
 		emptyItemSlot.setID(0);
@@ -888,36 +888,36 @@ public class DerbyDatabase implements IDatabase {
 		
 		// helm
 		emptyItemSlot.setItemType(ItemType.HELM);
-		player.set_helm(emptyItemSlot);
+		player.sethelm(emptyItemSlot);
 		
 		// braces
 		emptyItemSlot.setItemType(ItemType.BRACES);
-		player.set_braces(emptyItemSlot);
+		player.setbraces(emptyItemSlot);
 		
 		// chest
 		emptyItemSlot.setItemType(ItemType.CHEST);
-		player.set_chest(emptyItemSlot);
+		player.setchest(emptyItemSlot);
 		
 		emptyItemSlot.setItemType(ItemType.LEGS);
-		player.set_legs(emptyItemSlot);
+		player.setlegs(emptyItemSlot);
 		
 		// boots
 		emptyItemSlot.setItemType(ItemType.BOOTS);
-		player.set_boots(emptyItemSlot);
+		player.setboots(emptyItemSlot);
 		
 		// l_hand
 		emptyItemSlot.setItemType(ItemType.L_HAND);
-		player.set_l_hand(emptyItemSlot);
+		player.setl_hand(emptyItemSlot);
 		
 		// r_hand
 		emptyItemSlot.setItemType(ItemType.R_HAND);
-		player.set_r_hand(emptyItemSlot);
+		player.setr_hand(emptyItemSlot);
 		
-		player.set_carry_weight(20);
-		player.set_experience(0);
+		player.setcarry_weight(20);
+		player.setexperience(0);
 		
 		// Add the sum total of weight to the inventory
-		player.get_inventory().set_weight(carryWeight);
+		player.getinventory().setweight(carryWeight);
 		return player;
 	}
 	
@@ -2082,7 +2082,7 @@ public class DerbyDatabase implements IDatabase {
 					if(!found) {
 						System.out.println("This inventory is empty");
 					}
-					inventory.set_items(itemList);
+					inventory.setitems(itemList);
 					
 					return inventory;
 				} finally {
@@ -2176,19 +2176,19 @@ public class DerbyDatabase implements IDatabase {
 	public Game loadGame() {
 		
 		Game game = new Game();
-		game.set_map(getMap());
-		game.set_objects(getAllObjects());
-		game.set_items(getAllItems());
+		game.setmap(getMap());
+		game.setobjects(getAllObjects());
+		game.setitems(getAllItems());
 		ArrayList<Character> characterList = new ArrayList<Character>();
 		characterList.add(getPlayer());
-		game.set_characters(characterList);
+		game.setcharacters(characterList);
 		
 		return game;
 	}
 	
 	public void saveGame(Game game) {
-		updateMap(game.get_map());
-		updateCharacters(game.get_characters());
+		updateMap(game.getmap());
+		updateCharacters(game.getcharacters());
 	} 
 	
 	@Override
@@ -2406,7 +2406,7 @@ public class DerbyDatabase implements IDatabase {
 	
 	private void updateCharacters(ArrayList<Character> characterList) {
 		updatePlayer(characterList.get(0));
-		characterList.get(0).set_inventory(getInventoryByID(characterList.get(0).get_inventory_id()));
+		characterList.get(0).setinventory(getInventoryByID(characterList.get(0).getinventory_id()));
 	}
 	
 	private void updatePlayer(Character player) {
@@ -2420,7 +2420,7 @@ public class DerbyDatabase implements IDatabase {
 							"delete from players "
 							+ "where players.name = ? "
 					);
-					stmtRemovePlayer.setString(1, player.get_name());
+					stmtRemovePlayer.setString(1, player.getname());
 					stmtRemovePlayer.executeUpdate();
 					
 					stmtUpdatePlayer = conn.prepareStatement(
@@ -2437,29 +2437,29 @@ public class DerbyDatabase implements IDatabase {
 					);
 					
 						int i = 1;
-						stmtUpdatePlayer.setString(i++, player.get_race());
-						stmtUpdatePlayer.setString(i++, player.get_name());
-						stmtUpdatePlayer.setString(i++, player.get_gender());
-						stmtUpdatePlayer.setInt(i++, player.get_level());
-						stmtUpdatePlayer.setInt(i++, player.get_hit_points());
+						stmtUpdatePlayer.setString(i++, player.getrace());
+						stmtUpdatePlayer.setString(i++, player.getname());
+						stmtUpdatePlayer.setString(i++, player.getgender());
+						stmtUpdatePlayer.setInt(i++, player.getlevel());
+						stmtUpdatePlayer.setInt(i++, player.gethit_points());
 						
-						stmtUpdatePlayer.setInt(i++, player.get_magic_points());
-						stmtUpdatePlayer.setInt(i++, player.get_attack());
-						stmtUpdatePlayer.setInt(i++, player.get_defense());
-						stmtUpdatePlayer.setInt(i++, player.get_special_attack());
-						stmtUpdatePlayer.setInt(i++, player.get_special_defense());
+						stmtUpdatePlayer.setInt(i++, player.getmagic_points());
+						stmtUpdatePlayer.setInt(i++, player.getattack());
+						stmtUpdatePlayer.setInt(i++, player.getdefense());
+						stmtUpdatePlayer.setInt(i++, player.getspecial_attack());
+						stmtUpdatePlayer.setInt(i++, player.getspecial_defense());
 						
-						stmtUpdatePlayer.setInt(i++, player.get_coins());
-						stmtUpdatePlayer.setInt(i++, player.get_location());
-						stmtUpdatePlayer.setInt(i++, player.get_inventory_id());
-						stmtUpdatePlayer.setInt(i++, player.get_helm().getID());
-						stmtUpdatePlayer.setInt(i++, player.get_braces().getID());
+						stmtUpdatePlayer.setInt(i++, player.getcoins());
+						stmtUpdatePlayer.setInt(i++, player.getlocation());
+						stmtUpdatePlayer.setInt(i++, player.getinventory_id());
+						stmtUpdatePlayer.setInt(i++, player.gethelm().getID());
+						stmtUpdatePlayer.setInt(i++, player.getbraces().getID());
 						
-						stmtUpdatePlayer.setInt(i++, player.get_chest().getID());
-						stmtUpdatePlayer.setInt(i++, player.get_legs().getID());
-						stmtUpdatePlayer.setInt(i++, player.get_boots().getID());
-						stmtUpdatePlayer.setInt(i++, player.get_l_hand().getID());
-						stmtUpdatePlayer.setInt(i++, player.get_r_hand().getID());
+						stmtUpdatePlayer.setInt(i++, player.getchest().getID());
+						stmtUpdatePlayer.setInt(i++, player.getlegs().getID());
+						stmtUpdatePlayer.setInt(i++, player.getboots().getID());
+						stmtUpdatePlayer.setInt(i++, player.getl_hand().getID());
+						stmtUpdatePlayer.setInt(i++, player.getr_hand().getID());
 							
 						stmtUpdatePlayer.addBatch();	
 						stmtUpdatePlayer.executeBatch();	
@@ -2526,10 +2526,10 @@ public class DerbyDatabase implements IDatabase {
 							"insert into itemstoinventories (item_id, inventory_id) "
 							+ "values (?, ?)");
 					stmt.setInt(1, item.getID());
-					stmt.setInt(2, inventory.get_inventory_id());
+					stmt.setInt(2, inventory.getinventory_id());
 					stmt.executeUpdate();
 					
-					inventory.get_items().add(item);
+					inventory.getitems().add(item);
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt);
@@ -2655,10 +2655,10 @@ public class DerbyDatabase implements IDatabase {
 							+ "where itemstoinventories.item_id = ? "
 							+ "AND itemstoinventories.inventory_id = ? ");
 					stmt.setInt(1, item.getID());
-					stmt.setInt(2, inventory.get_inventory_id());
+					stmt.setInt(2, inventory.getinventory_id());
 					stmt.executeUpdate();
 					
-					inventory.get_items().remove(item);
+					inventory.getitems().remove(item);
 					
 					return item;
 				} finally {

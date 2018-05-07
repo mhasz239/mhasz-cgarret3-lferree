@@ -24,21 +24,21 @@ public class QueryForCharacters {
 		}
 		else {
 			for(Character character : characterList) {
-				System.out.println(character.get_race() + "\n"
-						+ character.get_name() + "\n"
-						+ character.get_gender() + "\n"
-						+ character.get_level() + "\n"
-						+ character.get_hit_points() + "\n"
-						+ character.get_magic_points() + "\n"
-						+ character.get_attack() + "\n"
-						+ character.get_defense() + "\n"
-						+ character.get_special_attack() + "\n"
-						+ character.get_special_defense() + "\n"
-						+ character.get_coins() + "\n"
-						+ character.get_location() + "\n");		
+				System.out.println(character.getrace() + "\n"
+						+ character.getname() + "\n"
+						+ character.getgender() + "\n"
+						+ character.getlevel() + "\n"
+						+ character.gethit_points() + "\n"
+						+ character.getmagic_points() + "\n"
+						+ character.getattack() + "\n"
+						+ character.getdefense() + "\n"
+						+ character.getspecial_attack() + "\n"
+						+ character.getspecial_defense() + "\n"
+						+ character.getcoins() + "\n"
+						+ character.getlocation() + "\n");		
 				
-				System.out.println(character.get_inventory().get_weight());
-				for (Item item : character.get_inventory().get_items()) {
+				System.out.println(character.getinventory().getweight());
+				for (Item item : character.getinventory().getitems()) {
 					System.out.println("item_id = " + item.getID() + "\n" 
 							+ item.getName() + "\n" + item.getLongDescription() + "\n" 
 							+ item.getShortDescription() + "\nitem weight = " + item.getItemWeight() 
