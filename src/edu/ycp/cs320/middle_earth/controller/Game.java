@@ -520,7 +520,7 @@ public class Game implements Engine{
 				// TODO: Check if on the same tile as another player to trigger pvp combat (and thus not do an encounter check)
 				
 				Random rand = new Random(System.currentTimeMillis());
-				int encounterCheck = rand.nextInt(10);
+				int encounterCheck = rand.nextInt(5);
 				if(encounterCheck == 0){
 					// TODO: Currently Player index is 0, need to find it based on current player (for multiplayer)
 					battle = new CombatSituation(this, 1, 0);
