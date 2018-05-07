@@ -217,7 +217,9 @@ public class Game implements Engine{
 		
 		if (commandStr.equalsIgnoreCase("save")){
 			save();
-		} else if (mode.equalsIgnoreCase("combat")){
+		} else if(commandStr.equalsIgnoreCase("exit")) {
+			
+		}else if (mode.equalsIgnoreCase("combat")){
 			if(battle != null && !battle.isDone()){
 				if(command.equalsIgnoreCase("attack")){
 					if(arg == null){

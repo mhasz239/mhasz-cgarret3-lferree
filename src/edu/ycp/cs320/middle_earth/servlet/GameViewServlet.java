@@ -43,17 +43,35 @@ public class GameViewServlet extends HttpServlet {
 
         System.out.println("GameView Servlet: doPost");
         
-        Game game = (Game) req.getSession().getAttribute("game");
-        req.getSession().setAttribute("command", req.getParameter("command"));
+        //Exit not working yet. Still needs fix.
         
-        if(!game.get_mode().equalsIgnoreCase("combat")){
-        	if(game.mode_change(req.getParameter("command"))){
-        		req.getSession().setAttribute("command", null);
+        if ((boolean) req.getSession().getAttribute("exit")) {
+        	if (req.getParameter("exitAns").equalsIgnoreCase("Yes")) {
+        		req.getSession().setAttribute("game", null);
+        		req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);;
+        	} else {
+        		req.getSession().setAttribute("exit", false);
+        		req.setAttribute("command", null);
+        		req.setAttribute("mode", ((Game) req.getSession().getAttribute("game")).get_mode());
+        		req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
         	}
+        } else {
+        	Game game = (Game) req.getSession().getAttribute("game");
+        	req.getSession().setAttribute("command", req.getParameter("command"));
+        
+        	if (req.getParameter("command") != null && req.getParameter("command").equalsIgnoreCase("exit")){
+        		req.getSession().setAttribute("exit", true);
+        	}
+        
+        	if(!game.get_mode().equalsIgnoreCase("combat")){
+        		if(game.mode_change(req.getParameter("command"))){
+        			req.getSession().setAttribute("command", null);
+        		}
+        	}
+        
+       
+        	req.setAttribute("mode", game.get_mode());
+        	req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
         }
-        
-        req.setAttribute("mode", game.get_mode());
-        req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
-        
     }
 }
