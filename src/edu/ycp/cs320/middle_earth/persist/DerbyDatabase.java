@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -108,13 +107,13 @@ public class DerbyDatabase implements IDatabase {
 		item.setShortDescription(resultSet.getString(index++));
 		
 		item.set_description_update(resultSet.getString(index++));
-		item.set_attack_bonus(resultSet.getInt(index++));
-  		item.set_defense_bonus(resultSet.getInt(index++));
-  		item.set_hp_bonus(resultSet.getInt(index++));	
+		item.setattack_bonus(resultSet.getInt(index++));
+  		item.setdefense_bonus(resultSet.getInt(index++));
+  		item.sethp_bonus(resultSet.getInt(index++));	
 
 		item.setItemWeight(resultSet.getFloat(index++));	
-		item.set_ItemType(ItemType.valueOf(resultSet.getString(index++))); 
-		item.set_lvl_requirement(resultSet.getInt(index++));
+		item.setItemType(ItemType.valueOf(resultSet.getString(index++))); 
+		item.setlvl_requirement(resultSet.getInt(index++));
 	}
 	
 	private void loadObject(Object object, ResultSet resultSet, int index) throws SQLException {
@@ -206,11 +205,11 @@ public class DerbyDatabase implements IDatabase {
 		}
 
 		Item emptyItemSlot = new Item();
-		emptyItemSlot.set_attack_bonus(0);
-		emptyItemSlot.set_defense_bonus(0);
+		emptyItemSlot.setattack_bonus(0);
+		emptyItemSlot.setdefense_bonus(0);
 		emptyItemSlot.set_description_update("You haven't equipped one");
-		emptyItemSlot.set_hp_bonus(0);
-		emptyItemSlot.set_lvl_requirement(0);
+		emptyItemSlot.sethp_bonus(0);
+		emptyItemSlot.setlvl_requirement(0);
 		emptyItemSlot.setID(0);
 		emptyItemSlot.setIsQuestItem(false);
 		emptyItemSlot.setItemWeight(0);
@@ -222,7 +221,7 @@ public class DerbyDatabase implements IDatabase {
 		
 		// helm
 		if((itemID = resultSet.getInt(index++)) == 0) {
-			emptyItemSlot.set_ItemType(ItemType.HELM);
+			emptyItemSlot.setItemType(ItemType.HELM);
 			player.set_helm(emptyItemSlot);
 		} else {
 			player.set_helm(getItemByID(itemID));
@@ -231,7 +230,7 @@ public class DerbyDatabase implements IDatabase {
 		
 		// braces
 		if((itemID = resultSet.getInt(index++)) == 0) {
-			emptyItemSlot.set_ItemType(ItemType.BRACES);
+			emptyItemSlot.setItemType(ItemType.BRACES);
 			player.set_braces(emptyItemSlot);
 		} else {
 			player.set_braces(getItemByID(itemID));
@@ -240,7 +239,7 @@ public class DerbyDatabase implements IDatabase {
 		
 		// chest
 		if((itemID = resultSet.getInt(index++)) == 0) {
-			emptyItemSlot.set_ItemType(ItemType.CHEST);
+			emptyItemSlot.setItemType(ItemType.CHEST);
 			player.set_chest(emptyItemSlot);
 		} else {
 			player.set_chest(getItemByID(itemID));
@@ -249,7 +248,7 @@ public class DerbyDatabase implements IDatabase {
 		
 		// legs
 		if((itemID = resultSet.getInt(index++)) == 0) {
-			emptyItemSlot.set_ItemType(ItemType.LEGS);
+			emptyItemSlot.setItemType(ItemType.LEGS);
 			player.set_legs(emptyItemSlot);
 		} else {
 			player.set_legs(getItemByID(itemID));
@@ -258,7 +257,7 @@ public class DerbyDatabase implements IDatabase {
 		
 		// boots
 		if((itemID = resultSet.getInt(index++)) == 0) {
-			emptyItemSlot.set_ItemType(ItemType.BOOTS);
+			emptyItemSlot.setItemType(ItemType.BOOTS);
 			player.set_boots(emptyItemSlot);
 		} else {
 			player.set_boots(getItemByID(itemID));
@@ -267,7 +266,7 @@ public class DerbyDatabase implements IDatabase {
 		
 		// l_hand
 		if((itemID = resultSet.getInt(index++)) == 0) {
-			emptyItemSlot.set_ItemType(ItemType.L_HAND);
+			emptyItemSlot.setItemType(ItemType.L_HAND);
 			player.set_l_hand(emptyItemSlot);
 		} else {
 			player.set_l_hand(getItemByID(itemID));
@@ -276,7 +275,7 @@ public class DerbyDatabase implements IDatabase {
 		
 		// r_hand
 		if((itemID = resultSet.getInt(index++)) == 0) {
-			emptyItemSlot.set_ItemType(ItemType.R_HAND);
+			emptyItemSlot.setItemType(ItemType.R_HAND);
 			player.set_r_hand(emptyItemSlot);
 		} else {
 			player.set_r_hand(getItemByID(itemID));
@@ -500,7 +499,7 @@ public class DerbyDatabase implements IDatabase {
 							"create table gamestousers ("
 							+ "game_id int primary key "
 							+ "		generated always as identity (start with 1, increment by 1), "
-							+ "user_id int"
+							+ "username varchar(40)"
 							+ ")"
 					);
 					stmt14.executeUpdate();
@@ -601,13 +600,13 @@ public class DerbyDatabase implements IDatabase {
 						insertItem.setString(1, item.getName());
 						insertItem.setString(2, item.getLongDescription());
 						insertItem.setString(3, item.getShortDescription());
-						insertItem.setString(4, item.get_description_update());
-						insertItem.setInt(5, item.get_attack_bonus());
-						insertItem.setInt(6, item.get_defense_bonus());
-						insertItem.setInt(7, item.get_hp_bonus());						
+						insertItem.setString(4, item.getdescription_update());
+						insertItem.setInt(5, item.getattack_bonus());
+						insertItem.setInt(6, item.getdefense_bonus());
+						insertItem.setInt(7, item.gethp_bonus());						
 						insertItem.setFloat(8,  item.getItemWeight());
-						insertItem.setString(9, String.valueOf(item.get_ItemType())); 
-						insertItem.setInt(10, item.get_lvl_requirement());
+						insertItem.setString(9, String.valueOf(item.getItemType())); 
+						insertItem.setInt(10, item.getlvl_requirement());
 						
 						insertItem.addBatch();
 					}
@@ -817,17 +816,6 @@ public class DerbyDatabase implements IDatabase {
 	 * 										Init new game
 	***************************************************************************************************/
 	
-	public void createSinglePlayerGame(String username, int mapID) {		
-		Game game = new Game();
-		
-		Player player = createPlayer();
-		
-		game.set_map(createMap());
-		
-		
-		
-	}
-	
 	public void createMultiplayerGame(String username1, String username2, int mapID) {
 		throw new UnsupportedOperationException("Working on it!");
 	}
@@ -884,11 +872,11 @@ public class DerbyDatabase implements IDatabase {
 		int carryWeight = 0;
 
 		Item emptyItemSlot = new Item();
-		emptyItemSlot.set_attack_bonus(0);
-		emptyItemSlot.set_defense_bonus(0);
+		emptyItemSlot.setattack_bonus(0);
+		emptyItemSlot.setdefense_bonus(0);
 		emptyItemSlot.set_description_update("You haven't equipped one");
-		emptyItemSlot.set_hp_bonus(0);
-		emptyItemSlot.set_lvl_requirement(0);
+		emptyItemSlot.sethp_bonus(0);
+		emptyItemSlot.setlvl_requirement(0);
 		emptyItemSlot.setID(0);
 		emptyItemSlot.setIsQuestItem(false);
 		emptyItemSlot.setItemWeight(0);
@@ -899,30 +887,30 @@ public class DerbyDatabase implements IDatabase {
 		int itemID;
 		
 		// helm
-		emptyItemSlot.set_ItemType(ItemType.HELM);
+		emptyItemSlot.setItemType(ItemType.HELM);
 		player.set_helm(emptyItemSlot);
 		
 		// braces
-		emptyItemSlot.set_ItemType(ItemType.BRACES);
+		emptyItemSlot.setItemType(ItemType.BRACES);
 		player.set_braces(emptyItemSlot);
 		
 		// chest
-		emptyItemSlot.set_ItemType(ItemType.CHEST);
+		emptyItemSlot.setItemType(ItemType.CHEST);
 		player.set_chest(emptyItemSlot);
 		
-		emptyItemSlot.set_ItemType(ItemType.LEGS);
+		emptyItemSlot.setItemType(ItemType.LEGS);
 		player.set_legs(emptyItemSlot);
 		
 		// boots
-		emptyItemSlot.set_ItemType(ItemType.BOOTS);
+		emptyItemSlot.setItemType(ItemType.BOOTS);
 		player.set_boots(emptyItemSlot);
 		
 		// l_hand
-		emptyItemSlot.set_ItemType(ItemType.L_HAND);
+		emptyItemSlot.setItemType(ItemType.L_HAND);
 		player.set_l_hand(emptyItemSlot);
 		
 		// r_hand
-		emptyItemSlot.set_ItemType(ItemType.R_HAND);
+		emptyItemSlot.setItemType(ItemType.R_HAND);
 		player.set_r_hand(emptyItemSlot);
 		
 		player.set_carry_weight(20);
@@ -2146,6 +2134,41 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
+	
+	public ArrayList<Integer> getGameIDs(final String username) {
+		return executeTransaction(new Transaction<ArrayList<Integer>>() {
+			public ArrayList<Integer> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					stmt = conn.prepareStatement(
+							"select users.password "
+							+ "from users "
+							+ "where users.username = ? ");
+					stmt.setString(1, username);
+					resultSet = stmt.executeQuery();
+					
+					ArrayList<Integer> gameIDList = new ArrayList<Integer>();
+					
+					Boolean found = false;
+					while(resultSet.next()) {
+						found = true;
+						gameIDList.add(resultSet.getInt(1));
+					}
+					
+					if(!found) {
+						System.out.println("That username was not found");
+					}
+					
+					return gameIDList;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
+				}
+			}
+		});
+	}
 	/*******************************************************************************************************
 	*											load/save game
 	********************************************************************************************************/
@@ -2166,10 +2189,8 @@ public class DerbyDatabase implements IDatabase {
 	public void saveGame(Game game) {
 		updateMap(game.get_map());
 		updateCharacters(game.get_characters());
-	}
-	/*******************************************************************************************************
-	 * 										Update Database Methods
-	********************************************************************************************************/
+	} 
+	
 	@Override
 	public Boolean createNewUser(String username, String password, String email) {
 		return executeTransaction(new Transaction<Boolean>() {
@@ -2194,6 +2215,145 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
+	
+	public Integer createNewGame(String username) { throw new UnsupportedOperationException(""); }
+/*		return executeTransaction (new Transaction<Integer>() {
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"insert into userstogames (username) values (?) "
+					);
+					stmt.setString(1, username);
+					stmt.executeUpdate();
+					
+					// create userObjects -- stmt 1
+					createWorldForNewGame(username);
+					
+
+					// get gameID from userstogames -- resultSet
+					
+					return gameID;
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	private Boolean createWorldForNewGame(String username) {
+		return executeTransaction(new Transaction<Boolean>() {
+			public Boolean execute (Connection conn) throws SQLException {
+				PreparedStatement insertMapTile = null;
+				PreparedStatement insertMapTileConnections = null;
+				PreparedStatement insertObject = null;
+				PreparedStatement insertItemsToObjects = null;
+				PreparedStatement insertObjectCommandResponses = null;
+				
+				ArrayList<MapTile> mapTileList = new ArrayList<MapTile>();
+				try {
+					insertMapTile = conn.prepareStatement("insert into maptiles (maptilename, longdescription, shortdescription, difficulty) values (?, ?, ?, ?)");
+					insertMapTileConnections = conn.prepareStatement("insert into maptileconnections "
+							+ "("
+							+ "north,"
+							+ "northeast,"
+							+ "east,"
+							+ "southeast,"
+							+ "south,"
+							+ "southwest,"
+							+ "west,"
+							+ "northwest)"
+							+ " values (?,?,?,?,?,?,?,?)");
+					
+					insertObject = conn.prepareStatement("insert into objects (objectname, longdescription, shortdescription) values (?, ?, ?)");
+					insertItemsToObjects = conn.prepareStatement("insert into itemstoobjects (item_id, object_id) values (?, ?)");
+					insertObjectCommandResponses = conn.prepareStatement(" insert into objectCommandResponses (object_id, command, response) values (?, ?, ?)");
+					
+					for(ObjectIDCommandResponse objectCommandResponse : objectCommandResponseList) {
+
+					}
+					insertObjectCommandResponses.executeBatch();
+					
+					
+					
+					
+		
+					
+					
+					
+					
+
+					
+				
+					for (MapTile mapTile : mapTileList) {
+						insertMapTile.setString(1, mapTile.getName());
+						insertMapTile.setString(2, mapTile.getLongDescription());
+						insertMapTile.setString(3, mapTile.getShortDescription());
+						insertMapTile.setInt(4, mapTile.getAreaDifficulty());
+						
+							// Connections for each mapTile
+							int i = 1; 
+							insertMapTileConnections.setInt(i++, mapTile.getConnections().get("north"));
+							insertMapTileConnections.setInt(i++, mapTile.getConnections().get("northeast"));
+							insertMapTileConnections.setInt(i++, mapTile.getConnections().get("east"));
+							insertMapTileConnections.setInt(i++, mapTile.getConnections().get("southeast"));
+							insertMapTileConnections.setInt(i++, mapTile.getConnections().get("south"));
+							insertMapTileConnections.setInt(i++, mapTile.getConnections().get("southwest"));
+							insertMapTileConnections.setInt(i++, mapTile.getConnections().get("west"));
+							insertMapTileConnections.setInt(i++, mapTile.getConnections().get("northwest"));
+							insertMapTileConnections.addBatch();
+							
+							// If there are objects on the maptile, add them
+							if(!mapTile.getObjects().isEmpty()) {
+								for(Object object : mapTile.getObjects()) {
+									insertObject.setString(1, object.getName());
+									insertObject.setString(2, object.getLongDescription());
+									insertObject.setString(3, object.getShortDescription());
+									
+									// If there are items in the objects, add them
+									if(!object.getItems().isEmpty()) {
+										for(Item item : object.getItems()) {
+											insertItemsToObjects.setInt(1, item.getID());
+											insertItemsToObjects.setInt(2, object.getID());
+											
+											insertItemsToObjects.addBatch();
+										}
+									}
+									// If the object has command responses
+									if(!object.getCommandResponses().isEmpty()) {
+										insertObjectCommandResponses.setInt(1, objectCommandResponse.getObjectID());
+										insertObjectCommandResponses.setString(2, objectCommandResponse.getCommand());
+										insertObjectCommandResponses.setString(3, objectCommandResponse.getResponse());
+										
+										insertObjectCommandResponses.addBatch();
+									}
+					
+									insertObject.addBatch();
+								}
+							}
+							
+						insertMapTile.addBatch();
+					}
+					insertObject.executeBatch();
+					insertMapTile.executeBatch();						
+					insertMapTileConnections.executeBatch();
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(insertObject);
+				}
+			}
+		});
+	}
+	*/
+	/*******************************************************************************************************
+	 * 										Update Database Methods
+	********************************************************************************************************/
 	
 	private void updateMap(final Map map) {
 		// In the future will need to update map for Editor
@@ -2333,13 +2493,13 @@ public class DerbyDatabase implements IDatabase {
 						insertItem.setString(1, item.getName());
 						insertItem.setString(2, item.getLongDescription());
 						insertItem.setString(3, item.getShortDescription());
-						insertItem.setString(4, item.get_description_update());
-						insertItem.setInt(5, item.get_attack_bonus());
-						insertItem.setInt(6, item.get_defense_bonus());
-						insertItem.setInt(7, item.get_hp_bonus());						
+						insertItem.setString(4, item.getdescription_update());
+						insertItem.setInt(5, item.getattack_bonus());
+						insertItem.setInt(6, item.getdefense_bonus());
+						insertItem.setInt(7, item.gethp_bonus());						
 						insertItem.setFloat(8,  item.getItemWeight());
-						insertItem.setString(9, String.valueOf(item.get_ItemType())); 
-						insertItem.setInt(10, item.get_lvl_requirement());
+						insertItem.setString(9, String.valueOf(item.getItemType())); 
+						insertItem.setInt(10, item.getlvl_requirement());
 						insertItem.addBatch();
 					insertItem.executeBatch();
 					return true;
