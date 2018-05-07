@@ -329,4 +329,16 @@ public class FakeDatabase implements IDatabase {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Boolean doesUserNameExist(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean createNewUser(String username, String password, String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 } 
