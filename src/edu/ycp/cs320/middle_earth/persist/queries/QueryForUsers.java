@@ -24,6 +24,8 @@ public class QueryForUsers {
 				System.out.println(username);
 			}
 		}
+		
+		System.out.println("Does " + userList.get(0) + " exist? = " + db.doesUserNameExist(userList.get(0)));
 	}
 		
 }

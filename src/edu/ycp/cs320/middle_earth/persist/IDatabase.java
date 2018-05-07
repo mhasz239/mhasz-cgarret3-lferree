@@ -42,6 +42,7 @@ public interface IDatabase {
 	
 	public String getUserPasswordByUserName(String username);
 	public ArrayList<String> getAllUserNames();
+	public Boolean doesUserNameExist(String username);
 	
 	public Enemy getEnemyByRace(String race);
 	public ArrayList<Enemy> getAllEnemies();

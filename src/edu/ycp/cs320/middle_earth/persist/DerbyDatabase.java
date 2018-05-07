@@ -1466,6 +1466,35 @@ public class DerbyDatabase implements IDatabase {
 	 * 										*Get Specific* Methods
 	 ******************************************************************************************************/
 	@Override
+	public Boolean doesUserNameExist(String username) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				ResultSet resultSet = null;
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement(
+							"select users.username "
+							+ "from users "
+							+ "where users.username = ?"
+					);
+					stmt.setString(1, username);
+					resultSet = stmt.executeQuery();
+					
+					if(resultSet.next()) {
+						return true;
+					}
+					return false;
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	@Override
 	public Item getLegendaryItem() {
 		return executeTransaction(new Transaction<Item>() {
 			@Override
