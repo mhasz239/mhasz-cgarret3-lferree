@@ -24,14 +24,14 @@ public class HandleObjectCommandsTest{
 		
 		// Create Player
 		Player player = new Player();
-		player.set_location(0);
+		player.setlocation(0);
 		
 		// Create Characters Array and Put in Player
 		ArrayList<Character> chars = new ArrayList<Character>();
 		chars.add(player);
 		
 		// Set Characters Array in Game
-		game.set_characters(chars);
+		game.setcharacters(chars);
 		
 		// Create a generic MapTile
 		MapTile tile = new MapTile();
@@ -47,7 +47,7 @@ public class HandleObjectCommandsTest{
 		map.setMapTiles(tiles);
 		
 		// Set the Map to the Game
-		game.set_map(map);
+		game.setmap(map);
 		
 		// Create a tree
 		Object IDontKnowAnymore = new Object();
@@ -70,8 +70,8 @@ public class HandleObjectCommandsTest{
 		game.handle_command("climb tree");
 		
 		// Check that dialog was updated correctly
-		assertEquals(1, game.get_dialog().size());
-		assertEquals("Hello now", game.get_dialog().get(0));
+		assertEquals(1, game.getdialog().size());
+		assertEquals("Hello now", game.getdialog().get(0));
 	}
 	
 	@Test
@@ -80,7 +80,7 @@ public class HandleObjectCommandsTest{
 		game.handle_command("cLImB TReE");
 		
 		// Check that dialog was updated correctly
-		assertEquals(1, game.get_dialog().size());
-		assertEquals("Hello now", game.get_dialog().get(0));
+		assertEquals(1, game.getdialog().size());
+		assertEquals("Hello now", game.getdialog().get(0));
 	}
 }

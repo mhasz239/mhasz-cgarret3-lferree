@@ -24,19 +24,19 @@ public class GameBasedActionsTest{
 	public void testCheckCharacterSheetCommand(){
 		game.check_character_sheet();
 		
-		assertEquals("character", game.get_mode());
+		assertEquals("character", game.getmode());
 	}
 	
 	/* TODO: JUNIT: Remove? Note: Commented out these in Game.
 	@Test
 	public void testAlreadyInCharacter(){
-		game.set_mode("character");
+		game.setmode("character");
 		
 		game.check_character_sheet();
 		
-		assertEquals("character", game.get_mode());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals("You're already in it!", game.get_dialog().get(0));
+		assertEquals("character", game.getmode());
+		assertEquals(1, game.getdialog().size());
+		assertEquals("You're already in it!", game.getdialog().get(0));
 	}
 	*/
 	
@@ -47,19 +47,19 @@ public class GameBasedActionsTest{
 	public void testCheckInventoryCommand(){
 		game.check_inventory();
 		
-		assertEquals("inventory", game.get_mode());
+		assertEquals("inventory", game.getmode());
 	}
 	
 	/* TODO: JUNIT: Remove? Note: Commented out these in Game.
 	@Test
 	public void testAlreadyInInventory(){
-		game.set_mode("inventory");
+		game.setmode("inventory");
 		
 		game.check_inventory();
 		
-		assertEquals("inventory", game.get_mode());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals("You're already in it!", game.get_dialog().get(0));
+		assertEquals("inventory", game.getmode());
+		assertEquals(1, game.getdialog().size());
+		assertEquals("You're already in it!", game.getdialog().get(0));
 	}
 	*/
 	
@@ -70,19 +70,19 @@ public class GameBasedActionsTest{
 	public void testMapCommand(){
 		game.check_map();
 		
-		assertEquals("map", game.get_mode());
+		assertEquals("map", game.getmode());
 	}
 	
 	/* TODO: JUNIT: Remove? Note: Commented out these in Game.
 	@Test
 	public void testAlreadyInMap(){
-		game.set_mode("map");
+		game.setmode("map");
 		
 		game.check_map();
 		
-		assertEquals("map", game.get_mode());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals("You're already in it!", game.get_dialog().get(0));
+		assertEquals("map", game.getmode());
+		assertEquals(1, game.getdialog().size());
+		assertEquals("You're already in it!", game.getdialog().get(0));
 	}
 	*/
 	
@@ -91,41 +91,41 @@ public class GameBasedActionsTest{
 	 */
 	@Test
 	public void testBackToGameFromCharacterSheet(){
-		game.set_mode("character");
+		game.setmode("character");
 		
 		game.return_to_game();
 		
-		assertEquals("game", game.get_mode());
+		assertEquals("game", game.getmode());
 	}
 	
 	@Test
 	public void testBackToGameFromInventory(){
-		game.set_mode("inventory");
+		game.setmode("inventory");
 		
 		game.return_to_game();
 		
-		assertEquals("game", game.get_mode());
+		assertEquals("game", game.getmode());
 	}
 	
 	@Test
 	public void testBackToGameFromMap(){
-		game.set_mode("map");
+		game.setmode("map");
 		
 		game.return_to_game();
 		
-		assertEquals("game", game.get_mode());
+		assertEquals("game", game.getmode());
 	}
 	
 	/* TODO: JUNIT: Remove? Note: Commented out these in Game.
 	@Test
 	public void testAlreadyInGame(){
-		game.set_mode("game");
+		game.setmode("game");
 		
 		game.return_to_game();
 		
-		assertEquals("game", game.get_mode());
-		assertEquals(1, game.get_dialog().size());
-		assertEquals("You're playing it!", game.get_dialog().get(0));
+		assertEquals("game", game.getmode());
+		assertEquals(1, game.getdialog().size());
+		assertEquals("You're playing it!", game.getdialog().get(0));
 	}
 	*/
 	

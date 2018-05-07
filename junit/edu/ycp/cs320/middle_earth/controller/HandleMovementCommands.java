@@ -35,11 +35,11 @@ public class HandleMovementCommands{
 	public void setup(){
 		game = new Game();
 		// This is here just in case the Game doesn't initialize the current mode to this.
-		game.set_mode("game");
+		game.setmode("game");
 		player = new Player();
 		ArrayList<Character> characters = new ArrayList<Character>();
 		characters.add(player);
-		game.set_characters(characters);
+		game.setcharacters(characters);
 		
 		// MapTiles		8 1 2
 		//				7 0 3
@@ -114,7 +114,7 @@ public class HandleMovementCommands{
 		tiles.add(northWestOfStarting);
 		map.setMapTiles(tiles);
 		
-		game.set_map(map);
+		game.setmap(map);
 	}
 	
 	/**
@@ -134,7 +134,7 @@ public class HandleMovementCommands{
 	 */
 	public static void checkValidMovePreconditions(Game game, MapTile original){
 		// Ensure the player is in the correct starting location.
-		assertEquals(original.getID(), game.get_player().get_location());
+		assertEquals(original.getID(), game.getplayer().getlocation());
 	}
 	
 	/**
@@ -143,16 +143,16 @@ public class HandleMovementCommands{
 	 */
 	public static void checkValidMovePostConditions(Game game, MapTile destination){
 		// Ensure the player moved to the correct destination.
-		assertEquals(destination.getID(), game.get_player().get_location());
+		assertEquals(destination.getID(), game.getplayer().getlocation());
 		
 		// Ensure 2 lines have been added to the dialog.
 		// Note: Cannot check that it's 2 lines exactly because of Combat now
 		// Combat can add another line that you encountered an enemy.
-		//assertEquals(2, game.get_dialog().size());
+		//assertEquals(2, game.getdialog().size());
 		// Ensure the first line is the new tile's name.
-		assertEquals(destination.getName(), game.get_dialog().get(0));
+		assertEquals(destination.getName(), game.getdialog().get(0));
 		// Ensure the second line is the new tile's longDescription.
-		assertEquals(destination.getLongDescription(), game.get_dialog().get(1));
+		assertEquals(destination.getLongDescription(), game.getdialog().get(1));
 	}
 	
 	/**
@@ -173,9 +173,9 @@ public class HandleMovementCommands{
 	 */
 	public static void setupInvalidMovePreConditions(Game game, MapTile setup){
 		// Set the player's location to the requested maptile.
-		game.get_player().set_location(setup.getID());
+		game.getplayer().setlocation(setup.getID());
 		// Ensure the player's location is properly set.
-		assertEquals(setup.getID(), game.get_player().get_location());
+		assertEquals(setup.getID(), game.getplayer().getlocation());
 	}
 	
 	/**
@@ -184,11 +184,11 @@ public class HandleMovementCommands{
 	 */
 	public static void checkInvalidMovePostConditions(Game game, MapTile setup){
 		// Ensure the player's location hasn't changed.
-		assertEquals(setup.getID(), game.get_player().get_location());
+		assertEquals(setup.getID(), game.getplayer().getlocation());
 		// Ensure the game's dialog got one new line.
-		assertEquals(1, game.get_dialog().size());
+		assertEquals(1, game.getdialog().size());
 		// Ensure that new line is the invalidDirection string.
-		assertEquals(invalidDirection, game.get_dialog().get(0));
+		assertEquals(invalidDirection, game.getdialog().get(0));
 	}
 	
 	/**
@@ -196,16 +196,16 @@ public class HandleMovementCommands{
 	 */
 	public static void checkNotInModeGame(Game game, MapTile original, String command){
 		// Set mode to anything other than game
-		game.set_mode("inventory");
+		game.setmode("inventory");
 		
 		// Ensure before the command that the player is in the proper location.
-		assertEquals(original.getID(), game.get_player().get_location());
+		assertEquals(original.getID(), game.getplayer().getlocation());
 		
 		// Run the command
 		String response = game.handle_command(command);
 		
 		// Ensure that after the command, the player hasn't moved (since not in mode = game)
-		assertEquals(original.getID(), game.get_player().get_location());
+		assertEquals(original.getID(), game.getplayer().getlocation());
 		// Ensure that 1 line is the invalidMode string
 		assertEquals(invalidMode, response);
 	}
@@ -219,8 +219,8 @@ public class HandleMovementCommands{
 		game.handle_command("move deprirber0oger");
 		
 		// Check that correct error stuff is set
-		assertEquals(1, game.get_dialog().size());
-		assertEquals("I don't understand that direction.", game.get_dialog().get(0));
+		assertEquals(1, game.getdialog().size());
+		assertEquals("I don't understand that direction.", game.getdialog().get(0));
 	}
 	
 	/*

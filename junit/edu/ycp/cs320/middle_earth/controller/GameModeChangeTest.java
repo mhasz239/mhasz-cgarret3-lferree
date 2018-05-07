@@ -13,7 +13,7 @@ public class GameModeChangeTest{
 	@Before
 	public void setup(){
 		game = new Game();
-		game.set_mode("game");
+		game.setmode("game");
 	}
 	
 	@Test
@@ -28,30 +28,30 @@ public class GameModeChangeTest{
 	
 	@Test
 	public void testModeChangeGameCommand(){
-		game.set_mode("inventory");
+		game.setmode("inventory");
 		assertTrue(game.mode_change("game"));
 		
-		assertEquals("game", game.get_mode());
+		assertEquals("game", game.getmode());
 	}
 	
 	@Test
 	public void testModeChangeInventoryCommand(){
 		assertTrue(game.mode_change("inventory"));
 		
-		assertEquals("inventory", game.get_mode());
+		assertEquals("inventory", game.getmode());
 	}
 	
 	@Test
 	public void testModeChangeMapCommand(){
 		assertTrue(game.mode_change("map"));
 		
-		assertEquals("map", game.get_mode());
+		assertEquals("map", game.getmode());
 	}
 	
 	@Test
 	public void testModeChangeCharacterCommand(){
 		assertTrue(game.mode_change("character"));
 		
-		assertEquals("character", game.get_mode());
+		assertEquals("character", game.getmode());
 	}
 }

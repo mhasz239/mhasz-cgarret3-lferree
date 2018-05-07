@@ -22,198 +22,198 @@ public class GameSettersTest{
 	
 	// TODO: JUNIT: Test that the constructor properly gets stuff from the database?
 	@Test
-	public void testGet_Game(){
+	public void testgetGame(){
 		Game game = new Game();
 		
-		assertEquals(game, game.get_game());
+		assertEquals(game, game.getgame());
 	}
 	
 	@Test
-	public void testSet_Mode(){
+	public void testsetMode(){
 		Game game = new Game();
 		
-		game.set_mode("game");
+		game.setmode("game");
 		
-		assertEquals("game", game.get_mode());
+		assertEquals("game", game.getmode());
 	}
 	
 	@Test
-	public void testReset_Mode(){
+	public void testResetMode(){
 		Game game = new Game();
 		
-		game.set_mode("game");
+		game.setmode("game");
 		
-		assertEquals("game", game.get_mode());
+		assertEquals("game", game.getmode());
 		
-		game.set_mode("inventory");
+		game.setmode("inventory");
 		
-		assertEquals("inventory", game.get_mode());
+		assertEquals("inventory", game.getmode());
 	}
 	
 	@Test
-	public void testSet_Characters(){
+	public void testsetCharacters(){
 		Game game = new Game();
 		ArrayList<Character> chars = new ArrayList<Character>();
 		Player player = new Player();
 		chars.add(player);
 		
-		game.set_characters(chars);
+		game.setcharacters(chars);
 		
-		assertEquals(1, game.get_characters().size());
-		assertEquals(player, game.get_characters().get(0));
+		assertEquals(1, game.getcharacters().size());
+		assertEquals(player, game.getcharacters().get(0));
 	}
 	
 	@Test
-	public void testReset_Characters(){
+	public void testResetCharacters(){
 		Game game = new Game();
 		ArrayList<Character> chars = new ArrayList<Character>();
 		Player player = new Player();
 		chars.add(player);
 		
-		game.set_characters(chars);
+		game.setcharacters(chars);
 		
-		assertEquals(1, game.get_characters().size());
-		assertEquals(player, game.get_characters().get(0));
+		assertEquals(1, game.getcharacters().size());
+		assertEquals(player, game.getcharacters().get(0));
 		
 		ArrayList<Character> chars2 = new ArrayList<Character>();
 		chars2.add(new Player());
 		chars2.add(new Player());
 		
-		game.set_characters(chars2);
+		game.setcharacters(chars2);
 		
-		assertEquals(2, game.get_characters().size());
+		assertEquals(2, game.getcharacters().size());
 	}
 	
 	@Test
-	public void testGet_Player(){
+	public void testgetPlayer(){
 		Game game = new Game();
 		
 		ArrayList<Character> characters = new ArrayList<Character>();
 		characters.add(new Player());
 		
-		game.set_characters(characters);
+		game.setcharacters(characters);
 		
-		assertEquals(game.get_characters().get(0), game.get_player());
+		assertEquals(game.getcharacters().get(0), game.getplayer());
 	}
 	
 	@Test
-	public void testGet_Player_Set_Characters(){
+	public void testgetPlayer_setCharacters(){
 		Game game = new Game();
 		ArrayList<Character> chars = new ArrayList<Character>();
 		Player player = new Player();
-		player.set_hit_points(100);
-		player.set_name("Derpkins");
+		player.sethit_points(100);
+		player.setname("Derpkins");
 		Player player2 = new Player();
-		player2.set_attack(20);
-		player2.set_name("My Face");
+		player2.setattack(20);
+		player2.setname("My Face");
 		chars.add(player);
 		chars.add(player2);
 		
-		game.set_characters(chars);
+		game.setcharacters(chars);
 		
-		assertEquals(2, game.get_characters().size());
-		assertEquals(player, game.get_characters().get(0));
-		assertEquals(player2, game.get_characters().get(1));
+		assertEquals(2, game.getcharacters().size());
+		assertEquals(player, game.getcharacters().get(0));
+		assertEquals(player2, game.getcharacters().get(1));
 		
-		assertEquals(player, game.get_player());
+		assertEquals(player, game.getplayer());
 	}
 	
 	@Test
-	public void testSet_Map(){
+	public void testsetMap(){
 		Game game = new Game();
 		Map mappy = new Map();
-		game.set_map(mappy);
+		game.setmap(mappy);
 		
-		assertEquals(mappy, game.get_map());
+		assertEquals(mappy, game.getmap());
 	}
 	
 	@Test
-	public void testReset_Map(){
+	public void testResetMap(){
 		Game game = new Game();
 		Map mappy = new Map();
-		game.set_map(mappy);
+		game.setmap(mappy);
 		
-		assertEquals(mappy, game.get_map());
+		assertEquals(mappy, game.getmap());
 		
 		Map mappy2 = new Map();
 		mappy2.addMapTile(new MapTile());
-		game.set_map(mappy2);
+		game.setmap(mappy2);
 		
-		assertEquals(mappy2, game.get_map());
+		assertEquals(mappy2, game.getmap());
 	}
 	
 	@Test
-	public void testSet_Objects(){
+	public void testsetObjects(){
 		Game game = new Game();
 		ArrayList<Object> objs = new ArrayList<Object>();
 		Object bloop = new Object();
 		objs.add(bloop);
-		game.set_objects(objs);
+		game.setobjects(objs);
 		
-		assertEquals(1, game.get_objects().size());
-		assertEquals(bloop, game.get_objects().get(0));
+		assertEquals(1, game.getobjects().size());
+		assertEquals(bloop, game.getobjects().get(0));
 	}
 	
 	@Test
-	public void testReset_Objects(){
+	public void testResetObjects(){
 		Game game = new Game();
 		ArrayList<Object> objs = new ArrayList<Object>();
 		Object bloop = new Object();
 		objs.add(bloop);
-		game.set_objects(objs);
+		game.setobjects(objs);
 		
-		assertEquals(1, game.get_objects().size());
-		assertEquals(bloop, game.get_objects().get(0));
+		assertEquals(1, game.getobjects().size());
+		assertEquals(bloop, game.getobjects().get(0));
 		
 		ArrayList<Object> objs2 = new ArrayList<Object>();
 		Object bloop2 = new Object();
 		Object derpy = new Object();
 		objs2.add(bloop2);
 		objs2.add(derpy);
-		game.set_objects(objs2);
+		game.setobjects(objs2);
 		
-		assertEquals(2, game.get_objects().size());
-		assertEquals(bloop2, game.get_objects().get(0));
-		assertEquals(derpy, game.get_objects().get(1));
+		assertEquals(2, game.getobjects().size());
+		assertEquals(bloop2, game.getobjects().get(0));
+		assertEquals(derpy, game.getobjects().get(1));
 	}
 	
 	@Test
-	public void testSet_Items(){
+	public void testsetItems(){
 		Game game = new Game();
 		ArrayList<Item> itms = new ArrayList<Item>();
 		Item plop = new Item();
 		itms.add(plop);
-		game.set_items(itms);
+		game.setitems(itms);
 		
-		assertEquals(1, game.get_items().size());
-		assertEquals(plop, game.get_items().get(0));
+		assertEquals(1, game.getitems().size());
+		assertEquals(plop, game.getitems().get(0));
 	}
 	
 	@Test
-	public void testReset_Items(){
+	public void testResetItems(){
 		Game game = new Game();
 		ArrayList<Item> itms = new ArrayList<Item>();
 		Item plop = new Item();
 		itms.add(plop);
-		game.set_items(itms);
+		game.setitems(itms);
 		
-		assertEquals(1, game.get_items().size());
-		assertEquals(plop, game.get_items().get(0));
+		assertEquals(1, game.getitems().size());
+		assertEquals(plop, game.getitems().get(0));
 		
 		ArrayList<Item> itms2 = new ArrayList<Item>();
 		Item plop2 = new Item();
 		Item derp = new Item();
 		itms2.add(plop2);
 		itms2.add(derp);
-		game.set_items(itms2);
+		game.setitems(itms2);
 		
-		assertEquals(2, game.get_items().size());
-		assertEquals(plop2, game.get_items().get(0));
-		assertEquals(derp, game.get_items().get(1));
+		assertEquals(2, game.getitems().size());
+		assertEquals(plop2, game.getitems().get(0));
+		assertEquals(derp, game.getitems().get(1));
 	}
 	
 	@Test
-	public void testSet_Dialog(){
+	public void testsetDialog(){
 		Game game = new Game();
 		
 		ArrayList<String> test_dialog = new ArrayList<String>();
@@ -221,16 +221,16 @@ public class GameSettersTest{
 		test_dialog.add("pretty simple ");
 		test_dialog.add(" test.");
 		
-		game.set_dialog(test_dialog);
+		game.setdialog(test_dialog);
 		
-		assertEquals(3, game.get_dialog().size());
-		assertEquals("This is a ", game.get_dialog().get(0));
-		assertEquals("pretty simple ", game.get_dialog().get(1));
-		assertEquals(" test.", game.get_dialog().get(2));
+		assertEquals(3, game.getdialog().size());
+		assertEquals("This is a ", game.getdialog().get(0));
+		assertEquals("pretty simple ", game.getdialog().get(1));
+		assertEquals(" test.", game.getdialog().get(2));
 	}
 	
 	@Test
-	public void testReSet_Dialog(){
+	public void testResetDialog(){
 		Game game = new Game();
 		
 		ArrayList<String> test_dialog = new ArrayList<String>();
@@ -238,70 +238,70 @@ public class GameSettersTest{
 		test_dialog.add("pretty simple ");
 		test_dialog.add(" test.");
 		
-		game.set_dialog(test_dialog);
+		game.setdialog(test_dialog);
 		
-		assertEquals(3, game.get_dialog().size());
-		assertEquals("This is a ", game.get_dialog().get(0));
-		assertEquals("pretty simple ", game.get_dialog().get(1));
-		assertEquals(" test.", game.get_dialog().get(2));
+		assertEquals(3, game.getdialog().size());
+		assertEquals("This is a ", game.getdialog().get(0));
+		assertEquals("pretty simple ", game.getdialog().get(1));
+		assertEquals(" test.", game.getdialog().get(2));
 		
 		ArrayList<String> test_dialog2 = new ArrayList<String>();
 		test_dialog2.add("Another");
 		test_dialog2.add("simple");
 		
-		game.set_dialog(test_dialog2);
+		game.setdialog(test_dialog2);
 		
-		assertEquals(2, game.get_dialog().size());
-		assertEquals("Another", game.get_dialog().get(0));
-		assertEquals("simple", game.get_dialog().get(1));
+		assertEquals(2, game.getdialog().size());
+		assertEquals("Another", game.getdialog().get(0));
+		assertEquals("simple", game.getdialog().get(1));
 	}
 	
 	@Test
 	public void testAdd_Dialog(){
 		Game game = new Game();
 		
-		assertEquals(0, game.get_dialog().size());
+		assertEquals(0, game.getdialog().size());
 		
 		game.add_dialog("Test");
 		
-		assertEquals(1, game.get_dialog().size());
-		assertEquals("Test", game.get_dialog().get(0));
+		assertEquals(1, game.getdialog().size());
+		assertEquals("Test", game.getdialog().get(0));
 		
 		game.add_dialog("Testy 2");
 		
-		assertEquals(2, game.get_dialog().size());
-		assertEquals("Test", game.get_dialog().get(0));
-		assertEquals("Testy 2", game.get_dialog().get(1));
+		assertEquals(2, game.getdialog().size());
+		assertEquals("Test", game.getdialog().get(0));
+		assertEquals("Testy 2", game.getdialog().get(1));
 	}
 	
 	@Test
 	public void testAdd_Dialog_Over25(){
 		Game game = new Game();
 		
-		assertEquals(0, game.get_dialog().size());
+		assertEquals(0, game.getdialog().size());
 		
 		for(int i = 0; i < 35; i++){
 			game.add_dialog("Test: " + i);
-			assertEquals(i+1, game.get_dialog().size());
+			assertEquals(i+1, game.getdialog().size());
 			for(int j = 0; j < i; j++){
-				assertEquals("Test: " + j, game.get_dialog().get(j));
+				assertEquals("Test: " + j, game.getdialog().get(j));
 			}
 		}
-		assertEquals(35, game.get_dialog().size());
+		assertEquals(35, game.getdialog().size());
 		
 		game.add_dialog("Derp");
 		
 		// 35 = max dialog length
-		assertEquals(35, game.get_dialog().size());
+		assertEquals(35, game.getdialog().size());
 		
 		for(int i = 0; i < 34; i++){
-			assertEquals("Test: " + (i+1), game.get_dialog().get(i));
+			assertEquals("Test: " + (i+1), game.getdialog().get(i));
 		}
-		assertEquals("Derp", game.get_dialog().get(34));
+		assertEquals("Derp", game.getdialog().get(34));
 	}
 	
 	@Test
-	public void testGet_Display_Text(){
+	public void testgetDisplay_Text(){
 		Game game = new Game();
 		
 		ArrayList<String> test_dialog = new ArrayList<String>();
@@ -309,82 +309,82 @@ public class GameSettersTest{
 		test_dialog.add("pretty simple ");
 		test_dialog.add(" test.");
 		
-		game.set_dialog(test_dialog);
+		game.setdialog(test_dialog);
 		
-		assertEquals("This is a ;pretty simple ; test.", game.get_display_text());
+		assertEquals("This is a ;pretty simple ; test.", game.getdisplay_text());
 	}
 	
 	@Test
-	public void testSet_Quests(){
+	public void testsetQuests(){
 		Game game = new Game();
 		
 		ArrayList<Quest> quests = new ArrayList<Quest>();
-		game.set_quests(quests);
+		game.setquests(quests);
 		
-		assertEquals(quests, game.get_quests());
+		assertEquals(quests, game.getquests());
 	}
 	
 	@Test
-	public void testReset_Quests(){
+	public void testResetQuests(){
 		Game game = new Game();
 		
 		ArrayList<Quest> quests = new ArrayList<Quest>();
-		game.set_quests(quests);
+		game.setquests(quests);
 		
-		assertEquals(quests, game.get_quests());
+		assertEquals(quests, game.getquests());
 		
 		ArrayList<Quest> quests2 = new ArrayList<Quest>();
 		quests2.add(new Quest());
-		game.set_quests(quests2);
+		game.setquests(quests2);
 		
-		assertEquals(quests2, game.get_quests());
+		assertEquals(quests2, game.getquests());
 	}
 	
 	@Test
-	public void testGet_MapTile_LongDescription(){
+	public void testgetMapTile_LongDescription(){
 		Game game = new Game();
 		ArrayList<Character> chars = new ArrayList<Character>();
 		Player player = new Player();
-		player.set_location(0);
+		player.setlocation(0);
 		chars.add(player);
-		game.set_characters(chars);
+		game.setcharacters(chars);
 		
 		Map map = new Map();
 		MapTile starting = new MapTile();
 		starting.setName("Derp");
 		starting.setLongDescription("Just a long description here. Nothing more.");
 		map.addMapTile(starting);
-		game.set_map(map);
+		game.setmap(map);
 		
-		assertEquals(starting.getLongDescription(), game.get_mapTile_longDescription());
+		assertEquals(starting.getLongDescription(), game.getmapTile_longDescription());
 	}
 	
 	@Test
-	public void testGet_MapTile_Name(){
+	public void testgetMapTile_Name(){
 		Game game = new Game();
 		ArrayList<Character> chars = new ArrayList<Character>();
 		Player player = new Player();
-		player.set_location(0);
+		player.setlocation(0);
 		chars.add(player);
-		game.set_characters(chars);
+		game.setcharacters(chars);
 		
 		Map map = new Map();
 		MapTile starting = new MapTile();
 		starting.setName("Derp");
 		starting.setLongDescription("Just a long description here. Nothing more.");
 		map.addMapTile(starting);
-		game.set_map(map);
+		game.setmap(map);
 		
-		assertEquals(starting.getName(), game.get_mapTile_name());
+		assertEquals(starting.getName(), game.getmapTile_name());
 	}
 	
 	@Test
-	public void testSet_Battle(){
+	public void testsetBattle(){
 		Game game = new Game();
 		
 		ArrayList<Character> chars = new ArrayList<Character>();
 		chars.add(new Player());
-		game.set_characters(chars);
+		game.setcharacters(chars);
 		
 		CombatSituation sitch = new CombatSituation(game, 1, 0);
 		game.setBattle(sitch);

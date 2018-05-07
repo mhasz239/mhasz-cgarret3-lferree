@@ -11,41 +11,41 @@ public class AccountTest{
 	@Before
 	public void setup(){
 		account = new Account();
-		account.set_user_token(-1);
-		account.set_game_ids(null);
+		account.setuser_token(-1);
+		account.setgame_ids(null);
 	}
 	
 	@Test
-	public void testSet_User_Token(){
+	public void testsetUser_Token(){
 		// Set that token!
-		account.set_user_token(507);
+		account.setuser_token(507);
 		
 		// Check that token!
-		assertEquals(507, account.get_user_token());
+		assertEquals(507, account.getuser_token());
 		
 		// Set it again! (Checking against weird add stuff)
-		account.set_user_token(42);
+		account.setuser_token(42);
 		
 		// Check it again!
-		assertEquals(42, account.get_user_token());
+		assertEquals(42, account.getuser_token());
 	}
 	
 	@Test
-	public void testSet_Game_ID(){
+	public void testsetGame_ID(){
 		// Set that ID!
-		account.set_game_ids(new int[]{1029});
+		account.setgame_ids(new int[]{1029});
 		
 		// Check that ID!
-		assertEquals(1, account.get_game_ids().length);
-		assertEquals(1029, account.get_game_ids()[0]);
+		assertEquals(1, account.getgame_ids().length);
+		assertEquals(1029, account.getgame_ids()[0]);
 		
 		// Set it again! (Checking against weird add stuff)
-		account.set_game_ids(new int[]{2938, 5});
+		account.setgame_ids(new int[]{2938, 5});
 		
 		// Check it again!
-		assertEquals(2, account.get_game_ids().length);
-		assertEquals(2938, account.get_game_ids()[0]);
-		assertEquals(5, account.get_game_ids()[1]);
+		assertEquals(2, account.getgame_ids().length);
+		assertEquals(2938, account.getgame_ids()[0]);
+		assertEquals(5, account.getgame_ids()[1]);
 	}
 	
 	@Test
@@ -81,8 +81,8 @@ public class AccountTest{
 		assertEquals("Success!", response);
 		
 		// TODO: JUNIT: Test that user_token and game_id are set
-		//assertEquals(3, account.get_user_token());
-		//assertEquals(1, account.get_game_id());
+		//assertEquals(3, account.getuser_token());
+		//assertEquals(1, account.getgame_id());
 	}
 	
 	@Test
@@ -94,8 +94,8 @@ public class AccountTest{
 		assertEquals("Invalid Username or Password", response);
 		
 		// Check that user_token and game_id aren't set
-		assertEquals(-1, account.get_user_token());
-		assertEquals(null, account.get_game_ids());
+		assertEquals(-1, account.getuser_token());
+		assertEquals(null, account.getgame_ids());
 	}
 	
 	@Test
@@ -107,7 +107,7 @@ public class AccountTest{
 		assertEquals("Invalid Username or Password", response);
 		
 		// Check that user_token and game_id aren't set
-		assertEquals(-1, account.get_user_token());
-		assertEquals(null, account.get_game_ids());
+		assertEquals(-1, account.getuser_token());
+		assertEquals(null, account.getgame_ids());
 	}
 }

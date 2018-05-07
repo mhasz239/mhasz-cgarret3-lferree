@@ -13,7 +13,7 @@ public class GameModeChangeTests{
 	@Before
 	public void setup(){
 		game = new Game();
-		game.set_mode("game");
+		game.setmode("game");
 	}
 	
 	/*
@@ -34,7 +34,7 @@ public class GameModeChangeTests{
 		assertTrue(game.mode_change("inventory"));
 		
 		// Check that mode was changed
-		assertEquals("inventory", game.get_mode());
+		assertEquals("inventory", game.getmode());
 	}
 	
 	@Test
@@ -43,7 +43,7 @@ public class GameModeChangeTests{
 		assertTrue(game.mode_change("iNVenTOrY"));
 		
 		// Check that mode was changed
-		assertEquals("inventory", game.get_mode());
+		assertEquals("inventory", game.getmode());
 	}
 	
 	/*
@@ -55,7 +55,7 @@ public class GameModeChangeTests{
 		assertTrue(game.mode_change("character"));
 		
 		// Check that mode was changed
-		assertEquals("character", game.get_mode());
+		assertEquals("character", game.getmode());
 	}
 	
 	@Test
@@ -64,7 +64,7 @@ public class GameModeChangeTests{
 		assertTrue(game.mode_change("ChARActEr"));
 		
 		// Check that mode was changed
-		assertEquals("character", game.get_mode());
+		assertEquals("character", game.getmode());
 	}
 	
 	/*
@@ -76,7 +76,7 @@ public class GameModeChangeTests{
 		assertTrue(game.mode_change("map"));
 		
 		// Check that mode was changed
-		assertEquals("map", game.get_mode());
+		assertEquals("map", game.getmode());
 	}
 	
 	@Test
@@ -85,7 +85,7 @@ public class GameModeChangeTests{
 		assertTrue(game.mode_change("mAP"));
 		
 		// Check that mode was changed
-		assertEquals("map", game.get_mode());
+		assertEquals("map", game.getmode());
 	}
 	
 	/*
@@ -94,25 +94,25 @@ public class GameModeChangeTests{
 	@Test
 	public void testGameCommand(){
 		// Set mode to character
-		game.set_mode("character");
+		game.setmode("character");
 		
 		// Run command
 		assertTrue(game.mode_change("game"));
 		
 		// Check that mode was changed
-		assertEquals("game", game.get_mode());
+		assertEquals("game", game.getmode());
 	}
 	
 	@Test
 	public void testGameCommandWEiRdCAsE(){
 		// Set mode to character
-		game.set_mode("character");
+		game.setmode("character");
 		
 		// Run command
 		assertTrue(game.mode_change("gAmE"));
 		
 		// Check that mode was changed
-		assertEquals("game", game.get_mode());
+		assertEquals("game", game.getmode());
 	}
 	
 	/*

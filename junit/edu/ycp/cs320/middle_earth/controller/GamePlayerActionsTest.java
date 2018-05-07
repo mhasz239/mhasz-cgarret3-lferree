@@ -35,7 +35,7 @@ public class GamePlayerActionsTest{
 		player = new Player();
 		ArrayList<Character> characters = new ArrayList<Character>();
 		characters.add(player);
-		game.set_characters(characters);
+		game.setcharacters(characters);
 		
 		// Populate Player's inventory
 		ArrayList<Item> playerItems = new ArrayList<Item>();
@@ -58,8 +58,8 @@ public class GamePlayerActionsTest{
 		playerItems.add(helmet);
 		playerItems.add(key);
 		Inventory inventory = new Inventory();
-		inventory.set_items(playerItems);
-		player.set_inventory(inventory);
+		inventory.setitems(playerItems);
+		player.setinventory(inventory);
 		
 		tree = new Object();
 		tree.setName("Tree");
@@ -83,13 +83,13 @@ public class GamePlayerActionsTest{
 		map.addMapTile(starting);
 		map.addMapTile(northOfStarting);
 		map.addMapTile(northEastOfStarting);
-		game.set_map(map);
+		game.setmap(map);
 		
 		ArrayList<Item> items = new ArrayList<Item>();
 		wood = new Item();
 		wood.setName("Wood");
 		items.add(wood);
-		game.set_items(items);
+		game.setitems(items);
 		
 		ArrayList<Object> objs = new ArrayList<Object>();
 		objs.add(tree);
@@ -106,19 +106,19 @@ public class GamePlayerActionsTest{
 	 */
 	@Test
 	public void testTakeCommand(){
-		assertEquals(3, player.get_inventory().get_items().size());
+		assertEquals(3, player.getinventory().getitems().size());
 		assertEquals(1, starting.getObjects().get(1).getItems().size());
 		assertEquals(wood, starting.getObjects().get(1).getItems().get(0));
 		
 		game.take(wood.getName());
 		
 		assertEquals(0, starting.getObjects().get(1).getItems().size());
-		assertEquals(4, player.get_inventory().get_items().size());
-		assertEquals(wood, player.get_inventory().get_items().get(3));
+		assertEquals(4, player.getinventory().getitems().size());
+		assertEquals(wood, player.getinventory().getitems().get(3));
 		
 		// Check dialog
-		assertEquals(1, game.get_dialog().size());
-		assertEquals("You have taken " + wood.getName(), game.get_dialog().get(0));
+		assertEquals(1, game.getdialog().size());
+		assertEquals("You have taken " + wood.getName(), game.getdialog().get(0));
 	}
 	
 	/*
@@ -126,25 +126,25 @@ public class GamePlayerActionsTest{
 	 */
 	@Test
 	public void testLookAtStarting(){
-		assertEquals(0, player.get_location());
+		assertEquals(0, player.getlocation());
 		
 		game.look();
 		
-		assertEquals(2, game.get_dialog().size());
-		assertEquals(starting.getName(), game.get_dialog().get(0));
-		assertEquals(starting.getLongDescription(), game.get_dialog().get(1));
+		assertEquals(2, game.getdialog().size());
+		assertEquals(starting.getName(), game.getdialog().get(0));
+		assertEquals(starting.getLongDescription(), game.getdialog().get(1));
 	}
 	
 	@Test
 	public void testLookAtNorthOfStarting(){
-		game.get_characters().get(0).set_location(1);
+		game.getcharacters().get(0).setlocation(1);
 		
-		assertEquals(1, player.get_location());
+		assertEquals(1, player.getlocation());
 		
 		game.look();
 		
-		assertEquals(2, game.get_dialog().size());
-		assertEquals(northOfStarting.getName(), game.get_dialog().get(0));
-		assertEquals(northOfStarting.getLongDescription(), game.get_dialog().get(1));
+		assertEquals(2, game.getdialog().size());
+		assertEquals(northOfStarting.getName(), game.getdialog().get(0));
+		assertEquals(northOfStarting.getLongDescription(), game.getdialog().get(1));
 	}
 }

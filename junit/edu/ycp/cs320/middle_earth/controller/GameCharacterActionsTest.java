@@ -32,12 +32,12 @@ public class GameCharacterActionsTest{
 	public void setup(){
 		game = new Game();
 		// This is here in case Game doesn't set mode to game by default.
-		game.set_mode("game");
+		game.setmode("game");
 		player = new Player();
-		player.set_location(0);
+		player.setlocation(0);
 		ArrayList<Character> characters = new ArrayList<Character>();
 		characters.add(player);
-		game.set_characters(characters);
+		game.setcharacters(characters);
 		starting = new MapTile();
 		starting.setID(0);
 		northOfStarting = new MapTile();
@@ -92,7 +92,7 @@ public class GameCharacterActionsTest{
 		tiles.add(northWestOfStarting);
 		map.setMapTiles(tiles);
 		
-		game.set_map(map);
+		game.setmap(map);
 	}
 	
 	public void testValidMove(Game game, MapTile original, MapTile destination, String direction){

@@ -45,15 +45,15 @@ public class InventoryModeActionsTest{
 		playerItems.add(helmet);
 		playerItems.add(key);
 		Inventory inventory = new Inventory();
-		inventory.set_items(playerItems);
-		player.set_inventory(inventory);
+		inventory.setitems(playerItems);
+		player.setinventory(inventory);
 		
 		// Setup Character Array
 		ArrayList<Character> chars = new ArrayList<Character>();
 		chars.add(player);
 		
 		// Put Player into Game
-		game.set_characters(chars);
+		game.setcharacters(chars);
 	}
 	
 	/*
