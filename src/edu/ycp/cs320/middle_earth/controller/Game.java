@@ -10,7 +10,6 @@ import edu.ycp.cs320.middle_earth.images.MapPanel;
 import edu.ycp.cs320.middle_earth.model.CombatSituation;
 import edu.ycp.cs320.middle_earth.model.Quest;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
-import edu.ycp.cs320.middle_earth.model.Characters.Player;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 import edu.ycp.cs320.middle_earth.model.Constructs.ItemType;
 import edu.ycp.cs320.middle_earth.model.Constructs.Map;
@@ -21,8 +20,7 @@ import edu.ycp.cs320.middle_earth.persist.IDatabase;
 public class Game implements Engine{
 	private Map map;
 	private ArrayList<Quest> quests;
-	private ArrayList<Character> NPCs;
-	private ArrayList<Player> players;
+	private ArrayList<Character> characters;
 	private ArrayList<Object> objects;
 	private ArrayList<Item> items;
 	private ArrayList<String> dialog;
@@ -99,34 +97,18 @@ public class Game implements Engine{
 		this.quests = quests;
 	}
 	
-	public ArrayList<Character> getNPCs() {
-		return NPCs;
+	public ArrayList<Character> getcharacters(){
+		return characters;
 	}
 	
-	public void setNPCs(ArrayList<Character> NPCs) {
-		this.NPCs = NPCs;
-	}
-	
-	public ArrayList<Player> getplayers() {
-		return players;
-	}
-	
-	public void setplayers(ArrayList<Player> players) {
-		this.players = players;
-	}
-	
-	//public ArrayList<Character> getcharacters(){
-	//	return characters;
-	//}
-	
-	public Character getplayer(int playerNum){
+	public Character getplayer(){
 		//Player is assigned to index 0 of Characters List. ###Will have to update for multiplayer###
-		return players.get(playerNum-1);
+		return characters.get(0);
 	}
 	
-	//public void setcharacters(ArrayList<Character> characters){
-	//	this.characters = characters;
-	//}
+	public void setcharacters(ArrayList<Character> characters){
+		this.characters = characters;
+	}
 	
 	public ArrayList<Object> getobjects(){
 		return objects;
