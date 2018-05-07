@@ -60,14 +60,14 @@ public class QueryForMapTiles {
 									+ "\n\t\tLong Desc = " + item.getLongDescription() 
 									+ "\n\t\tShort Desc = " + item.getShortDescription() 
 						
-									+ "\n\t\tDesc Update = " + item.get_description_update()
-									+ "\n\t\tAttack Bonus = " + item.get_attack_bonus()
-									+ "\n\t\tDefense Bonus = " + item.get_defense_bonus()
-									+ "\n\t\tHP Bonus = " + item.get_hp_bonus() 
+									+ "\n\t\tDesc Update = " + item.getdescription_update()
+									+ "\n\t\tAttack Bonus = " + item.getattack_bonus()
+									+ "\n\t\tDefense Bonus = " + item.getdefense_bonus()
+									+ "\n\t\tHP Bonus = " + item.gethp_bonus() 
 						
 									+ "\n\t\tItem Weight = " + item.getItemWeight() 
-									+ "\n\t\tItem Type = " + item.get_ItemType()
-									+ "\n\t\tLevel Requirement = " + item.get_lvl_requirement()
+									+ "\n\t\tItem Type = " + item.getItemType()
+									+ "\n\t\tLevel Requirement = " + item.getlvl_requirement()
 						
 									+ "\n\t\tIs a quest item? " + item.getIsQuestItem() + "\n");
 							}

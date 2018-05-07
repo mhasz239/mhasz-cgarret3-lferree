@@ -26,14 +26,14 @@ public class QueryForItemByID {
 				+ "\nLong Desc = " + item.getLongDescription() 
 				+ "\nShort Desc = " + item.getShortDescription() 
 			
-				+ "\nDesc Update = " + item.get_description_update()
-				+ "\nAttack Bonus = " + item.get_attack_bonus()
-				+ "\nDefense Bonus = " + item.get_defense_bonus()
-				+ "\nHP Bonus = " + item.get_hp_bonus() 
+				+ "\nDesc Update = " + item.getdescription_update()
+				+ "\nAttack Bonus = " + item.getattack_bonus()
+				+ "\nDefense Bonus = " + item.getdefense_bonus()
+				+ "\nHP Bonus = " + item.gethp_bonus() 
 			
 				+ "\nItem Weight = " + item.getItemWeight() 
-				+ "\nItem Type = " + item.get_ItemType()
-				+ "\nLevel Requirement = " + item.get_lvl_requirement()
+				+ "\nItem Type = " + item.getItemType()
+				+ "\nLevel Requirement = " + item.getlvl_requirement()
 			
 				+ "\nIs a quest item? " + item.getIsQuestItem() + "\n\n");
 		}

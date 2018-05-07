@@ -341,4 +341,10 @@ public class FakeDatabase implements IDatabase {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Integer createNewGame(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 } 

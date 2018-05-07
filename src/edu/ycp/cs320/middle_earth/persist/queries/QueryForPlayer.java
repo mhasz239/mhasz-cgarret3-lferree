@@ -47,14 +47,14 @@ public class QueryForPlayer {
 				+ "\n\tLong Desc = " + item.getLongDescription() 
 				+ "\n\tShort Desc = " + item.getShortDescription() 
 	
-				+ "\n\tDesc Update = " + item.get_description_update()
-				+ "\n\tAttack Bonus = " + item.get_attack_bonus()
-				+ "\n\tDefense Bonus = " + item.get_defense_bonus()
-				+ "\n\tHP Bonus = " + item.get_hp_bonus() 
+				+ "\n\tDesc Update = " + item.getdescription_update()
+				+ "\n\tAttack Bonus = " + item.getattack_bonus()
+				+ "\n\tDefense Bonus = " + item.getdefense_bonus()
+				+ "\n\tHP Bonus = " + item.gethp_bonus() 
 	
 				+ "\n\tItem Weight = " + item.getItemWeight() 
-				+ "\n\tItem Type = " + item.get_ItemType()
-				+ "\n\tLevel Requirement = " + item.get_lvl_requirement()
+				+ "\n\tItem Type = " + item.getItemType()
+				+ "\n\tLevel Requirement = " + item.getlvl_requirement()
 	
 				+ "\n\tIs a quest item? " + item.getIsQuestItem() + "\n\n");
 			}
