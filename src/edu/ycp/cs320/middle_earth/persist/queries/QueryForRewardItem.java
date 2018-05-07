@@ -5,8 +5,7 @@ import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
 import edu.ycp.cs320.middle_earth.persist.IDatabase;
 import edu.ycp.cs320.middle_earth.persist.InitDatabase;
 
-public class QueryForItemByID {
-
+public class QueryForRewardItem {
 	public static void main(String[] args) throws Exception {
 		
 		
@@ -14,7 +13,7 @@ public class QueryForItemByID {
 		// get the DB instance and execute transaction
 
 		IDatabase db = DatabaseProvider.getInstance();
-		Item item = db.getItemByID(13);
+		Item item = db.getHandHeldItem();
 		
 		// check if anything was returned and output the list
 		if (item == null) {

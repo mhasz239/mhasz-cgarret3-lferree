@@ -293,4 +293,40 @@ public class FakeDatabase implements IDatabase {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Item getLegendaryItem(String itemType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Item getHandHeldItem() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Item getHandHeldItem(String whichHand) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Item getArmorItem() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Item getArmorItem(String armorType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Item getLegendaryItem() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 } 

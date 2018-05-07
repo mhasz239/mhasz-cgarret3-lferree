@@ -46,4 +46,11 @@ public interface IDatabase {
 	public Enemy getEnemyByRace(String race);
 	public ArrayList<Enemy> getAllEnemies();
 	public ArrayList<String> getAllEnemyRaces();
+	
+	public Item getLegendaryItem();
+	public Item getLegendaryItem(String itemType);
+	public Item getHandHeldItem();
+	public Item getHandHeldItem(String whichHand);
+	public Item getArmorItem();
+	public Item getArmorItem(String armorType);
 }

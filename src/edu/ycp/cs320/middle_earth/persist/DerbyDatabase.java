@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1464,6 +1465,222 @@ public class DerbyDatabase implements IDatabase {
 	/******************************************************************************************************
 	 * 										*Get Specific* Methods
 	 ******************************************************************************************************/
+	@Override
+	public Item getLegendaryItem() {
+		return executeTransaction(new Transaction<Item>() {
+			@Override
+			public Item execute(Connection conn) throws SQLException {
+				ResultSet resultSet = null;
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement(
+							"select items.item_id "
+							+ "from items "
+							+ "where items.longdescription = 'LEGENDARY'"
+					);
+					resultSet = stmt.executeQuery();
+
+					Random rand = new Random();
+					
+					ArrayList<Integer> itemIDList = new ArrayList<Integer>();
+					
+					while(resultSet.next()) {
+						itemIDList.add(resultSet.getInt(1));
+					}
+					
+					return getItemByID(itemIDList.get(rand.nextInt(itemIDList.size())));
+					
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}				
+			}
+		});
+	}
+	
+	@Override
+	public Item getLegendaryItem(String itemType) {
+		return executeTransaction(new Transaction<Item>() {
+			@Override
+			public Item execute(Connection conn) throws SQLException {
+				ResultSet resultSet = null;
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement(
+							"select items.item_id "
+							+ "from items "
+							+ "where items.longdescription = 'LEGENDARY'"
+							+ "AND items.itemtype = ?"
+					);
+					stmt.setString(1, itemType);
+					resultSet = stmt.executeQuery();
+
+					Random rand = new Random();
+					
+					ArrayList<Integer> itemIDList = new ArrayList<Integer>();
+					
+					while(resultSet.next()) {
+						itemIDList.add(resultSet.getInt(1));
+					}
+					
+					return getItemByID(itemIDList.get(rand.nextInt(itemIDList.size())));
+					
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}				
+			}
+		});
+	}
+	
+	@Override
+	public Item getHandHeldItem() {
+		return executeTransaction(new Transaction<Item>() {
+			@Override
+			public Item execute(Connection conn) throws SQLException {
+				ResultSet resultSet = null;
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement(
+							"select items.item_id "
+							+ "from items "
+							+ "where (items.itemtype = 'L_HAND' "
+							+ "OR items.itemtype = 'R_HAND') "
+							+ "AND NOT items.longdescription = 'LEGENDARY'"
+					);
+					resultSet = stmt.executeQuery();
+
+					Random rand = new Random();
+					
+					ArrayList<Integer> itemIDList = new ArrayList<Integer>();
+					
+					while(resultSet.next()) {
+						itemIDList.add(resultSet.getInt(1));
+					}
+					
+					return getItemByID(itemIDList.get(rand.nextInt(itemIDList.size())));
+					
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}				
+			}
+		});
+	}	
+	
+	@Override
+	public Item getHandHeldItem(String whichHand) {
+		return executeTransaction(new Transaction<Item>() {
+			@Override
+			public Item execute(Connection conn) throws SQLException {
+				ResultSet resultSet = null;
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement(
+							"select items.item_id "
+							+ "from items "
+							+ "where items.itemtype = ? "
+							+ "AND NOT items.longdescription = 'LEGENDARY'"
+					);
+					stmt.setString(1, whichHand);
+					resultSet = stmt.executeQuery();
+					Random rand = new Random();
+					
+					ArrayList<Integer> itemIDList = new ArrayList<Integer>();
+					
+					while(resultSet.next()) {
+						itemIDList.add(resultSet.getInt(1));
+					}
+					
+					return getItemByID(itemIDList.get(rand.nextInt(itemIDList.size())));
+					
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}				
+			}
+		});
+	}
+	
+	@Override
+	public Item getArmorItem() {
+		return executeTransaction(new Transaction<Item>() {
+			@Override
+			public Item execute(Connection conn) throws SQLException {
+				ResultSet resultSet = null;
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement(
+							"select items.item_id "
+							+ "from items "
+							+ "where (items.itemtype = 'CHEST' "
+							+ "OR items.itemtype = 'BRACES' "
+							+ "OR items.itemtype = 'LEGS' "
+							+ "OR items.itemtype = 'BOOTS') "
+							+ "AND NOT items.longdescription = 'LEGENDARY'"
+					);
+					resultSet = stmt.executeQuery();
+					Random rand = new Random();
+					
+					ArrayList<Integer> itemIDList = new ArrayList<Integer>();
+					
+					while(resultSet.next()) {
+						itemIDList.add(resultSet.getInt(1));
+					}
+					
+					return getItemByID(itemIDList.get(rand.nextInt(itemIDList.size())));
+					
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}				
+			}
+		});
+	}
+	
+	@Override
+	public Item getArmorItem(String armorType) {
+		return executeTransaction(new Transaction<Item>() {
+			@Override
+			public Item execute(Connection conn) throws SQLException {
+				ResultSet resultSet = null;
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement(
+							"select items.item_id "
+							+ "from items "
+							+ "where items.itemtype = ? "
+							+ "AND NOT items.longdescription = 'LEGENDARY'"
+					);
+					stmt.setString(1, armorType);
+					resultSet = stmt.executeQuery();
+					Random rand = new Random();
+					
+					ArrayList<Integer> itemIDList = new ArrayList<Integer>();
+					
+					while(resultSet.next()) {
+						itemIDList.add(resultSet.getInt(1));
+					}
+					
+					return getItemByID(itemIDList.get(rand.nextInt(itemIDList.size())));
+					
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}				
+			}
+		});
+	}
+	
+	
+	
+	
 	@Override
 	public Enemy getEnemyByRace(String race) {
 		return executeTransaction(new Transaction<Enemy>() {
