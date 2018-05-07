@@ -2170,6 +2170,30 @@ public class DerbyDatabase implements IDatabase {
 	/*******************************************************************************************************
 	 * 										Update Database Methods
 	********************************************************************************************************/
+	@Override
+	public Boolean createNewUser(String username, String password, String email) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement insertUser = null;
+				try {
+					insertUser = conn.prepareStatement(
+							"insert into users (username, password, email) "
+							+ "values (?, ?, ?)"
+					);
+					insertUser.setString(1, username);
+					insertUser.setString(2, password);
+					insertUser.setString(3, email);
+					insertUser.executeUpdate();
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(insertUser);
+				}
+			}
+		});
+	}
 	
 	private void updateMap(final Map map) {
 		// In the future will need to update map for Editor

@@ -43,6 +43,7 @@ public interface IDatabase {
 	public String getUserPasswordByUserName(String username);
 	public ArrayList<String> getAllUserNames();
 	public Boolean doesUserNameExist(String username);
+	public Boolean createNewUser(String username, String password, String email);
 	
 	public Enemy getEnemyByRace(String race);
 	public ArrayList<Enemy> getAllEnemies();

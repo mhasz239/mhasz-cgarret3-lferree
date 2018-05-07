@@ -26,6 +26,10 @@ public class QueryForUsers {
 		}
 		
 		System.out.println("Does " + userList.get(0) + " exist? = " + db.doesUserNameExist(userList.get(0)));
+		
+		if(!db.doesUserNameExist("Blart")) {
+			System.out.println(db.createNewUser("Blart", "whocares", "Blart@email.email"));
+		}
 	}
 		
 }
