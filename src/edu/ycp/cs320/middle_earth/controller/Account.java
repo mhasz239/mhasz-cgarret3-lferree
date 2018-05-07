@@ -28,7 +28,14 @@ public class Account{
 	}
 	
 	public String usernameCheck(String username){
-		return "Passes";
+		DatabaseProvider.setInstance(new DerbyDatabase());
+		IDatabase db = DatabaseProvider.getInstance();
+		
+		if (db.doesUserNameExist(username)) {
+			return "Sorry that Username is already taken.";
+		} else {
+			return "Passes";
+		}
 		// TODO: Implement (Checks database to see if username already exists, if not returns "Passes"  as result;
 		//throw new UnsupportedOperationException("Not implemented yet!");
 	}
@@ -69,12 +76,14 @@ public class Account{
 	}
 	
 	public String create_account(String username, String password, String email){
-		// TODO: Implement 
-		// Needs to call database and return "Successful" if the account was successfully created
-		// return Error if there was an error in creating the account.
+		DatabaseProvider.setInstance(new DerbyDatabase());
+		IDatabase db = DatabaseProvider.getInstance();
 		
-		return "Error";
-		//throw new UnsupportedOperationException("Not implemented yet!");
+		if (db.createNewUser(username, password, email) ){
+				return "Successful";
+		} else {
+			return "Error";
+		}
 	}
 	
 	public String login(String username, String password){
@@ -82,10 +91,6 @@ public class Account{
 		IDatabase db = DatabaseProvider.getInstance();
 		
 		if (password.equals(db.getUserPasswordByUserName(username))) {
-			//TODO: update user_token and game_id (Need to add to database calls)
-			//user_id = db.getUserID(username);
-			//game_ids = db.getGameIDs(username);
-			
 			return "Success!";
 		} else {
 			return "Invalid Username or Password";

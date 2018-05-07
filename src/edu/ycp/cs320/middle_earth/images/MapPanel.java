@@ -100,7 +100,6 @@ public class MapPanel  extends JPanel implements Runnable {
 	
 	private void render() {
 		tileMap.draw(g);
-
 	}
 	
 	private void draw() {
