@@ -112,12 +112,12 @@ public class InitialData {
  				item.setLongDescription(i.next());
  				item.setShortDescription(i.next());
  				item.set_description_update(i.next());
-				item.set_attack_bonus(Integer.parseInt(i.next()));
-  				item.set_defense_bonus(Integer.parseInt(i.next()));
-  				item.set_hp_bonus(Integer.parseInt(i.next())); 				
+				item.setattack_bonus(Integer.parseInt(i.next()));
+  				item.setdefense_bonus(Integer.parseInt(i.next()));
+  				item.sethp_bonus(Integer.parseInt(i.next())); 				
  				item.setItemWeight(Integer.parseInt(i.next()));
- 				item.set_ItemType(ItemType.valueOf(i.next()));
- 				item.set_lvl_requirement(Integer.parseInt(i.next()));
+ 				item.setItemType(ItemType.valueOf(i.next()));
+ 				item.setlvl_requirement(Integer.parseInt(i.next()));
 				
 				itemList.add(item);
 			}
@@ -400,37 +400,37 @@ public class InitialData {
 				Item item = new Item();
 				
 				// helm
-				item.set_ItemType(ItemType.HELM);
+				item.setItemType(ItemType.HELM);
 				item.setID(Integer.parseInt(i.next()));
 				player.set_helm(item);
 				
 				// braces
-				item.set_ItemType(ItemType.BRACES);
+				item.setItemType(ItemType.BRACES);
 				item.setID(Integer.parseInt(i.next()));
 				player.set_braces(item);
 				
 				// chest
-				item.set_ItemType(ItemType.CHEST);
+				item.setItemType(ItemType.CHEST);
 				item.setID(Integer.parseInt(i.next()));
 				player.set_chest(item);
 				
 				// legs
-				item.set_ItemType(ItemType.LEGS);
+				item.setItemType(ItemType.LEGS);
 				item.setID(Integer.parseInt(i.next()));
 				player.set_legs(item);
 				
 				// boots
-				item.set_ItemType(ItemType.BOOTS);
+				item.setItemType(ItemType.BOOTS);
 				item.setID(Integer.parseInt(i.next()));
 				player.set_boots(item);
 				
 				// l_hand
-				item.set_ItemType(ItemType.L_HAND);
+				item.setItemType(ItemType.L_HAND);
 				item.setID(Integer.parseInt(i.next()));
 				player.set_l_hand(item);
 				
 				// r_hand
-				item.set_ItemType(ItemType.R_HAND);
+				item.setItemType(ItemType.R_HAND);
 				item.setID(Integer.parseInt(i.next()));
 				player.set_r_hand(item);
 				
