@@ -44,11 +44,11 @@ public class Object extends Construct{
 		return this.items;
 	}
 	
-	public void set_description_update(String string){
+	public void setdescription_update(String string){
 		this.description_update = string;
 	}
 	
-	public String get_description_update(){
+	public String getdescription_update(){
 		return description_update;
 	}
 }
