@@ -20,11 +20,8 @@ import edu.ycp.cs320.middle_earth.model.Characters.Player;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 import edu.ycp.cs320.middle_earth.model.Constructs.ItemType;
 import edu.ycp.cs320.middle_earth.model.Constructs.Object;
-import persist.dbmod.ItemInventory;
-import persist.dbmod.ItemObject;
-import persist.dbmod.MapTileMap;
+import persist.dbmod.IntPair;
 import persist.dbmod.ObjectIDCommandResponse;
-import persist.dbmod.ObjectMapTile;
 import persist.dbmod.StringPair;
 import persist.dbmod.User;
 import edu.ycp.cs320.middle_earth.model.Constructs.Map;
@@ -546,15 +543,15 @@ public class DerbyDatabase implements IDatabase {
 			public Boolean execute(Connection conn) throws SQLException {
 				ArrayList<Item> itemList;
 				ArrayList<Object> objectList;
-				ArrayList<ItemObject> itemsToObjectsList;
+				ArrayList<IntPair> itemsToObjectsList;
 				ArrayList<ObjectIDCommandResponse> objectCommandResponseList;
 				ArrayList<HashMap<String, Integer>> mapTileConnectionsList;
 				ArrayList<MapTile> mapTileList;
-				ArrayList<ObjectMapTile> objectsToMapTilesList;
-				ArrayList<ItemInventory> itemsToInventoriesList;
+				ArrayList<IntPair> objectsToMapTilesList;
+				ArrayList<IntPair> itemsToInventoriesList;
 				ArrayList<Player> playerList;
 				ArrayList<Map> mapList;
-				ArrayList<MapTileMap> mapTilesToMapsList;
+				ArrayList<IntPair> mapTilesToMapsList;
 				ArrayList<User> userList;
 				ArrayList<Enemy> enemyList;
 				ArrayList<StringPair> nameGenderList;
@@ -626,9 +623,9 @@ public class DerbyDatabase implements IDatabase {
 					insertObject.executeBatch();
 					
 					insertItemsToObjects = conn.prepareStatement("insert into itemstoobjects (item_id, object_id) values (?, ?)");
-					for(ItemObject itemObject : itemsToObjectsList) {
-						insertItemsToObjects.setInt(1, itemObject.getItemID());
-						insertItemsToObjects.setInt(2, itemObject.getObjectID());
+					for(IntPair intPair : itemsToObjectsList) {
+						insertItemsToObjects.setInt(1, intPair.getInt1());
+						insertItemsToObjects.setInt(2, intPair.getInt2());
 						insertItemsToObjects.addBatch();
 					}
 					insertItemsToObjects.executeBatch();
@@ -673,18 +670,18 @@ public class DerbyDatabase implements IDatabase {
 					insertMapTile.executeBatch();
 					
 					insertObjectsToMapTiles = conn.prepareStatement("insert into objectstomaptiles (object_id, maptile_id) values (?, ?)");
-					for(ObjectMapTile objectMapTile : objectsToMapTilesList) {
-						insertObjectsToMapTiles.setInt(1, objectMapTile.getObjectID());
-						insertObjectsToMapTiles.setInt(2, objectMapTile.getMapTileID());
+					for(IntPair intPair : objectsToMapTilesList) {
+						insertObjectsToMapTiles.setInt(1, intPair.getInt1());
+						insertObjectsToMapTiles.setInt(2, intPair.getInt2());
 						
 						insertObjectsToMapTiles.addBatch();
 					}
 					insertObjectsToMapTiles.executeBatch();
 					
 					insertItemsToInventories = conn.prepareStatement("insert into itemstoinventories (item_id, inventory_id) values (?, ?)");
-					for(ItemInventory itemInventory : itemsToInventoriesList) {
-						insertItemsToInventories.setInt(1, itemInventory.getItemID());
-						insertItemsToInventories.setInt(2, itemInventory.getInventoryID());
+					for(IntPair intPair : itemsToInventoriesList) {
+						insertItemsToInventories.setInt(1, intPair.getInt1());
+						insertItemsToInventories.setInt(2, intPair.getInt2());
 						
 						insertItemsToInventories.addBatch();
 					}
@@ -746,9 +743,9 @@ public class DerbyDatabase implements IDatabase {
 					insertMaps.executeBatch();	
 					
 					insertMapTilesToMaps = conn.prepareStatement(" insert into maptilestomaps (maptile_id, map_id) values (?, ?)");
-					for(MapTileMap mapTileMap : mapTilesToMapsList) {
-						insertMapTilesToMaps.setInt(1, mapTileMap.getMapTileID());
-						insertMapTilesToMaps.setInt(2, mapTileMap.getMapID());
+					for(IntPair intPair : mapTilesToMapsList) {
+						insertMapTilesToMaps.setInt(1, intPair.getInt1());
+						insertMapTilesToMaps.setInt(2, intPair.getInt2());
 						
 						insertMapTilesToMaps.addBatch();
 					}

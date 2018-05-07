@@ -7,11 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import edu.ycp.cs320.middle_earth.model.Constructs.Object;
-import persist.dbmod.ItemInventory;
-import persist.dbmod.ItemObject;
-import persist.dbmod.MapTileMap;
+import persist.dbmod.IntPair;
 import persist.dbmod.ObjectIDCommandResponse;
-import persist.dbmod.ObjectMapTile;
 import persist.dbmod.StringPair;
 import persist.dbmod.User;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
@@ -20,7 +17,6 @@ import edu.ycp.cs320.middle_earth.model.Constructs.MapTile;
 import edu.ycp.cs320.middle_earth.model.Constructs.ItemType;
 import edu.ycp.cs320.middle_earth.model.Quest;
 import edu.ycp.cs320.middle_earth.model.Characters.Enemy;
-import edu.ycp.cs320.middle_earth.model.Characters.Inventory;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
 
 public class InitialData {
@@ -131,8 +127,8 @@ public class InitialData {
 		}
 	}
 		
-	public static ArrayList<ItemInventory> getItemsToInventories() throws IOException {
-		ArrayList<ItemInventory> itemInventoryList = new ArrayList<ItemInventory>();
+	public static ArrayList<IntPair> getItemsToInventories() throws IOException {
+		ArrayList<IntPair> itemToInventoryList = new ArrayList<IntPair>();
 		ReadCSV readItemsToInventories = new ReadCSV("itemstoinventories.csv");
 		try {						
 			while (true) {
@@ -141,21 +137,21 @@ public class InitialData {
 					break;
 				}
 				Iterator<String> i = tuple.iterator();
-				ItemInventory itemInventory = new ItemInventory();
-				itemInventory.setItemID(Integer.parseInt(i.next()));
-				itemInventory.setInventoryID(Integer.parseInt(i.next()));
+				IntPair intPair = new IntPair();
+				intPair.setInt1(Integer.parseInt(i.next()));
+				intPair.setInt2(Integer.parseInt(i.next()));
 				
-				itemInventoryList.add(itemInventory);
+				itemToInventoryList.add(intPair);
 			}
-			return itemInventoryList;	
+			return itemToInventoryList;	
 			
 		} finally {
 			readItemsToInventories.close();
 		}
 	}
 	
-	public static ArrayList<ItemObject> getItemsToObjects() throws IOException {
-		ArrayList<ItemObject> itemsToObjectsList = new ArrayList<ItemObject>();
+	public static ArrayList<IntPair> getItemsToObjects() throws IOException {
+		ArrayList<IntPair> itemsToObjectsList = new ArrayList<IntPair>();
 		ReadCSV readItemsToObjects = new ReadCSV("itemstoobjects.csv");
 		
 		try {
@@ -165,11 +161,11 @@ public class InitialData {
 					break;
 				}
 				Iterator<String> i = tuple.iterator();
-				ItemObject itemObject = new ItemObject();
-				itemObject.setItemID(Integer.parseInt(i.next()));
-				itemObject.setObjectID(Integer.parseInt(i.next()));
+				IntPair intPair = new IntPair();
+				intPair.setInt1(Integer.parseInt(i.next()));
+				intPair.setInt2(Integer.parseInt(i.next()));
 				
-				itemsToObjectsList.add(itemObject);
+				itemsToObjectsList.add(intPair);
 			}
 			return itemsToObjectsList;
 			
@@ -202,8 +198,8 @@ public class InitialData {
 		}
 	}
 	
-	public static ArrayList<MapTileMap> getMapTilesToMaps() throws IOException {
-		ArrayList<MapTileMap> mapTileMapList = new ArrayList<MapTileMap>();
+	public static ArrayList<IntPair> getMapTilesToMaps() throws IOException {
+		ArrayList<IntPair> intPairList = new ArrayList<IntPair>();
 		ReadCSV readMapTilesToMaps = new ReadCSV("maptilestomaps.csv");
 		try {
 			while (true) {
@@ -212,13 +208,13 @@ public class InitialData {
 					break;
 				}
 				Iterator<String> i = tuple.iterator();
-				MapTileMap mapTileMap = new MapTileMap();
+				IntPair intPair = new IntPair();
 				
-				mapTileMap.setMapTileID(Integer.parseInt(i.next()));
-				mapTileMap.setMapID(Integer.parseInt(i.next()));
-				mapTileMapList.add(mapTileMap);
+				intPair.setInt1(Integer.parseInt(i.next()));
+				intPair.setInt2(Integer.parseInt(i.next()));
+				intPairList.add(intPair);
 			}
-			return mapTileMapList;
+			return intPairList;
 		} finally {
 			readMapTilesToMaps.close();
 		}	
@@ -339,8 +335,8 @@ public class InitialData {
 		}
 	} 
 	
-	public static ArrayList<ObjectMapTile> getObjectsToMapTiles() throws IOException {
-		ArrayList<ObjectMapTile> objectsToMapTilesList = new ArrayList<ObjectMapTile>();
+	public static ArrayList<IntPair> getObjectsToMapTiles() throws IOException {
+		ArrayList<IntPair> objectsToMapTilesList = new ArrayList<IntPair>();
 		ReadCSV readObjectsToMapTiles = new ReadCSV("objectstomaptiles.csv");
 		try {
 			while (true) {
@@ -349,11 +345,11 @@ public class InitialData {
 					break;
 				}
 				Iterator<String> i = tuple.iterator();
-				ObjectMapTile objectMapTile = new ObjectMapTile();
-				objectMapTile.setObjectID(Integer.parseInt(i.next()));
-				objectMapTile.setMapTileID(Integer.parseInt(i.next()));
+				IntPair intPair = new IntPair();
+				intPair.setInt1(Integer.parseInt(i.next()));
+				intPair.setInt2(Integer.parseInt(i.next()));
 				
-				objectsToMapTilesList.add(objectMapTile);
+				objectsToMapTilesList.add(intPair);
 			}			
 			return objectsToMapTilesList;
 			
