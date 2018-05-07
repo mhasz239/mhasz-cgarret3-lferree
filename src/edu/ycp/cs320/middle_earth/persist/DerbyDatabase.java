@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -2216,9 +2215,9 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
-	/*
-	public Integer createNewGame(String username) {
-		return executeTransaction (new Transaction<Integer>() {
+	
+	public Integer createNewGame(String username) { throw new UnsupportedOperationException(""); }
+/*		return executeTransaction (new Transaction<Integer>() {
 			public Integer execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
