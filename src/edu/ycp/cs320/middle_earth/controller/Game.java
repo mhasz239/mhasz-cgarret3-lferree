@@ -51,26 +51,26 @@ public class Game implements Engine{
 		//db = DatabaseProvider.getInstance();
 		//######################################################
 		
-		//map.getMapTiles().get(get_player().get_location()).setVisited(true);
+		//map.getMapTiles().get(getplayer().getlocation()).setVisited(true);
 	}
 	
-	public Game get_game() {
+	public Game getgame() {
 		return this;
 	}
 
-	public String get_mode() {
+	public String getmode() {
 		return this.mode;
 	}
 
-	public void set_mode(String mode) {
+	public void setmode(String mode) {
 		this.mode = mode;
 	}
 	
-	public ArrayList<String> get_dialog() {
+	public ArrayList<String> getdialog() {
 		return dialog;
 	}
 
-	public void set_dialog(ArrayList<String> dialog) {
+	public void setdialog(ArrayList<String> dialog) {
 		this.dialog = dialog;
 	}
 	
@@ -81,57 +81,57 @@ public class Game implements Engine{
 		}
 	}
 
-	public Map get_map(){
+	public Map getmap(){
 		return map;
 	}
 	
-	public void set_map(Map map){
+	public void setmap(Map map){
 		this.map = map;
 	}
 
-	public ArrayList<Quest> get_quests(){
+	public ArrayList<Quest> getquests(){
 		return quests;
 	}
 	
-	public void set_quests(ArrayList<Quest> quests){
+	public void setquests(ArrayList<Quest> quests){
 		this.quests = quests;
 	}
 	
-	public ArrayList<Character> get_characters(){
+	public ArrayList<Character> getcharacters(){
 		return characters;
 	}
 	
-	public Character get_player(){
+	public Character getplayer(){
 		//Player is assigned to index 0 of Characters List. ###Will have to update for multiplayer###
 		return characters.get(0);
 	}
 	
-	public void set_characters(ArrayList<Character> characters){
+	public void setcharacters(ArrayList<Character> characters){
 		this.characters = characters;
 	}
 	
-	public ArrayList<Object> get_objects(){
+	public ArrayList<Object> getobjects(){
 		return objects;
 	}
 	
-	public void set_objects(ArrayList<Object> objects){
+	public void setobjects(ArrayList<Object> objects){
 		this.objects = objects;
 	}
 	
-	public ArrayList<Item> get_items(){
+	public ArrayList<Item> getitems(){
 		return items;
 	}
 	
-	public void set_items(ArrayList<Item> items){
+	public void setitems(ArrayList<Item> items){
 		this.items = items;
 	}
 	
-	public String get_mapTile_longDescription(){
-		return map.getMapTiles().get(get_player().get_location()).getLongDescription();
+	public String getmapTile_longDescription(){
+		return map.getMapTiles().get(getplayer().getlocation()).getLongDescription();
 	}
 	
-	public String get_mapTile_name(){
-		return map.getMapTiles().get(get_player().get_location()).getName();
+	public String getmapTile_name(){
+		return map.getMapTiles().get(getplayer().getlocation()).getName();
 	}
 	
 	public CombatSituation getBattle(){
@@ -142,7 +142,7 @@ public class Game implements Engine{
 		this.battle = battle;
 	}
 
-	public String get_combat_text(){
+	public String getcombat_text(){
 		String combat_text = "";
 		if (this.dialog.size() > 10) {
 			for (int i = this.dialog.size()-11; i < this.dialog.size(); i++) {
@@ -167,7 +167,7 @@ public class Game implements Engine{
 		return combat_text;
 	}
 	
-	public String get_display_text(){
+	public String getdisplay_text(){
 		String display_text = "";
 		for (int i = 0; i < this.dialog.size(); i++) {
 			// Is it supposed to have a \n before the first line? (Not sure)
@@ -283,7 +283,7 @@ public class Game implements Engine{
 				}else if(command.equalsIgnoreCase("look")){
 					look();
 				}else if(command.equalsIgnoreCase("attack")){
-						if(get_player().get_location() == 7) {
+						if(getplayer().getlocation() == 7) {
 							add_dialog("You take the pointy stick and throw it at the troll.");
 							add_dialog("It manages to poke him in the eye and knock him off balance.");
 							add_dialog("As he falls, he drops his sword and you quickly spring into action.");
@@ -308,8 +308,8 @@ public class Game implements Engine{
 				if (arg != null) {
 					try {
 						int Item_num = Integer.parseInt(arg);
-						//if (get_player().get_inventory().get_items().size() < Item_num || Item_num < 1 ) {
-						if (get_player().get_inventory().get_items().size() < Item_num || Item_num < 1 ) {
+						//if (getplayer().getinventory().getitems().size() < Item_num || Item_num < 1 ) {
+						if (getplayer().getinventory().getitems().size() < Item_num || Item_num < 1 ) {
 							returnMessage = "Sorry you dont have an item at that index";
 						} else  {
 							returnMessage = item_details(Item_num-1);
@@ -324,30 +324,30 @@ public class Game implements Engine{
 				if (arg != null)
 					try {
 						int Item_num = Integer.parseInt(arg) - 1;
-						if (get_player().get_inventory().get_items().size() - 1 < Item_num || Item_num < 0 ) {
+						if (getplayer().getinventory().getitems().size() - 1 < Item_num || Item_num < 0 ) {
 							returnMessage = "Sorry you dont have an item at that index";
 						} else {
-							Item item = get_player().get_inventory().get_items().get(Item_num);
-							if (item.get_ItemType() == ItemType.HELM) {
-								get_player().set_helm(item);
+							Item item = getplayer().getinventory().getitems().get(Item_num);
+							if (item.getItemType() == ItemType.HELM) {
+								getplayer().sethelm(item);
 								returnMessage = "You have equiped " + item.getName();
-							} else if (item.get_ItemType() == ItemType.BOOTS) {
-								get_player().set_boots(item);
+							} else if (item.getItemType() == ItemType.BOOTS) {
+								getplayer().setboots(item);
 								returnMessage = "You have equiped " + item.getName();
-							} else if (item.get_ItemType() == ItemType.BRACES) {
-								get_player().set_braces(item);
+							} else if (item.getItemType() == ItemType.BRACES) {
+								getplayer().setbraces(item);
 								returnMessage = "You have equiped " + item.getName();
-							} else if (item.get_ItemType() == ItemType.CHEST) {
-								get_player().set_chest(item);
+							} else if (item.getItemType() == ItemType.CHEST) {
+								getplayer().setchest(item);
 								returnMessage = "You have equiped " + item.getName();
-							} else if (item.get_ItemType() == ItemType.L_HAND) {
-								get_player().set_l_hand(item);
+							} else if (item.getItemType() == ItemType.L_HAND) {
+								getplayer().setl_hand(item);
 								returnMessage = "You have equiped " + item.getName();
-							} else if (item.get_ItemType() == ItemType.R_HAND) {
-								get_player().set_r_hand(item);
+							} else if (item.getItemType() == ItemType.R_HAND) {
+								getplayer().setr_hand(item);
 								returnMessage = "You have equiped " + item.getName();
-							} else if (item.get_ItemType() == ItemType.LEGS) {
-								get_player().set_legs(item);
+							} else if (item.getItemType() == ItemType.LEGS) {
+								getplayer().setlegs(item);
 								returnMessage = "You have equiped " + item.getName();
 							}
 						}
@@ -379,7 +379,7 @@ public class Game implements Engine{
 		}
 		
 		Object action_object = null;
-		ArrayList<Object> objects = map.getMapTiles().get(get_player().get_location()).getObjects();
+		ArrayList<Object> objects = map.getMapTiles().get(getplayer().getlocation()).getObjects();
 		if(objects == null){
 			return false;
 		}
@@ -397,7 +397,7 @@ public class Game implements Engine{
 		if (action_object != null) {
 			String string = action_object.getCommandResponses().get(command);
 			for (Item item : action_object.getItems()) {
-				string = string + " " + item.get_description_update();
+				string = string + " " + item.getdescription_update();
 			}
 			dialog.add(string);
 		}
@@ -433,7 +433,7 @@ public class Game implements Engine{
 
 	
 	public String item_details(int item_num){
-		Item item = get_player().get_inventory().get_items().get(item_num);
+		Item item = getplayer().getinventory().getitems().get(item_num);
 		//Item item = items.get(item_num);
 		return item.getName() + ": " + item.getLongDescription() + ";Weight: " + item.getItemWeight() + ";Quest item: " + String.valueOf(item.getIsQuestItem());
 	}
@@ -443,7 +443,7 @@ public class Game implements Engine{
 	
 	@Override
 	public void take(String name){
-		int location = get_player().get_location();
+		int location = getplayer().getlocation();
 		Object holder = new Object();
 		if (map.getMapTiles().get(location).getObjects() != null) {
 			Item lookFor = null;
@@ -453,7 +453,7 @@ public class Game implements Engine{
 					if (item.getName().toLowerCase().contains(name.toLowerCase())) {
 						lookFor = item;
 						holder = object;
-						get_player().get_inventory().get_items().add(item);
+						getplayer().getinventory().getitems().add(item);
 					}
 				}
 			}
@@ -471,8 +471,8 @@ public class Game implements Engine{
 	
 	@Override
 	public void look(){
-		add_dialog(get_mapTile_name());
-    	add_dialog(get_mapTile_longDescription());
+		add_dialog(getmapTile_name());
+    	add_dialog(getmapTile_longDescription());
 	}
 	
 	/*
@@ -482,33 +482,33 @@ public class Game implements Engine{
 	@Override
 	public void move(String direction){
 		Character player = characters.get(0);
-		int moveValue = map.getMapTiles().get(player.get_location()).getMoveValue(direction.toLowerCase());
+		int moveValue = map.getMapTiles().get(player.getlocation()).getMoveValue(direction.toLowerCase());
 		if (moveValue != 0) {
-			if (player.get_location() == 8 && direction.equalsIgnoreCase("west")) {
+			if (player.getlocation() == 8 && direction.equalsIgnoreCase("west")) {
 				boolean key = false;
-				for (Item item : player.get_inventory().get_items()) {
+				for (Item item : player.getinventory().getitems()) {
 					if (item.getName() != null && item.getName().equalsIgnoreCase("Ornate Key")) {
 						key = true;
 					}
 				}
 				if (key) {
 					add_dialog("You use the Ornate Key and open the gate.");
-					player.set_location(player.get_location() + moveValue);
-					add_dialog(map.getMapTiles().get(player.get_location()).getLongDescription());
+					player.setlocation(player.getlocation() + moveValue);
+					add_dialog(map.getMapTiles().get(player.getlocation()).getLongDescription());
 					mapPanel.setDirection(direction);
-					mapPanel.setMapTile(map.getMapTiles().get(player.get_location()));
+					mapPanel.setMapTile(map.getMapTiles().get(player.getlocation()));
 					battle = new CombatSituation(this, 1, 0);
 				} else {
 					add_dialog("You seem to be missing something to be able to go that direction.");
 				}
 			} else {
 				
-				player.set_location(player.get_location() + moveValue);
-				add_dialog(map.getMapTiles().get(player.get_location()).getName());
-				String string = map.getMapTiles().get(player.get_location()).getLongDescription();
+				player.setlocation(player.getlocation() + moveValue);
+				add_dialog(map.getMapTiles().get(player.getlocation()).getName());
+				String string = map.getMapTiles().get(player.getlocation()).getLongDescription();
 				
-				if (map.getMapTileByID(player.get_location()).getObjects() != null) {
-					for (Object object : map.getMapTileByID(player.get_location()).getObjects()){
+				if (map.getMapTileByID(player.getlocation()).getObjects() != null) {
+					for (Object object : map.getMapTileByID(player.getlocation()).getObjects()){
 						string = string + " " + object.getLongDescription();
 						
 					}
@@ -516,7 +516,7 @@ public class Game implements Engine{
 				add_dialog(string);
 				
 				mapPanel.setDirection(direction);
-				mapPanel.setMapTile(map.getMapTiles().get(player.get_location()));
+				mapPanel.setMapTile(map.getMapTiles().get(player.getlocation()));
 				// TODO: Check if on the same tile as another player to trigger pvp combat (and thus not do an encounter check)
 				
 				Random rand = new Random(System.currentTimeMillis());
@@ -529,13 +529,13 @@ public class Game implements Engine{
 		} else {
 			add_dialog("You can't go that way");
 		}
-		map.getMapTiles().get(player.get_location()).setVisited(true);
+		map.getMapTiles().get(player.getlocation()).setVisited(true);
 		
 	}
 	
 	
 	public void startMap(){
-		mapPanel.setMapTile(map.getMapTileByID(get_player().get_location()));
+		mapPanel.setMapTile(map.getMapTileByID(getplayer().getlocation()));
 		mapIMG.setContentPane(mapPanel);
 		mapIMG.pack();
 		mapIMG.setVisible(false);

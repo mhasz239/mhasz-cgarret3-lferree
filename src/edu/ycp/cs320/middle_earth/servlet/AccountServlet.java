@@ -48,7 +48,7 @@ public class AccountServlet extends HttpServlet {
 			emailCheck = account.emailCheck(req.getParameter("email")); 
 			if (usernameCheck.equals("Passes") && passwordCheck.equals("Passes")&& emailCheck.equals("Passes")) {
 				//req.getSession().setAttribute("account", account);
-				//account.set_user_token(user_id);
+				//account.setuser_token(user_id);
 				String created = account.create_account(req.getParameter("username"), req.getParameter("password"), req.getParameter("email"));
 				if (created.equalsIgnoreCase("Successful")) {
 					req.setAttribute("accountCreated", true);

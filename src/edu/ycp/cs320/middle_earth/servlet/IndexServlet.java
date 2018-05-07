@@ -46,7 +46,7 @@ public class IndexServlet extends HttpServlet {
 			String check = account.login(req.getParameter("username"), req.getParameter("password"));
 			if (check.equals("Success!") && !req.getParameter("password").equalsIgnoreCase("")) {
 				//req.getSession().setAttribute("account", account);
-				//account.set_user_token(user_id);
+				//account.setuser_token(user_id);
 				
 				//Placeholder for now is just setting the player attribute as the username only if login succeeds.
 				req.getSession().setAttribute("player", req.getParameter("username"));
@@ -64,7 +64,7 @@ public class IndexServlet extends HttpServlet {
 			Game game = db.loadGame();
 			game.startMap();
 			req.getSession().setAttribute("game", game);
-			req.setAttribute("mode", game.get_mode());
+			req.setAttribute("mode", game.getmode());
 			req.getSession().setAttribute("game1", "True");
 			req.getSession().setAttribute("exit", false);
 			req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);

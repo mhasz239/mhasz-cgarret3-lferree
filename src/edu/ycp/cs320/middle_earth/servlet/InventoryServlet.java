@@ -17,16 +17,28 @@ public class InventoryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
+    	
         System.out.println("Inventory Servlet: doGet");
 
         //Load data for the initial call to the inventory jsp
 
         Game game = (Game) req.getSession().getAttribute("game");
         String command = (String) req.getSession().getAttribute("command");
+        int counter = 1;
         
-        game.set_mode("inventory");
-        ArrayList<Item> inventory_list =  game.get_player().get_inventory().get_items();
+        ArrayList<Item> itemlist = game.getplayer().getinventory().getitems();
+        ArrayList<Item> cleanList = new ArrayList<Item>();
+        for (int i = 0; i < itemlist.size(); i++){
+        	Item item = itemlist.get(i);
+        	cleanList.add(new Item(item.getItemWeight(), item.getattack_bonus(), item.getdefense_bonus(), item.gethp_bonus(), item.getlvl_requirement(), item.getItemType(), item.getName(), item.getID(), item.getShortDescription(), item.getLongDescription(), itemlist.get(i).getName().replaceAll(" ", "_") ));
+        }
+        
+        req.setAttribute(("itemTest"), cleanList);
+        
+        req.setAttribute("numItems", counter);
+        
+        game.setmode("inventory");
+        ArrayList<Item> inventory_list =  game.getplayer().getinventory().getitems();
         String inventory_display_list = "";
         for (int j = 0; j < inventory_list.size(); j++){
         	inventory_display_list = inventory_display_list + inventory_list.get(j).getName() + ": " + inventory_list.get(j).getShortDescription()+";";
@@ -54,9 +66,9 @@ public class InventoryServlet extends HttpServlet {
 
         
         Game game = (Game) req.getSession().getAttribute("game");
-        game.set_mode("inventory");
+        game.setmode("inventory");
         // Gets the inventory of the player
-        ArrayList<Item> inventory_list =  game.get_player().get_inventory().get_items();
+        ArrayList<Item> inventory_list =  game.getplayer().getinventory().getitems();
         
         //Inventory is split into two display sections, the inventory list, then the responses to the commands in inventory
         String inventory_display_list = "";
@@ -73,21 +85,21 @@ public class InventoryServlet extends HttpServlet {
         
         
         
-        if (game.get_mode() == "game") {
+        if (game.getmode() == "game") {
         	ArrayList<String> dialog = new ArrayList<String>();
-        	dialog.add(game.get_mapTile_name());
-        	dialog.add(game.get_mapTile_longDescription());
-        	game.set_dialog(dialog);
-        	req.setAttribute("dialog", game.get_dialog());
+        	dialog.add(game.getmapTile_name());
+        	dialog.add(game.getmapTile_longDescription());
+        	game.setdialog(dialog);
+        	req.setAttribute("dialog", game.getdialog());
             
             req.getRequestDispatcher("/_view/game.jsp").forward(req, resp);
         } 
-        else if (game.get_mode() == "map") {
+        else if (game.getmode() == "map") {
         	// TODO Implement
     		throw new UnsupportedOperationException("Not implemented yet!");
             //req.getRequestDispatcher("/_view/map.jsp").forward(req, resp);
         } 
-        else if (game.get_mode() == "character") {
+        else if (game.getmode() == "character") {
         	// TODO Implement
     		throw new UnsupportedOperationException("Not implemented yet!");
         	//req.getRequestDispatcher("/_view/character.jsp").forward(req, resp);

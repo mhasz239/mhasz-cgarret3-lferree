@@ -11,19 +11,19 @@ public class Account{
 	private int[] game_ids;
 	
 	
-	public int get_user_token(){
+	public int getuser_token(){
 		return user_id;
 	}
 	
-	public void set_user_token(int user_id){
+	public void setuser_token(int user_id){
 		this.user_id = user_id;
 	}
 	
-	public int[] get_game_ids(){
+	public int[] getgame_ids(){
 		return game_ids;
 	}
 	
-	public void set_game_ids(int[] game_ids){
+	public void setgame_ids(int[] game_ids){
 		this.game_ids = game_ids;
 	}
 	

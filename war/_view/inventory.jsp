@@ -12,6 +12,14 @@
         td.label {
             text-align: right;
         }
+        #item {
+        	display: inline;
+        	float: left;
+        	width: 100px;
+        	height: 118px;
+        	font-size: 12px;
+        }
+        
     </style>
 </head>
 
@@ -39,6 +47,15 @@
 </ul>
 </c:if>
 </div>
+
+<div id="test">
+	<c:forEach items="${itemTest}" var = "i" >
+		<div id="item">
+			<p>${i.name}</p>
+			<img src="${pageContext.request.contextPath}/image/items/${i.description_update}.png"/>
+        </div>
+    </c:forEach>
+<div>
 
 <div>
 <p>Type "item #" to see more details about the specific item</br>

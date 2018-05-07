@@ -23,33 +23,33 @@ public class CombatSituation{
 	 * @param players Any Players involved in the Combat.
 	 */
 	public CombatSituation(Game game, int enemies, int ... players){
-		game.set_mode("combat");
+		game.setmode("combat");
 		characterIDs = new ArrayList<Integer>();
 		String combatString = "";
 		for(int i = 0; i < players.length; i++){
 			characterIDs.add(players[i]);
 			if(i == 0){
-				combatString += game.get_characters().get(i).get_name();
+				combatString += game.getcharacters().get(i).getname();
 			}else if(i != players.length - 1){
-				combatString += ", " + game.get_characters().get(i).get_name();
+				combatString += ", " + game.getcharacters().get(i).getname();
 			}else{
-				combatString += " and " + game.get_characters().get(i).get_name() + " have entered combat!";
+				combatString += " and " + game.getcharacters().get(i).getname() + " have entered combat!";
 			}
 		}
 		random = new Random(System.nanoTime());
 		for(int i = 0; i < enemies; i++){
 			Enemy enemy = createEnemy();
 			// set enemy level to "areaDifficulty" of maptile == player location.
-			// enemy.set_level(game.map.get(player.get_location).getAreaDifficulty);
+			// enemy.setlevel(game.map.get(player.getlocation).getAreaDifficulty);
 	
-			game.get_characters().add(enemy);
-			characterIDs.add(game.get_characters().size() - 1);
+			game.getcharacters().add(enemy);
+			characterIDs.add(game.getcharacters().size() - 1);
 			if(i == 0){
-				combatString += " is staring into the eyes of a " + enemy.get_race();
+				combatString += " is staring into the eyes of a " + enemy.getrace();
 			}else if(i != enemies - 1){
-				combatString += ", a " + enemy.get_race();
+				combatString += ", a " + enemy.getrace();
 			}else{
-				combatString += " and a " + enemy.get_race(); 
+				combatString += " and a " + enemy.getrace(); 
 			}
 		}
 		game.add_dialog(combatString);
@@ -81,9 +81,9 @@ public class CombatSituation{
 			int enemyIndex = -1;
 			for(int characterIndex: characterIDs){
 				// Find the enemy the Player specified
-				Character chara = game.get_characters().get(characterIndex);
-				if(characterIndex != playerIndex && (chara.get_name().equalsIgnoreCase(target) || 
-						chara.get_race().equalsIgnoreCase(target))){
+				Character chara = game.getcharacters().get(characterIndex);
+				if(characterIndex != playerIndex && (chara.getname().equalsIgnoreCase(target) || 
+						chara.getrace().equalsIgnoreCase(target))){
 					enemy = chara;
 					enemyIndex = characterIndex;
 				}
@@ -93,13 +93,13 @@ public class CombatSituation{
 				game.add_dialog("No one by the name/race of " + target + " was found in combat with you!");
 			}else{
 				// Do attack against enemy
-				int enemyHP = enemy.get_hit_points();
+				int enemyHP = enemy.gethit_points();
 				int damage = calculateDamage(game, playerIndex, enemyIndex);
-				enemy.set_hit_points(enemyHP - damage);
-				game.add_dialog("You attacked " + enemy.get_name() + " for " + damage + " damage.");
+				enemy.sethit_points(enemyHP - damage);
+				game.add_dialog("You attacked " + enemy.getname() + " for " + damage + " damage.");
 				
 				// Check if the enemy is dead
-				if(enemy.get_hit_points() <= 0){
+				if(enemy.gethit_points() <= 0){
 					doPlayerWon(game, playerIndex, enemyIndex);
 				}
 				
@@ -123,7 +123,7 @@ public class CombatSituation{
 			}
 			
 			// Check if it's now a non-player turn (Enemy)
-			if(!(game.get_characters().get(characterIDs.get(currentIDsIndex)) instanceof Player)){
+			if(!(game.getcharacters().get(characterIDs.get(currentIDsIndex)) instanceof Player)){
 				// Do enemy turn
 				enemyAttackPlayer(game);
 			}
@@ -134,7 +134,7 @@ public class CombatSituation{
 		// Get number of Players
 		ArrayList<Integer> playerIndices = new ArrayList<Integer>();
 		for(int characterIndex: characterIDs){
-			if(game.get_characters().get(characterIndex) instanceof Player){
+			if(game.getcharacters().get(characterIndex) instanceof Player){
 				playerIndices.add(characterIndex);
 			}
 		}
@@ -144,22 +144,22 @@ public class CombatSituation{
 		int playerIndex = playerIndices.get(playerNum);
 		
 		// Get player
-		Character player = game.get_characters().get(playerIndex);
+		Character player = game.getcharacters().get(playerIndex);
 		
 		// Get Enemy
 		int enemyIndex = characterIDs.get(currentIDsIndex);
-		Character enemy = game.get_characters().get(enemyIndex);
+		Character enemy = game.getcharacters().get(enemyIndex);
 		
 		// Do damage to player
-		int playerHP = player.get_hit_points();
+		int playerHP = player.gethit_points();
 		int damage = calculateDamage(game, playerIndex, characterIDs.get(currentIDsIndex));
-		player.set_hit_points(playerHP - damage);
-		game.add_dialog(enemy.get_name() + " attacked you for " + damage + " damage.");
-		//game.add_dialog("You have " + player.get_hit_points() + " HP left.");
+		player.sethit_points(playerHP - damage);
+		game.add_dialog(enemy.getname() + " attacked you for " + damage + " damage.");
+		//game.add_dialog("You have " + player.gethit_points() + " HP left.");
 		
 		// Check if player has died
-		if(player.get_hit_points() <= 0){
-			player.set_hit_points(0);
+		if(player.gethit_points() <= 0){
+			player.sethit_points(0);
 			doPlayerDied(game, playerIndex);
 		}
 		
@@ -186,28 +186,28 @@ public class CombatSituation{
 	// Only 1 Enemy for now (grab possibilities from MapTile)
 	
 	public int calculateAttack(Game game, int character){
-		Character chr = game.get_characters().get(character);
-		int attack = chr.get_attack();
-		if(chr.get_helm() != null){
-			attack += chr.get_helm().get_attack_bonus();
+		Character chr = game.getcharacters().get(character);
+		int attack = chr.getattack();
+		if(chr.gethelm() != null){
+			attack += chr.gethelm().getattack_bonus();
 		}
-		if(chr.get_braces() != null){
-			attack += chr.get_braces().get_attack_bonus();
+		if(chr.getbraces() != null){
+			attack += chr.getbraces().getattack_bonus();
 		}
-		if(chr.get_chest() != null){
-			attack += chr.get_chest().get_attack_bonus();
+		if(chr.getchest() != null){
+			attack += chr.getchest().getattack_bonus();
 		}
-		if(chr.get_legs() != null){
-			attack += chr.get_legs().get_attack_bonus();
+		if(chr.getlegs() != null){
+			attack += chr.getlegs().getattack_bonus();
 		}
-		if(chr.get_boots() != null){
-			attack += chr.get_boots().get_attack_bonus();
+		if(chr.getboots() != null){
+			attack += chr.getboots().getattack_bonus();
 		}
-		if(chr.get_l_hand() != null){
-			attack += chr.get_l_hand().get_attack_bonus();
+		if(chr.getl_hand() != null){
+			attack += chr.getl_hand().getattack_bonus();
 		}
-		if(chr.get_r_hand() != null){
-			attack += chr.get_r_hand().get_attack_bonus();
+		if(chr.getr_hand() != null){
+			attack += chr.getr_hand().getattack_bonus();
 		}
 		int range = (int) (attack*0.2);
 		attack = (int) (attack + (random.nextInt(range+1) - range/2.0));
@@ -215,28 +215,28 @@ public class CombatSituation{
 	}
 	
 	public int calculateDefense(Game game, int character){
-		Character chr = game.get_characters().get(character);
-		int defense = chr.get_defense();
-		if(chr.get_helm() != null){
-			defense += chr.get_helm().get_defense_bonus();
+		Character chr = game.getcharacters().get(character);
+		int defense = chr.getdefense();
+		if(chr.gethelm() != null){
+			defense += chr.gethelm().getdefense_bonus();
 		}
-		if(chr.get_braces() != null){
-			defense += chr.get_braces().get_defense_bonus();
+		if(chr.getbraces() != null){
+			defense += chr.getbraces().getdefense_bonus();
 		}
-		if(chr.get_chest() != null){
-			defense += chr.get_chest().get_defense_bonus();
+		if(chr.getchest() != null){
+			defense += chr.getchest().getdefense_bonus();
 		}
-		if(chr.get_legs() != null){
-			defense += chr.get_legs().get_defense_bonus();
+		if(chr.getlegs() != null){
+			defense += chr.getlegs().getdefense_bonus();
 		}
-		if(chr.get_boots() != null){
-			defense += chr.get_boots().get_defense_bonus();
+		if(chr.getboots() != null){
+			defense += chr.getboots().getdefense_bonus();
 		}
-		if(chr.get_l_hand() != null){
-			defense += chr.get_l_hand().get_defense_bonus();
+		if(chr.getl_hand() != null){
+			defense += chr.getl_hand().getdefense_bonus();
 		}
-		if(chr.get_r_hand() != null){
-			defense += chr.get_r_hand().get_defense_bonus();
+		if(chr.getr_hand() != null){
+			defense += chr.getr_hand().getdefense_bonus();
 		}
 		return defense;
 	}
@@ -247,22 +247,22 @@ public class CombatSituation{
 	
 	public void doPlayerWon(Game game, int playerIndex, int killedIndex){
 		// Let player know what they have done.
-		game.add_dialog("You killed " + game.get_characters().get(killedIndex).get_name() + "!");
+		game.add_dialog("You killed " + game.getcharacters().get(killedIndex).getname() + "!");
 		
 		// Change player exp
-		int currentXP = ((Player) game.get_characters().get(playerIndex)).get_experience();
-		((Player) game.get_characters().get(playerIndex)).set_experience(currentXP + 10);
+		int currentXP = ((Player) game.getcharacters().get(playerIndex)).getexperience();
+		((Player) game.getcharacters().get(playerIndex)).setexperience(currentXP + 10);
 		
 		// Let player know what they have earned.
 		game.add_dialog("You have been awarded 10 experience!");
 		
 		// Default is done
 		done = true;
-		game.set_mode("game");
+		game.setmode("game");
 		
 		// Check for alive combatant that isn't the player.
 		for(int characterIndex: characterIDs){
-			if(characterIndex != playerIndex && game.get_characters().get(characterIndex).get_hit_points() > 0){
+			if(characterIndex != playerIndex && game.getcharacters().get(characterIndex).gethit_points() > 0){
 				// If any aren't dead, combat isn't over.
 				done = false;
 			}
@@ -287,8 +287,8 @@ public class CombatSituation{
 		
 		// Check for alive players yet
 		for(int characterIndex: characterIDs){
-			if(characterIndex != playerIndex && game.get_characters().get(characterIndex) instanceof Player &&
-					game.get_characters().get(characterIndex).get_hit_points() > 0){
+			if(characterIndex != playerIndex && game.getcharacters().get(characterIndex) instanceof Player &&
+					game.getcharacters().get(characterIndex).gethit_points() > 0){
 				done = false;
 			}
 		}

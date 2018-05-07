@@ -30,194 +30,194 @@ public abstract class Character{
 		
 	}
 	
-	public String get_race(){
+	public String getrace(){
 		return race;
 	}
 	
-	public void set_race(String race){
+	public void setrace(String race){
 		this.race = race;
 	}
 	
-	public String get_name(){
+	public String getname(){
 		return name;
 	}
 	
-	public void set_name(String name){
+	public void setname(String name){
 		this.name = name;
 	}
 	
-	public String get_gender(){
+	public String getgender(){
 		return gender;
 	}
 	
-	public void set_gender(String gender){
+	public void setgender(String gender){
 		this.gender = gender;
 	}
 	
-	public int get_level(){
+	public int getlevel(){
 		return level;
 	}
 	
-	public void set_level(int level){
+	public void setlevel(int level){
 		this.level = level;
 	}
 	
-	public int get_hit_points(){
+	public int gethit_points(){
 		return hit_points;
 	}
 	
-	public void set_hit_points(int hit_points){
+	public void sethit_points(int hit_points){
 		this.hit_points = hit_points;
 	}
 	
-	public int get_magic_points(){
+	public int getmagic_points(){
 		return magic_points;
 	}
 	
-	public void set_magic_points(int magic_points){
+	public void setmagic_points(int magic_points){
 		this.magic_points = magic_points;
 	}
 	
-	public int get_attack(){
+	public int getattack(){
 		return attack;
 	}
 	
-	public void set_attack(int attack){
+	public void setattack(int attack){
 		this.attack = attack;
 	}
 	
-	public int get_defense(){
+	public int getdefense(){
 		return defense;
 	}
 	
-	public void set_defense(int defense){
+	public void setdefense(int defense){
 		this.defense = defense;
 	}
 	
-	public int get_special_attack(){
+	public int getspecial_attack(){
 		return special_attack;
 	}
 	
-	public void set_special_attack(int special_attack){
+	public void setspecial_attack(int special_attack){
 		this.special_attack = special_attack;
 	}
 	
-	public int get_special_defense(){
+	public int getspecial_defense(){
 		return special_defense;
 	}
 	
-	public void set_special_defense(int special_defense){
+	public void setspecial_defense(int special_defense){
 		this.special_defense = special_defense;
 	}
 	
-	public int get_coins(){
+	public int getcoins(){
 		return coins;
 	}
 	
-	public void set_coins(int coins){
+	public void setcoins(int coins){
 		this.coins = coins;
 	}
 	
-	public int get_location(){
+	public int getlocation(){
 		return map_location;
 	}
 	
-	public void set_location(int map_location){
+	public void setlocation(int map_location){
 		this.map_location = map_location;
 	}
 	
-	public int get_inventory_id() {
+	public int getinventory_id() {
 		return this.inventory_id;
 	}
 	
-	public void set_inventory_id(int inventory_id) {
+	public void setinventory_id(int inventory_id) {
 		this.inventory_id = inventory_id;
 	}
 	
-	public Inventory get_inventory(){
+	public Inventory getinventory(){
 		return inventory;
 	}
 	
-	public void set_inventory(Inventory inventory){
+	public void setinventory(Inventory inventory){
 		this.inventory = inventory;
 	}
 	
-	public void set_helm(Item helm) {
-		if(helm.get_ItemType() != ItemType.HELM){
+	public void sethelm(Item helm) {
+		if(helm.getItemType() != ItemType.HELM){
 			throw new IllegalArgumentException("This must be a helm!");
 		}
 		this.helm = helm;
 	}
 	
-	public Item get_helm(){
+	public Item gethelm(){
 		return helm;
 	}
 	
-	public void set_braces(Item braces) {
-		if(braces.get_ItemType() != ItemType.BRACES){
+	public void setbraces(Item braces) {
+		if(braces.getItemType() != ItemType.BRACES){
 			throw new IllegalArgumentException("This must be braces!");
 		}
 		this.braces = braces;
 	}
 	
-	public Item get_braces(){
+	public Item getbraces(){
 		return braces;
 	}
 	
-	public void set_chest(Item chest) {
-		if(chest.get_ItemType() != ItemType.CHEST){
+	public void setchest(Item chest) {
+		if(chest.getItemType() != ItemType.CHEST){
 			throw new IllegalArgumentException("This must be a chest!");
 		}
 		this.chest = chest;
 	}
 	
-	public Item get_chest(){
+	public Item getchest(){
 		return chest;
 	}
 	
-	public void set_legs(Item legs) {
-		if(legs.get_ItemType() != ItemType.LEGS){
+	public void setlegs(Item legs) {
+		if(legs.getItemType() != ItemType.LEGS){
 			throw new IllegalArgumentException("This must be legs!");
 		}
 		this.legs = legs;
 	}
 	
-	public Item get_legs(){
+	public Item getlegs(){
 		return legs;
 	}
 	
-	public void set_boots(Item boots) {
-		if(boots.get_ItemType() != ItemType.BOOTS){
+	public void setboots(Item boots) {
+		if(boots.getItemType() != ItemType.BOOTS){
 			throw new IllegalArgumentException("This must be boots!");
 		}
 		this.boots = boots;
 	}
 	
-	public Item get_boots(){
+	public Item getboots(){
 		return boots;
 	}
 	
-	public void set_l_hand(Item l_hand) {
-		if(l_hand.get_ItemType() != ItemType.L_HAND){
+	public void setl_hand(Item l_hand) {
+		if(l_hand.getItemType() != ItemType.L_HAND){
 			// TODO: Maybe just HAND?
 			throw new IllegalArgumentException("This must be a HAND type!");
 		}
 		this.l_hand = l_hand;
 	}
 	
-	public Item get_l_hand(){
+	public Item getl_hand(){
 		return l_hand;
 	}
 	
-	public void set_r_hand(Item r_hand) {
-		if(r_hand.get_ItemType() != ItemType.R_HAND){
+	public void setr_hand(Item r_hand) {
+		if(r_hand.getItemType() != ItemType.R_HAND){
 			// TODO: Maybe just HAND?
 			throw new IllegalArgumentException("This must be a HAND type!");
 		}
 		this.r_hand = r_hand;
 	}
 	
-	public Item get_r_hand(){
+	public Item getr_hand(){
 		return r_hand;
 	}
 }

@@ -13,19 +13,19 @@ public class Player extends Character{
 		quests = new ArrayList<Quest>();
 	};
 	
-	public int get_experience(){
+	public int getexperience(){
 		return experience;
 	}
 	
-	public void set_experience(int experience){
+	public void setexperience(int experience){
 		this.experience = experience;
 	}
 	
-	public int get_carry_weight(){
+	public int getcarry_weight(){
 		return carry_weight;
 	}
 	
-	public void set_carry_weight(int carry_weight){
+	public void setcarry_weight(int carry_weight){
 		this.carry_weight = carry_weight;
 	}
 	
@@ -33,11 +33,11 @@ public class Player extends Character{
 		quests.add(quest);
 	}
 	
-	public void set_quests(ArrayList<Quest> quests) {
+	public void setquests(ArrayList<Quest> quests) {
 		this.quests = quests;
 	}
 	
-	public ArrayList<Quest> get_quests(){
+	public ArrayList<Quest> getquests(){
 		return quests;
 	}
 	

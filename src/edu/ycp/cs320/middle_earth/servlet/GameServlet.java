@@ -25,7 +25,7 @@ public class GameServlet extends HttpServlet {
         Game game = (Game) req.getSession().getAttribute("game");
         String command = (String) req.getSession().getAttribute("command");
         
-        game.set_mode("game");
+        game.setmode("game");
         if (command != null) {
         	// holds the error message text, if there is any
         	String errorMessage = null;
@@ -35,15 +35,15 @@ public class GameServlet extends HttpServlet {
         		game.add_dialog(errorMessage);
         	}
         } else {
-        	game.add_dialog(game.get_mapTile_name());
-        	game.add_dialog(game.get_mapTile_longDescription());
+        	game.add_dialog(game.getmapTile_name());
+        	game.add_dialog(game.getmapTile_longDescription());
         }
-        req.setAttribute("mode", game.get_mode());
-        req.setAttribute("dialog", game.get_display_text());
+        req.setAttribute("mode", game.getmode());
+        req.setAttribute("dialog", game.getdisplay_text());
         // call JSP to generate empty form
         
-        if (game.get_mode().equalsIgnoreCase("combat")) {
-        	req.setAttribute("dialog", game.get_combat_text());
+        if (game.getmode().equalsIgnoreCase("combat")) {
+        	req.setAttribute("dialog", game.getcombat_text());
         	// Set the players in combat mode
     		
     		/* Need to split get enemyID's and getPlayerID's in CombatMode
@@ -52,21 +52,21 @@ public class GameServlet extends HttpServlet {
     		ArrayList<Integer> players = game.getBattle().getPlayerIDs()
     		for (int i = 0; i < players.size(); i++) {
     			if (i == 0) {
-    				p1 = (Player) game.get_characters().get(players.get(i));
+    				p1 = (Player) game.getcharacters().get(players.get(i));
     			} else if (i == 1) {
-    				p2 = (Player) game.get_characters().get(players.get(i));
+    				p2 = (Player) game.getcharacters().get(players.get(i));
     			} 
     		}
     		
     		if (p1 != null) {
     			req.setAttribute("p1", p1);
-    			req.setAttribute("p1Name", p1.get_name());
-    			req.setAttribute("p1Health", p1.get_hit_points());
+    			req.setAttribute("p1Name", p1.getname());
+    			req.setAttribute("p1Health", p1.gethit_points());
     		}
     		if (p2 != null) {
     			req.setAttribute("e2", p2);
-    			req.setAttribute("e2Name", p2.get_name());
-    			req.setAttribute("e2Health", p2.get_hit_points());
+    			req.setAttribute("e2Name", p2.getname());
+    			req.setAttribute("e2Health", p2.gethit_points());
     		}
     		*/
     		
@@ -79,36 +79,36 @@ public class GameServlet extends HttpServlet {
     		for (int i = 0; i < enemy.size(); i++) {
     			if (i == 0) {
     				req.setAttribute("p1", "player1");
-    				req.setAttribute("p1Name", game.get_player().get_name());
-    				req.setAttribute("p1Health", game.get_player().get_hit_points());
+    				req.setAttribute("p1Name", game.getplayer().getname());
+    				req.setAttribute("p1Health", game.getplayer().gethit_points());
     			}
     			else if (i == 1) {
-    				e1 = game.get_characters().get(enemy.get(i));
+    				e1 = game.getcharacters().get(enemy.get(i));
     			} else if (i == 2) {
-    				e2 = game.get_characters().get(enemy.get(i));
+    				e2 = game.getcharacters().get(enemy.get(i));
     			} else if (i == 3) {
-    				e3 = game.get_characters().get(enemy.get(i));
+    				e3 = game.getcharacters().get(enemy.get(i));
     			}
     		}
     		
     		
     		if (e1 != null) {
     			req.setAttribute("e1", e1);
-    			req.setAttribute("e1Name", e1.get_name());
-    			req.setAttribute("e1Health", e1.get_hit_points());
-    			req.setAttribute("e1Race", e1.get_race());
+    			req.setAttribute("e1Name", e1.getname());
+    			req.setAttribute("e1Health", e1.gethit_points());
+    			req.setAttribute("e1Race", e1.getrace());
     		}
     		if (e2 != null) {
     			req.setAttribute("e2", e2);
-    			req.setAttribute("e2Name", e2.get_name());
-    			req.setAttribute("e2Health", e2.get_hit_points());
-    			req.setAttribute("e2Race", e2.get_race());
+    			req.setAttribute("e2Name", e2.getname());
+    			req.setAttribute("e2Health", e2.gethit_points());
+    			req.setAttribute("e2Race", e2.getrace());
     		}
     		if (e3 != null) {
     			req.setAttribute("e3", e3);
-    			req.setAttribute("e3Name", e3.get_name());
-    			req.setAttribute("e3Health", e3.get_hit_points());
-    			req.setAttribute("e3Race", e3.get_race());
+    			req.setAttribute("e3Name", e3.getname());
+    			req.setAttribute("e3Health", e3.gethit_points());
+    			req.setAttribute("e3Race", e3.getrace());
     		}
         	req.getRequestDispatcher("/_view/combat.jsp").forward(req, resp);
         }
@@ -124,7 +124,7 @@ public class GameServlet extends HttpServlet {
         System.out.println("Game Servlet: doPost");
         
         Game game = (Game) req.getSession().getAttribute("game");
-        game.set_mode("game");
+        game.setmode("game");
         
         // holds the error message text, if there is any
         String errorMessage = null;
@@ -135,11 +135,11 @@ public class GameServlet extends HttpServlet {
         	game.add_dialog(errorMessage);
         }
         
-        display_text = game.get_display_text();
+        display_text = game.getdisplay_text();
         
-        if (game.get_mode() == "inventory") {
+        if (game.getmode() == "inventory") {
         	
-        	ArrayList<Item> inventory_list =  game.get_player().get_inventory().get_items();
+        	ArrayList<Item> inventory_list =  game.getplayer().getinventory().getitems();
             
             String inventory_display_list = "";
         	for (int j = 0; j < inventory_list.size(); j++){
@@ -147,22 +147,22 @@ public class GameServlet extends HttpServlet {
             }
         	
         	req.setAttribute("inventory", inventory_display_list);
-        	req.setAttribute("mode", game.get_mode());
+        	req.setAttribute("mode", game.getmode());
             req.getRequestDispatcher("/_view/inventory.jsp").forward(req, resp);
         } 
-        else if (game.get_mode() == "map") {
+        else if (game.getmode() == "map") {
         	// TODO Implement
     		throw new UnsupportedOperationException("Not implemented yet!");
             //req.getRequestDispatcher("/_view/map.jsp").forward(req, resp);
         } 
-        else if (game.get_mode() == "character") {
+        else if (game.getmode() == "character") {
         	// TODO Implement
     		throw new UnsupportedOperationException("Not implemented yet!");
         	//req.getRequestDispatcher("/_view/character.jsp").forward(req, resp);
         } 
         else {
         	req.setAttribute("dialog", display_text);
-        	req.setAttribute("mode", game.get_mode());
+        	req.setAttribute("mode", game.getmode());
         	// now call the JSP to render the new page
         	req.getRequestDispatcher("/_view/game.jsp").forward(req, resp);
         }

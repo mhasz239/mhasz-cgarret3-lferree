@@ -27,15 +27,15 @@ public class CombatSituationTest{
 		
 		// Create Player
 		player = new Player();
-		player.set_name("Me");
-		player.set_hit_points(100);
-		player.set_attack(40);
-		player.set_defense(5);
+		player.setname("Me");
+		player.sethit_points(100);
+		player.setattack(40);
+		player.setdefense(5);
 		
 		// Add Player to Game
 		ArrayList<Character> characters = new ArrayList<Character>();
 		characters.add(player);
-		game.set_characters(characters);
+		game.setcharacters(characters);
 		
 		// Create CombatSituation
 		battle = new CombatSituation(game, 1, 0);
@@ -47,11 +47,11 @@ public class CombatSituationTest{
 		assertEquals(2, battle.getCharacterIDs().size());
 		
 		// Check that Player is present
-		assertEquals(player, game.get_characters().get(battle.getCharacterIDs().get(0)));
+		assertEquals(player, game.getcharacters().get(battle.getCharacterIDs().get(0)));
 		
 		// Check that dialog was updated appropriately
-		assertEquals(1, game.get_dialog().size());
-		assertEquals("Me is staring into the eyes of a Goblin", game.get_dialog().get(0));
+		assertEquals(1, game.getdialog().size());
+		assertEquals("Me is staring into the eyes of a Goblin", game.getdialog().get(0));
     
 		// Check that done is false
 		assertEquals(false, battle.isDone());
@@ -63,12 +63,12 @@ public class CombatSituationTest{
 		Enemy enemy = battle.createEnemy();
 		
 		// Check that Stats and Stuff are correct (based on current setup)
-		assertEquals(10, enemy.get_attack());
-		assertEquals(0, enemy.get_defense());
-		assertEquals(100, enemy.get_hit_points());
-		assertEquals(1, enemy.get_level());
-		assertEquals("Bob", enemy.get_name());
-		assertEquals("Goblin", enemy.get_race());
+		assertEquals(10, enemy.getattack());
+		assertEquals(0, enemy.getdefense());
+		assertEquals(100, enemy.gethit_points());
+		assertEquals(1, enemy.getlevel());
+		assertEquals("Bob", enemy.getname());
+		assertEquals("Goblin", enemy.getrace());
 	}
 	
 	@Test
@@ -112,12 +112,12 @@ public class CombatSituationTest{
 	public void testCalculateAttackPlayerHelmet(){
 		// Create Helmet
 		Item helmet = new Item();
-		helmet.set_ItemType(ItemType.HELM);
+		helmet.setItemType(ItemType.HELM);
 		helmet.setName("Generic Helmet");
-		helmet.set_attack_bonus(10);
+		helmet.setattack_bonus(10);
 		
 		// Give the Player the Helmet
-		player.set_helm(helmet);
+		player.sethelm(helmet);
 		
 		// These based off of 50 as base attack (40 + 10)
 		int min = 45;
@@ -132,12 +132,12 @@ public class CombatSituationTest{
 	public void testCalculateAttackPlayerBraces(){
 		// Create Braces
 		Item braces = new Item();
-		braces.set_ItemType(ItemType.BRACES);
+		braces.setItemType(ItemType.BRACES);
 		braces.setName("Generic Braces");
-		braces.set_attack_bonus(10);
+		braces.setattack_bonus(10);
 		
 		// Give the Player the Braces
-		player.set_braces(braces);
+		player.setbraces(braces);
 		
 		// These based off of 50 as base attack (40 + 10)
 		int min = 45;
@@ -152,12 +152,12 @@ public class CombatSituationTest{
 	public void testCalculateAttackPlayerChest(){
 		// Create Chest
 		Item chest = new Item();
-		chest.set_ItemType(ItemType.CHEST);
+		chest.setItemType(ItemType.CHEST);
 		chest.setName("Generic Chest");
-		chest.set_attack_bonus(10);
+		chest.setattack_bonus(10);
 		
 		// Give the Player the Chest
-		player.set_chest(chest);
+		player.setchest(chest);
 		
 		// These based off of 50 as base attack (40 + 10)
 		int min = 45;
@@ -172,12 +172,12 @@ public class CombatSituationTest{
 	public void testCalculateAttackPlayerLegs(){
 		// Create Legs
 		Item legs = new Item();
-		legs.set_ItemType(ItemType.LEGS);
+		legs.setItemType(ItemType.LEGS);
 		legs.setName("Generic Legs");
-		legs.set_attack_bonus(10);
+		legs.setattack_bonus(10);
 		
 		// Give the Player the Legs
-		player.set_legs(legs);
+		player.setlegs(legs);
 		
 		// These based off of 50 as base attack (40 + 10)
 		int min = 45;
@@ -192,12 +192,12 @@ public class CombatSituationTest{
 	public void testCalculateAttackPlayerBoots(){
 		// Create Boots
 		Item boots = new Item();
-		boots.set_ItemType(ItemType.BOOTS);
+		boots.setItemType(ItemType.BOOTS);
 		boots.setName("Generic Boots");
-		boots.set_attack_bonus(10);
+		boots.setattack_bonus(10);
 		
 		// Give the Player the Boots
-		player.set_boots(boots);
+		player.setboots(boots);
 		
 		// These based off of 50 as base attack (40 + 10)
 		int min = 45;
@@ -212,12 +212,12 @@ public class CombatSituationTest{
 	public void testCalculateAttackPlayerLHand(){
 		// Create Shield
 		Item shield = new Item();
-		shield.set_ItemType(ItemType.L_HAND);
+		shield.setItemType(ItemType.L_HAND);
 		shield.setName("Generic Shield");
-		shield.set_attack_bonus(10);
+		shield.setattack_bonus(10);
 		
 		// Give the Player the Shield
-		player.set_l_hand(shield);
+		player.setl_hand(shield);
 		
 		// These based off of 50 as base attack (40 + 10)
 		int min = 45;
@@ -232,12 +232,12 @@ public class CombatSituationTest{
 	public void testCalculateAttackPlayerRHand(){
 		// Create Sword
 		Item sword = new Item();
-		sword.set_ItemType(ItemType.R_HAND);
+		sword.setItemType(ItemType.R_HAND);
 		sword.setName("Generic Sword");
-		sword.set_attack_bonus(10);
+		sword.setattack_bonus(10);
 		
 		// Give the Player the Sword
-		player.set_r_hand(sword);
+		player.setr_hand(sword);
 		
 		// These based off of 50 as base attack (40 + 10)
 		int min = 45;
@@ -252,66 +252,66 @@ public class CombatSituationTest{
 	public void testCalculateAttackPlayerFullArmorAndHands(){
 		// Create Helmet
 		Item helmet = new Item();
-		helmet.set_ItemType(ItemType.HELM);
+		helmet.setItemType(ItemType.HELM);
 		helmet.setName("Generic Helmet");
-		helmet.set_attack_bonus(10);
+		helmet.setattack_bonus(10);
 		
 		// Give the Player the Helmet
-		player.set_helm(helmet);
+		player.sethelm(helmet);
 		
 		// Create Braces
 		Item braces = new Item();
-		braces.set_ItemType(ItemType.BRACES);
+		braces.setItemType(ItemType.BRACES);
 		braces.setName("Generic Braces");
-		braces.set_attack_bonus(10);
+		braces.setattack_bonus(10);
 		
 		// Give the Player the Braces
-		player.set_braces(braces);
+		player.setbraces(braces);
 		
 		// Create Chest
 		Item chest = new Item();
-		chest.set_ItemType(ItemType.CHEST);
+		chest.setItemType(ItemType.CHEST);
 		chest.setName("Generic Chest");
-		chest.set_attack_bonus(10);
+		chest.setattack_bonus(10);
 		
 		// Give the Player the Chest
-		player.set_chest(chest);
+		player.setchest(chest);
 		
 		// Create Legs
 		Item legs = new Item();
-		legs.set_ItemType(ItemType.LEGS);
+		legs.setItemType(ItemType.LEGS);
 		legs.setName("Generic Legs");
-		legs.set_attack_bonus(10);
+		legs.setattack_bonus(10);
 		
 		// Give the Player the Legs
-		player.set_legs(legs);
+		player.setlegs(legs);
 		
 		// Create Boots
 		Item boots = new Item();
-		boots.set_ItemType(ItemType.BOOTS);
+		boots.setItemType(ItemType.BOOTS);
 		boots.setName("Generic Boots");
-		boots.set_attack_bonus(10);
+		boots.setattack_bonus(10);
 		
 		// Give the Player the Boots
-		player.set_boots(boots);
+		player.setboots(boots);
 		
 		// Create Shield
 		Item shield = new Item();
-		shield.set_ItemType(ItemType.L_HAND);
+		shield.setItemType(ItemType.L_HAND);
 		shield.setName("Generic Shield");
-		shield.set_attack_bonus(10);
+		shield.setattack_bonus(10);
 		
 		// Give the Player the Shield
-		player.set_l_hand(shield);
+		player.setl_hand(shield);
 
 		// Create Sword
 		Item sword = new Item();
-		sword.set_ItemType(ItemType.R_HAND);
+		sword.setItemType(ItemType.R_HAND);
 		sword.setName("Generic Sword");
-		sword.set_attack_bonus(10);
+		sword.setattack_bonus(10);
 		
 		// Give the Player the Sword
-		player.set_r_hand(sword);
+		player.setr_hand(sword);
 		
 		// These based off of 110 as base attack (40 + 10*7 pieces)
 		int min = 99;
@@ -338,12 +338,12 @@ public class CombatSituationTest{
 	public void testCalculateDefensePlayerWithHelmet(){
 		// Create Helmet
 		Item helmet = new Item();
-		helmet.set_ItemType(ItemType.HELM);
+		helmet.setItemType(ItemType.HELM);
 		helmet.setName("Generic Helmet");
-		helmet.set_defense_bonus(10);
+		helmet.setdefense_bonus(10);
 		
 		// Give Helmet to Player
-		player.set_helm(helmet);
+		player.sethelm(helmet);
 		
 		// Check that defense is 15
 		assertEquals(15, battle.calculateDefense(game, 0));
@@ -353,12 +353,12 @@ public class CombatSituationTest{
 	public void testCalculateDefensePlayerWithBraces(){
 		// Create Braces
 		Item braces = new Item();
-		braces.set_ItemType(ItemType.BRACES);
+		braces.setItemType(ItemType.BRACES);
 		braces.setName("Generic Braces");
-		braces.set_defense_bonus(10);
+		braces.setdefense_bonus(10);
 		
 		// Give Braces to Player
-		player.set_braces(braces);
+		player.setbraces(braces);
 		
 		// Check that defense is 15
 		assertEquals(15, battle.calculateDefense(game, 0));
@@ -368,12 +368,12 @@ public class CombatSituationTest{
 	public void testCalculateDefensePlayerWithChest(){
 		// Create Chest
 		Item chest = new Item();
-		chest.set_ItemType(ItemType.CHEST);
+		chest.setItemType(ItemType.CHEST);
 		chest.setName("Generic Chest");
-		chest.set_defense_bonus(10);
+		chest.setdefense_bonus(10);
 		
 		// Give Chest to Player
-		player.set_chest(chest);
+		player.setchest(chest);
 		
 		// Check that defense is 15
 		assertEquals(15, battle.calculateDefense(game, 0));
@@ -383,12 +383,12 @@ public class CombatSituationTest{
 	public void testCalculateDefensePlayerWithLegs(){
 		// Create Legs
 		Item legs = new Item();
-		legs.set_ItemType(ItemType.LEGS);
+		legs.setItemType(ItemType.LEGS);
 		legs.setName("Generic Legs");
-		legs.set_defense_bonus(10);
+		legs.setdefense_bonus(10);
 		
 		// Give Legs to Player
-		player.set_legs(legs);
+		player.setlegs(legs);
 		
 		// Check that defense is 15
 		assertEquals(15, battle.calculateDefense(game, 0));
@@ -398,12 +398,12 @@ public class CombatSituationTest{
 	public void testCalculateDefensePlayerWithBoots(){
 		// Create Boots
 		Item boots = new Item();
-		boots.set_ItemType(ItemType.BOOTS);
+		boots.setItemType(ItemType.BOOTS);
 		boots.setName("Generic Boots");
-		boots.set_defense_bonus(10);
+		boots.setdefense_bonus(10);
 		
 		// Give Boots to Player
-		player.set_boots(boots);
+		player.setboots(boots);
 		
 		// Check that defense is 15
 		assertEquals(15, battle.calculateDefense(game, 0));
@@ -413,12 +413,12 @@ public class CombatSituationTest{
 	public void testCalculateDefensePlayerWithShield(){
 		// Create Shield
 		Item shield = new Item();
-		shield.set_ItemType(ItemType.L_HAND);
+		shield.setItemType(ItemType.L_HAND);
 		shield.setName("Generic Shield");
-		shield.set_defense_bonus(10);
+		shield.setdefense_bonus(10);
 		
 		// Give Shield to Player
-		player.set_l_hand(shield);
+		player.setl_hand(shield);
 		
 		// Check that defense is 15
 		assertEquals(15, battle.calculateDefense(game, 0));
@@ -428,12 +428,12 @@ public class CombatSituationTest{
 	public void testCalculateDefensePlayerWithSword(){
 		// Create Sword
 		Item sword = new Item();
-		sword.set_ItemType(ItemType.R_HAND);
+		sword.setItemType(ItemType.R_HAND);
 		sword.setName("Generic Sword");
-		sword.set_defense_bonus(10);
+		sword.setdefense_bonus(10);
 		
 		// Give Sword to Player
-		player.set_r_hand(sword);
+		player.setr_hand(sword);
 		
 		// Check that defense is 15
 		assertEquals(15, battle.calculateDefense(game, 0));
@@ -443,66 +443,66 @@ public class CombatSituationTest{
 	public void testCalculateDefensePlayerFullArmor(){
 		// Create Helmet
 		Item helmet = new Item();
-		helmet.set_ItemType(ItemType.HELM);
+		helmet.setItemType(ItemType.HELM);
 		helmet.setName("Generic Helmet");
-		helmet.set_defense_bonus(10);
+		helmet.setdefense_bonus(10);
 		
 		// Give Helmet to Player
-		player.set_helm(helmet);
+		player.sethelm(helmet);
 		
 		// Create Braces
 		Item braces = new Item();
-		braces.set_ItemType(ItemType.BRACES);
+		braces.setItemType(ItemType.BRACES);
 		braces.setName("Generic Braces");
-		braces.set_defense_bonus(10);
+		braces.setdefense_bonus(10);
 		
 		// Give Braces to Player
-		player.set_braces(braces);
+		player.setbraces(braces);
 		
 		// Create Chest
 		Item chest = new Item();
-		chest.set_ItemType(ItemType.CHEST);
+		chest.setItemType(ItemType.CHEST);
 		chest.setName("Generic Chest");
-		chest.set_defense_bonus(10);
+		chest.setdefense_bonus(10);
 		
 		// Give Chest to Player
-		player.set_chest(chest);
+		player.setchest(chest);
 		
 		// Create Legs
 		Item legs = new Item();
-		legs.set_ItemType(ItemType.LEGS);
+		legs.setItemType(ItemType.LEGS);
 		legs.setName("Generic Legs");
-		legs.set_defense_bonus(10);
+		legs.setdefense_bonus(10);
 		
 		// Give Legs to Player
-		player.set_legs(legs);
+		player.setlegs(legs);
 		
 		// Create Boots
 		Item boots = new Item();
-		boots.set_ItemType(ItemType.BOOTS);
+		boots.setItemType(ItemType.BOOTS);
 		boots.setName("Generic Boots");
-		boots.set_defense_bonus(10);
+		boots.setdefense_bonus(10);
 		
 		// Give Boots to Player
-		player.set_boots(boots);
+		player.setboots(boots);
 		
 		// Create Shield
 		Item shield = new Item();
-		shield.set_ItemType(ItemType.L_HAND);
+		shield.setItemType(ItemType.L_HAND);
 		shield.setName("Generic Shield");
-		shield.set_defense_bonus(10);
+		shield.setdefense_bonus(10);
 		
 		// Give Shield to Player
-		player.set_l_hand(shield);
+		player.setl_hand(shield);
 
 		// Create Sword
 		Item sword = new Item();
-		sword.set_ItemType(ItemType.R_HAND);
+		sword.setItemType(ItemType.R_HAND);
 		sword.setName("Generic Sword");
-		sword.set_defense_bonus(10);
+		sword.setdefense_bonus(10);
 		
 		// Give Helmet to Player
-		player.set_r_hand(sword);
+		player.setr_hand(sword);
 		
 		// Check that defense is 75
 		assertEquals(75, battle.calculateDefense(game, 0));
@@ -511,22 +511,22 @@ public class CombatSituationTest{
 	@Test
 	public void testDoPlayerWon(){
 		// Set Bob's HP to 0 (to make sure combat will be done at the end)
-		game.get_characters().get(1).set_hit_points(0);
+		game.getcharacters().get(1).sethit_points(0);
 		
 		// Check that Player has 0 experience (to confirm 10 was added later)
-		assertEquals(0, player.get_experience());
+		assertEquals(0, player.getexperience());
 		
 		// Run doPlayerWon
 		battle.doPlayerWon(game, 0, 1);
 		
 		// Check that dialog was added to appropriately
-		assertEquals(4, game.get_dialog().size());
-		assertEquals("You killed Bob!", game.get_dialog().get(1));
-		assertEquals("You have been awarded 10 experience!", game.get_dialog().get(2));
-		assertEquals("You have killed everyone! (in this combat situation here)", game.get_dialog().get(3));
+		assertEquals(4, game.getdialog().size());
+		assertEquals("You killed Bob!", game.getdialog().get(1));
+		assertEquals("You have been awarded 10 experience!", game.getdialog().get(2));
+		assertEquals("You have killed everyone! (in this combat situation here)", game.getdialog().get(3));
 		
 		// Check that Player got 10 experience
-		assertEquals(10, player.get_experience());
+		assertEquals(10, player.getexperience());
 		
 		// Check that Battle is Done
 		assertEquals(true, battle.isDone());
@@ -538,9 +538,9 @@ public class CombatSituationTest{
 		battle.doPlayerDied(game, 0);
 		
 		// Check that dialog was added to appropriately
-		assertEquals(3, game.get_dialog().size());
-		assertEquals("You have died!", game.get_dialog().get(1));
-		assertEquals("Restart if you think you can do better!", game.get_dialog().get(2));
+		assertEquals(3, game.getdialog().size());
+		assertEquals("You have died!", game.getdialog().get(1));
+		assertEquals("Restart if you think you can do better!", game.getdialog().get(2));
 		
 		// Check that Battle is Done
 		assertEquals(true, battle.isDone());
@@ -575,7 +575,7 @@ public class CombatSituationTest{
 	@Test
 	public void testCalculateDamageOfLessThan0(){
 		// Set Player defense to 20
-		player.set_defense(20);
+		player.setdefense(20);
 		
 		// Enemy can do 13-17, so 20 defense = 0 damage
 		assertEquals(0, battle.calculateDamage(game, 1, 0));

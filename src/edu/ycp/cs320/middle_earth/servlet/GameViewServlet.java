@@ -25,14 +25,14 @@ public class GameViewServlet extends HttpServlet {
         Game game = (Game) req.getSession().getAttribute("game");
         
         
-        game.set_mode("game");
-        req.setAttribute("mode", game.get_mode());
+        game.setmode("game");
+        req.setAttribute("mode", game.getmode());
         
-        game.add_dialog(game.get_mapTile_name());
-        game.add_dialog(game.get_mapTile_longDescription());
+        game.add_dialog(game.getmapTile_name());
+        game.add_dialog(game.getmapTile_longDescription());
         
 
-        req.setAttribute("dialog", game.get_display_text());
+        req.setAttribute("dialog", game.getdisplay_text());
         // call JSP to generate empty form
         req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
     }
@@ -52,7 +52,7 @@ public class GameViewServlet extends HttpServlet {
         	} else {
         		req.getSession().setAttribute("exit", false);
         		req.setAttribute("command", null);
-        		req.setAttribute("mode", ((Game) req.getSession().getAttribute("game")).get_mode());
+        		req.setAttribute("mode", ((Game) req.getSession().getAttribute("game")).getmode());
         		req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
         	}
         } else {
@@ -63,14 +63,14 @@ public class GameViewServlet extends HttpServlet {
         		req.getSession().setAttribute("exit", true);
         	}
         
-        	if(!game.get_mode().equalsIgnoreCase("combat")){
+        	if(!game.getmode().equalsIgnoreCase("combat")){
         		if(game.mode_change(req.getParameter("command"))){
         			req.getSession().setAttribute("command", null);
         		}
         	}
         
        
-        	req.setAttribute("mode", game.get_mode());
+        	req.setAttribute("mode", game.getmode());
         	req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
         }
     }

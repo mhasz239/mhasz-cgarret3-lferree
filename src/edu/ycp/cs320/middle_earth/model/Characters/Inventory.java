@@ -13,27 +13,27 @@ public class Inventory{
 		
 	};
 	
-	public ArrayList<Item> get_items(){
+	public ArrayList<Item> getitems(){
 		return items;
 	}
 	
-	public void set_items(ArrayList<Item> items){
+	public void setitems(ArrayList<Item> items){
 		this.items = items;
 	}
 	
-	public int get_weight(){
+	public int getweight(){
 		return weight;
 	}
 	
-	public void set_weight(int weight){
+	public void setweight(int weight){
 		this.weight = weight;
 	}
 	
-	public int get_inventory_id() {
+	public int getinventory_id() {
 		return this.inventory_id;
 	}
 	
-	public void set_inventory_id(int inventory_id) {
+	public void setinventory_id(int inventory_id) {
 		this.inventory_id = inventory_id;
 	}
 }
