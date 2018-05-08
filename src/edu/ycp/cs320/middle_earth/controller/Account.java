@@ -3,28 +3,47 @@ package edu.ycp.cs320.middle_earth.controller;
 import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
 import edu.ycp.cs320.middle_earth.persist.DerbyDatabase;
 import edu.ycp.cs320.middle_earth.persist.IDatabase;
+
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Account{
-	private int user_id;
-	private int[] game_ids;
+	private String username;
+	private ArrayList<Integer> game_ids;
+	private int current_game;
 	
 	
-	public int getuser_token(){
-		return user_id;
+	
+	public Account(String username){
+		this.username = username;
 	}
 	
-	public void setuser_token(int user_id){
-		this.user_id = user_id;
+	public Account() {
+	}
+
+	public String getusername(){
+		return username;
 	}
 	
-	public int[] getgame_ids(){
+	public void setusername(String username){
+		this.username = username;
+	}
+	
+	public ArrayList<Integer> getgame_ids(){
 		return game_ids;
 	}
 	
-	public void setgame_ids(int[] game_ids){
+	public void setgame_ids(ArrayList<Integer> game_ids){
 		this.game_ids = game_ids;
+	}
+	
+	public int getcurrent_game(){
+		return current_game;
+	}
+	
+	public void setcurrent_game(int id) {
+		this.current_game = id;
 	}
 	
 	public String usernameCheck(String username){

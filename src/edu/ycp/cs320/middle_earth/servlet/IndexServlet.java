@@ -34,6 +34,7 @@ public class IndexServlet extends HttpServlet {
 			throws ServletException, IOException {
 				
 		System.out.println("Index Servlet: doPost");
+		Account account = (Account) req.getSession().getAttribute("account");
 		DatabaseProvider.setInstance(new DerbyDatabase());
 		IDatabase db = DatabaseProvider.getInstance();
 		ArrayList<Integer> games = new ArrayList<Integer>();
@@ -62,17 +63,16 @@ public class IndexServlet extends HttpServlet {
 		String form = req.getParameter("submit");
 		
 		if (form.equalsIgnoreCase("Login")) {
-			Account account = new Account();
-			String check = account.login(req.getParameter("username"), req.getParameter("password"));
+			account = new Account(req.getParameter("username"));
+			String check = account.login(account.getusername(), req.getParameter("password"));
 			if (check.equals("Success!") && !req.getParameter("password").equalsIgnoreCase("")) {
 				//req.getSession().setAttribute("account", account);
 				//account.setuser_token(user_id);
 				
 				//Placeholder for now is just setting the player attribute as the username only if login succeeds.
 				req.getSession().setAttribute("player", req.getParameter("username"));
-					
-				games = db.getGameIDs((String) req.getSession().getAttribute("player"));
-				for (int i = 0; i < games.size(); i++) {
+				account.setgame_ids(db.getGameIDs((String) req.getSession().getAttribute("player")));
+				for (int i = 0; i < account.getgame_ids().size(); i++) {
 					if (i == 0) {
 						req.getSession().setAttribute("game1", "True");
 					} else if (i == 1){
@@ -87,9 +87,7 @@ public class IndexServlet extends HttpServlet {
 						req.getSession().setAttribute("game6", "True");
 					}
 				}
-					
-				
-				System.out.println(req.getSession().getAttribute("player"));
+				req.getSession().setAttribute("account", account);
 				req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
 			} else {
 				req.setAttribute("errorMessage", check);
@@ -99,16 +97,20 @@ public class IndexServlet extends HttpServlet {
 		else if (form.startsWith("Create Game")){
 			for (int i = 1; i <= 6; i++) {
 				if (form.endsWith(""+i)) {
-					int id = db.createNewGame((String) req.getSession().getAttribute("player"));
-					req.getSession().setAttribute("gameID", id);
-					Game game = db.loadGame(id);
-					game.startMap();
-					req.setAttribute("mode", game.getmode());
-					req.getSession().setAttribute("game", game);
-					req.getSession().setAttribute("exit", false);
-					req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
+					req.getSession().setAttribute("game"+i, "True");
 				}
 			}
+
+			int id = db.createNewGame((String) req.getSession().getAttribute("player"));
+			req.getSession().setAttribute("gameID", id);
+			account.setcurrent_game(id);
+			Game game = db.loadGame(id);
+			game.startMap();
+			game.setuser(account);
+			req.setAttribute("mode", game.getmode());
+			req.getSession().setAttribute("game", game);
+			req.getSession().setAttribute("exit", false);
+			req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
 		}
 		else if (form.startsWith("Load Game")){
 			Game game = null;
@@ -117,6 +119,7 @@ public class IndexServlet extends HttpServlet {
 					game = db.loadGame(games.get(i-1));
 				}
 			}
+			game.setuser(account);
 			game.startMap();
 			game.setmode("game");
 			req.getSession().setAttribute("game", game);

@@ -16,6 +16,7 @@ import edu.ycp.cs320.middle_earth.model.Constructs.Map;
 import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
 import edu.ycp.cs320.middle_earth.persist.DerbyDatabase;
 import edu.ycp.cs320.middle_earth.persist.IDatabase;
+import edu.ycp.cs320.middle_earth.controller.Account;
 
 public class Game implements Engine{
 	private Map map;
@@ -28,6 +29,7 @@ public class Game implements Engine{
 	private CombatSituation battle;
 	private JFrame mapIMG = new JFrame("Map");
 	private MapPanel mapPanel = new MapPanel();
+	private Account user;
 	
 	public Game(){
 		// dialog and mode are passed back and forth with each servlet/jsp call
@@ -68,6 +70,14 @@ public class Game implements Engine{
 	
 	public ArrayList<String> getdialog() {
 		return dialog;
+	}
+	
+	public void setuser(Account user) {
+		this.user = user;
+	}
+	
+	public Account getuser(){
+		return user;
 	}
 
 	public void setdialog(ArrayList<String> dialog) {
@@ -429,6 +439,7 @@ public class Game implements Engine{
 		DatabaseProvider.setInstance(new DerbyDatabase());
 		IDatabase db = DatabaseProvider.getInstance();
 		db.saveGame(this);
+		mapPanel.save(user.getusername(), user.getcurrent_game());
 	}
 
 	
