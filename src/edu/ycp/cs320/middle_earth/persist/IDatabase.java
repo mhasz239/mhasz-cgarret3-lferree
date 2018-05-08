@@ -18,9 +18,13 @@ public interface IDatabase {
 	public Player getPlayer();
 	
 	public ArrayList<Item> getAllItems();
+//	public ArrayList<Item> getAllItems(String playerName);
 	public ArrayList<Object> getAllObjects();
+//	public ArrayList<Object> getAllObjects(String playerName);
 	public ArrayList<MapTile> getAllMapTiles();
+//	public ArrayList<MapTile> getAllMapTiles(String playerName);
 	public ArrayList<Character> getAllCharacters();
+//	public ArrayList<Character> getAllCharacters(String playerName);
 	public ArrayList<Inventory> getAllInventories();
 	public ArrayList<Quest> getAllQuests();
 	
