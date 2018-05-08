@@ -1860,7 +1860,7 @@ public class DerbyDatabase implements IDatabase {
 						found = true;
 						
 						loadMapTile(mapTile, resultSetMapTiles, 1);
-						loadMapTileConnections(mapTile.getConnections(), resultSetMapTiles, 6);
+						loadMapTileConnections(mapTile.getConnections(), resultSetMapTiles, 7);
 						
 						// Now get all objects associated with the mapTile
 						stmt = conn.prepareStatement(
