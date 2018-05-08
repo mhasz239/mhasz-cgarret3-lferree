@@ -545,8 +545,10 @@ public class Game implements Engine{
 	}
 	
 	
-	public void startMap(){
+	public void startMap(String username, int gameID){
 		mapPanel.setMapTile(map.getMapTileByID(getplayer().getlocation()));
+		mapPanel.setusername(username);
+		mapPanel.setgameID(gameID);
 		mapIMG.setContentPane(mapPanel);
 		mapIMG.pack();
 		mapIMG.setVisible(false);

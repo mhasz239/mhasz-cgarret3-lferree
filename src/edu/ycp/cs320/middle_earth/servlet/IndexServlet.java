@@ -105,7 +105,7 @@ public class IndexServlet extends HttpServlet {
 			req.getSession().setAttribute("gameID", id);
 			account.setcurrent_game(id);
 			Game game = db.loadGame(id);
-			game.startMap();
+			game.startMap("new", id);
 			game.setuser(account);
 			req.setAttribute("mode", game.getmode());
 			req.getSession().setAttribute("game", game);
@@ -120,18 +120,7 @@ public class IndexServlet extends HttpServlet {
 				}
 			}
 			game.setuser(account);
-			game.startMap();
-			game.setmode("game");
-			req.getSession().setAttribute("game", game);
-			req.setAttribute("mode", game.getmode());
-			req.getSession().setAttribute("exit", false);
-			req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
-		}
-		else if (form.equalsIgnoreCase("Load Game 1")){
-			//Account account = (Account)req.getSession().getAttribute("account");
-			
-			Game game = db.loadGame(games.get(0));
-			game.startMap();
+			game.startMap(account.getusername(), account.getcurrent_game());
 			game.setmode("game");
 			req.getSession().setAttribute("game", game);
 			req.setAttribute("mode", game.getmode());

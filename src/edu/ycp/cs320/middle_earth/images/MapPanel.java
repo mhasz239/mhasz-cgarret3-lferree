@@ -16,6 +16,9 @@ public class MapPanel  extends JPanel implements Runnable {
 	public static final int WIDTH = 400;
 	public static final int HEIGHT = 400;
 	
+	private String username;
+	private int gameID;
+	
 	private Thread thread;
 	private boolean running;
 	private String direction = "";
@@ -93,8 +96,11 @@ public class MapPanel  extends JPanel implements Runnable {
 		File currentDirFile = new File(".");
 		String path = currentDirFile.getAbsolutePath();
 		path = path.substring(0, path.length()-1);
-		tileMap = new TileMap((path + "src/edu/ycp/cs320/middle_earth/images/map5-5.txt"), 80, tile);
-		
+		if (this.username == "new") {
+			tileMap = new TileMap((path + "src/edu/ycp/cs320/middle_earth/images/map5-5.txt"), 80, tile);
+		} else {
+			tileMap = new TileMap((path + "static/map/"+this.username+this.gameID+".txt"), 80, tile);
+		}
 		
 		
 		
@@ -140,5 +146,21 @@ public class MapPanel  extends JPanel implements Runnable {
 		path = path.substring(0, path.length()-1);
 		path = path+"static/map/"+username+gameID+".txt";
 		tileMap.save(path);
+	}
+
+	public String getusername() {
+		return username;
+	}
+
+	public void setusername(String username) {
+		this.username = username;
+	}
+
+	public int getgameID() {
+		return gameID;
+	}
+
+	public void setgameID(int gameID) {
+		this.gameID = gameID;
 	}
 }
