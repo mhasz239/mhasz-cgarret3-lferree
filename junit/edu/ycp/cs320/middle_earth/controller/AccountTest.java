@@ -2,6 +2,8 @@ package edu.ycp.cs320.middle_earth.controller;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,57 +13,64 @@ public class AccountTest{
 	@Before
 	public void setup(){
 		account = new Account();
-		account.setuser_token(-1);
+		account.setusername(null);
 		account.setgame_ids(null);
 	}
 	
 	@Test
-	public void testsetUser_Token(){
-		// Set that token!
-		account.setuser_token(507);
+	public void testsetUsername(){
+		// Set that name!
+		account.setusername("Myself lol");
 		
-		// Check that token!
-		assertEquals(507, account.getuser_token());
+		// Check that name!
+		assertEquals("Myself lol", account.getusername());
 		
 		// Set it again! (Checking against weird add stuff)
-		account.setuser_token(42);
+		account.setusername("Someone else");
 		
 		// Check it again!
-		assertEquals(42, account.getuser_token());
+		assertEquals("Someone else", account.getusername());
 	}
 	
 	@Test
 	public void testsetGame_ID(){
 		// Set that ID!
-		account.setgame_ids(new int[]{1029});
+		ArrayList<Integer> ints = new ArrayList<Integer>();
+		ints.add(1029);
+		account.setgame_ids(ints);
 		
 		// Check that ID!
-		assertEquals(1, account.getgame_ids().length);
-		assertEquals(1029, account.getgame_ids()[0]);
+		assertEquals(1, account.getgame_ids().size());
+		assertEquals(1029, (int) account.getgame_ids().get(0));
 		
 		// Set it again! (Checking against weird add stuff)
-		account.setgame_ids(new int[]{2938, 5});
+		ArrayList<Integer> ints2 = new ArrayList<Integer>();
+		ints2.add(2938);
+		ints2.add(5);
+		account.setgame_ids(ints2);
 		
 		// Check it again!
-		assertEquals(2, account.getgame_ids().length);
-		assertEquals(2938, account.getgame_ids()[0]);
-		assertEquals(5, account.getgame_ids()[1]);
+		assertEquals(2, account.getgame_ids().size());
+		assertEquals(2938, (int) account.getgame_ids().get(0));
+		assertEquals(5, (int) account.getgame_ids().get(1));
 	}
 	
 	@Test
 	public void testCreate_Account(){
-		account.create_account("New User", "New Password", "new_user@example.com");
+		// Try to create account and get response
+		String response = account.create_account("New User", "New Password", "new_user@example.com");
 		
-		// TODO: JUNIT: Test that information is put into database (regardless of fake/real)
-		throw new UnsupportedOperationException("Not sure how to test this yet... Doesn't matter though it's not implemented");
+		// Check that the response is a success
+		assertEquals("", response);
 	}
 	
 	@Test
 	public void testCreate_AccountUsernameTaken(){
-		account.create_account("lferree", "Imma_steal_his_acc_;)", "theREALtadukoo@something.com");
+		// Try to create account and get response
+		String response = account.create_account("lferree", "Imma_steal_his_acc_;)", "theREALtadukoo@something.com");
 		
-		// TODO: JUNIT: Test that it fails somehow? Perhaps an errorMessage in Account?
-		throw new UnsupportedOperationException("Not sure how to test this yet... Doesn't matter though it's not implemented");
+		// Check that the response is a failure
+		assertEquals("Error", response);
 	}
 	
 	@Test
@@ -94,7 +103,7 @@ public class AccountTest{
 		assertEquals("Invalid Username or Password", response);
 		
 		// Check that user_token and game_id aren't set
-		assertEquals(-1, account.getuser_token());
+		assertEquals(null, account.getusername());
 		assertEquals(null, account.getgame_ids());
 	}
 	
@@ -107,7 +116,7 @@ public class AccountTest{
 		assertEquals("Invalid Username or Password", response);
 		
 		// Check that user_token and game_id aren't set
-		assertEquals(-1, account.getuser_token());
+		assertEquals(null, account.getusername());
 		assertEquals(null, account.getgame_ids());
 	}
 }
