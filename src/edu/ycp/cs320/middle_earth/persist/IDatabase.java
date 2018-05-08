@@ -45,6 +45,7 @@ public interface IDatabase {
 	public Boolean doesUserNameExist(String username);
 	public Boolean createNewUser(String username, String password, String email);
 	public Integer createNewGame(String username);
+	public ArrayList<Integer> getGameIDs(String username);
 	
 	public Enemy getEnemyByRace(String race);
 	public ArrayList<Enemy> getAllEnemies();
