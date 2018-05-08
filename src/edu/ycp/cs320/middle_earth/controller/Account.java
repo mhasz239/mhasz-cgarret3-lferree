@@ -49,7 +49,7 @@ public class Account{
 	public String usernameCheck(String username, IDatabase db){
 		
 		if (db.doesUserNameExist(username)) {
-			return "\nSorry that Username is already taken. ";
+			return "\nSorry that Username is already taken.";
 		} else {
 			return "Passes";
 		}
@@ -66,15 +66,15 @@ public class Account{
                              
         Pattern pat = Pattern.compile(emailRegex);
         if (email == null)
-            return "\nPlease enter and email address. ";
+            return "\nPlease enter and email address.";
         if (pat.matcher(email).matches()) {
         	if(!db.isEmailInUse(email)) {
         		return "Passes";
         	} else {
-        		return "\nSorry it seems you've already have an account with that email. ";
+        		return "\nSorry it seems you've already have an account with that email.";
         	}
         } else {
-        	return "\nPlease enter a valid email address. ";
+        	return "\nPlease enter a valid email address.";
         }
     }
 	
