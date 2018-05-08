@@ -5,4 +5,5 @@
 *.xml
 workspace.xml
 /test.db/
-/derby.log
+/derby.log/
+/map.jpeg
