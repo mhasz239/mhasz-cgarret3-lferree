@@ -24,6 +24,9 @@ public class MapPanel  extends JPanel implements Runnable {
 	private BufferedImage image;
 	private Graphics2D g;
 	
+	private int FPS = 30;
+	private int targetTime = 1000 / FPS;
+	
 	
 	private TileMap tileMap;
 	
@@ -54,15 +57,28 @@ public class MapPanel  extends JPanel implements Runnable {
 	public void run() {
 		init();
 		
+		long startTime;
+		long urdTime;
+		long waitTime;
+		
 		render();
 		draw();
 		
 		while (running) {
-			if (direction != "") {
+			startTime = System.nanoTime();
+			if (this.direction != "") {
 				update(direction, tile);
 				direction = "";
 				render();
 				draw();
+			}
+			urdTime = (System.nanoTime() - startTime) / 100000;
+			waitTime = targetTime - urdTime; 
+			
+			try{
+				Thread.sleep(waitTime);
+			} catch (Exception e) {
+				
 			}
 		}
 	}
