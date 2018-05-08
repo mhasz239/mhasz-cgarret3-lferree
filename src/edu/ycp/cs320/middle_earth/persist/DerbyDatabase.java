@@ -2452,7 +2452,7 @@ public class DerbyDatabase implements IDatabase {
 							insertMapTileConnections.addBatch();
 							
 							// If there are objects on the maptile, add them
-							if(!mapTile.getObjects().isEmpty()) {
+							if(mapTile.getObjects() != null) {
 								for(Object object : mapTile.getObjects()) {
 									insertObject.setString(1, object.getName());
 									insertObject.setString(2, object.getLongDescription());
