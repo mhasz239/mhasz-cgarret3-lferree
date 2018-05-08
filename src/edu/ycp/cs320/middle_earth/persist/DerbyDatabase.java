@@ -899,31 +899,32 @@ public class DerbyDatabase implements IDatabase {
 	}
 	
 	private ArrayList<String> getAllMapNames() {
-		ResultSet resultSet = null;		
-		PreparedStatement stmt = null;
-		Connection conn = null;
-		
-		ArrayList<String> mapNameList = new ArrayList<String>();
-		try {
-			
-			stmt = conn.prepareStatement(
-					"select maps.name from maps"
-			);
-			resultSet = stmt.executeQuery();
-			
-			int i = 1;
-			while(resultSet.next()) {
-				mapNameList.add(resultSet.getString(i++));
-			}			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			DBUtil.closeQuietly(conn);
-			DBUtil.closeQuietly(resultSet);
-			DBUtil.closeQuietly(stmt);
-		}
-		return mapNameList;
+		return executeTransaction(new Transaction <ArrayList<String>>() {
+			@Override
+			public ArrayList<String> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				ArrayList<String> mapNameList = new ArrayList<String>();
+				try {
+					
+					stmt = conn.prepareStatement(
+							"select maps.name from maps"
+					);
+					resultSet = stmt.executeQuery();
+					
+					int i = 1;
+					while(resultSet.next()) {
+						mapNameList.add(resultSet.getString(i++));
+					}			
+					return mapNameList;
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////
@@ -2064,46 +2065,33 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	@Override
-	public ArrayList<Inventory> getAllInventories() { throw new UnsupportedOperationException(""); }
-/*		return executeTransaction(new Transaction <ArrayList<Inventory>>() {
+	private Inventory getInventory (String playerName, int inventoryID) {
+		return executeTransaction(new Transaction <Inventory>() {
 			@Override
-			public ArrayList<Inventory> execute(Connection conn) throws SQLException {
+			public Inventory execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
-				PreparedStatement stmt1 = null;
 				ResultSet resultSet = null;
-				ResultSet resultSet1 = null;
-				ArrayList<Inventory> inventoryList = new ArrayList<Inventory>();
+				
 				try {
-					ArrayList<Integer> inventoryIDList = new ArrayList<Integer>();
 					stmt = conn.prepareStatement(
-							"select players.player_id from players"
-					
-					
-					
-					
-					
-					
-					
-					stmt1 = conn.prepareStatement(
 							"select items.item_id "
-							+ "from items, itemstoinventories "
-							+ "where items.item_id = itemstoinventories.item_id "
-							+ "AND itemstoinventories.inventory_id = ? "
+							+ "from items, itemstoinventories" + playerName
+							+ " where items.item_id = itemstoinventories" + playerName+ ".item_id "
+							+ " AND itemstoinventories" + playerName + ".inventory_id = ? "
 						);
-					stmt1.setInt(1, inventoryID);
+					stmt.setInt(1, inventoryID);
 					
-					resultSet1 = stmt1.executeQuery();
+					resultSet = stmt.executeQuery();
 					
 					Inventory inventory = new Inventory();
 					ArrayList<Item> itemList = new ArrayList<Item>();
 					Item item = new Item();
 					
 					Boolean found = false;
-					while(resultSet1.next()) {
+					while(resultSet.next()) {
 						found = true;
 						
-						item = getItemByID(resultSet1.getInt(1));
+						item = getItemByID(resultSet.getInt(1));
 						itemList.add(item);
 					}
 					if(!found) {
@@ -2113,15 +2101,13 @@ public class DerbyDatabase implements IDatabase {
 					
 					return inventory;
 				} finally {
-					DBUtil.closeQuietly(resultSet1);
-					DBUtil.closeQuietly(resultSet1);
-					DBUtil.closeQuietly(stmt1);
-					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
 					DBUtil.closeQuietly(conn);
 				}
 			}
 		});
-	} */
+	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////
 	//										Users
@@ -2327,6 +2313,7 @@ public class DerbyDatabase implements IDatabase {
 		game.setitems(getAllItems());
 		ArrayList<Character> characterList = new ArrayList<Character>();
 		characterList.add(getPlayer());
+		characterList.get(0).setinventory(getInventory(characterList.get(0).getname(), characterList.get(0).getinventory_id()));
 		game.setcharacters(characterList);
 		
 		return game;
@@ -2868,11 +2855,13 @@ public class DerbyDatabase implements IDatabase {
 		//characterList.get(0).setinventory(getInventoryByID(characterList.get(0).getinventory_id()));
 	}
 	
-	private void updatePlayer(Character player) {
+	private void updatePlayer(Character playerC) {
 		executeTransaction(new Transaction<Boolean>() {
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmtRemovePlayer = null;
 				PreparedStatement stmtUpdatePlayer = null;
+				
+				Player player = (Player) playerC;
 				
 				try {
 					stmtRemovePlayer = conn.prepareStatement(
@@ -2887,12 +2876,14 @@ public class DerbyDatabase implements IDatabase {
 							+ "race, name, gender, level, hit_points, "
 							+ "magic_points, attack, defense, sp_attack, sp_defense, "
 							+ "coins, map_location, inventory_id, helm_item_id, braces_item_id, "
-							+ "chest_item_id, legs_item_id, boots_item_id, l_hand_item_id, r_hand_item_id) "
+							+ "chest_item_id, legs_item_id, boots_item_id, l_hand_item_id, r_hand_item_id, "
+							+ "experience, carry_weight) "
 							+ "values("
 							+ "?, ?, ?, ?, ?,"
 							+ "?, ?, ?, ?, ?,"
 							+ "?, ?, ?, ?, ?,"
-							+ "?, ?, ?, ?, ?)" 
+							+ "?, ?, ?, ?, ?,"
+							+ "?, ?)" 
 					);
 					
 						int i = 1;
@@ -2919,6 +2910,8 @@ public class DerbyDatabase implements IDatabase {
 						stmtUpdatePlayer.setInt(i++, player.getboots().getID());
 						stmtUpdatePlayer.setInt(i++, player.getl_hand().getID());
 						stmtUpdatePlayer.setInt(i++, player.getr_hand().getID());
+						stmtUpdatePlayer.setInt(i++, player.getexperience());
+						stmtUpdatePlayer.setInt(i++, player.getcarry_weight());
 							
 						stmtUpdatePlayer.addBatch();	
 						stmtUpdatePlayer.executeBatch();	
@@ -2951,7 +2944,6 @@ public class DerbyDatabase implements IDatabase {
 					stmt = conn.prepareStatement(
 							"delete from itemstoinventories" + player.getname() +
 							" where inventory_id = ? "
-							+ ")"
 					);
 					stmt.setInt(1, player.getinventory_id());
 					stmt.executeUpdate();

@@ -133,8 +133,7 @@ public class FakeDatabase implements IDatabase {
 		return playerList.get(0);
 	}
 	
-	@Override
-	public ArrayList<Inventory> getAllInventories() {
+/*	public ArrayList<Inventory> getAllInventories() {
 		for(Inventory inventory : inventoryList) {
 			for(Item item : inventory.getitems()) {
 				for(Item listedItem : itemList) {
@@ -152,7 +151,7 @@ public class FakeDatabase implements IDatabase {
 		}
 		return inventoryList;
 	}
-	
+*/	
 	@Override
 	public ArrayList<Quest> getAllQuests() {
 		for(Quest quest : questList) {
