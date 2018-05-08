@@ -55,29 +55,14 @@
 									</c:if>
 			    	            	<form action="${pageContext.servletContext.contextPath}/account" method="post">
 										<table>
-											<c:if test="${! empty userError}">
-												<tr>
-											   		<div class="error">${userError}</div>
-												</tr>
-											</c:if>
 											<tr>
 												<td class="label">Username: </td>
 												<td><input type="text" name="username" size="12" value="${username}" /></td>
 											</tr>
-											<c:if test="${! empty passwordError}">
-												<tr>
-											   		<div class="error">${passwordError}</div>
-												</tr>
-											</c:if>
 											<tr>
 												<td class="label">Password: </td>
 												<td><input type="password" name="password" size="12" value="${password}" /></td>
 											</tr>
-											<c:if test="${! empty emailError}">
-												<tr>
-											   		<div class="error">${emailError}</div>
-												</tr>
-											</c:if>
 											<tr>
 												<td class="label">Email: </td>
 												<td><input type="text" name="email" size="12" value="${email}" /></td>
