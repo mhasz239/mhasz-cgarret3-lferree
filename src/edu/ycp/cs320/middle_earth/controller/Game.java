@@ -532,7 +532,7 @@ public class Game implements Engine{
 				
 				Random rand = new Random(System.currentTimeMillis());
 				int encounterCheck = rand.nextInt(5);
-				if(encounterCheck == -1){
+				if(encounterCheck == 0){
 					// TODO: Currently Player index is 0, need to find it based on current player (for multiplayer)
 					battle = new CombatSituation(this, 1, 0);
 				}
