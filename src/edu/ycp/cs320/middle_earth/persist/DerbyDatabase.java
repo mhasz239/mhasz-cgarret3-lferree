@@ -2245,7 +2245,7 @@ public class DerbyDatabase implements IDatabase {
 					stmt = conn.prepareStatement(
 							"select gamestousers.game_id "
 							+ "from gamestousers "
-							+ "where users.username = ? ");
+							+ "where gamestousers.username = ? ");
 					stmt.setString(1, username);
 					resultSet = stmt.executeQuery();
 					
