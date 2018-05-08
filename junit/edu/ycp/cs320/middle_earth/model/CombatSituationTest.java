@@ -51,7 +51,8 @@ public class CombatSituationTest{
 		
 		// Check that dialog was updated appropriately
 		assertEquals(1, game.getdialog().size());
-		assertEquals("Me is staring into the eyes of a Goblin", game.getdialog().get(0));
+		assertEquals("Me is staring into the eyes of a " + game.getcharacters().get(battle.getCharacterIDs().get(1)).getrace(), 
+				game.getdialog().get(0));
     
 		// Check that done is false
 		assertEquals(false, battle.isDone());
@@ -521,7 +522,8 @@ public class CombatSituationTest{
 		
 		// Check that dialog was added to appropriately
 		assertEquals(4, game.getdialog().size());
-		assertEquals("You killed Bob!", game.getdialog().get(1));
+		assertEquals("You killed " + game.getcharacters().get(battle.getCharacterIDs().get(1)).getname() + "!", 
+				game.getdialog().get(1));
 		assertEquals("You have been awarded 10 experience!", game.getdialog().get(2));
 		assertEquals("You have killed everyone! (in this combat situation here)", game.getdialog().get(3));
 		

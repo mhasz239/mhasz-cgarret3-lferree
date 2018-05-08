@@ -75,10 +75,11 @@ public class AccountTest{
 	
 	@Test
 	public void testCreate_AccountEmailTaken(){
-		account.create_account("Totally New", "yeah_Im_new", "lferree@ycp.edu");
+		// Try to create account and get response
+		String response = account.create_account("Totally New", "yeah_Im_new", "lferree@ycp.edu");
 		
-		// TODO: JUNIT: Test that it fails somehow? Perhaps an errorMessage in Account?
-		throw new UnsupportedOperationException("Not sure how to test this yet... Doesn't matter though it's not implemented");
+		// Check that the response is a failure
+		assertEquals("Error", response);
 	}
 	
 	@Test
@@ -89,9 +90,9 @@ public class AccountTest{
 		// Check that response is accurate
 		assertEquals("Success!", response);
 		
-		// TODO: JUNIT: Test that user_token and game_id are set
-		//assertEquals(3, account.getuser_token());
-		//assertEquals(1, account.getgame_id());
+		// Test that user_token and game_id are set
+		assertEquals("lferree", account.getusername());
+		assertEquals(1, account.getcurrent_game());
 	}
 	
 	@Test
