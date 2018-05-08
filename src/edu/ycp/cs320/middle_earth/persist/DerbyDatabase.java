@@ -318,8 +318,8 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt14 = null;	// gamestousers table
 				PreparedStatement stmt15 = null;	// mapstogames table
 				PreparedStatement stmt16 = null;	// playerstogames table
-													//	quests table
-				
+				PreparedStatement stmt17 = null;	// inventoriestoplayers table
+													//	quests table				
 				try {
 					stmt0 = conn.prepareStatement(
 							"create table users (" +
@@ -506,8 +506,8 @@ public class DerbyDatabase implements IDatabase {
 					stmt14.executeUpdate();
 					
 					stmt15 = conn.prepareStatement(
-							"create table mapstogames ("
-							+ "game_id int, "
+							"create table mapstoplayers ("
+							+ "playername varchar(100), "
 							+ "map_id int"
 							+ ")"
 					);
@@ -515,11 +515,16 @@ public class DerbyDatabase implements IDatabase {
 					
 					stmt16 = conn.prepareStatement(
 							"create table playerstogames ("
-							+ "playername varchar(20), "
+							+ "playername varchar(100), "
 							+ "game_id int"
 							+ ")"
 					);
 					stmt16.executeUpdate();
+					
+/*					stmt17 = conn.prepareStatement(
+							"create table inventoriestoplayers ("
+							+ "playername varchar(100)"
+*/							
 					
 					return true;
 				} finally {
@@ -540,13 +545,12 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt14);
 					DBUtil.closeQuietly(stmt15);
 					DBUtil.closeQuietly(stmt16);
+					DBUtil.closeQuietly(stmt17);
 				}
 			}
 		});
 	}
-	
-	
-	
+		
 	public void loadInitialData() {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
@@ -823,65 +827,13 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 
-	
 	/**************************************************************************************************
-	 * 										*Get All* Methods
+	 * 										Get Methods
 	 **************************************************************************************************/
-	@Override
-	public ArrayList<String> getAllEnemyRaces() {
-		return executeTransaction(new Transaction<ArrayList<String>>() {
-			@Override
-			public ArrayList<String> execute(Connection conn) throws SQLException {
-				ResultSet resultSet = null;
-				PreparedStatement stmt = null;
-				ArrayList<String> enemyRaceList = new ArrayList<String>();
-				try {
-					stmt = conn.prepareStatement(
-							"select enemies.race "
-							+ "from enemies"
-					);
-					resultSet = stmt.executeQuery();
-					while (resultSet.next()) {
-						enemyRaceList.add(resultSet.getString(1));
-					}
-					return enemyRaceList;
-				} finally {
-					DBUtil.closeQuietly(conn);
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt);
-				}
-			}			
-		});
-	}
 	
-	private ArrayList<String> getAllMapNames() {
-		ResultSet resultSet = null;		
-		PreparedStatement stmt = null;
-		Connection conn = null;
-		
-		ArrayList<String> mapNameList = new ArrayList<String>();
-		try {
-			
-			stmt = conn.prepareStatement(
-					"select maps.name from maps"
-			);
-			resultSet = stmt.executeQuery();
-			
-			int i = 1;
-			while(resultSet.next()) {
-				mapNameList.add(resultSet.getString(i++));
-			}			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			DBUtil.closeQuietly(conn);
-			DBUtil.closeQuietly(resultSet);
-			DBUtil.closeQuietly(stmt);
-		}
-		return mapNameList;
-	}
-	
+	///////////////////////////////////////////////////////////////////////////////////////
+	//  								Maps
+	///////////////////////////////////////////////////////////////////////////////////////
 	@Override
 	public Map getMap() {
 		return executeTransaction(new Transaction <Map>() {
@@ -945,186 +897,38 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
-
-	@Override
-	public Player getPlayer() {
-		return executeTransaction(new Transaction <Player>() {
-			@Override
-			public Player execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = null;
-				ResultSet resultSet = null;
-				
-				try {
-					stmt = conn.prepareStatement("select * from players");
-					
-					Player result = new Player();
-					resultSet = stmt.executeQuery();
-					
-					Boolean found = false;
-					while(resultSet.next()) {
-						found = true;
-						
-						loadPlayer(result, resultSet, 1);
-					}
-					
-					if(!found) {
-						System.out.println("<players> table is empty");
-					}
-					
-					return result;
-				} finally {
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt);
-					edu.ycp.cs320.sqldemo.DBUtil.closeQuietly(conn);
-				}
-			}
-		});
-	}
 	
-	@Override
-	public ArrayList<Item> getAllItems() {
-		return executeTransaction(new Transaction <ArrayList<Item>>() {
-			@Override
-			public ArrayList<Item> execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = null;
-				ResultSet resultSet = null;
-				
-				try {
-					// retrieve all attributes
-					stmt = conn.prepareStatement(
-							"select * " +
-							"  from items "
-					);
-					
-					ArrayList<Item> result = new ArrayList<Item>();
-					
-					resultSet = stmt.executeQuery();
-					
-					// for testing that a result was returned
-					Boolean found = false;
-					
-					while (resultSet.next()) {
-						found = true;
-						
-						Item item = new Item();
-						loadItem(item, resultSet, 1);
-						
-						result.add(item);
-					}
-					
-					// check if the items were found
-					if (!found) {
-						System.out.println("<items> table is empty");
-					}
-					
-					return result;
-				} finally {
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt);
-					DBUtil.closeQuietly(conn);
-				}
-			}
-		});
+	private ArrayList<String> getAllMapNames() {
+		ResultSet resultSet = null;		
+		PreparedStatement stmt = null;
+		Connection conn = null;
+		
+		ArrayList<String> mapNameList = new ArrayList<String>();
+		try {
+			
+			stmt = conn.prepareStatement(
+					"select maps.name from maps"
+			);
+			resultSet = stmt.executeQuery();
+			
+			int i = 1;
+			while(resultSet.next()) {
+				mapNameList.add(resultSet.getString(i++));
+			}			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			DBUtil.closeQuietly(conn);
+			DBUtil.closeQuietly(resultSet);
+			DBUtil.closeQuietly(stmt);
+		}
+		return mapNameList;
 	}
 
-	@Override
-	public ArrayList<Object> getAllObjects() {
-		return executeTransaction(new Transaction <ArrayList<Object>>() {
-			@Override
-			public ArrayList<Object> execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = null;
-				PreparedStatement stmt2 = null;
-				ResultSet resultSetObjects = null;
-				ResultSet resultSetObjectCommandResponses = null;
-				ResultSet resultSetItems = null;
-				
-				try {
-					// retrieve all attributes
-					stmt = conn.prepareStatement(
-							"select * " +
-							"  from objects "
-					);
-					
-					ArrayList<Object> resultObjects = new ArrayList<Object>();
-					resultSetObjects = stmt.executeQuery();
-					
-					// for testing that a result was returned
-					Boolean found = false;
-					while (resultSetObjects.next()) {
-						found = true;
-						
-						Object object = new Object();
-						loadObject(object, resultSetObjects, 1);
-						
-						// Now get the commandResponses
-						stmt2 = conn.prepareStatement( 
-								"select objectcommandresponses.command, objectcommandresponses.response "
-								+ "from objectcommandresponses "
-								+ "where objectcommandresponses.object_id = ?"
-						);
-						stmt2.setInt(1, object.getID());		
-						ArrayList<HashMap<String, String>> resultObjectCommandResponses = new ArrayList<HashMap<String, String>>();
-						
-						resultSetObjectCommandResponses = stmt2.executeQuery();
-						
-						while (resultSetObjectCommandResponses.next()) {
-							HashMap<String, String> objectCommandResponse = new HashMap<String, String>();
-							loadObjectCommandResponse(objectCommandResponse, resultSetObjectCommandResponses, 1);
-							
-							resultObjectCommandResponses.add(objectCommandResponse);
-						}
-						if(!resultObjectCommandResponses.isEmpty()) {
-							for(HashMap<String, String> objectCommandResponse : resultObjectCommandResponses) {
-								object.setCommandResponses(objectCommandResponse);
-							}
-						}		
-						
-						// Now get the items in the object
-						stmt = conn.prepareStatement(
-								"select * " +
-								"	from items, itemstoobjects" +
-								"   where itemstoobjects.object_id = ?"
-								+ "AND itemstoobjects.item_id = items.item_id "
-						);
-						
-						stmt.setInt(1, object.getID());
-						ArrayList<Item> resultItems = new ArrayList<Item>();
-						
-						resultSetItems = stmt.executeQuery();
-						
-						while (resultSetItems.next()) {
-							Item item = new Item();
-							loadItem(item, resultSetItems, 1);
-							
-							resultItems.add(item);
-						}
-						if(!resultItems.isEmpty()) {
-							for(Item item : resultItems) {
-								object.addItem(item);
-							}
-						}
-						
-						resultObjects.add(object);
-					}
-					
-					// check if the title was found
-					if (!found) {
-						System.out.println("<objects> table is empty");
-					}
-					
-					return resultObjects;
-				} finally {
-					DBUtil.closeQuietly(resultSetItems);
-					DBUtil.closeQuietly(resultSetObjectCommandResponses);
-					DBUtil.closeQuietly(resultSetObjects);
-					DBUtil.closeQuietly(stmt2);
-					DBUtil.closeQuietly(stmt);
-					DBUtil.closeQuietly(conn);
-				}
-			}
-		});
-	}
-
+	///////////////////////////////////////////////////////////////////////////////////////
+	//  								MapTiles 
+	///////////////////////////////////////////////////////////////////////////////////////
 	@Override
 	public ArrayList<MapTile> getAllMapTiles() {
 		return executeTransaction(new Transaction <ArrayList<MapTile>>() {
@@ -1253,62 +1057,227 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
-
-	@Override
-	public ArrayList<Character> getAllCharacters() {
-		ArrayList<Character> characterList = new ArrayList<Character>();
-		characterList.add(getPlayer());
-		return characterList;
-	}
-
-	/*
-		This method is unnecessary now that getPlayers populates the inventory
-	*/
-	@Override
-	public ArrayList<Inventory> getAllInventories() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<Quest> getAllQuests() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	@Override
-	public ArrayList<String> getAllUserNames() {
-		return executeTransaction(new Transaction<ArrayList<String>>() {
+	public MapTile getMapTileByID(int mapTileID) {
+		return executeTransaction(new Transaction <MapTile>() {
 			@Override
-			public ArrayList<String> execute(Connection conn) throws SQLException {
+			public MapTile execute(Connection conn) throws SQLException {
+
 				PreparedStatement stmt = null;
-				ResultSet resultSet = null;
+				PreparedStatement stmt2 = null;
+				ResultSet resultSetMapTiles = null;
+				ResultSet resultSetObjects = null;
+				ResultSet resultSetObjectCommandResponses = null;
+				ResultSet resultSetItems = null;
+				try {
+					// retrieve all attributes
+					stmt = conn.prepareStatement(
+							"select * " +
+							"  from maptiles, maptileconnections "
+							+ "where maptiles.maptile_id = ? "
+							+ " and maptiles.maptile_id = maptileconnections.maptile_id"
+					);
+					stmt.setInt(1, mapTileID);
+					
+					resultSetMapTiles = stmt.executeQuery();
+					
+					MapTile mapTile = new MapTile();
+
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSetMapTiles.next()) {
+						found = true;
+						
+						loadMapTile(mapTile, resultSetMapTiles, 1);
+						loadMapTileConnections(mapTile.getConnections(), resultSetMapTiles, 7);
+						
+						// Now get all objects associated with the mapTile
+						stmt = conn.prepareStatement(
+								"select * "
+								+ "from objects, objectstomaptiles "
+								+ "where objectstomaptiles.maptile_id = ? "
+								+ "AND objectstomaptiles.object_id = objects.object_id "
+						);
+						
+						stmt.setInt(1, mapTile.getID());
+						ArrayList<Object> resultObjects = new ArrayList<Object>();
+						
+						resultSetObjects = stmt.executeQuery();
+						
+						while(resultSetObjects.next()) {
+							Object object = new Object();
+							loadObject(object, resultSetObjects, 1);
+							
+							// Now get the commandResponses
+							stmt2 = conn.prepareStatement( 
+									"select objectcommandresponses.command, objectcommandresponses.response "
+									+ "from objectcommandresponses "
+									+ "where objectcommandresponses.object_id = ?"
+							);
+							stmt2.setInt(1, object.getID());		
+							ArrayList<HashMap<String, String>> resultObjectCommandResponses = new ArrayList<HashMap<String, String>>();
+							
+							resultSetObjectCommandResponses = stmt2.executeQuery();
+							
+							while (resultSetObjectCommandResponses.next()) {
+								HashMap<String, String> objectCommandResponse = new HashMap<String, String>();
+								loadObjectCommandResponse(objectCommandResponse, resultSetObjectCommandResponses, 1);
+								
+								resultObjectCommandResponses.add(objectCommandResponse);
+							}
+							if(!resultObjectCommandResponses.isEmpty()) {
+								for(HashMap<String, String> objectCommandResponse : resultObjectCommandResponses) {
+									object.setCommandResponses(objectCommandResponse);
+								}
+							}		
+							
+							// Now get the items in the object
+							stmt = conn.prepareStatement(
+									"select * " +
+									"	from items, itemstoobjects" +
+									"   where itemstoobjects.object_id = ?"
+									+ "AND itemstoobjects.item_id = items.item_id "
+							);
+							
+							stmt.setInt(1, object.getID());
+							ArrayList<Item> resultItems = new ArrayList<Item>();
+							
+							resultSetItems = stmt.executeQuery();
+							
+							while (resultSetItems.next()) {
+								Item item = new Item();
+								loadItem(item, resultSetItems, 1);
+								
+								resultItems.add(item);
+							}
+							if(!resultItems.isEmpty()) {
+								for(Item item : resultItems) {
+									object.addItem(item);
+								}
+							}
+							
+							resultObjects.add(object);
+						}
+						if(!resultObjects.isEmpty()) {
+							mapTile.setObjects(resultObjects);
+						}
+					}
+					
+					// check if the maptile was found
+					if (!found) {
+						System.out.println("no maptiles with that id");
+					}
+					
+					return mapTile;
+				} finally {
+					DBUtil.closeQuietly(resultSetItems);
+					DBUtil.closeQuietly(resultSetObjectCommandResponses);
+					DBUtil.closeQuietly(resultSetObjects);
+					DBUtil.closeQuietly(resultSetMapTiles);
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(conn);
+				}
+			}
+		});
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////
+	//  								Objects 
+	///////////////////////////////////////////////////////////////////////////////////////
+	@Override
+	public ArrayList<Object> getAllObjects() {
+		return executeTransaction(new Transaction <ArrayList<Object>>() {
+			@Override
+			public ArrayList<Object> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				PreparedStatement stmt2 = null;
+				ResultSet resultSetObjects = null;
+				ResultSet resultSetObjectCommandResponses = null;
+				ResultSet resultSetItems = null;
 				
 				try {
-					
+					// retrieve all attributes
 					stmt = conn.prepareStatement(
-							"select users.username "
-							+ "from users");
+							"select * " +
+							"  from objects "
+					);
 					
-					resultSet = stmt.executeQuery();
+					ArrayList<Object> resultObjects = new ArrayList<Object>();
+					resultSetObjects = stmt.executeQuery();
 					
-					String username = new String();
-					ArrayList<String> userList = new ArrayList<String>();
-					
+					// for testing that a result was returned
 					Boolean found = false;
-					while(resultSet.next()) {
+					while (resultSetObjects.next()) {
 						found = true;
-						username = resultSet.getString(1);
-						userList.add(username);
+						
+						Object object = new Object();
+						loadObject(object, resultSetObjects, 1);
+						
+						// Now get the commandResponses
+						stmt2 = conn.prepareStatement( 
+								"select objectcommandresponses.command, objectcommandresponses.response "
+								+ "from objectcommandresponses "
+								+ "where objectcommandresponses.object_id = ?"
+						);
+						stmt2.setInt(1, object.getID());		
+						ArrayList<HashMap<String, String>> resultObjectCommandResponses = new ArrayList<HashMap<String, String>>();
+						
+						resultSetObjectCommandResponses = stmt2.executeQuery();
+						
+						while (resultSetObjectCommandResponses.next()) {
+							HashMap<String, String> objectCommandResponse = new HashMap<String, String>();
+							loadObjectCommandResponse(objectCommandResponse, resultSetObjectCommandResponses, 1);
+							
+							resultObjectCommandResponses.add(objectCommandResponse);
+						}
+						if(!resultObjectCommandResponses.isEmpty()) {
+							for(HashMap<String, String> objectCommandResponse : resultObjectCommandResponses) {
+								object.setCommandResponses(objectCommandResponse);
+							}
+						}		
+						
+						// Now get the items in the object
+						stmt = conn.prepareStatement(
+								"select * " +
+								"	from items, itemstoobjects" +
+								"   where itemstoobjects.object_id = ?"
+								+ "AND itemstoobjects.item_id = items.item_id "
+						);
+						
+						stmt.setInt(1, object.getID());
+						ArrayList<Item> resultItems = new ArrayList<Item>();
+						
+						resultSetItems = stmt.executeQuery();
+						
+						while (resultSetItems.next()) {
+							Item item = new Item();
+							loadItem(item, resultSetItems, 1);
+							
+							resultItems.add(item);
+						}
+						if(!resultItems.isEmpty()) {
+							for(Item item : resultItems) {
+								object.addItem(item);
+							}
+						}
+						
+						resultObjects.add(object);
 					}
 					
-					if(!found) {
-						System.out.println("UserList is empty");
+					// check if the title was found
+					if (!found) {
+						System.out.println("<objects> table is empty");
 					}
 					
-					return userList;
+					return resultObjects;
 				} finally {
-					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(resultSetItems);
+					DBUtil.closeQuietly(resultSetObjectCommandResponses);
+					DBUtil.closeQuietly(resultSetObjects);
+					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt);
 					DBUtil.closeQuietly(conn);
 				}
@@ -1316,75 +1285,200 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 
-	public ArrayList<Enemy> getAllEnemies() {
-		return executeTransaction(new Transaction<ArrayList<Enemy>>() {
-			public ArrayList<Enemy> execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = null;
+	@Override
+	public Object getObjectByID(int objectID) {
+		return executeTransaction(new Transaction <Object>() {
+			@Override
+			public Object execute(Connection conn) throws SQLException {
+
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;
 				ResultSet resultSet = null;
+				ResultSet resultSetObjectCommandResponses = null;
+				ResultSet resultSetItems = null;
 				
 				try {
-					stmt = conn.prepareStatement(
-						"select * "
-						+ "from enemies");
-					resultSet = stmt.executeQuery();
+					// retrieve all attributes
+					stmt1 = conn.prepareStatement(
+							"select * "
+							+ "from objects "
+							+ "where objects.object_id = ? "
+					);
+					stmt1.setInt(1, objectID);
 					
-					ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
+					resultSet = stmt1.executeQuery();
 					
+					Object resultObject = new Object();
+
+					// for testing that a result was returned
 					Boolean found = false;
+					
 					while (resultSet.next()) {
 						found = true;
-						Enemy enemy = new Enemy();
-						loadEnemy(enemy, resultSet, 1);
-						enemyList.add(enemy);
+						
+						loadObject(resultObject, resultSet, 1);
+						
+						// Now get the commandResponses
+						stmt2 = conn.prepareStatement( 
+								"select objectcommandresponses.command, objectcommandresponses.response "
+								+ "from objectcommandresponses "
+								+ "where objectcommandresponses.object_id = ?"
+						);
+						stmt2.setInt(1, resultObject.getID());		
+						ArrayList<HashMap<String, String>> resultObjectCommandResponses = new ArrayList<HashMap<String, String>>();
+						
+						resultSetObjectCommandResponses = stmt2.executeQuery();
+						
+						while (resultSetObjectCommandResponses.next()) {
+							HashMap<String, String> objectCommandResponse = new HashMap<String, String>();
+							loadObjectCommandResponse(objectCommandResponse, resultSetObjectCommandResponses, 1);
+							
+							resultObjectCommandResponses.add(objectCommandResponse);
+						}
+						if(!resultObjectCommandResponses.isEmpty()) {
+							for(HashMap<String, String> objectCommandResponse : resultObjectCommandResponses) {
+								resultObject.setCommandResponses(objectCommandResponse);
+							}
+						}						
+						
+						// Now get the items in the object
+						stmt3 = conn.prepareStatement(
+								"select * " +
+								"	from items, itemstoobjects" +
+								"   where itemstoobjects.object_id = ?"
+								+ "AND itemstoobjects.item_id = items.item_id "
+						);
+						
+						stmt3.setInt(1, resultObject.getID());
+						ArrayList<Item> resultItems = new ArrayList<Item>();
+						
+						resultSetItems = stmt3.executeQuery();
+						
+						while (resultSetItems.next()) {
+							Item item = new Item();
+							loadItem(item, resultSetItems, 1);
+							
+							resultItems.add(item);
+						}
+						if(!resultItems.isEmpty()) {
+							for(Item item : resultItems) {
+								resultObject.addItem(item);
+							}
+						}
 					}
 					
-					if(!found) {
-						System.out.println("EnemyList is empty");
+					// check if the object was found
+					if (!found) {
+						System.out.println("no objects with that id");
 					}
 					
-					return enemyList;
+					return resultObject;
 				} finally {
 					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(resultSetObjectCommandResponses);
+					DBUtil.closeQuietly(resultSetItems);
+					DBUtil.closeQuietly(stmt3);
+					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(stmt1);
 					DBUtil.closeQuietly(conn);
-				}
-			}
-			
-		});
-	}
-
-	/******************************************************************************************************
-	 * 										*Get Specific* Methods
-	 ******************************************************************************************************/
-	@Override
-	public Boolean doesUserNameExist(String username) {
-		return executeTransaction(new Transaction<Boolean>() {
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				ResultSet resultSet = null;
-				PreparedStatement stmt = null;
-				try {
-					stmt = conn.prepareStatement(
-							"select users.username "
-							+ "from users "
-							+ "where users.username = ?"
-					);
-					stmt.setString(1, username);
-					resultSet = stmt.executeQuery();
-					
-					if(resultSet.next()) {
-						return true;
-					}
-					return false;
-				} finally {
-					DBUtil.closeQuietly(conn);
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt);
 				}
 			}
 		});
 	}
 	
+	///////////////////////////////////////////////////////////////////////////////////////
+	//  								Items 
+	///////////////////////////////////////////////////////////////////////////////////////
+	@Override
+	public ArrayList<Item> getAllItems() {
+		return executeTransaction(new Transaction <ArrayList<Item>>() {
+			@Override
+			public ArrayList<Item> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					// retrieve all attributes
+					stmt = conn.prepareStatement(
+							"select * " +
+							"  from items "
+					);
+					
+					ArrayList<Item> result = new ArrayList<Item>();
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						Item item = new Item();
+						loadItem(item, resultSet, 1);
+						
+						result.add(item);
+					}
+					
+					// check if the items were found
+					if (!found) {
+						System.out.println("<items> table is empty");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
+				}
+			}
+		});
+	}
+	
+	@Override
+	public Item getItemByID(int itemID) {
+		return executeTransaction(new Transaction <Item>() {
+			@Override
+			public Item execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					// retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"select * " +
+							"  from items "
+							+ "where items.item_id = ? "
+					);
+					stmt.setInt(1, itemID);
+					resultSet = stmt.executeQuery();
+					
+					Item result = new Item();
+
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;						
+						loadItem(result, resultSet, 1);
+					}
+					
+					// check if the item was found
+					if (!found) {
+						System.out.println("no items with that id");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
+				}
+			}
+		});
+	}
+
 	@Override
 	public Item getLegendaryItem() {
 		return executeTransaction(new Transaction<Item>() {
@@ -1418,7 +1512,7 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
-	
+
 	@Override
 	public Item getLegendaryItem(String itemType) {
 		return executeTransaction(new Transaction<Item>() {
@@ -1598,8 +1692,120 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
+	///////////////////////////////////////////////////////////////////////////////////////
+	//  								Players
+	///////////////////////////////////////////////////////////////////////////////////////
+	@Override
+	public Player getPlayer() {
+		return executeTransaction(new Transaction <Player>() {
+			@Override
+			public Player execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement("select * from players");
+					
+					Player result = new Player();
+					resultSet = stmt.executeQuery();
+					
+					Boolean found = false;
+					while(resultSet.next()) {
+						found = true;
+						
+						loadPlayer(result, resultSet, 1);
+					}
+					
+					if(!found) {
+						System.out.println("<players> table is empty");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+					edu.ycp.cs320.sqldemo.DBUtil.closeQuietly(conn);
+				}
+			}
+		});
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////
+	//  								Characters 
+	///////////////////////////////////////////////////////////////////////////////////////
+	@Override
+	public ArrayList<Character> getAllCharacters() {
+		ArrayList<Character> characterList = new ArrayList<Character>();
+		characterList.add(getPlayer());
+		return characterList;
+	}
 	
-	
+	///////////////////////////////////////////////////////////////////////////////////////
+	//  								Enemies 
+	///////////////////////////////////////////////////////////////////////////////////////
+	@Override
+	public ArrayList<String> getAllEnemyRaces() {
+		return executeTransaction(new Transaction<ArrayList<String>>() {
+			@Override
+			public ArrayList<String> execute(Connection conn) throws SQLException {
+				ResultSet resultSet = null;
+				PreparedStatement stmt = null;
+				ArrayList<String> enemyRaceList = new ArrayList<String>();
+				try {
+					stmt = conn.prepareStatement(
+							"select enemies.race "
+							+ "from enemies"
+					);
+					resultSet = stmt.executeQuery();
+					while (resultSet.next()) {
+						enemyRaceList.add(resultSet.getString(1));
+					}
+					return enemyRaceList;
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}			
+		});
+	}
+
+	public ArrayList<Enemy> getAllEnemies() {
+		return executeTransaction(new Transaction<ArrayList<Enemy>>() {
+			public ArrayList<Enemy> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+						"select * "
+						+ "from enemies");
+					resultSet = stmt.executeQuery();
+					
+					ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
+					
+					Boolean found = false;
+					while (resultSet.next()) {
+						found = true;
+						Enemy enemy = new Enemy();
+						loadEnemy(enemy, resultSet, 1);
+						enemyList.add(enemy);
+					}
+					
+					if(!found) {
+						System.out.println("EnemyList is empty");
+					}
+					
+					return enemyList;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
+				}
+			}
+			
+		});
+	}
 	
 	@Override
 	public Enemy getEnemyByRace(String race) {
@@ -1681,278 +1887,10 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
-	
-	@Override
-	public Item getItemByID(int itemID) {
-		return executeTransaction(new Transaction <Item>() {
-			@Override
-			public Item execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = null;
-				ResultSet resultSet = null;
-				
-				try {
-					// retrieve all attributes 
-					stmt = conn.prepareStatement(
-							"select * " +
-							"  from items "
-							+ "where items.item_id = ? "
-					);
-					stmt.setInt(1, itemID);
-					resultSet = stmt.executeQuery();
-					
-					Item result = new Item();
 
-					// for testing that a result was returned
-					Boolean found = false;
-					
-					while (resultSet.next()) {
-						found = true;						
-						loadItem(result, resultSet, 1);
-					}
-					
-					// check if the item was found
-					if (!found) {
-						System.out.println("no items with that id");
-					}
-					
-					return result;
-				} finally {
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt);
-					DBUtil.closeQuietly(conn);
-				}
-			}
-		});
-	}
-
-	@Override
-	public Object getObjectByID(int objectID) {
-		return executeTransaction(new Transaction <Object>() {
-			@Override
-			public Object execute(Connection conn) throws SQLException {
-
-				PreparedStatement stmt1 = null;
-				PreparedStatement stmt2 = null;
-				PreparedStatement stmt3 = null;
-				ResultSet resultSet = null;
-				ResultSet resultSetObjectCommandResponses = null;
-				ResultSet resultSetItems = null;
-				
-				try {
-					// retrieve all attributes
-					stmt1 = conn.prepareStatement(
-							"select * "
-							+ "from objects "
-							+ "where objects.object_id = ? "
-					);
-					stmt1.setInt(1, objectID);
-					
-					resultSet = stmt1.executeQuery();
-					
-					Object resultObject = new Object();
-
-					// for testing that a result was returned
-					Boolean found = false;
-					
-					while (resultSet.next()) {
-						found = true;
-						
-						loadObject(resultObject, resultSet, 1);
-						
-						// Now get the commandResponses
-						stmt2 = conn.prepareStatement( 
-								"select objectcommandresponses.command, objectcommandresponses.response "
-								+ "from objectcommandresponses "
-								+ "where objectcommandresponses.object_id = ?"
-						);
-						stmt2.setInt(1, resultObject.getID());		
-						ArrayList<HashMap<String, String>> resultObjectCommandResponses = new ArrayList<HashMap<String, String>>();
-						
-						resultSetObjectCommandResponses = stmt2.executeQuery();
-						
-						while (resultSetObjectCommandResponses.next()) {
-							HashMap<String, String> objectCommandResponse = new HashMap<String, String>();
-							loadObjectCommandResponse(objectCommandResponse, resultSetObjectCommandResponses, 1);
-							
-							resultObjectCommandResponses.add(objectCommandResponse);
-						}
-						if(!resultObjectCommandResponses.isEmpty()) {
-							for(HashMap<String, String> objectCommandResponse : resultObjectCommandResponses) {
-								resultObject.setCommandResponses(objectCommandResponse);
-							}
-						}						
-						
-						// Now get the items in the object
-						stmt3 = conn.prepareStatement(
-								"select * " +
-								"	from items, itemstoobjects" +
-								"   where itemstoobjects.object_id = ?"
-								+ "AND itemstoobjects.item_id = items.item_id "
-						);
-						
-						stmt3.setInt(1, resultObject.getID());
-						ArrayList<Item> resultItems = new ArrayList<Item>();
-						
-						resultSetItems = stmt3.executeQuery();
-						
-						while (resultSetItems.next()) {
-							Item item = new Item();
-							loadItem(item, resultSetItems, 1);
-							
-							resultItems.add(item);
-						}
-						if(!resultItems.isEmpty()) {
-							for(Item item : resultItems) {
-								resultObject.addItem(item);
-							}
-						}
-					}
-					
-					// check if the object was found
-					if (!found) {
-						System.out.println("no objects with that id");
-					}
-					
-					return resultObject;
-				} finally {
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(resultSetObjectCommandResponses);
-					DBUtil.closeQuietly(resultSetItems);
-					DBUtil.closeQuietly(stmt3);
-					DBUtil.closeQuietly(stmt2);
-					DBUtil.closeQuietly(stmt1);
-					DBUtil.closeQuietly(conn);
-				}
-			}
-		});
-	}
-
-	@Override
-	public MapTile getMapTileByID(int mapTileID) {
-		return executeTransaction(new Transaction <MapTile>() {
-			@Override
-			public MapTile execute(Connection conn) throws SQLException {
-
-				PreparedStatement stmt = null;
-				PreparedStatement stmt2 = null;
-				ResultSet resultSetMapTiles = null;
-				ResultSet resultSetObjects = null;
-				ResultSet resultSetObjectCommandResponses = null;
-				ResultSet resultSetItems = null;
-				try {
-					// retrieve all attributes
-					stmt = conn.prepareStatement(
-							"select * " +
-							"  from maptiles, maptileconnections "
-							+ "where maptiles.maptile_id = ? "
-							+ " and maptiles.maptile_id = maptileconnections.maptile_id"
-					);
-					stmt.setInt(1, mapTileID);
-					
-					resultSetMapTiles = stmt.executeQuery();
-					
-					MapTile mapTile = new MapTile();
-
-					// for testing that a result was returned
-					Boolean found = false;
-					
-					while (resultSetMapTiles.next()) {
-						found = true;
-						
-						loadMapTile(mapTile, resultSetMapTiles, 1);
-						loadMapTileConnections(mapTile.getConnections(), resultSetMapTiles, 7);
-						
-						// Now get all objects associated with the mapTile
-						stmt = conn.prepareStatement(
-								"select * "
-								+ "from objects, objectstomaptiles "
-								+ "where objectstomaptiles.maptile_id = ? "
-								+ "AND objectstomaptiles.object_id = objects.object_id "
-						);
-						
-						stmt.setInt(1, mapTile.getID());
-						ArrayList<Object> resultObjects = new ArrayList<Object>();
-						
-						resultSetObjects = stmt.executeQuery();
-						
-						while(resultSetObjects.next()) {
-							Object object = new Object();
-							loadObject(object, resultSetObjects, 1);
-							
-							// Now get the commandResponses
-							stmt2 = conn.prepareStatement( 
-									"select objectcommandresponses.command, objectcommandresponses.response "
-									+ "from objectcommandresponses "
-									+ "where objectcommandresponses.object_id = ?"
-							);
-							stmt2.setInt(1, object.getID());		
-							ArrayList<HashMap<String, String>> resultObjectCommandResponses = new ArrayList<HashMap<String, String>>();
-							
-							resultSetObjectCommandResponses = stmt2.executeQuery();
-							
-							while (resultSetObjectCommandResponses.next()) {
-								HashMap<String, String> objectCommandResponse = new HashMap<String, String>();
-								loadObjectCommandResponse(objectCommandResponse, resultSetObjectCommandResponses, 1);
-								
-								resultObjectCommandResponses.add(objectCommandResponse);
-							}
-							if(!resultObjectCommandResponses.isEmpty()) {
-								for(HashMap<String, String> objectCommandResponse : resultObjectCommandResponses) {
-									object.setCommandResponses(objectCommandResponse);
-								}
-							}		
-							
-							// Now get the items in the object
-							stmt = conn.prepareStatement(
-									"select * " +
-									"	from items, itemstoobjects" +
-									"   where itemstoobjects.object_id = ?"
-									+ "AND itemstoobjects.item_id = items.item_id "
-							);
-							
-							stmt.setInt(1, object.getID());
-							ArrayList<Item> resultItems = new ArrayList<Item>();
-							
-							resultSetItems = stmt.executeQuery();
-							
-							while (resultSetItems.next()) {
-								Item item = new Item();
-								loadItem(item, resultSetItems, 1);
-								
-								resultItems.add(item);
-							}
-							if(!resultItems.isEmpty()) {
-								for(Item item : resultItems) {
-									object.addItem(item);
-								}
-							}
-							
-							resultObjects.add(object);
-						}
-						if(!resultObjects.isEmpty()) {
-							mapTile.setObjects(resultObjects);
-						}
-					}
-					
-					// check if the maptile was found
-					if (!found) {
-						System.out.println("no maptiles with that id");
-					}
-					
-					return mapTile;
-				} finally {
-					DBUtil.closeQuietly(resultSetItems);
-					DBUtil.closeQuietly(resultSetObjectCommandResponses);
-					DBUtil.closeQuietly(resultSetObjects);
-					DBUtil.closeQuietly(resultSetMapTiles);
-					DBUtil.closeQuietly(stmt);
-					DBUtil.closeQuietly(stmt2);
-					DBUtil.closeQuietly(conn);
-				}
-			}
-		});
-	}
-
+	////////////////////////////////////////////////////////////////////////////////////////
+	//									Inventories
+	////////////////////////////////////////////////////////////////////////////////////////
 	public Inventory getInventoryByID (int inventoryID) {
 		return executeTransaction(new Transaction <Inventory>() {
 			@Override
@@ -1998,11 +1936,137 @@ public class DerbyDatabase implements IDatabase {
 	}
 	
 	@Override
-	public Character getCharacterByName(String characterName) {
-		// TODO Auto-generated method stub
-		return null;
-	}	
+	public ArrayList<Inventory> getAllInventories() { throw new UnsupportedOperationException(""); }
+/*		return executeTransaction(new Transaction <ArrayList<Inventory>>() {
+			@Override
+			public ArrayList<Inventory> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet = null;
+				ResultSet resultSet1 = null;
+				ArrayList<Inventory> inventoryList = new ArrayList<Inventory>();
+				try {
+					ArrayList<Integer> inventoryIDList = new ArrayList<Integer>();
+					stmt = conn.prepareStatement(
+							"select players.player_id from players"
+					
+					
+					
+					
+					
+					
+					
+					stmt1 = conn.prepareStatement(
+							"select items.item_id "
+							+ "from items, itemstoinventories "
+							+ "where items.item_id = itemstoinventories.item_id "
+							+ "AND itemstoinventories.inventory_id = ? "
+						);
+					stmt1.setInt(1, inventoryID);
+					
+					resultSet1 = stmt1.executeQuery();
+					
+					Inventory inventory = new Inventory();
+					ArrayList<Item> itemList = new ArrayList<Item>();
+					Item item = new Item();
+					
+					Boolean found = false;
+					while(resultSet1.next()) {
+						found = true;
+						
+						item = getItemByID(resultSet1.getInt(1));
+						itemList.add(item);
+					}
+					if(!found) {
+						System.out.println("This inventory is empty");
+					}
+					inventory.setitems(itemList);
+					
+					return inventory;
+				} finally {
+					DBUtil.closeQuietly(resultSet1);
+					DBUtil.closeQuietly(resultSet1);
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(conn);
+				}
+			}
+		});
+	} */
 	
+	////////////////////////////////////////////////////////////////////////////////////////
+	//										Users
+	////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public ArrayList<String> getAllUserNames() {
+		return executeTransaction(new Transaction<ArrayList<String>>() {
+			@Override
+			public ArrayList<String> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					
+					stmt = conn.prepareStatement(
+							"select users.username "
+							+ "from users");
+					
+					resultSet = stmt.executeQuery();
+					
+					String username = new String();
+					ArrayList<String> userList = new ArrayList<String>();
+					
+					Boolean found = false;
+					while(resultSet.next()) {
+						found = true;
+						username = resultSet.getString(1);
+						userList.add(username);
+					}
+					
+					if(!found) {
+						System.out.println("UserList is empty");
+					}
+					
+					return userList;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(conn);
+				}
+			}
+		});
+	}
+
+	@Override
+	public Boolean doesUserNameExist(String username) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				ResultSet resultSet = null;
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement(
+							"select users.username "
+							+ "from users "
+							+ "where users.username = ?"
+					);
+					stmt.setString(1, username);
+					resultSet = stmt.executeQuery();
+					
+					if(resultSet.next()) {
+						return true;
+					}
+					return false;
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+
 	public String getUserPasswordByUserName(final String userName) {
 		return executeTransaction(new Transaction<String>() {
 			public String execute(Connection conn) throws SQLException {
@@ -2038,6 +2102,11 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
+
+	///////////////////////////////////////////////////////////////////////////////////////
+	//  									Games
+	///////////////////////////////////////////////////////////////////////////////////////	
+	
 	public ArrayList<Integer> getGameIDs(final String username) {
 		return executeTransaction(new Transaction<ArrayList<Integer>>() {
 			public ArrayList<Integer> execute(Connection conn) throws SQLException {
@@ -2072,6 +2141,26 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
+	
+	/******************************************************************************************************
+	 * 										*Get Specific* Methods
+	 ******************************************************************************************************/
+
+
+
+
+
+
+
+
+	
+	@Override
+	public Character getCharacterByName(String characterName) {
+		// TODO Auto-generated method stub
+		return null;
+	}	
+	
+
 	/*******************************************************************************************************
 	*											load/save game
 	********************************************************************************************************/
@@ -2583,15 +2672,6 @@ public class DerbyDatabase implements IDatabase {
 	}
 	
 	private void updateMapTiles(final ArrayList<MapTile> mapTileList) {
-		// update all objects on maptile
-			// remove them all
-			// add the ones passed in maptile.getObjects()
-		
-		// update mapTile Connections										// For the editor
-		// Update Enemy String
-		// update maptile visited
-		
-		// Will need to update random_encounters
 		
 		for(MapTile mapTile : mapTileList) {
 			updateMapTile(mapTile);
@@ -3028,5 +3108,13 @@ public class DerbyDatabase implements IDatabase {
 		db.loadInitialData();
 		
 		System.out.println("Success!");
+	}
+
+
+
+	@Override
+	public ArrayList<Quest> getAllQuests() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

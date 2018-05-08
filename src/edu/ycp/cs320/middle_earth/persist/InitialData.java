@@ -20,14 +20,33 @@ import edu.ycp.cs320.middle_earth.model.Characters.Enemy;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
 
 public class InitialData {
+/*
+	public static ArrayList<Integer> getInventoriesToPlayers() throws IOException {
+		ArrayList<Integer> inventoriesToPlayersList = new ArrayList<Integer>();
+		ReadCSV readInventoriesToPlayers = new ReadCSV("inventoriestoplayers.csv");
+		try {
+			while (true) {
+				List<String> tuple = readInventoriesToPlayers.next();
+				if (tuple == null) {
+					break;
+				}
+				Iterator<String> i = tuple.iterator();
+				
+				while (i.hasNext()) {
+					inventoriesToPlayersList.add(Integer.parseInt(i.next()));
+				}
+			}
+			return inventoriesToPlayersList;
+			
+		} finally {
+			readInventoriesToPlayers.close();
+		}
+	}
+	*/
 	
-//	getCharacters
-	
-//	getGames
-
-/*	public static ArrayList<Integer> getInventoriesToPlayers() throws IOException {
+	public static ArrayList<Integer> getInventoriesToCharacters() throws IOException {
 		ArrayList<Integer> inventoriesToCharactersList = new ArrayList<Integer>();
-		ReadCSV readInventoriesToCharacters = new ReadCSV("inventoriestoplayers.csv");
+		ReadCSV readInventoriesToCharacters = new ReadCSV("inventoriestocharacters.csv");
 		try {
 			while (true) {
 				List<String> tuple = readInventoriesToCharacters.next();
@@ -47,7 +66,7 @@ public class InitialData {
 		}
 	}
 	
-	*/
+	
 	public static ArrayList<StringPair> getNameGenderList() throws IOException {
 		ArrayList<StringPair> nameGenderList = new ArrayList<StringPair>();
 		ReadCSV readNames = new ReadCSV("names.csv");
