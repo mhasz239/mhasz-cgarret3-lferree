@@ -1159,7 +1159,7 @@ public class DerbyDatabase implements IDatabase {
 						loadMapTile(mapTile, resultSetMapTiles, 1);
 						
 						// remember to skip an index for the repeated maptile_id from the connections table
-						loadMapTileConnections(mapTile.getConnections(), resultSetMapTiles, 6);
+						loadMapTileConnections(mapTile.getConnections(), resultSetMapTiles, 7);
 						
 						// Now get all objects associated with the mapTile
 						stmt = conn.prepareStatement(
@@ -2143,7 +2143,7 @@ public class DerbyDatabase implements IDatabase {
 					// create userObjects -- stmt 1
 					createWorldForNewGame(player.getname());
 					
-					// get gameID from userstogames -- resultSet
+					// get gameID from gamestousers -- resultSet
 					stmt2 = conn.prepareStatement(
 							"select game_id from gamestousers where gamestousers.username = ?"
 					);
@@ -2183,7 +2183,7 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement insertItemsToObjects = null;
 				PreparedStatement insertObjectCommandResponses = null;
 				
-				ArrayList<MapTile> mapTileList = new ArrayList<MapTile>();
+				ArrayList<MapTile> mapTileList = getAllMapTiles();
 				try {
 					createWildcardMapTileTable(playerName);
 					createWildcardMapTileConnectionsTable(playerName);
@@ -2258,6 +2258,7 @@ public class DerbyDatabase implements IDatabase {
 						insertMapTile.addBatch();
 					}
 					insertObject.executeBatch();
+					insertItemsToObjects.executeBatch();
 					insertMapTile.executeBatch();						
 					insertMapTileConnections.executeBatch();
 					insertObjectCommandResponses.executeBatch();

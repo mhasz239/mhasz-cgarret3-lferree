@@ -61,7 +61,7 @@ public class IndexServlet extends HttpServlet {
 			//Account account = (Account)req.getSession().getAttribute("account");
 			DatabaseProvider.setInstance(new DerbyDatabase());
 			IDatabase db = DatabaseProvider.getInstance();
-			Game game = db.loadGame();
+			Game game = db.loadGame(1);
 			game.startMap();
 			req.getSession().setAttribute("game", game);
 			req.setAttribute("mode", game.getmode());

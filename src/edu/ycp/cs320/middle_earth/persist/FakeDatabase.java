@@ -347,4 +347,10 @@ public class FakeDatabase implements IDatabase {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public ArrayList<Integer> getGameIDs(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 } 
