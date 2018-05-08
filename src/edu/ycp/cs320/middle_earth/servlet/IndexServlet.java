@@ -38,14 +38,8 @@ public class IndexServlet extends HttpServlet {
 		IDatabase db = DatabaseProvider.getInstance();
 		ArrayList<Integer> games = new ArrayList<Integer>();
 		String errorMessage = null;
-		if (req.getSession().getAttribute("player") != null) {
-			games = db.getGameIDs((String) req.getSession().getAttribute("player"));
-			for (int i = 0; i < games.size(); i++) {
-				req.getSession().setAttribute("game"+(i+1), games.get(i));
-				System.out.println(req.getSession().getAttribute("game"+(i+1)));
-			}
-			
-		}
+		System.out.println(req.getSession().getAttribute("player"));
+		
 		
 		
 		String form = req.getParameter("submit");
@@ -59,6 +53,26 @@ public class IndexServlet extends HttpServlet {
 				
 				//Placeholder for now is just setting the player attribute as the username only if login succeeds.
 				req.getSession().setAttribute("player", req.getParameter("username"));
+					
+				games = db.getGameIDs((String) req.getSession().getAttribute("player"));
+				for (int i = 0; i < games.size(); i++) {
+					if (i == 0) {
+						req.getSession().setAttribute("game1", "True");
+					} else if (i == 1){
+						req.getSession().setAttribute("game2", "True");
+					} else if (i == 2){
+						req.getSession().setAttribute("game3", "True");
+					} else if (i == 3){
+						req.getSession().setAttribute("game4", "True");
+					} else if (i == 4){
+						req.getSession().setAttribute("game5", "True");
+					} else if (i == 5){
+						req.getSession().setAttribute("game6", "True");
+					}
+				}
+					
+				
+				System.out.println(req.getSession().getAttribute("player"));
 				req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
 			} else {
 				req.setAttribute("errorMessage", check);
@@ -67,7 +81,7 @@ public class IndexServlet extends HttpServlet {
 		}
 		
 		else if(form.equalsIgnoreCase("Create Game 1")){
-				int id = db.createNewGame(req.getParameter("player"));
+				int id = db.createNewGame((String) req.getSession().getAttribute("player"));
 				req.getSession().setAttribute("gameID", id);
 				Game game = db.loadGame(id);
 				game.startMap();
