@@ -2195,6 +2195,35 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
+	
+	@Override
+	public Boolean isEmailInUse(String email) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				ResultSet resultSet = null;
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement(
+							"select users.email "
+							+ "from users "
+							+ "where users.email = ?"
+					);
+					stmt.setString(1, email);
+					resultSet = stmt.executeQuery();
+					
+					if(resultSet.next()) {
+						return true;
+					}
+					return false;
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
 
 	public String getUserPasswordByUserName(final String userName) {
 		return executeTransaction(new Transaction<String>() {
@@ -2230,7 +2259,6 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
-	
 
 	///////////////////////////////////////////////////////////////////////////////////////
 	//  									Games
@@ -2784,6 +2812,8 @@ public class DerbyDatabase implements IDatabase {
 		
 		keyboard.close();
 		
+		
+		
 		return player;
 	}
 	
@@ -2832,8 +2862,10 @@ public class DerbyDatabase implements IDatabase {
 	}
 	
 	private void updateCharacters(ArrayList<Character> characterList) {
+		//Inventory inventory = characterList.get(0).getinventory();
 		updatePlayer(characterList.get(0));
-		characterList.get(0).setinventory(getInventoryByID(characterList.get(0).getinventory_id()));
+		updateInventory(characterList.get(0));
+		//characterList.get(0).setinventory(getInventoryByID(characterList.get(0).getinventory_id()));
 	}
 	
 	private void updatePlayer(Character player) {
@@ -2902,8 +2934,47 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	private void updateInventory(Inventory inventory) {
-		throw new UnsupportedOperationException("Not yet implemented");
+	private void updateInventory(Character player) {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				PreparedStatement stmt1 = null;
+				
+				ArrayList<Item> itemList = player.getinventory().getitems();
+				ArrayList<Integer> itemIDList = new ArrayList<Integer>();
+				for(Item item : itemList) {
+					itemIDList.add(item.getID());
+				}
+				
+				try {	
+					stmt = conn.prepareStatement(
+							"delete from itemstoinventories" + player.getname() +
+							" where inventory_id = ? "
+							+ ")"
+					);
+					stmt.setInt(1, player.getinventory_id());
+					stmt.executeUpdate();
+					
+					stmt1 = conn.prepareStatement(
+							"insert into itemstoinventories" + player.getname() +
+							" (item_id, inventory_id) "
+							+ "values (?, ?)");
+					for(Integer itemID : itemIDList) {
+						stmt1.setInt(1, itemID);
+						stmt1.setInt(2, player.getinventory_id());
+						stmt1.addBatch();
+					}
+					stmt1.executeBatch();
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
 	}
 	
 	/**	This should only be called after checking if item exists in items table already **/

@@ -353,4 +353,10 @@ public class FakeDatabase implements IDatabase {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Boolean isEmailInUse(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 } 

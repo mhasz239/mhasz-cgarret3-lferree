@@ -18,13 +18,9 @@ public interface IDatabase {
 	public Player getPlayer();
 	
 	public ArrayList<Item> getAllItems();
-//	public ArrayList<Item> getAllItems(String playerName);
 	public ArrayList<Object> getAllObjects();
-//	public ArrayList<Object> getAllObjects(String playerName);
 	public ArrayList<MapTile> getAllMapTiles();
-//	public ArrayList<MapTile> getAllMapTiles(String playerName);
 	public ArrayList<Character> getAllCharacters();
-//	public ArrayList<Character> getAllCharacters(String playerName);
 	public ArrayList<Inventory> getAllInventories();
 	public ArrayList<Quest> getAllQuests();
 	
@@ -47,6 +43,7 @@ public interface IDatabase {
 	public String getUserPasswordByUserName(String username);
 	public ArrayList<String> getAllUserNames();
 	public Boolean doesUserNameExist(String username);
+	public Boolean isEmailInUse(String email);
 	public Boolean createNewUser(String username, String password, String email);
 	public Integer createNewGame(String username);
 	public ArrayList<Integer> getGameIDs(String username);
