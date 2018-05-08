@@ -20,11 +20,21 @@ public class CharacterServlet extends HttpServlet {
             throws ServletException, IOException {
 
         System.out.println("Character Servlet: doGet");
+        System.out.println(req.getParameter("head"));
 
         //Load data for the initial call to the inventory jsp
 
         Game game = (Game) req.getSession().getAttribute("game");
         String command = (String) req.getSession().getAttribute("command");
+        
+        ArrayList<Item> itemlist = game.getplayer().getinventory().getitems();
+        ArrayList<Item> cleanList = new ArrayList<Item>();
+        for (int i = 0; i < itemlist.size(); i++){
+        	Item item = itemlist.get(i);
+        	cleanList.add(new Item(item.getItemWeight(), item.getattack_bonus(), item.getdefense_bonus(), item.gethp_bonus(), item.getlvl_requirement(), item.getItemType(), item.getName(), item.getID(), item.getShortDescription(), item.getLongDescription(), itemlist.get(i).getName().replaceAll(" ", "_") ));
+        }
+        
+        req.setAttribute(("itemTest"), cleanList);
         
         game.setmode("character");
         Player player = (Player) game.getplayer();
@@ -67,5 +77,10 @@ public class CharacterServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {}
+            throws ServletException, IOException {
+    	System.out.println("Character: doPost");
+    	System.out.println(req.getParameter("head"));
+    	
+    }
+    
 }
