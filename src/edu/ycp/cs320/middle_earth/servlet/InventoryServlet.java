@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import edu.ycp.cs320.middle_earth.controller.Game;
 import edu.ycp.cs320.middle_earth.model.Constructs.Item;
+import edu.ycp.cs320.middle_earth.model.Constructs.ItemType;
 
 public class InventoryServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -31,6 +32,7 @@ public class InventoryServlet extends HttpServlet {
         for (int i = 0; i < itemlist.size(); i++){
         	Item item = itemlist.get(i);
         	cleanList.add(new Item(item.getItemWeight(), item.getattack_bonus(), item.getdefense_bonus(), item.gethp_bonus(), item.getlvl_requirement(), item.getItemType(), item.getName(), item.getID(), item.getShortDescription(), item.getLongDescription(), itemlist.get(i).getName().replaceAll(" ", "_") ));
+        	ItemType type = cleanList.get(i).getItemType();
         }
         
         req.setAttribute(("itemTest"), cleanList);

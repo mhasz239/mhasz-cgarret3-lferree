@@ -93,4 +93,8 @@ public class Item extends Construct{
 	public ItemType getItemType(){
 		return type;
 	}
+	
+	public ItemType gettype(){
+		return type;
+	}
 }
