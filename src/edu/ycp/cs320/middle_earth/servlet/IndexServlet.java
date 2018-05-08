@@ -1,6 +1,7 @@
 package edu.ycp.cs320.middle_earth.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -33,10 +34,18 @@ public class IndexServlet extends HttpServlet {
 			throws ServletException, IOException {
 				
 		System.out.println("Index Servlet: doPost");
-		
-		
+		DatabaseProvider.setInstance(new DerbyDatabase());
+		IDatabase db = DatabaseProvider.getInstance();
+		ArrayList<Integer> games = new ArrayList<Integer>();
 		String errorMessage = null;
-
+		if (req.getSession().getAttribute("player") != null) {
+			games = db.getGameIDs((String) req.getSession().getAttribute("player"));
+			for (int i = 0; i < games.size(); i++) {
+				req.getSession().setAttribute("game"+(i+1), games.get(i));
+				System.out.println(req.getSession().getAttribute("game"+(i+1)));
+			}
+			
+		}
 		
 		
 		String form = req.getParameter("submit");
@@ -57,11 +66,20 @@ public class IndexServlet extends HttpServlet {
 			}
 		}
 		
-		else if(form.equalsIgnoreCase("Create Game 1") || form.equalsIgnoreCase("Load Game 1")){
+		else if(form.equalsIgnoreCase("Create Game 1")){
+				int id = db.createNewGame(req.getParameter("player"));
+				req.getSession().setAttribute("gameID", id);
+				Game game = db.loadGame(id);
+				game.startMap();
+				req.getSession().setAttribute("game", game);
+				req.getSession().setAttribute("exit", false);
+				req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
+		}
+		
+		else if (form.equalsIgnoreCase("Load Game 1")){
 			//Account account = (Account)req.getSession().getAttribute("account");
-			DatabaseProvider.setInstance(new DerbyDatabase());
-			IDatabase db = DatabaseProvider.getInstance();
-			Game game = db.loadGame(1);
+			
+			Game game = db.loadGame(games.get(0));
 			game.startMap();
 			req.getSession().setAttribute("game", game);
 			req.setAttribute("mode", game.getmode());
