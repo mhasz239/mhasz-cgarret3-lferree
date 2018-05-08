@@ -38,7 +38,24 @@ public class IndexServlet extends HttpServlet {
 		IDatabase db = DatabaseProvider.getInstance();
 		ArrayList<Integer> games = new ArrayList<Integer>();
 		String errorMessage = null;
-		System.out.println(req.getSession().getAttribute("player"));
+		if (req.getSession().getAttribute("player") != null) {
+			games = db.getGameIDs((String) req.getSession().getAttribute("player"));
+			for (int i = 0; i < games.size(); i++) {
+				if (i == 0) {
+					req.getSession().setAttribute("game1", "True");
+				} else if (i == 1){
+					req.getSession().setAttribute("game2", "True");
+				} else if (i == 2){
+					req.getSession().setAttribute("game3", "True");
+				} else if (i == 3){
+					req.getSession().setAttribute("game4", "True");
+				} else if (i == 4){
+					req.getSession().setAttribute("game5", "True");
+				} else if (i == 5){
+					req.getSession().setAttribute("game6", "True");
+				}
+			}
+		}
 		
 		
 		
@@ -79,18 +96,34 @@ public class IndexServlet extends HttpServlet {
 				req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
 			}
 		}
-		
-		else if(form.equalsIgnoreCase("Create Game 1")){
-				int id = db.createNewGame((String) req.getSession().getAttribute("player"));
-				req.getSession().setAttribute("gameID", id);
-				Game game = db.loadGame(id);
-				game.startMap();
-				req.setAttribute("mode", game.getmode());
-				req.getSession().setAttribute("game", game);
-				req.getSession().setAttribute("exit", false);
-				req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
+		else if (form.startsWith("Create Game")){
+			for (int i = 1; i <= 6; i++) {
+				if (form.endsWith(""+i)) {
+					int id = db.createNewGame((String) req.getSession().getAttribute("player"));
+					req.getSession().setAttribute("gameID", id);
+					Game game = db.loadGame(id);
+					game.startMap();
+					req.setAttribute("mode", game.getmode());
+					req.getSession().setAttribute("game", game);
+					req.getSession().setAttribute("exit", false);
+					req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
+				}
+			}
 		}
-		
+		else if (form.startsWith("Load Game")){
+			Game game = null;
+			for (int i = 1; i <= 6; i++) {
+				if (form.endsWith(""+i)) {
+					game = db.loadGame(games.get(i-1));
+				}
+			}
+			game.startMap();
+			game.setmode("game");
+			req.getSession().setAttribute("game", game);
+			req.setAttribute("mode", game.getmode());
+			req.getSession().setAttribute("exit", false);
+			req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
+		}
 		else if (form.equalsIgnoreCase("Load Game 1")){
 			//Account account = (Account)req.getSession().getAttribute("account");
 			
@@ -99,7 +132,6 @@ public class IndexServlet extends HttpServlet {
 			game.setmode("game");
 			req.getSession().setAttribute("game", game);
 			req.setAttribute("mode", game.getmode());
-			req.getSession().setAttribute("game1", "True");
 			req.getSession().setAttribute("exit", false);
 			req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
 		} else if(form.equalsIgnoreCase("Log out")){
