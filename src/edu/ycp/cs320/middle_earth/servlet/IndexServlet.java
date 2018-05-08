@@ -71,6 +71,7 @@ public class IndexServlet extends HttpServlet {
 				req.getSession().setAttribute("gameID", id);
 				Game game = db.loadGame(id);
 				game.startMap();
+				req.setAttribute("mode", game.getmode());
 				req.getSession().setAttribute("game", game);
 				req.getSession().setAttribute("exit", false);
 				req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
@@ -81,6 +82,7 @@ public class IndexServlet extends HttpServlet {
 			
 			Game game = db.loadGame(games.get(0));
 			game.startMap();
+			game.setmode("game");
 			req.getSession().setAttribute("game", game);
 			req.setAttribute("mode", game.getmode());
 			req.getSession().setAttribute("game1", "True");
