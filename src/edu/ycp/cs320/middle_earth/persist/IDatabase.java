@@ -21,7 +21,6 @@ public interface IDatabase {
 	public ArrayList<Object> getAllObjects();
 	public ArrayList<MapTile> getAllMapTiles();
 	public ArrayList<Character> getAllCharacters();
-	public ArrayList<Inventory> getAllInventories();
 	public ArrayList<Quest> getAllQuests();
 	
 	public Item getItemByID(int itemID);

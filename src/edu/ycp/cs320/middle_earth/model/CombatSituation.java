@@ -251,8 +251,8 @@ public class CombatSituation{
 		
 		// Change player exp
 		int currentXP = ((Player) game.getcharacters().get(playerIndex)).getexperience();
-		((Player) game.getcharacters().get(playerIndex)).setexperience(currentXP + 10);
-		
+		((Player) game.getcharacters().get(playerIndex)).setexperience(currentXP + 300);
+		System.out.println(((Player) game.getplayer()).getlevel() + " " + ((Player) game.getplayer()).getskill_points());
 		// Let player know what they have earned.
 		game.add_dialog("You have been awarded 10 experience!");
 		
