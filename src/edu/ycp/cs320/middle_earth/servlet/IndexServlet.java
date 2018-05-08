@@ -121,7 +121,6 @@ public class IndexServlet extends HttpServlet {
 			}
 			game.setuser(account);
 			game.startMap(account.getusername(), account.getcurrent_game());
-			game.setmode("game");
 			req.getSession().setAttribute("game", game);
 			req.setAttribute("mode", game.getmode());
 			req.getSession().setAttribute("exit", false);
