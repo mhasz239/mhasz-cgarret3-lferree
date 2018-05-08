@@ -259,12 +259,6 @@ public class FakeDatabase implements IDatabase {
 	}
 	
 	@Override
-	public Game loadGame(){
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String getUserPasswordByUserName(String username) {
 		// TODO Auto-generated method stub
 		return null;
@@ -344,6 +338,12 @@ public class FakeDatabase implements IDatabase {
 
 	@Override
 	public Integer createNewGame(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Game loadGame(int gameID) {
 		// TODO Auto-generated method stub
 		return null;
 	}

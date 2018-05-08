@@ -317,6 +317,7 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt13 = null;	// names table
 				PreparedStatement stmt14 = null;	// gamestousers table
 				PreparedStatement stmt15 = null;	// mapstogames table
+				PreparedStatement stmt16 = null;	// playerstogames table
 													//	quests table
 				
 				try {
@@ -512,6 +513,14 @@ public class DerbyDatabase implements IDatabase {
 					);
 					stmt15.executeUpdate();
 					
+					stmt16 = conn.prepareStatement(
+							"create table playerstogames ("
+							+ "playername varchar(20), "
+							+ "game_id int"
+							+ ")"
+					);
+					stmt16.executeUpdate();
+					
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt0);
@@ -530,6 +539,7 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt13);		
 					DBUtil.closeQuietly(stmt14);
 					DBUtil.closeQuietly(stmt15);
+					DBUtil.closeQuietly(stmt16);
 				}
 			}
 		});
@@ -812,114 +822,7 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
-	/**************************************************************************************************
-	 * 										Init new game
-	***************************************************************************************************/
-	
-	public void createMultiplayerGame(String username1, String username2, int mapID) {
-		throw new UnsupportedOperationException("Working on it!");
-	}
-	
-	private Map createMap() {
-		Map map = new Map();
-		System.out.println("Which map will you play?");
-		ArrayList<String> mapNameList = getAllMapNames();
-		for(String mapName : mapNameList) {
-			System.out.println("\t" + mapName);
-		}
-		
-		PreparedStatement createMapTable = null;
-		ResultSet resultSet = null;
-		
-		return map;
-	}
-	
-	@SuppressWarnings("null")
-	private Player createPlayer() {
-		Player player = new Player();
-		Scanner keyboard = null;
-		
-		System.out.println("Choose your name: ");
-		player.setname(keyboard.next());
-		
-		System.out.println("Choose your race: ");
-		System.out.println("Human, Elf, Dwarf");
-		String race = null;
-		
-		while(race != "Elf" && race != "Human" && race != "Dwarf") {
-			keyboard.next();
-		}
-		player.setrace(race);
-		
-		System.out.println("Choose your gender");
-		player.setgender(keyboard.next());
-		
-		/*
-		 * Stat Distribution
-		*/
-		player.setlevel(1);
-		player.sethit_points(100);
-		
-		player.setmagic_points(25);
-		player.setattack(10);
-		player.setdefense(10);
-		player.setspecial_attack(15);
-		player.setspecial_defense(10);
-		
-		player.setcoins(0);
-		player.setlocation(1);
 
-		int carryWeight = 0;
-
-		Item emptyItemSlot = new Item();
-		emptyItemSlot.setattack_bonus(0);
-		emptyItemSlot.setdefense_bonus(0);
-		emptyItemSlot.setdescription_update("You haven't equipped one");
-		emptyItemSlot.sethp_bonus(0);
-		emptyItemSlot.setlvl_requirement(0);
-		emptyItemSlot.setID(0);
-		emptyItemSlot.setIsQuestItem(false);
-		emptyItemSlot.setItemWeight(0);
-		emptyItemSlot.setLongDescription("Empty Slot");
-		emptyItemSlot.setShortDescription("Empty Slot");
-		emptyItemSlot.setName("Empty Slot");
-
-		int itemID;
-		
-		// helm
-		emptyItemSlot.setItemType(ItemType.HELM);
-		player.sethelm(emptyItemSlot);
-		
-		// braces
-		emptyItemSlot.setItemType(ItemType.BRACES);
-		player.setbraces(emptyItemSlot);
-		
-		// chest
-		emptyItemSlot.setItemType(ItemType.CHEST);
-		player.setchest(emptyItemSlot);
-		
-		emptyItemSlot.setItemType(ItemType.LEGS);
-		player.setlegs(emptyItemSlot);
-		
-		// boots
-		emptyItemSlot.setItemType(ItemType.BOOTS);
-		player.setboots(emptyItemSlot);
-		
-		// l_hand
-		emptyItemSlot.setItemType(ItemType.L_HAND);
-		player.setl_hand(emptyItemSlot);
-		
-		// r_hand
-		emptyItemSlot.setItemType(ItemType.R_HAND);
-		player.setr_hand(emptyItemSlot);
-		
-		player.setcarry_weight(20);
-		player.setexperience(0);
-		
-		// Add the sum total of weight to the inventory
-		player.getinventory().setweight(carryWeight);
-		return player;
-	}
 	
 	/**************************************************************************************************
 	 * 										*Get All* Methods
@@ -2173,7 +2076,7 @@ public class DerbyDatabase implements IDatabase {
 	*											load/save game
 	********************************************************************************************************/
 	// Will need to take gameID in future
-	public Game loadGame() {
+	public Game loadGame(int gameID) {
 		
 		Game game = new Game();
 		game.setmap(getMap());
@@ -2190,6 +2093,10 @@ public class DerbyDatabase implements IDatabase {
 		updateMap(game.getmap());
 		updateCharacters(game.getcharacters());
 	} 
+	
+	/**************************************************************************************************
+	 * 										Init new game
+	***************************************************************************************************/
 	
 	@Override
 	public Boolean createNewUser(String username, String password, String email) {
@@ -2216,36 +2123,58 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	public Integer createNewGame(String username) { throw new UnsupportedOperationException(""); }
-/*		return executeTransaction (new Transaction<Integer>() {
+	public Integer createNewGame(String username) { 
+		return executeTransaction (new Transaction<Integer>() {
 			public Integer execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
+				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;
 				ResultSet resultSet = null;
 				
 				try {
 					stmt = conn.prepareStatement(
-							"insert into userstogames (username) values (?) "
+							"insert into gamestousers (username) values (?) "
 					);
 					stmt.setString(1, username);
 					stmt.executeUpdate();
 					
+					Player player = createPlayer();
+					
 					// create userObjects -- stmt 1
-					createWorldForNewGame(username);
+					createWorldForNewGame(player.getname());
 					
-
 					// get gameID from userstogames -- resultSet
+					stmt2 = conn.prepareStatement(
+							"select game_id from gamestousers where gamestousers.username = ?"
+					);
+					stmt2.setString(1, username);
+					resultSet = stmt2.executeQuery();
 					
+					int gameID = 0;
+					while(resultSet.next()) {
+						gameID = resultSet.getInt(1);
+					}
+				
+					stmt3 = conn.prepareStatement(
+							"insert into playerstogames (playername, game_id) values (?, ?) "
+					);
+					stmt3.setString(1, player.getname());
+					stmt3.setInt(2, gameID);
+					
+					insertPlayer(player);
+							
 					return gameID;
 				} finally {
 					DBUtil.closeQuietly(conn);
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(stmt2);
 				}
 			}
 		});
 	}
 	
-	private Boolean createWorldForNewGame(String username) {
+	private Boolean createWorldForNewGame(String playerName) { 
 		return executeTransaction(new Transaction<Boolean>() {
 			public Boolean execute (Connection conn) throws SQLException {
 				PreparedStatement insertMapTile = null;
@@ -2256,8 +2185,15 @@ public class DerbyDatabase implements IDatabase {
 				
 				ArrayList<MapTile> mapTileList = new ArrayList<MapTile>();
 				try {
-					insertMapTile = conn.prepareStatement("insert into maptiles (maptilename, longdescription, shortdescription, difficulty) values (?, ?, ?, ?)");
-					insertMapTileConnections = conn.prepareStatement("insert into maptileconnections "
+					createWildcardMapTileTable(playerName);
+					createWildcardMapTileConnectionsTable(playerName);
+					createWildcardObjectsTable(playerName);
+					createWildcardObjectCommandResponseTable(playerName);
+					createWildcardItemsToObjectsTable(playerName);
+					createWildcardItemsToInventoriesTable(playerName);
+					
+					insertMapTile = conn.prepareStatement("insert into maptiles" + playerName + " (maptilename, longdescription, shortdescription, difficulty) values (?, ?, ?, ?)");
+					insertMapTileConnections = conn.prepareStatement("insert into maptileconnections" + playerName + " "
 							+ "("
 							+ "north,"
 							+ "northeast,"
@@ -2269,25 +2205,18 @@ public class DerbyDatabase implements IDatabase {
 							+ "northwest)"
 							+ " values (?,?,?,?,?,?,?,?)");
 					
-					insertObject = conn.prepareStatement("insert into objects (objectname, longdescription, shortdescription) values (?, ?, ?)");
-					insertItemsToObjects = conn.prepareStatement("insert into itemstoobjects (item_id, object_id) values (?, ?)");
-					insertObjectCommandResponses = conn.prepareStatement(" insert into objectCommandResponses (object_id, command, response) values (?, ?, ?)");
+					insertObject = conn.prepareStatement("insert into objects" + playerName + " (objectname, longdescription, shortdescription) values (?, ?, ?)");
+					insertItemsToObjects = conn.prepareStatement("insert into itemstoobjects" + playerName + " (item_id, object_id) values (?, ?)");
+					insertObjectCommandResponses = conn.prepareStatement(" insert into objectCommandResponses" + playerName + " (object_id, command, response) values (?, ?, ?)");
 					
+					ArrayList<ObjectIDCommandResponse> objectCommandResponseList = InitialData.getObjectCommandResponses();
 					for(ObjectIDCommandResponse objectCommandResponse : objectCommandResponseList) {
-
-					}
-					insertObjectCommandResponses.executeBatch();
-					
-					
-					
-					
-		
-					
-					
-					
-					
-
-					
+						insertObjectCommandResponses.setInt(1, objectCommandResponse.getObjectID());
+						insertObjectCommandResponses.setString(2, objectCommandResponse.getCommand());
+						insertObjectCommandResponses.setString(3, objectCommandResponse.getResponse());
+						
+						insertObjectCommandResponses.addBatch();
+					}					
 				
 					for (MapTile mapTile : mapTileList) {
 						insertMapTile.setString(1, mapTile.getName());
@@ -2296,7 +2225,7 @@ public class DerbyDatabase implements IDatabase {
 						insertMapTile.setInt(4, mapTile.getAreaDifficulty());
 						
 							// Connections for each mapTile
-							int i = 1; 
+							int i = 1;
 							insertMapTileConnections.setInt(i++, mapTile.getConnections().get("north"));
 							insertMapTileConnections.setInt(i++, mapTile.getConnections().get("northeast"));
 							insertMapTileConnections.setInt(i++, mapTile.getConnections().get("east"));
@@ -2323,34 +2252,325 @@ public class DerbyDatabase implements IDatabase {
 											insertItemsToObjects.addBatch();
 										}
 									}
-									// If the object has command responses
-									if(!object.getCommandResponses().isEmpty()) {
-										insertObjectCommandResponses.setInt(1, objectCommandResponse.getObjectID());
-										insertObjectCommandResponses.setString(2, objectCommandResponse.getCommand());
-										insertObjectCommandResponses.setString(3, objectCommandResponse.getResponse());
-										
-										insertObjectCommandResponses.addBatch();
-									}
-					
 									insertObject.addBatch();
 								}
-							}
-							
+							}	
 						insertMapTile.addBatch();
 					}
 					insertObject.executeBatch();
 					insertMapTile.executeBatch();						
 					insertMapTileConnections.executeBatch();
+					insertObjectCommandResponses.executeBatch();
 					
 					return true;
+				} catch (IOException e) {
+					e.printStackTrace();
+					return false;
 				} finally {
 					DBUtil.closeQuietly(conn);
 					DBUtil.closeQuietly(insertObject);
+					DBUtil.closeQuietly(insertItemsToObjects);
+					DBUtil.closeQuietly(insertObjectCommandResponses);
+					DBUtil.closeQuietly(insertMapTileConnections);
+					DBUtil.closeQuietly(insertMapTile);
 				}
 			}
 		});
 	}
-	*/
+	
+	private Boolean insertPlayer(Player player) {
+		return executeTransaction(new Transaction<Boolean>() {
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement insertPlayer = null;
+				try {
+					insertPlayer = conn.prepareStatement("insert into players ("
+							+ "race, name, gender, level, hit_points, "
+							+ "magic_points, attack, defense, sp_attack, sp_defense, "
+							+ "coins, map_location, inventory_id, helm_item_id, braces_item_id, "
+							+ "chest_item_id, legs_item_id, boots_item_id, l_hand_item_id, r_hand_item_id,"
+							+ "experience, carry_weight) "
+							+ "values("
+							+ "?, ?, ?, ?, ?,"
+							+ "?, ?, ?, ?, ?,"
+							+ "?, ?, ?, ?, ?,"
+							+ "?, ?, ?, ?, ?,"
+							+ "?, ?)" );
+					
+						int i = 1;
+						insertPlayer.setString(i++, player.getrace());
+						insertPlayer.setString(i++, player.getname());
+						insertPlayer.setString(i++, player.getgender());
+						insertPlayer.setInt(i++, player.getlevel());
+						insertPlayer.setInt(i++, player.gethit_points());
+						
+						insertPlayer.setInt(i++, player.getmagic_points());
+						insertPlayer.setInt(i++, player.getattack());
+						insertPlayer.setInt(i++, player.getdefense());
+						insertPlayer.setInt(i++, player.getspecial_attack());
+						insertPlayer.setInt(i++, player.getspecial_defense());
+						
+						insertPlayer.setInt(i++, player.getcoins());
+						insertPlayer.setInt(i++, player.getlocation());
+						insertPlayer.setInt(i++, player.getinventory_id());
+						insertPlayer.setInt(i++, player.gethelm().getID());
+						insertPlayer.setInt(i++, player.getbraces().getID());
+						
+						insertPlayer.setInt(i++, player.getchest().getID());
+						insertPlayer.setInt(i++, player.getlegs().getID());
+						insertPlayer.setInt(i++, player.getboots().getID());
+						insertPlayer.setInt(i++, player.getl_hand().getID());
+						insertPlayer.setInt(i++, player.getr_hand().getID());
+						
+						insertPlayer.setInt(i++, player.getexperience());
+						insertPlayer.setInt(i++, player.getcarry_weight());
+							
+						insertPlayer.addBatch();
+					
+					insertPlayer.executeBatch();
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(insertPlayer);
+				}
+			}
+		});
+	}
+	
+	private Boolean createWildcardMapTileTable(String playerName) {
+		return executeTransaction(new Transaction<Boolean>() {
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement(
+							"create table maptiles" + playerName + " (" +
+							"   maptile_id integer primary key " +
+							"       generated always as identity (start with 1, increment by 1), " +
+							"   maptilename varchar(40)," +							
+							"	longdescription varchar(200)," +
+							"	shortdescription varchar(100)," +
+							"	difficulty int" +
+							")"
+					);
+					stmt.executeUpdate();
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	private Boolean createWildcardMapTileConnectionsTable(String playerName) {
+		return executeTransaction(new Transaction<Boolean>() {
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"create table maptileconnections" + playerName + " (" +
+							"   maptile_id integer primary key " +
+							"       generated always as identity (start with 1, increment by 1), " +
+
+							"   north int," +
+							"	northeast int," +
+							"   east int," +							
+							"   southeast int," +							
+							"   south int," +							
+							"   southwest int," +							
+							"   west int," +							
+							"   northwest int" +
+							")"
+					);
+					stmt.executeUpdate();
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	private Boolean createWildcardObjectsTable(String playerName) {
+		return executeTransaction(new Transaction<Boolean>() {
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				try {
+					stmt = conn.prepareStatement(
+						"create table objects" + playerName + " (" +
+						"	object_id integer primary key " +
+						"		generated always as identity (start with 1, increment by 1), " +
+						"	objectname varchar(40)," + 
+						"	longdescription varchar(200)," +
+						"	shortdescription varchar(100)" +
+						")"
+					);
+					stmt.executeUpdate();
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	private Boolean createWildcardItemsToObjectsTable(String playerName) {
+		return executeTransaction(new Transaction<Boolean>() {
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"create table itemstoobjects" + playerName + " (" +
+							"   item_id int," +
+							"   object_id int" +
+							")"
+					);
+					stmt.executeUpdate();
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	private Boolean createWildcardObjectCommandResponseTable(String playerName) {
+		return executeTransaction(new Transaction<Boolean>() {
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"create table objectcommandresponses" + playerName + " ("
+							+ "object_id int, "
+							+ "command varchar(10), "
+							+ "response varchar (100)"
+							+ ")"
+					);
+					stmt.executeUpdate();
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	private Boolean createWildcardItemsToInventoriesTable(String playerName) {
+		return executeTransaction(new Transaction<Boolean>() {
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"create table itemstoinventories" + playerName + " ("
+							+ "item_id int, "
+							+ "inventory_id int"
+							+ ")"
+					);
+					stmt.executeUpdate();
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(conn);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	private Player createPlayer() {
+		Player player = new Player();		
+		
+		Scanner keyboard = new Scanner(System.in);
+		
+		System.out.println("Choose your name: ");
+		player.setname(keyboard.next());
+		
+		String race = "Human";
+		player.setrace(race);
+		
+		System.out.println("Choose your gender");
+		player.setgender(keyboard.next());
+		
+		player.setlevel(1);
+		player.sethit_points(100);
+		
+		player.setmagic_points(25);
+		player.setattack(10);
+		player.setdefense(10);
+		player.setspecial_attack(15);
+		player.setspecial_defense(10);
+		
+		player.setcoins(0);
+		player.setlocation(1);
+
+		int carryWeight = 0;
+
+		Item emptyItemSlot = new Item();
+		emptyItemSlot.setattack_bonus(0);
+		emptyItemSlot.setdefense_bonus(0);
+		emptyItemSlot.setdescription_update("You haven't equipped one");
+		emptyItemSlot.sethp_bonus(0);
+		emptyItemSlot.setlvl_requirement(0);
+		emptyItemSlot.setID(0);
+		emptyItemSlot.setIsQuestItem(false);
+		emptyItemSlot.setItemWeight(0);
+		emptyItemSlot.setLongDescription("Empty Slot");
+		emptyItemSlot.setShortDescription("Empty Slot");
+		emptyItemSlot.setName("Empty Slot");
+		
+		// helm
+		emptyItemSlot.setItemType(ItemType.HELM);
+		player.sethelm(emptyItemSlot);
+		
+		// braces
+		emptyItemSlot.setItemType(ItemType.BRACES);
+		player.setbraces(emptyItemSlot);
+		
+		// chest
+		emptyItemSlot.setItemType(ItemType.CHEST);
+		player.setchest(emptyItemSlot);
+		
+		emptyItemSlot.setItemType(ItemType.LEGS);
+		player.setlegs(emptyItemSlot);
+		
+		// boots
+		emptyItemSlot.setItemType(ItemType.BOOTS);
+		player.setboots(emptyItemSlot);
+		
+		// l_hand
+		emptyItemSlot.setItemType(ItemType.L_HAND);
+		player.setl_hand(emptyItemSlot);
+		
+		// r_hand
+		emptyItemSlot.setItemType(ItemType.R_HAND);
+		player.setr_hand(emptyItemSlot);
+		
+		player.setcarry_weight(20);
+		player.setexperience(0);
+		
+		player.setinventory(new Inventory());
+		
+		// Add the sum total of weight to the inventory
+		player.getinventory().setweight(carryWeight);
+		
+		keyboard.close();
+		
+		return player;
+	}
+	
 	/*******************************************************************************************************
 	 * 										Update Database Methods
 	********************************************************************************************************/

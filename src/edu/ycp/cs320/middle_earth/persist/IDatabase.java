@@ -37,7 +37,7 @@ public interface IDatabase {
 	public void addItemToInventory(Item item, Inventory inventory);
 	public void addItemToObject(Item item, Object object);
 	
-	public Game loadGame();
+	public Game loadGame(int gameID);
 	public void saveGame(Game game);
 	
 	public String getUserPasswordByUserName(String username);
