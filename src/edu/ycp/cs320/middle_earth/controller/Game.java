@@ -554,4 +554,11 @@ public class Game implements Engine{
 		mapIMG.setVisible(false);
 	}
 	
+	public ArrayList<Item> cheatcode() {
+		DatabaseProvider.setInstance(new DerbyDatabase());
+		IDatabase db = DatabaseProvider.getInstance();
+		
+		return db.getAllItems();
+	}
+	
 }

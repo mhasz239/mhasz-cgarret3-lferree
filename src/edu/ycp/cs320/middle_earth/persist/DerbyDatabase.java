@@ -1654,7 +1654,7 @@ public class DerbyDatabase implements IDatabase {
 					stmt = conn.prepareStatement(
 							"select items.item_id "
 							+ "from items "
-							+ "where items.longdescription = 'LEGENDARY'"
+							+ "where items.shortdescription = 'LEGENDARY'"
 							+ "AND items.itemtype = ?"
 					);
 					stmt.setString(1, itemType);
@@ -2727,6 +2727,7 @@ public class DerbyDatabase implements IDatabase {
 		Scanner keyboard = new Scanner(System.in);
 		
 		System.out.println("Choose your name: ");
+		
 		player.setname(keyboard.next());
 		
 		String race = "Human";

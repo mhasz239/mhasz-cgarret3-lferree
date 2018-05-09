@@ -1,18 +1,20 @@
-Pointy Stick|Hmmm… I think this might have served as that troll's toothpick. Wish me luck|A finely pointed stick|You see a dead branch that could be taken and used as a stick.|0|0|0|5|L_HAND|0|0
+Pointy Stick|Hmmm... I think this might have served as that troll's toothpick. Wish me luck|A finely pointed stick|You see a dead branch that could be taken and used as a stick.|0|0|0|5|L_HAND|0|0
 Shabby Tunic|Tattered and torn but crafted from hardy leather|Leather Chest Armor|A Tunic is hanging over a tree branch.|0|0|0|2|CHEST|0|0
 Ornate Key|Hand carved and certainly one of a kind|I wonder if I can use this|You see a glint of a key in the leaves.|0|0|0|0|QUEST|0|0
 Fork|Why. Why do you need more information about this|A fork. That is all|You see a fork stabbed into the tree trunk.|0|0|0|0|MISC|0|0
-Wood Sword|<>|<>|You see a training sword made of wood|3|0|0|5|L_HAND|0|0
-Wood Sword|<>|<>|You see a training sword made of wood|3|0|0|5|R_HAND|0|0
-Wood Shield|<>|<>|You notice a wide peice of wood strapped with leather|0|3|0|5|L_HAND|0|0
-Wood Shield|<>|<>|You notice a wide peice of wood strapped with leather|0|3|0|5|R_HAND|0|0
-Steel Sword|<>|<>|A heavily used steel sword|5|0|0|5|L_HAND|0|0
-Steel Sword|<>|<>|A heavily used steel sword|5|0|0|5|R_HAND|0|0
-Steel Dagger|<>|<>|<>|4|0|0|2|L_HAND|0|0
-Steel Dagger|<>|<>|<>|4|0|0|2|R_HAND|0|0
-Mythril Shortsword|LEGENDARY|<>|This item is truly special|10|0|0|4|L_HAND|0|0
-Dwarven Cudgel|LEGENDARY|<>|The craftsmanship of this item is unparalleled|6|0|0|5|R_HAND|0|0
-Elven Chestpiece|<>|<>|<>|0|6|0|4|CHEST|0|0
-Orcish Boots|<>|<>|<>|0|2|0|4|BOOTS|0|0
-Mythril Leggings|LEGENDARY|<>|They feel as light as air and glow with a strange hue|0|7|0|0|LEGS|0|0
-Dwarven Gauntlets|<>|<>|They are heavy but are they ready to be thrown down|0|4|0|6|BRACES|0|0
+Wood Sword|A training sword. Looks likes its a lefty.|<>|You see a training sword made of wood|3|0|0|5|L_HAND|0|0
+Wood Sword|A training sword. Looks like its for a right handed person.|<>|You see a training sword made of wood|3|0|0|5|R_HAND|0|0
+Wood Shield|A wooden shield. Should help some.|<>|You notice a wide peice of wood strapped with leather|0|3|0|5|L_HAND|0|0
+Wood Shield|A wooden shield. Should help some.|<>|You notice a wide peice of wood strapped with leather|0|3|0|5|R_HAND|0|0
+Steel Sword|A finely sharpened blade.|<>|A heavily used steel sword|5|0|0|5|L_HAND|0|0
+Steel Sword|A finely sharpened blade.|<>|A heavily used steel sword|5|0|0|5|R_HAND|0|0
+Steel Dagger|Small but deadly.|<>|<>|4|0|0|2|L_HAND|0|0
+Steel Dagger|Small but deadly.|<>|<>|4|0|0|2|R_HAND|0|0
+Mythril Shortsword|LEGENDARY: This will certainly turn the tides of battle.|LEGENDARY|This item is truly special|10|0|0|4|L_HAND|0|0
+Dwarven Cudgel|LEGENDARY: With this you can bludgeon your enemies to death.|LEGENDARY|The craftsmanship of this item is unparalleled|8|0|0|5|R_HAND|0|0
+Elven Chestpiece|Exquisite work makes this Chestpiece light yet extremely durable.|<>|<>|0|6|0|4|CHEST|0|0
+Orcish Boots|Hmmm... Shouldn't be caught wearing these.|<>|<>|0|2|0|4|BOOTS|0|0
+Mythril Leggings|LEGENDARY: Built to last a lifetime.|LEGENDARY|They feel as light as air and glow with a strange hue|0|7|0|3|LEGS|0|0
+Dwarven Vambraces|LEGENDARY: These will certainly help you guard from and attack your enemies.|LEGENDARY|They are heavy but are they ready to be thrown down|2|4|0|6|BRACES|0|0
+Wood Helm|Probably won't do much, but makes you feel safer.|<>|Probably won't do much, but makes you feel safer|0|1|0|3|HELM|0|0
+Mythril Chestplate|LEGENDARY: You feel invincible! Nothing will get thru this.|LEGENDARY|You feel invincible! Nothing will get thru this|0|8|0|10|CHEST|0|0

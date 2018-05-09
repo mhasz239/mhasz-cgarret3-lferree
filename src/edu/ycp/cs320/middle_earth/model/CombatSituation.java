@@ -211,7 +211,7 @@ public class CombatSituation{
 		
 		// Do damage to player
 		int playerHP = player.gethit_points();
-		int damage = calculateDamage(game, playerIndex, characterIDs.get(currentIDsIndex));
+		int damage = calculateDamage(game, characterIDs.get(currentIDsIndex), playerIndex);
 		player.sethit_points(playerHP - damage);
 		game.add_dialog(enemy.getname() + " attacked you for " + damage + " damage.");
 		//game.add_dialog("You have " + player.gethit_points() + " HP left.");

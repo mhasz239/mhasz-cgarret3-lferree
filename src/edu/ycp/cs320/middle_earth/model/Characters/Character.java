@@ -150,6 +150,24 @@ public abstract class Character{
 		this.helm = helm;
 	}
 	
+	public void remove(String type){
+		if (type.equalsIgnoreCase("head")) {
+			this.helm = null;
+		} else if (type.equalsIgnoreCase("chest")) {
+			this.chest = null;
+		} else if (type.equalsIgnoreCase("arms")) {
+			this.braces = null;
+		} else if (type.equalsIgnoreCase("lhand")) {
+			this.l_hand = null;
+		} else if (type.equalsIgnoreCase("rhand")) {
+			this.r_hand = null;
+		} else if (type.equalsIgnoreCase("legs")) {
+			this.legs = null;
+		} else if (type.equalsIgnoreCase("boots")) {
+			this.boots = null;
+		}
+	}
+	
 	public Item gethelm(){
 		return helm;
 	}
@@ -160,6 +178,7 @@ public abstract class Character{
 		}
 		this.braces = braces;
 	}
+	
 	
 	public Item getbraces(){
 		return braces;

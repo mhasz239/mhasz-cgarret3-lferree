@@ -96,6 +96,7 @@ public class MapPanel  extends JPanel implements Runnable {
 		File currentDirFile = new File(".");
 		String path = currentDirFile.getAbsolutePath();
 		path = path.substring(0, path.length()-1);
+		System.out.println(username+gameID);
 		if (this.username == "new") {
 			tileMap = new TileMap((path + "src/edu/ycp/cs320/middle_earth/images/map5-5.txt"), 80, tile);
 		} else {

@@ -107,6 +107,7 @@ public class IndexServlet extends HttpServlet {
 			Game game = db.loadGame(id);
 			game.startMap("new", id);
 			game.setuser(account);
+			game.save();
 			req.setAttribute("mode", game.getmode());
 			req.getSession().setAttribute("game", game);
 			req.getSession().setAttribute("exit", false);
@@ -117,6 +118,7 @@ public class IndexServlet extends HttpServlet {
 			for (int i = 1; i <= 6; i++) {
 				if (form.endsWith(""+i)) {
 					game = db.loadGame(games.get(i-1));
+					account.setcurrent_game(games.get(i-1));
 				}
 			}
 			game.setuser(account);
@@ -127,6 +129,17 @@ public class IndexServlet extends HttpServlet {
 			req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
 		} else if(form.equalsIgnoreCase("Log out")){
 			req.getSession().setAttribute("player", "");
+			req.getSession().setAttribute("game1", "");
+			req.getSession().setAttribute("game2", "");
+			req.getSession().setAttribute("game3", "");
+			req.getSession().setAttribute("game4", "");
+			req.getSession().setAttribute("game5", "");
+			req.getSession().setAttribute("game6", "");
+			req.getSession().setAttribute("game", null);
+			
+			req.getSession().getAttributeNames();
+				
+			
 			req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
 		} else if(form.equalsIgnoreCase("Create Account")){
 			req.getRequestDispatcher("/_view/account.jsp").forward(req, resp);

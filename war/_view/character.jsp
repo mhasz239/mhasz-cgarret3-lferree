@@ -115,6 +115,18 @@
    	 		border-width:2px;
    	 		border-style: solid;
    	 	}
+   	 	#boots{
+   	 		position:relative;
+   	 		left: -25px;
+   	 		top: -50px;
+   	 		width: 50px;
+   	 		height: 50px;
+   	 		z-index: 20;
+   	 		background-color:white;
+   	 		border-color: black;
+   	 		border-width:2px;
+   	 		border-style: solid;
+   	 	}
    	 	#right{
    	 		float: left;
    	 		height: 300px;
@@ -122,7 +134,7 @@
    	 	}
    	 	.inline {
         	display: inline;
-        	padding-right:18px;
+        	padding-right:12px;
         }
         #stat {
         	padding-right:75px;
@@ -131,7 +143,7 @@
         	display: inline;
         	float: left;
         	width: 50px;
-        	height: 62px;
+        	height: 50px;
         	font-size: 12px;
         }
         .hidden {
@@ -205,6 +217,12 @@
 		    	console.log("legs");
 		    	var x = document.getElementById("legsForm");
 		    	x.elements["legs"].value = data;
+		    	x.submit();
+		    }
+		    else if (ev.target.id == "boots" || ev.target.parentElement.id == "boots"|| ev.target.parentElement.parentElement.id == "boots") {
+		    	console.log("boots");
+		    	var x = document.getElementById("bootsForm");
+		    	x.elements["boots"].value = data;
 		    	x.submit();
 		    }
 		    else if (ev.target.id == "right" ||ev.target.parentElement.id == "right" || ev.target.parentElement.parentElement.id == "right" ) {
@@ -312,6 +330,14 @@
     				<img id="legsIMG" style="width:100%; top:-54px;" src="${pageContext.request.contextPath}/image/items/${legsIMG}.png" draggable="true" ondragstart="drag(event)"/>
     			</c:if>
     		</div>
+    		<div id="boots" ondrop="drop(event)" ondragover="allowDrop(event)">
+    			<form id="bootsForm" action="${pageContext.servletContext.contextPath}/character" method="post">
+					<input type="hidden" name="boots" value="">
+    			</form>
+    			<c:if test="${! empty bootsIMG}">
+    				<img id="bootsIMG" style="width:100%; top:-54px;" src="${pageContext.request.contextPath}/image/items/${bootsIMG}.png" draggable="true" ondragstart="drag(event)"/>
+    			</c:if>
+    		</div>
 		</div>
 	</div>
 	<div id="right" ondrop="drop(event)" ondragover="allowDrop(event)">
@@ -320,7 +346,6 @@
     	</form>
 		<c:forEach items="${itemTest}" var = "i" >
 			<div class="item" >
-				<p>${i.name}</p>
 				<img id="${i.name}" style="width:100%" src="${pageContext.request.contextPath}/image/items/${i.description_update}.png" draggable="true" ondragstart="drag(event)"/>
 				<div class="hidden">
 					<h3><b>${i.name}</b></h3>
