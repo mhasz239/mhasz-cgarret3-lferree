@@ -26,8 +26,9 @@ public abstract class Character{
 	private Item l_hand;
 	private Item r_hand;
 
-	public Character() {
-		
+	public Character(){
+		level = 1;
+		inventory = new Inventory();
 	}
 	
 	public String getrace(){
@@ -144,7 +145,7 @@ public abstract class Character{
 	
 	public void sethelm(Item helm) {
 		if(helm.getItemType() != ItemType.HELM){
-			//throw new IllegalArgumentException("This must be a helm!");
+			throw new IllegalArgumentException("This must be a helm!");
 		}
 		this.helm = helm;
 	}

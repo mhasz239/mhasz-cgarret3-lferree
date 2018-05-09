@@ -316,11 +316,11 @@ public class CombatSituation{
 		player.setexperience(currentXP + 300);
 		System.out.println(player.getlevel() + " " + player.getskill_points());
 		// Let player know what they have earned.
-		game.add_dialog("You have been awarded 10 experience!");
+		game.add_dialog("You have been awarded 300 experience!");
 		
-		// Determine award items
+		// Get Database
+		InitDatabase.init();
 		IDatabase db = DatabaseProvider.getInstance();
-		
 		
 		// Determine if boss fight or not (for legendary drop or not)
 		if(game.getcharacters().get(killedIndex).getrace().equalsIgnoreCase("Greater Demon")){
