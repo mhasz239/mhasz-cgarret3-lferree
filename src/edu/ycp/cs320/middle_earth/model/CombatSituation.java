@@ -307,26 +307,25 @@ public class CombatSituation{
 		// Let player know what they have done.
 		game.add_dialog("You killed " + game.getcharacters().get(killedIndex).getname() + "!");
 		
+		// Get the player
+		Player player = ((Player) game.getcharacters().get(playerIndex));
+		
 		// Change player exp
-		int currentXP = ((Player) game.getcharacters().get(playerIndex)).getexperience();
-		((Player) game.getcharacters().get(playerIndex)).setexperience(currentXP + 300);
-		System.out.println(((Player) game.getplayer()).getlevel() + " " + ((Player) game.getplayer()).getskill_points());
+		int currentXP = player.getexperience();
+		player.setexperience(currentXP + 300);
+		System.out.println(player.getlevel() + " " + player.getskill_points());
 		// Let player know what they have earned.
 		game.add_dialog("You have been awarded 10 experience!");
 		
-		// TODO: Award item(s)
-		/*
-		 * db.getArmorItem()
-        db.getHandHeldItem()
-        db.getLegendaryItem()
-        db.getArmorItem(armorType)
-        db.getHandHeldItem(whichHand)
-        db.getLegendaryItem(itemType)
-		 */
+		// Determine award items
 		IDatabase db = DatabaseProvider.getInstance();
 		Item armorReward = db.getArmorItem();
 		Item handReward = db.getHandHeldItem();
 		
+		// Give items to player
+		player.getinventory().getitems().add(armorReward);
+		player.getinventory().getitems().add(handReward);
+		game.add_dialog("You got a " + armorReward.getName() + " and a " + handReward.getName() + "!");
 		
 		// Default is done
 		done = true;
