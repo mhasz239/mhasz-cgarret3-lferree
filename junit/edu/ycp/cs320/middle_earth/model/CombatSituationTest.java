@@ -64,8 +64,8 @@ public class CombatSituationTest{
 		ArrayList<String> races = new ArrayList<String>();
 		races.add("Goblin");
 		
-		// Create the Enemy
-		Enemy enemy = battle.createEnemy(races);
+		// Create the Enemy on mapTile (playerLocation) 4
+		Enemy enemy = battle.createEnemy(races, 4);
 		
 		// Check that Stats and Stuff are correct (based on current setup)
 		assertEquals(10, enemy.getattack());
