@@ -19,13 +19,13 @@ public class PlayerTest{
 	
 	@Test
 	public void testsetExperience(){
-		player.setexperience(938);
+		player.setexperience(6);
 		
-		assertEquals(938, player.getexperience());
+		assertEquals(6, player.getexperience());
 		
-		player.setexperience(2834);
+		player.setexperience(42);
 		
-		assertEquals(2834, player.getexperience());
+		assertEquals(42, player.getexperience());
 	}
 	
 	@Test

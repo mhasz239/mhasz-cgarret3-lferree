@@ -10,7 +10,7 @@ public class Inventory{
 	private int inventory_id;
 	
 	public Inventory(){
-		
+		items = new ArrayList<Item>();
 	};
 	
 	public ArrayList<Item> getitems(){

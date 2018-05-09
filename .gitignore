@@ -7,3 +7,4 @@ workspace.xml
 /test.db/
 /derby.log/
 /map.jpeg
+derby.log

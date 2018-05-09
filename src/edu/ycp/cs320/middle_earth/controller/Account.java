@@ -128,6 +128,7 @@ public class Account{
 		IDatabase db = DatabaseProvider.getInstance();
 		
 		if (password.equals(db.getUserPasswordByUserName(username))) {
+			setusername(username);
 			return "Success!";
 		} else {
 			return "Invalid Username or Password";

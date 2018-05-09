@@ -51,7 +51,8 @@ public class CombatSituationTest{
 		
 		// Check that dialog was updated appropriately
 		assertEquals(1, game.getdialog().size());
-		assertEquals("Me is staring into the eyes of a Goblin", game.getdialog().get(0));
+		assertEquals("Me is staring into the eyes of a " + game.getcharacters().get(battle.getCharacterIDs().get(1)).getrace(), 
+				game.getdialog().get(0));
     
 		// Check that done is false
 		assertEquals(false, battle.isDone());
@@ -59,15 +60,19 @@ public class CombatSituationTest{
 	
 	@Test
 	public void testCreateEnemy(){
+		// Create races list
+		ArrayList<String> races = new ArrayList<String>();
+		races.add("Goblin");
+		
 		// Create the Enemy
-		Enemy enemy = battle.createEnemy();
+		Enemy enemy = battle.createEnemy(races);
 		
 		// Check that Stats and Stuff are correct (based on current setup)
 		assertEquals(10, enemy.getattack());
 		assertEquals(0, enemy.getdefense());
-		assertEquals(100, enemy.gethit_points());
+		assertEquals(50, enemy.gethit_points());
 		assertEquals(1, enemy.getlevel());
-		assertEquals("Bob", enemy.getname());
+		assertTrue(enemy.getname() != null);
 		assertEquals("Goblin", enemy.getrace());
 	}
 	
@@ -520,13 +525,15 @@ public class CombatSituationTest{
 		battle.doPlayerWon(game, 0, 1);
 		
 		// Check that dialog was added to appropriately
-		assertEquals(4, game.getdialog().size());
-		assertEquals("You killed Bob!", game.getdialog().get(1));
-		assertEquals("You have been awarded 10 experience!", game.getdialog().get(2));
-		assertEquals("You have killed everyone! (in this combat situation here)", game.getdialog().get(3));
+		assertEquals(5, game.getdialog().size());
+		assertEquals("You killed " + game.getcharacters().get(battle.getCharacterIDs().get(1)).getname() + "!", 
+				game.getdialog().get(1));
+		assertEquals("You have been awarded 300 experience!", game.getdialog().get(2));
+		// Skip getting items line
+		assertEquals("You have killed everyone! (in this combat situation here)", game.getdialog().get(4));
 		
-		// Check that Player got 10 experience
-		assertEquals(10, player.getexperience());
+		// Check that Player got 300 experience (levels work it out to 150)
+		assertEquals(150, player.getexperience());
 		
 		// Check that Battle is Done
 		assertEquals(true, battle.isDone());

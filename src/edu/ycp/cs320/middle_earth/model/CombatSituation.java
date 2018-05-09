@@ -7,6 +7,7 @@ import edu.ycp.cs320.middle_earth.controller.Game;
 import edu.ycp.cs320.middle_earth.model.Characters.Character;
 import edu.ycp.cs320.middle_earth.model.Characters.Enemy;
 import edu.ycp.cs320.middle_earth.model.Characters.Player;
+import edu.ycp.cs320.middle_earth.model.Constructs.Item;
 import edu.ycp.cs320.middle_earth.persist.DatabaseProvider;
 import edu.ycp.cs320.middle_earth.persist.IDatabase;
 import edu.ycp.cs320.middle_earth.persist.InitDatabase;
@@ -22,10 +23,30 @@ public class CombatSituation{
 	 * @param enemies How many Enemies in this CombatSituation
 	 * @param players Any Players involved in the Combat.
 	 */
-	public CombatSituation(Game game, int enemies, int ... players){
+	public CombatSituation(Game game, int enemies, int ... players){		
+		setup(game, enemies, null, players);
+	}
+	
+	/**
+	 * @param game The Game this is happening in
+	 * @param enemies How many Enemies in this CombatSituation
+	 * @param races The possible races separated by commas (if more than 1 race)
+	 * @param players Any Players involved in the Combat.
+	 */
+	public CombatSituation(Game game, int enemies, String races, int ... players){
+		setup(game, enemies, races, players);
+	}
+	
+	// Actually does the work of the constructors
+	public void setup(Game game, int enemies, String races, int[] players){
+		// Change game mode to combat
 		game.setmode("combat");
-		characterIDs = new ArrayList<Integer>();
+		
+		// Initialize combat string and character IDs ArrayList
 		String combatString = "";
+		characterIDs = new ArrayList<Integer>();
+		
+		// Add player ids to ArrayList and names to combat string
 		for(int i = 0; i < players.length; i++){
 			characterIDs.add(players[i]);
 			if(i == 0){
@@ -33,27 +54,59 @@ public class CombatSituation{
 			}else if(i != players.length - 1){
 				combatString += ", " + game.getcharacters().get(i).getname();
 			}else{
-				combatString += " and " + game.getcharacters().get(i).getname() + " have entered combat!";
+				combatString += " and " + game.getcharacters().get(i).getname();
 			}
 		}
+		
+		// Initialize Random
 		random = new Random(System.nanoTime());
+		
+		// Convert races to ArrayList
+		ArrayList<String> raceList = new ArrayList<String>();
+		if(races != null){
+			if(races.contains(",")){
+				String[] raceSplit = races.split(",");
+				for(String race: raceSplit){
+					raceList.add(race);
+				}
+			}else{
+				// Simply one race
+				raceList.add(races);
+			}
+			// If null, do nothing (empty ArrayList)
+		}
+		
+		// Figure out is/are based on how many players to add to combat string
+		if(players.length > 1){
+			combatString += " are";
+		}else{
+			combatString += " is";
+		}
+		
+		// Add enemies to combat
 		for(int i = 0; i < enemies; i++){
-			Enemy enemy = createEnemy();
+			Enemy enemy = createEnemy(raceList);
 			// set enemy level to "areaDifficulty" of maptile == player location.
 			// enemy.setlevel(game.map.get(player.getlocation).getAreaDifficulty);
 	
 			game.getcharacters().add(enemy);
 			characterIDs.add(game.getcharacters().size() - 1);
 			if(i == 0){
-				combatString += " is staring into the eyes of a " + enemy.getrace();
+				combatString += " staring into the eyes of a " + enemy.getrace();
 			}else if(i != enemies - 1){
 				combatString += ", a " + enemy.getrace();
 			}else{
 				combatString += " and a " + enemy.getrace(); 
 			}
 		}
+		
+		// Add the combat string to Game's dialog
 		game.add_dialog(combatString);
+		
+		// Set done to false
 		done = false;
+		
+		// Initialize current ID index
 		currentIDsIndex = 0;
 	}
 	
@@ -65,13 +118,18 @@ public class CombatSituation{
 		return currentIDsIndex;
 	}
 	
-	public Enemy createEnemy(){
-		// Grabs a random enemy
+	public Enemy createEnemy(ArrayList<String> races){
+		// Initialize database and stuff
 		InitDatabase.init();
 		IDatabase db = DatabaseProvider.getInstance();
-		ArrayList<String> enemyRaceList = db.getAllEnemyRaces();
-		Random rand = new Random();
-		return db.getEnemyByRace(enemyRaceList.get(rand.nextInt(enemyRaceList.size() - 1)));
+		
+		// If races is empty, get all races from the database instead.
+		if(races.size() == 0){
+			races = db.getAllEnemyRaces();
+		}
+		
+		// Return an enemy by a random race from the list
+		return db.getEnemyByRace(races.get(random.nextInt(races.size())));
 	}
 	
 	public void playerAttackEnemy(Game game, int playerIndex, String target){
@@ -100,6 +158,7 @@ public class CombatSituation{
 				
 				// Check if the enemy is dead
 				if(enemy.gethit_points() <= 0){
+					enemy.sethit_points(0);
 					doPlayerWon(game, playerIndex, enemyIndex);
 				}
 				
@@ -249,12 +308,38 @@ public class CombatSituation{
 		// Let player know what they have done.
 		game.add_dialog("You killed " + game.getcharacters().get(killedIndex).getname() + "!");
 		
+		// Get the player
+		Player player = ((Player) game.getcharacters().get(playerIndex));
+		
 		// Change player exp
-		int currentXP = ((Player) game.getcharacters().get(playerIndex)).getexperience();
-		((Player) game.getcharacters().get(playerIndex)).setexperience(currentXP + 300);
-		System.out.println(((Player) game.getplayer()).getlevel() + " " + ((Player) game.getplayer()).getskill_points());
+		int currentXP = player.getexperience();
+		player.setexperience(currentXP + 300);
+		System.out.println(player.getlevel() + " " + player.getskill_points());
 		// Let player know what they have earned.
-		game.add_dialog("You have been awarded 10 experience!");
+		game.add_dialog("You have been awarded 300 experience!");
+		
+		// Get Database
+		InitDatabase.init();
+		IDatabase db = DatabaseProvider.getInstance();
+		
+		// Determine if boss fight or not (for legendary drop or not)
+		if(game.getcharacters().get(killedIndex).getrace().equalsIgnoreCase("Greater Demon")){
+			// Get a legendary hand
+			Item handReward = db.getLegendaryItem("R_HAND");
+			
+			// Give player the hand
+			player.getinventory().getitems().add(handReward);
+			game.add_dialog("The Greater Demon dropped a " + handReward.getName() + "!");
+		}else{
+			// Get an armor and a hand
+			Item armorReward = db.getArmorItem();
+			Item handReward = db.getHandHeldItem();
+			
+			// Give items to player
+			player.getinventory().getitems().add(armorReward);
+			player.getinventory().getitems().add(handReward);
+			game.add_dialog("You got a " + armorReward.getName() + " and a " + handReward.getName() + "!");
+		}
 		
 		// Default is done
 		done = true;

@@ -58,27 +58,28 @@ public class AccountTest{
 	@Test
 	public void testCreate_Account(){
 		// Try to create account and get response
-		String response = account.create_account("New User", "New Password", "new_user@example.com");
+		String response = account.create_account("New User", "New Password2", "new_user@example.com");
 		
 		// Check that the response is a success
-		assertEquals("", response);
+		assertEquals("Successful", response);
 	}
 	
 	@Test
 	public void testCreate_AccountUsernameTaken(){
 		// Try to create account and get response
-		String response = account.create_account("lferree", "Imma_steal_his_acc_;)", "theREALtadukoo@something.com");
+		String response = account.create_account("lferree", "Imma_steal_his_acc2_;)", "theREALtadukoo@something.com");
 		
 		// Check that the response is a failure
-		assertEquals("Error", response);
+		assertEquals("\nSorry that Username is already taken.", response);
 	}
 	
 	@Test
 	public void testCreate_AccountEmailTaken(){
-		account.create_account("Totally New", "yeah_Im_new", "lferree@ycp.edu");
+		// Try to create account and get response
+		String response = account.create_account("Totally New", "yeah_Im_new3", "lferree@ycp.edu");
 		
-		// TODO: JUNIT: Test that it fails somehow? Perhaps an errorMessage in Account?
-		throw new UnsupportedOperationException("Not sure how to test this yet... Doesn't matter though it's not implemented");
+		// Check that the response is a failure
+		assertEquals("\nSorry it seems you've already have an account with that email.", response);
 	}
 	
 	@Test
@@ -89,15 +90,14 @@ public class AccountTest{
 		// Check that response is accurate
 		assertEquals("Success!", response);
 		
-		// TODO: JUNIT: Test that user_token and game_id are set
-		//assertEquals(3, account.getuser_token());
-		//assertEquals(1, account.getgame_id());
+		// Test that user_token and game_id are set
+		assertEquals("lferree", account.getusername());
 	}
 	
 	@Test
 	public void testLoginUsernameDoesntExist(){
 		// Run the login and get response
-		String response = account.login("Derp Not Here", "anything_really");
+		String response = account.login("Derp Not Here", "anything_really7");
 		
 		// Check that response is accurate
 		assertEquals("Invalid Username or Password", response);
@@ -110,7 +110,7 @@ public class AccountTest{
 	@Test
 	public void testLoginIncorrectPassword(){
 		// Run the login and get response
-		String response = account.login("lferree", "not_my_password");
+		String response = account.login("lferree", "not_my_password9");
 		
 		// Check that response is accurate
 		assertEquals("Invalid Username or Password", response);
