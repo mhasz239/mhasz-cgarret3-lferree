@@ -18,7 +18,7 @@ public class Player extends Character{
 		for (int i = 1; i <= 20; i ++) {
 			lvl_up.put(i, i*50);
 		}
-		
+		experience = 0;
 	};
 	
 	public int getexperience(){

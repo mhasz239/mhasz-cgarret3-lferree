@@ -158,6 +158,7 @@ public class CombatSituation{
 				
 				// Check if the enemy is dead
 				if(enemy.gethit_points() <= 0){
+					enemy.sethit_points(0);
 					doPlayerWon(game, playerIndex, enemyIndex);
 				}
 				
@@ -319,13 +320,26 @@ public class CombatSituation{
 		
 		// Determine award items
 		IDatabase db = DatabaseProvider.getInstance();
-		Item armorReward = db.getArmorItem();
-		Item handReward = db.getHandHeldItem();
 		
-		// Give items to player
-		player.getinventory().getitems().add(armorReward);
-		player.getinventory().getitems().add(handReward);
-		game.add_dialog("You got a " + armorReward.getName() + " and a " + handReward.getName() + "!");
+		
+		// Determine if boss fight or not (for legendary drop or not)
+		if(game.getcharacters().get(killedIndex).getrace().equalsIgnoreCase("Greater Demon")){
+			// Get a legendary hand
+			Item handReward = db.getLegendaryItem("R_HAND");
+			
+			// Give player the hand
+			player.getinventory().getitems().add(handReward);
+			game.add_dialog("The Greater Demon dropped a " + handReward.getName() + "!");
+		}else{
+			// Get an armor and a hand
+			Item armorReward = db.getArmorItem();
+			Item handReward = db.getHandHeldItem();
+			
+			// Give items to player
+			player.getinventory().getitems().add(armorReward);
+			player.getinventory().getitems().add(handReward);
+			game.add_dialog("You got a " + armorReward.getName() + " and a " + handReward.getName() + "!");
+		}
 		
 		// Default is done
 		done = true;
