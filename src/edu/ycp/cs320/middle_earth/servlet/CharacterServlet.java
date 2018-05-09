@@ -77,8 +77,11 @@ public class CharacterServlet extends HttpServlet {
     	Player player = (Player) game.getplayer();
     	
     	if (req.getParameter("remove") != null) {
+    		req.getSession().setAttribute(req.getParameter("remove"), "");
+    		System.out.println(req.getParameter("remove"));
     		String type = (String) req.getParameter("remove").substring(0, req.getParameter("remove").length()-3);
     		player.remove(type);
+    		
     		req.setAttribute(req.getParameter("remove"), null);
     	}
     	

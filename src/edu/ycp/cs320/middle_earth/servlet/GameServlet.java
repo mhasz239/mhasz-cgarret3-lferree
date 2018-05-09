@@ -96,19 +96,19 @@ public class GameServlet extends HttpServlet {
     			req.setAttribute("e1", e1);
     			req.setAttribute("e1Name", e1.getname());
     			req.setAttribute("e1Health", e1.gethit_points());
-    			req.setAttribute("e1Race", e1.getrace());
+    			req.setAttribute("e1Race", e1.getrace().replaceAll(" ", ""));
     		}
     		if (e2 != null) {
     			req.setAttribute("e2", e2);
     			req.setAttribute("e2Name", e2.getname());
     			req.setAttribute("e2Health", e2.gethit_points());
-    			req.setAttribute("e2Race", e2.getrace());
+    			req.setAttribute("e2Race", e2.getrace().replaceAll(" ", ""));
     		}
     		if (e3 != null) {
     			req.setAttribute("e3", e3);
     			req.setAttribute("e3Name", e3.getname());
     			req.setAttribute("e3Health", e3.gethit_points());
-    			req.setAttribute("e3Race", e3.getrace());
+    			req.setAttribute("e3Race", e3.getrace().replaceAll(" ", ""));
     		}
         	req.getRequestDispatcher("/_view/combat.jsp").forward(req, resp);
         }

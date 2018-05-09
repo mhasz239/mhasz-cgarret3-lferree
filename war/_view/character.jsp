@@ -225,7 +225,7 @@
 		    	x.elements["boots"].value = data;
 		    	x.submit();
 		    }
-		    else if (ev.target.id == "right" ||ev.target.parentElement.id == "right" || ev.target.parentElement.parentElement.id == "right" ) {
+		    else if (ev.target.id == "right" ||ev.target.parentElement.id == "right" || ev.target.parentElement.parentElement.id == "right"  || ev.target.parentElement.parentElement.parentElement.id == "right"  || ev.target.parentElement.parentElement.parentElement.parentElement.id == "right"  || ev.target.parentElement.parentElement.parentElement.parentElement.parentElement.id == "right"  || ev.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.id == "right" ) {
 		    	var x = document.getElementById("unequip");
 		    	x.elements["remove"].value = data;
 		    	x.submit();
@@ -247,7 +247,7 @@
     				<li>health: <button class="btn btn-danger" onclick="lowerHitpoints()">-</button><span id="hitpoints">${hp}</span><button class="btn btn-success" onclick="raiseHitpoints()">+</button></li>
     			</c:when>
     			<c:otherwise>
-					<li>health: ${hp}</li>
+					<li>health: <span id="hitpoints">${hp}</span></li>
 				</c:otherwise>
 			</c:choose>
 			<li>coins: ${coins}</li>
@@ -270,11 +270,11 @@
     		</c:when>
     		<c:otherwise>
 				<ul>
-					<li>attack: ${attack}</li>
-					<li>defense: ${defense}</li>
-					<li>special attack: ${specialAttack}</li>
-					<li>special defense: ${specialDefense}</li>
-					<li>magic: ${magic}</li>
+					<li>attack: <span id="att">${attack}<span id="skillpoints"></span></li>
+					<li>defense: <span id="def">${defense}</span></li>
+					<li>special attack: <span id="specatt">${specialAttack}</span></li>
+					<li>special defense: <span id="specdef">${specialDefense}</span></li>
+					<li>magic: <span id="mag">${magic}</span></li>
 				</ul>
 			</c:otherwise>
 		</c:choose>
@@ -483,7 +483,7 @@ function raiseSpecAtt() {
 
 function lowerSpecDef() {
 	
-	if (rspecadef > 0) {
+	if (rspecdef > 0) {
 		rspecdef = rspecdef - 1;
 		specdef = specdef - 1
 		skillpoints = skillpoints + 1;
@@ -497,7 +497,7 @@ function raiseSpecDef() {
 		specdef = specdef + 1
 		skillpoints = skillpoints - 1;
 		document.getElementById("skillpoints").innerHTML = skillpoints;
-		document.getElementById("specdef").innerHTML = specadef;
+		document.getElementById("specdef").innerHTML = specdef;
 	}
 }
 
