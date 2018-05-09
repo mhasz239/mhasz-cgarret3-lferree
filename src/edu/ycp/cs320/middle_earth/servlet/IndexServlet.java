@@ -95,11 +95,9 @@ public class IndexServlet extends HttpServlet {
 			}
 		}
 		else if (form.startsWith("Create Game")){
-			for (int i = 1; i <= 6; i++) {
-				if (form.endsWith(""+i)) {
-					req.getSession().setAttribute("game"+i, "True");
-				}
-			}
+			int size = db.getGameIDs(account.getusername()).size();
+			
+			req.getSession().setAttribute("game"+(size+1), "True");
 
 			int id = db.createNewGame((String) req.getSession().getAttribute("player"));
 			req.getSession().setAttribute("gameID", id);

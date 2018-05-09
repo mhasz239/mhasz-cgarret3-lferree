@@ -75,8 +75,8 @@
 			<p>
 				The basics of the game are as follows:<br/></br>
 
-				Switching display: There are 4 displays you can use to switch between them you simply type their name in the command box.</br>
-				The 4 displays are: game, inventory, character, map</br></br>
+				Switching display: There are 3 displays you can use to switch between them you simply type their name in the command box.</br>
+				The 3 displays are: game, character (displays stats and inventory), map.</br></br>
 
 				Movement: "move (direction)" directions are north, northeast, east, southeast, south, southwest, west, northwest<br/></br>
 

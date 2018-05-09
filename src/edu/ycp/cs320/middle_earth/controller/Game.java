@@ -141,7 +141,9 @@ public class Game implements Engine{
 		String objectUpdate = "";
 		if (objects != null) {
 			for (Object object : objects) {
-				objectUpdate = object.getdescription_update();
+				if (object.getdescription_update() != null) {
+					objectUpdate = object.getdescription_update();
+				}
 			}
 		}
 		return map.getMapTiles().get(getplayer().getlocation()).getLongDescription() + objectUpdate;
