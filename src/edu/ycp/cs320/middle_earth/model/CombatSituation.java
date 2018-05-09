@@ -129,7 +129,9 @@ public class CombatSituation{
 		}
 		
 		if(playerLocation == 7) {
-			return db.getEnemyByRace("Greater Demon");
+			Enemy demon = db.getEnemyByRace("Greater Demon");
+			demon.setname("Balrog");
+			return demon;
 		} else {
 			// Return an enemy by a random race from the list
 			return db.getEnemyByRace(races.get(random.nextInt(races.size() - 1)));
