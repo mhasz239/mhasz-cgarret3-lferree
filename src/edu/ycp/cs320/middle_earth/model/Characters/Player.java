@@ -30,6 +30,10 @@ public class Player extends Character{
 		while (this.experience > lvl_up.get(this.getlevel())) {
 			this.experience = this.experience - lvl_up.get(this.getlevel());
 			this.setlevel(this.getlevel() + 1);
+			this.sethit_points(this.gethit_points() + 10);
+			this.setattack(this.getattack()+1);
+			this.setdefense(this.getdefense()+1);
+			
 			setskill_points(3);
 		}
 	}

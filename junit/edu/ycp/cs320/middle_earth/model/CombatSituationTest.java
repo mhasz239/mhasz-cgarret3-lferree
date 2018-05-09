@@ -66,9 +66,9 @@ public class CombatSituationTest{
 		
 		// Create the Enemy on mapTile (playerLocation) 4
 		Enemy enemy = battle.createEnemy(races, 4);
-		
+		System.out.println(enemy.getattack() + "  " + enemy.getdefense() +  " " + enemy.gethit_points() + " " + enemy.getlevel() + " " + enemy.getname() + " " + enemy.getrace());
 		// Check that Stats and Stuff are correct (based on current setup)
-		assertEquals(10, enemy.getattack());
+		assertEquals(16, enemy.getattack());
 		assertEquals(0, enemy.getdefense());
 		assertEquals(50, enemy.gethit_points());
 		assertEquals(1, enemy.getlevel());
@@ -84,11 +84,11 @@ public class CombatSituationTest{
 		
 		for(int i = 0; i < 300; i++){
 			int result = battle.calculateAttack(game, 1);
-			if(result == 9){
+			if(result == 14 || result == 15){
 				mins++;
-			}else if(result == 10){
+			}else if(result == 16){
 				mids++;
-			}else if(result == 11){
+			}else if(result == 18 || result == 17){
 				maxs++;
 			}else{
 				// Should never get here!
@@ -97,9 +97,9 @@ public class CombatSituationTest{
 		}
 		
 		System.out.println("CalculateAttack for Enemy Distribution");
-		System.out.println("Min(9):  " + mins);
-		System.out.println("Mid(10):  " + mids);
-		System.out.println("Max(11):  " + maxs);
+		System.out.println("Min's(14/15):  " + mins);
+		System.out.println("Mid(16):  " + mids);
+		System.out.println("Max's(17/18):  " + maxs);
 	}
 	
 	@Test
@@ -555,9 +555,9 @@ public class CombatSituationTest{
 	
 	@Test
 	public void testCalculateDamageEnemyToPlayer(){
-		// Enemy can do 9-11, Player has 5 defense
-		int min = 4;
-		int max = 6;
+		// Enemy can do 10-12, Player has 5 defense
+		int min = 10;
+		int max = 12;
 		
 		// Get damage calculated
 		int damage = battle.calculateDamage(game, 1, 0);

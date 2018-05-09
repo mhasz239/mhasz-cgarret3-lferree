@@ -477,7 +477,7 @@ public class GameHandleCommandTest{
 		assertEquals("You're not in combat!", game.getdialog().get(0));
 	}
 	
-	@Test
+	/*@Test			No Longer a Valid Test
 	public void testAttackOnBossTile(){
 		// Set up pre-conditions
 		game.getplayer().setlocation(7);
@@ -493,7 +493,7 @@ public class GameHandleCommandTest{
 		assertEquals("You grab his sword off the ground and lay waste to the foul beast.", game.getdialog().get(3));
 		assertEquals("!!!CONGRATULATIONS!!! You have conquered this small land and laid waste to the evil plaguing it!", 
 				game.getdialog().get(4));
-	}
+	}*/
 	
 	@Test
 	public void testAttackNoTarget(){

@@ -134,7 +134,11 @@ public class CombatSituation{
 			return demon;
 		} else {
 			// Return an enemy by a random race from the list
-			return db.getEnemyByRace(races.get(random.nextInt(races.size() - 1)));
+			if (races.size() == 1) {
+				return db.getEnemyByRace(races.get(0));
+			} else {
+				return db.getEnemyByRace(races.get(random.nextInt(races.size() - 1)));
+			}
 		}
 	}
 	

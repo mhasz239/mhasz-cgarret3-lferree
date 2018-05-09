@@ -48,6 +48,13 @@ public class GameViewServlet extends HttpServlet {
         if ((boolean) req.getSession().getAttribute("exit")) {
         	if (req.getParameter("exitAns").equalsIgnoreCase("Yes")) {
         		req.getSession().setAttribute("game", null);
+        		req.getSession().setAttribute("headIMG", null);
+        		req.getSession().setAttribute("chestIMG", null);
+        		req.getSession().setAttribute("armsIMG", null);
+        		req.getSession().setAttribute("lhandIMG", null);
+        		req.getSession().setAttribute("rhandIMG", null);
+        		req.getSession().setAttribute("legsIMG", null);
+        		req.getSession().setAttribute("bootsIMG", null);
         		req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);;
         	} else {
         		req.getSession().setAttribute("exit", false);
