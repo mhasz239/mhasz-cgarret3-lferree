@@ -5,6 +5,8 @@
 <html>
 <head>
     <title>Character</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
     <style type="text/css">
         .error {
             color: red;
@@ -104,7 +106,7 @@
    	 	#legs{
    	 		position:relative;
    	 		left: -25px;
-   	 		top: -75px;
+   	 		top: -50px;
    	 		width: 50px;
    	 		height: 50px;
    	 		z-index: 20;
@@ -115,8 +117,8 @@
    	 	}
    	 	#right{
    	 		float: left;
-   	 		height: 70%;
-   	 		width: 49%;
+   	 		height: 300px;
+   	 		width: 400px;
    	 	}
    	 	.inline {
         	display: inline;
@@ -149,6 +151,13 @@
         	opacity: 1;
         	visibility: visible;
         }
+        .btn {
+        	height: 15px;
+        	width:15px;
+        	font-size: 10px;
+        	margin:0px;
+        	padding:0px;
+        }
     </style>
     <script>
 		function allowDrop(ev) {
@@ -164,9 +173,39 @@
 		    var data = ev.dataTransfer.getData("text");
 		    if (ev.target.id == "head" || ev.target.parentElement.id == "head"|| ev.target.parentElement.parentElement.id == "head") {
 		    	console.log("head");
-		    	var h = document.getElementById("headForm");
-		    	h.elements["h"].value = data;
-		    	h.submit();
+		    	var x = document.getElementById("headForm");
+		    	x.elements["head"].value = data;
+		    	x.submit();
+		    }
+		    else if (ev.target.id == "chest" || ev.target.parentElement.id == "chest"|| ev.target.parentElement.parentElement.id == "chest") {
+		    	console.log("chest");
+		    	var x = document.getElementById("chestForm");
+		    	x.elements["chest"].value = data;
+		    	x.submit();
+		    }
+		    else if (ev.target.id == "arms" || ev.target.parentElement.id == "arms"|| ev.target.parentElement.parentElement.id == "arms") {
+		    	console.log("arms");
+		    	var x = document.getElementById("armsForm");
+		    	x.elements["arms"].value = data;
+		    	x.submit();
+		    }
+		    else if (ev.target.id == "lhand" || ev.target.parentElement.id == "lhand"|| ev.target.parentElement.parentElement.id == "lhand") {
+		    	console.log("lhand");
+		    	var x = document.getElementById("lhandForm");
+		    	x.elements["lhand"].value = data;
+		    	x.submit();
+		    }
+		    else if (ev.target.id == "rhand" || ev.target.parentElement.id == "rhand"|| ev.target.parentElement.parentElement.id == "rhand") {
+		    	console.log("rhand");
+		    	var x = document.getElementById("rhandForm");
+		    	x.elements["rhand"].value = data;
+		    	x.submit();
+		    }
+		    else if (ev.target.id == "legs" || ev.target.parentElement.id == "legs"|| ev.target.parentElement.parentElement.id == "legs") {
+		    	console.log("legs");
+		    	var x = document.getElementById("legsForm");
+		    	x.elements["legs"].value = data;
+		    	x.submit();
 		    }
 		    else if (ev.target.id == "right" ||ev.target.parentElement.id == "right" || ev.target.parentElement.parentElement.id == "right" ) {
 		    	var x = document.getElementById("unequip");
@@ -185,59 +224,95 @@
 			<li>gender: ${gender}</li>
 			<li>race: ${race}</li>
 			<li>level: ${level}</li>
-			<li>health: ${hp}</li>
+			<c:choose>	
+    			<c:when test="${sp > 0}">
+    				<li>health: <button class="btn btn-danger" onclick="lowerHitpoints()">-</button><span id="hitpoints">${hp}</span><button class="btn btn-success" onclick="raiseHitpoints()">+</button></li>
+    			</c:when>
+    			<c:otherwise>
+					<li>health: ${hp}</li>
+				</c:otherwise>
+			</c:choose>
 			<li>coins: ${coins}</li>
 	</div>
 	<div id="stats">
-		<ul>
-			<li>attack: ${attack}</li>
-			<li>defense: ${defense}</li>
-			<li>special attack: ${specialAttack}</li>
-			<li>special defense: ${specialDefense}</li>
-			<li>magic: ${magic}</li>
-		</ul>
+		<form id="headForm" action="${pageContext.servletContext.contextPath}/character" method="post">
+			<input type="hidden" name="head" value="">
+    	</form>
+    	<c:choose>
+    			
+    		<c:when test="${sp > 0}">
+    			<ul>
+    				<li><b>skill points: <span id="skillpoints">${sp}</span></b> <button class="btn btn-success" style="height:24px;width:80px" onclick="saveSP()">Save Skill Points</button></li>
+					<li>attack: <button class="btn btn-danger" onclick="lowerAtt()">-</button><span id="att">${attack}</span><button class="btn btn-success" onclick="raiseAtt()">+</button> </li>
+					<li>defense: <button class="btn btn-danger" onclick="lowerDef()">-</button><span id="def">${defense}</span><button class="btn btn-success" onclick="raiseDef()">+</button></li>
+					<li>special attack: <button class="btn btn-danger" onclick="lowerSpecAtt()">-</button><span id="specatt">${specialAttack}</span><button class="btn btn-success" onclick="raiseSpecAtt()">+</button></li>
+					<li>special defense: <button class="btn btn-danger" onclick="lowerSpecDef()">-</button><span id="specdef">${specialDefense}</span><button class="btn btn-success" onclick="raiseSpecDef()">+</button></li>
+					<li>magic: <button class="btn btn-danger" onclick="lowerMag()">-</button><span id="mag">${magic}</span><button class="btn btn-success" onclick="raiseMag()">+</button></li>
+				</ul>
+    		</c:when>
+    		<c:otherwise>
+				<ul>
+					<li>attack: ${attack}</li>
+					<li>defense: ${defense}</li>
+					<li>special attack: ${specialAttack}</li>
+					<li>special defense: ${specialDefense}</li>
+					<li>magic: ${magic}</li>
+				</ul>
+			</c:otherwise>
+		</c:choose>
 	</div>
 
 	<div id="left">
 		<div id="leftmid">
 			<div id="head" ondrop="drop(event)" ondragover="allowDrop(event)">
 				<form id="headForm" action="${pageContext.servletContext.contextPath}/character" method="post">
-					<input type="hidden" name="h" value="">
+					<input type="hidden" name="head" value="">
     			</form>
     			<c:if test="${! empty headIMG}">
     				<img id="headIMG" style="width:100%; top:-54px;" src="${pageContext.request.contextPath}/image/items/${headIMG}.png" draggable="true" ondragstart="drag(event)"/>
     			</c:if>
     		</div>
-    		<div id="chest">
-    		
-    		
+    		<div id="chest" ondrop="drop(event)" ondragover="allowDrop(event)">
+    			<form id="chestForm" action="${pageContext.servletContext.contextPath}/character" method="post">
+					<input type="hidden" name="chest" value="">
+    			</form>
+    			<c:if test="${! empty chestIMG}">
+    				<img id="chestIMG" style="width:100%; top:-54px;" src="${pageContext.request.contextPath}/image/items/${chestIMG}.png" draggable="true" ondragstart="drag(event)"/>
+    			</c:if>
     		</div>
-    		<div id="arms">
-    		
-    		
+    		<div id="arms" ondrop="drop(event)" ondragover="allowDrop(event)">
+    			<form id="armsForm" action="${pageContext.servletContext.contextPath}/character" method="post">
+					<input type="hidden" name="arms" value="">
+    			</form>
+    			<c:if test="${! empty armsIMG}">
+    				<img id="armsIMG" style="width:100%; top:-54px;" src="${pageContext.request.contextPath}/image/items/${armsIMG}.png" draggable="true" ondragstart="drag(event)"/>
+    			</c:if>
     		</div>
-    		<div id="lhand">
-    		
-    		
+    		<div id="lhand" ondrop="drop(event)" ondragover="allowDrop(event)">
+    			<form id="lhandForm" action="${pageContext.servletContext.contextPath}/character" method="post">
+					<input type="hidden" name="lhand" value="">
+    			</form>
+    			<c:if test="${! empty lhandIMG}">
+    				<img id="lhandIMG" style="width:100%; top:-54px;" src="${pageContext.request.contextPath}/image/items/${lhandIMG}.png" draggable="true" ondragstart="drag(event)"/>
+    			</c:if>
     		</div>
-    		<div id="rhand">
-    		
-    		
+    		<div id="rhand" ondrop="drop(event)" ondragover="allowDrop(event)">
+    			<form id="rhandForm" action="${pageContext.servletContext.contextPath}/character" method="post">
+					<input type="hidden" name="rhand" value="">
+    			</form>
+    			<c:if test="${! empty rhandIMG}">
+    				<img id="rhandIMG" style="width:100%; top:-54px;" src="${pageContext.request.contextPath}/image/items/${rhandIMG}.png" draggable="true" ondragstart="drag(event)"/>
+    			</c:if>
     		</div>
-    		<div id="legs">
-    		
-    		
+    		<div id="legs" ondrop="drop(event)" ondragover="allowDrop(event)">
+    			<form id="legsForm" action="${pageContext.servletContext.contextPath}/character" method="post">
+					<input type="hidden" name="legs" value="">
+    			</form>
+    			<c:if test="${! empty legsIMG}">
+    				<img id="legsIMG" style="width:100%; top:-54px;" src="${pageContext.request.contextPath}/image/items/${legsIMG}.png" draggable="true" ondragstart="drag(event)"/>
+    			</c:if>
     		</div>
 		</div>
-		<ul>
-			<li>head: ${helm}</li>
-			<li>breastplate: ${chest}</li>
-			<li>arms: ${braces}</li>
-			<li>legs: ${legs}</li>
-			<li>feet: ${boots}</li>
-			<li>left hand: ${l_hand}</li>
-			<li>right hand: ${r_hand}</li>
-		</ul>
 	</div>
 	<div id="right" ondrop="drop(event)" ondragover="allowDrop(event)">
 		<form id="unequip" action="${pageContext.servletContext.contextPath}/character" method="post">
@@ -277,8 +352,172 @@
 				</div>
         	</div>
     	</c:forEach>
+    	<form id="skillpointForm" action="${pageContext.servletContext.contextPath}/character" method="post">
+			<input type="hidden" name="attack" value="">
+			<input type="hidden" name="defense" value="">
+			<input type="hidden" name="specialattack" value="">
+			<input type="hidden" name="specialdefense" value="">
+			<input type="hidden" name="magic" value="">
+			<input type="hidden" name="hitpoints" value="">
+			<input type="hidden" name="skillpoints" value="">
+			<input type="hidden" name="updateskillpoints" value="">
+    	</form>
 	</div>
 </div>
+
+<script>
+	var skillpoints = parseInt(document.getElementById("skillpoints").innerHTML);
+	var att = parseInt(document.getElementById("att").innerHTML);
+	var def = parseInt(document.getElementById("def").innerHTML);
+	var specatt = parseInt(document.getElementById("specatt").innerHTML);
+	var specdef = parseInt(document.getElementById("specdef").innerHTML);
+	var mag = parseInt(document.getElementById("mag").innerHTML);
+	var hitpoints = parseInt(document.getElementById("hitpoints").innerHTML);
+	var ratt = 0;
+	var rdef = 0;
+	var rspecatt = 0;
+	var rspecdef = 0;
+	var rmag = 0;
+	var rhitpoints = 0;
+	
+	
+function saveSP() {
+	var x = document.getElementById("skillpointForm");
+	x.elements["attack"].value = att;
+	x.elements["defense"].value = def;
+	x.elements["specialattack"].value = specatt;
+	x.elements["specialdefense"].value = specdef;
+	x.elements["magic"].value = mag;
+	x.elements["hitpoints"].value = hitpoints;
+	x.elements["skillpoints"].value = skillpoints;
+	x.elements["updateskillpoints"].value = "true";
+	x.submit();
+}
+
+
+
+function lowerAtt() {
+
+	if (ratt > 0) {
+		ratt = ratt - 1;
+		att = att - 1
+		skillpoints = skillpoints + 1;
+		document.getElementById("skillpoints").innerHTML = skillpoints;
+		document.getElementById("att").innerHTML = att;
+	}
+}
+function raiseAtt() {
+	if (skillpoints > 0) {
+		ratt = ratt + 1;
+		att = att + 1
+		skillpoints = skillpoints - 1;
+		document.getElementById("skillpoints").innerHTML = skillpoints;
+		document.getElementById("att").innerHTML = att;
+	}
+}
+
+function lowerDef() {
+	
+	if (rdef > 0) {
+		rdef = rdef - 1;
+		def = def - 1
+		skillpoints = skillpoints + 1;
+		document.getElementById("skillpoints").innerHTML = skillpoints;
+		document.getElementById("def").innerHTML = def;
+	}
+}
+function raiseDef() {
+	if (skillpoints > 0) {
+		rdef = rdef + 1;
+		def = def + 1
+		skillpoints = skillpoints - 1;
+		document.getElementById("skillpoints").innerHTML = skillpoints;
+		document.getElementById("def").innerHTML = def;
+	}
+}
+
+function lowerSpecAtt() {
+	
+	if (rspecatt > 0) {
+		rspecatt = rspecatt - 1;
+		specatt = specatt - 1
+		skillpoints = skillpoints + 1;
+		document.getElementById("skillpoints").innerHTML = skillpoints;
+		document.getElementById("specatt").innerHTML = specatt;
+	}
+}
+function raiseSpecAtt() {
+	if (skillpoints > 0) {
+		rspecatt = rspecatt + 1;
+		specatt = specatt + 1
+		skillpoints = skillpoints - 1;
+		document.getElementById("skillpoints").innerHTML = skillpoints;
+		document.getElementById("specatt").innerHTML = specatt;
+	}
+}
+
+function lowerSpecDef() {
+	
+	if (rspecadef > 0) {
+		rspecdef = rspecdef - 1;
+		specdef = specdef - 1
+		skillpoints = skillpoints + 1;
+		document.getElementById("skillpoints").innerHTML = skillpoints;
+		document.getElementById("specdef").innerHTML = specdef;
+	}
+}
+function raiseSpecDef() {
+	if (skillpoints > 0) {
+		rspecdef = rspecdef + 1;
+		specdef = specdef + 1
+		skillpoints = skillpoints - 1;
+		document.getElementById("skillpoints").innerHTML = skillpoints;
+		document.getElementById("specdef").innerHTML = specadef;
+	}
+}
+
+function lowerMag() {
+	
+	if (rmag > 0) {
+		rmag = rmag - 1;
+		mag = mag - 1
+		skillpoints = skillpoints + 1;
+		document.getElementById("skillpoints").innerHTML = skillpoints;
+		document.getElementById("mag").innerHTML = mag;
+	}
+}
+function raiseMag() {
+	if (skillpoints > 0) {
+		rmag = rmag + 1;
+		mag = mag + 1
+		skillpoints = skillpoints - 1;
+		document.getElementById("skillpoints").innerHTML = skillpoints;
+		document.getElementById("mag").innerHTML = mag;
+	}
+}
+
+function lowerHitpoints() {
+	
+	if (rhitpoints > 0) {
+		rhitpoints = rhitpoints - 1;
+		hitpoints = hitpoints - 10
+		skillpoints = skillpoints + 1;
+		document.getElementById("skillpoints").innerHTML = skillpoints;
+		document.getElementById("hitpoints").innerHTML = hitpoints;
+	}
+}
+function raiseHitpoints() {
+	if (skillpoints > 0) {
+		rhitpoints = rhitpoints + 1;
+		hitpoints = hitpoints + 10
+		skillpoints = skillpoints - 1;
+		document.getElementById("skillpoints").innerHTML = skillpoints;
+		document.getElementById("hitpoints").innerHTML = hitpoints;
+	}
+}
+
+</script>
+
 
 </body>
 </html>
