@@ -1,18 +1,18 @@
-Pointy Stick|Hmmm… I think this might have served as that troll's toothpick. Wish me luck|A finely pointed stick|You see a dead branch that could be taken and used as a stick.|0|0|0|5|L_HAND|0|0
+Pointy Stick|Hmmm… I think this might have served as that troll's toothpick. Wish me luck|A finely pointed stick|You see a dead branch that could be taken and used as a stick.|0|0|0|3|L_HAND|0|0
 Shabby Tunic|Tattered and torn but crafted from hardy leather|Leather Chest Armor|A Tunic is hanging over a tree branch.|0|0|0|2|CHEST|0|0
 Ornate Key|Hand carved and certainly one of a kind|I wonder if I can use this|You see a glint of a key in the leaves.|0|0|0|0|QUEST|0|0
-Fork|Why. Why do you need more information about this|A fork. That is all|You see a fork stabbed into the tree trunk.|0|0|0|0|MISC|0|0
+Fork|Why. Why do you need more information about this|A fork. That is all|You see a fork stabbed into the tree trunk.|0|0|0|0|MISC|0|20
 Wood Sword|<>|<>|You see a training sword made of wood|3|0|0|5|L_HAND|0|0
 Wood Sword|<>|<>|You see a training sword made of wood|3|0|0|5|R_HAND|0|0
-Wood Shield|<>|<>|You notice a wide peice of wood strapped with leather|0|3|0|5|L_HAND|0|0
-Wood Shield|<>|<>|You notice a wide peice of wood strapped with leather|0|3|0|5|R_HAND|0|0
-Steel Sword|<>|<>|A heavily used steel sword|5|0|0|5|L_HAND|0|0
-Steel Sword|<>|<>|A heavily used steel sword|5|0|0|5|R_HAND|0|0
-Steel Dagger|<>|<>|<>|4|0|0|2|L_HAND|0|0
-Steel Dagger|<>|<>|<>|4|0|0|2|R_HAND|0|0
+Wood Shield|<>|<>|You notice a wide peice of wood strapped with leather|0|3|0|5|L_HAND|0|1
+Wood Shield|<>|<>|You notice a wide peice of wood strapped with leather|0|3|0|5|R_HAND|0|1
+Steel Sword|<>|<>|A heavily used steel sword|5|0|0|5|L_HAND|0|1
+Steel Sword|<>|<>|A heavily used steel sword|5|0|0|5|R_HAND|0|1
+Steel Dagger|<>|<>|<>|4|0|0|2|L_HAND|0|1
+Steel Dagger|<>|<>|<>|4|0|0|2|R_HAND|0|1
 Mythril Shortsword|LEGENDARY|<>|This item is truly special|10|0|0|4|L_HAND|0|0
-Dwarven Cudgel|LEGENDARY|<>|The craftsmanship of this item is unparalleled|6|0|0|5|R_HAND|0|0
-Elven Chestpiece|<>|<>|<>|0|6|0|4|CHEST|0|0
-Orcish Boots|<>|<>|<>|0|2|0|4|BOOTS|0|0
-Mythril Leggings|LEGENDARY|<>|They feel as light as air and glow with a strange hue|0|7|0|0|LEGS|0|0
-Dwarven Gauntlets|<>|<>|They are heavy but are they ready to be thrown down|0|4|0|6|BRACES|0|0
+Dwarven Cudgel|LEGENDARY|<>|The craftsmanship of this item is unparalleled|6|0|0|5|R_HAND|0|4
+Elven Chestpiece|<>|<>|<>|0|6|0|4|CHEST|0|1
+Orcish Boots|<>|<>|<>|0|2|0|4|BOOTS|0|1
+Mythril Leggings|LEGENDARY|<>|They feel as light as air and glow with a strange hue|0|7|0|0|LEGS|0|4
+Dwarven Gauntlets|<>|<>|They are heavy but are they ready to be thrown down|0|4|0|6|BRACES|0|1

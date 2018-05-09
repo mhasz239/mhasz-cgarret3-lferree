@@ -898,6 +898,7 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
+	@SuppressWarnings("unused")
 	private ArrayList<String> getAllMapNames() {
 		return executeTransaction(new Transaction <ArrayList<String>>() {
 			@Override
@@ -1058,136 +1059,7 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
-/*	
-	@Override
-	public ArrayList<MapTile> getAllMapTiles(String playerName) {
-		return executeTransaction(new Transaction <ArrayList<MapTile>>() {
-			@Override
-			public ArrayList<MapTile> execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = null;
-				PreparedStatement stmt2 = null;
-				ResultSet resultSetMapTiles = null;
-				ResultSet resultSetObjects = null;
-				ResultSet resultSetObjectCommandResponses = null;
-				ResultSet resultSetItems = null;
-				
-				try {
-					// retrieve all attributes
-					stmt = conn.prepareStatement(
-							"select * "
-							+ "from maptiles, maptileconnections "
-							+ "where maptiles.maptile_id = maptileconnections.maptile_id"
-					);
-					
-					ArrayList<MapTile> resultMapTiles = new ArrayList<MapTile>();
-					
-					resultSetMapTiles = stmt.executeQuery();
-					
-					// for testing that a result was returned
-					Boolean found = false;
-					
-					while (resultSetMapTiles.next()) {
-						found = true;
-						
-						MapTile mapTile = new MapTile();
-						loadMapTile(mapTile, resultSetMapTiles, 1);
-						
-						// remember to skip an index for the repeated maptile_id from the connections table
-						loadMapTileConnections(mapTile.getConnections(), resultSetMapTiles, 7);
-						
-						// Now get all objects associated with the mapTile
-						stmt = conn.prepareStatement(
-								"select * "
-								+ "from objects, objectstomaptiles "
-								+ "where objectstomaptiles.maptile_id = ? "
-								+ "AND objectstomaptiles.object_id = objects.object_id "
-						);
-						
-						stmt.setInt(1, mapTile.getID());
-						ArrayList<Object> resultObjects = new ArrayList<Object>();
-						
-						resultSetObjects = stmt.executeQuery();
-						
-						while(resultSetObjects.next()) {
-							Object object = new Object();
-							loadObject(object, resultSetObjects, 1);
-							
-							// Now get the commandResponses
-							stmt2 = conn.prepareStatement( 
-									"select objectcommandresponses.command, objectcommandresponses.response "
-									+ "from objectcommandresponses "
-									+ "where objectcommandresponses.object_id = ?"
-							);
-							stmt2.setInt(1, object.getID());		
-							ArrayList<HashMap<String, String>> resultObjectCommandResponses = new ArrayList<HashMap<String, String>>();
-							
-							resultSetObjectCommandResponses = stmt2.executeQuery();
-							
-							while (resultSetObjectCommandResponses.next()) {
-								HashMap<String, String> objectCommandResponse = new HashMap<String, String>();
-								loadObjectCommandResponse(objectCommandResponse, resultSetObjectCommandResponses, 1);
-								
-								resultObjectCommandResponses.add(objectCommandResponse);
-							}
-							if(!resultObjectCommandResponses.isEmpty()) {
-								for(HashMap<String, String> objectCommandResponse : resultObjectCommandResponses) {
-									object.setCommandResponses(objectCommandResponse);
-								}
-							}		
-						
-							// Now get the items in the object
-							stmt = conn.prepareStatement(
-									"select * " +
-									"	from items, itemstoobjects" +
-									"   where itemstoobjects.object_id = ?"
-									+ "AND itemstoobjects.item_id = items.item_id "
-							);
-							
-							stmt.setInt(1, object.getID());
-							ArrayList<Item> resultItems = new ArrayList<Item>();
-							
-							resultSetItems = stmt.executeQuery();
-							
-							while (resultSetItems.next()) {
-								Item item = new Item();
-								loadItem(item, resultSetItems, 1);
-								
-								resultItems.add(item);
-							}
-							if(!resultItems.isEmpty()) {
-								for(Item item : resultItems) {
-									object.addItem(item);
-								}
-							}
-							
-							resultObjects.add(object);
-						}
-						if(!resultObjects.isEmpty()) {
-							mapTile.setObjects(resultObjects);
-						}
-							
-						resultMapTiles.add(mapTile);
-					}
-					
-					// check if the maptiles were found
-					if (!found) {
-						System.out.println("<maptiles> table is empty");
-					}
-					
-					return resultMapTiles;
-				} finally {
-					DBUtil.closeQuietly(resultSetItems);
-					DBUtil.closeQuietly(resultSetObjectCommandResponses);
-					DBUtil.closeQuietly(resultSetObjects);
-					DBUtil.closeQuietly(resultSetMapTiles);
-					DBUtil.closeQuietly(stmt2);
-					DBUtil.closeQuietly(stmt);
-					DBUtil.closeQuietly(conn);
-				}
-			}
-		});
-	}
-*/	
+
 	@Override
 	public MapTile getMapTileByID(int mapTileID) {
 		return executeTransaction(new Transaction <MapTile>() {
@@ -2303,9 +2175,6 @@ public class DerbyDatabase implements IDatabase {
 	public Game loadGame(int gameID) {
 		
 		Game game = new Game();
-//		Map map = new Map();
-//		map.setMapTiles(getAllMapTiles(int gameID));
-//		game.setmap(map);
 
 		game.setmap(getMap());
 		
@@ -3275,16 +3144,6 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	/*******************************************************************************************************
-	 * 									Combinations of Multi-Methods
-	 *******************************************************************************************************/
-	
-	// Take from Object - Remove from itemstoobjects table, add to itemstoinventories table
-	
-	
-	/*******************************************************************************************************
-	 * 							Query for Conflict (e.g. maptiles in the same location)
-	 *******************************************************************************************************/
 	
 	
 	// The main method creates the database tables and loads the initial data.
