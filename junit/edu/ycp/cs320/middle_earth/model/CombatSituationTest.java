@@ -60,15 +60,19 @@ public class CombatSituationTest{
 	
 	@Test
 	public void testCreateEnemy(){
+		// Create races list
+		ArrayList<String> races = new ArrayList<String>();
+		races.add("Goblin");
+		
 		// Create the Enemy
-		Enemy enemy = battle.createEnemy();
+		Enemy enemy = battle.createEnemy(races);
 		
 		// Check that Stats and Stuff are correct (based on current setup)
 		assertEquals(10, enemy.getattack());
 		assertEquals(0, enemy.getdefense());
-		assertEquals(100, enemy.gethit_points());
-		assertEquals(1, enemy.getlevel());
-		assertEquals("Bob", enemy.getname());
+		assertEquals(50, enemy.gethit_points());
+		assertEquals(0, enemy.getlevel());
+		assertTrue(enemy.getname() != null);
 		assertEquals("Goblin", enemy.getrace());
 	}
 	

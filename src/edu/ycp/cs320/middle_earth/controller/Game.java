@@ -508,7 +508,7 @@ public class Game implements Engine{
 					add_dialog(map.getMapTiles().get(player.getlocation()).getLongDescription());
 					mapPanel.setDirection(direction);
 					mapPanel.setMapTile(map.getMapTiles().get(player.getlocation()));
-					battle = new CombatSituation(this, 1, 0);
+					battle = new CombatSituation(this, 1, "Greater Demon", 0);
 				} else {
 					add_dialog("You seem to be missing something to be able to go that direction.");
 				}
