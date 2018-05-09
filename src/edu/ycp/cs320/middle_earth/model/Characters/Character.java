@@ -144,7 +144,7 @@ public abstract class Character{
 	
 	public void sethelm(Item helm) {
 		if(helm.getItemType() != ItemType.HELM){
-			throw new IllegalArgumentException("This must be a helm!");
+			//throw new IllegalArgumentException("This must be a helm!");
 		}
 		this.helm = helm;
 	}

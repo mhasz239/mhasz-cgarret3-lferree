@@ -20,7 +20,7 @@ public class CharacterServlet extends HttpServlet {
             throws ServletException, IOException {
 
         System.out.println("Character Servlet: doGet");
-        System.out.println(req.getParameter("head"));
+        System.out.println(req.getParameter("h"));
 
         //Load data for the initial call to the inventory jsp
 
@@ -79,8 +79,66 @@ public class CharacterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
     	System.out.println("Character: doPost");
-    	System.out.println(req.getParameter("head"));
+    	System.out.println(req.getParameter("h"));
+    	if (req.getParameter("remove")!= null) {
+    		req.getSession().setAttribute(req.getParameter("remove"), null);
+    	}
     	
+    	Game game = (Game) req.getSession().getAttribute("game");
+        
+        ArrayList<Item> itemlist = game.getplayer().getinventory().getitems();
+        ArrayList<Item> cleanList = new ArrayList<Item>();
+        for (int i = 0; i < itemlist.size(); i++){
+        	Item item = itemlist.get(i);
+        	cleanList.add(new Item(item.getItemWeight(), item.getattack_bonus(), item.getdefense_bonus(), item.gethp_bonus(), item.getlvl_requirement(), item.getItemType(), item.getName(), item.getID(), item.getShortDescription(), item.getLongDescription(), itemlist.get(i).getName().replaceAll(" ", "_") ));
+        }
+        
+        for (Item item : cleanList) {
+        	if (item.getName().equals(req.getParameter("h"))){
+        		game.getplayer().sethelm(item);
+        		req.getSession().setAttribute("headIMG", item.getdescription_update());
+        	}
+        }
+        
+        req.setAttribute(("itemTest"), cleanList);
+        
+        game.setmode("character");
+        Player player = (Player) game.getplayer();
+        //player.setattack(1);
+        //player.setcoins(9999);
+        //player.setdefense(1);
+        //player.setexperience(10);
+        //player.setgender("male");
+        //player.sethit_points(100);
+        //player.setlevel(1);
+        //player.setmagic_points(0);
+        //player.setname("BlueHawk");
+        //player.setrace("human");
+        //player.setspecial_attack(0);
+        //player.setspecial_defense(0);
+        
+        req.setAttribute("attack", player.getattack());
+        req.setAttribute("coins", player.getcoins());
+        req.setAttribute("defense", player.getdefense());
+        req.setAttribute("experience", player.getexperience());
+        req.setAttribute("gender", player.getgender());
+        req.setAttribute("hp", player.gethit_points());
+        req.setAttribute("level", player.getlevel());
+        req.setAttribute("magic", player.getmagic_points());
+        req.setAttribute("name", player.getname());
+        req.setAttribute("race", player.getrace());
+        req.setAttribute("specialAttack", player.getspecial_attack());
+        req.setAttribute("specialDefense", player.getspecial_defense());
+        
+        req.setAttribute("helm", player.gethelm().getName());
+        req.setAttribute("chest", player.getchest().getName());
+        req.setAttribute("braces", player.getbraces().getName());
+        req.setAttribute("legs", player.getlegs().getName());
+        req.setAttribute("boots", player.getboots().getName());
+        req.setAttribute("l_hand", player.getl_hand().getName());
+        req.setAttribute("r_hand", player.getr_hand().getName());
+    	
+    	req.getRequestDispatcher("/_view/character.jsp").forward(req, resp);
     }
     
 }
