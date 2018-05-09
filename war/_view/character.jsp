@@ -36,12 +36,14 @@
     		background-position: center;
    	 	}
    	 	#leftmid{
-   	 		left: 50%;
-   	 		width:1px;
+   	 		position:relative;
+   	 		left: 200px;
+   	 		width:200px;
    	 	}
    	 	
    	 	#head{
-   	 		left: -50px;
+   	 		position:relative;
+   	 		left: -25px;
    	 		top: 10px;
    	 		width: 50px;
    	 		height: 50px;
@@ -52,19 +54,64 @@
    	 		border-style: solid;
    	 	}
    	 	#chest{
-   	 	
+   	 		position:relative;
+   	 		left: -25px;
+   	 		top: 25px;
+   	 		width: 50px;
+   	 		height: 50px;
+   	 		z-index: 20;
+   	 		background-color:white;
+   	 		border-color: black;
+   	 		border-width:2px;
+   	 		border-style: solid;
    	 	}
    	 	#arms{
-   	 	
+   	 		position:relative;
+   	 		left: -100px;
+   	 		top: -40px;
+   	 		width: 50px;
+   	 		height: 50px;
+   	 		z-index: 20;
+   	 		background-color:white;
+   	 		border-color: black;
+   	 		border-width:2px;
+   	 		border-style: solid;
    	 	}
    	 	#lhand{
-   	 	
+   	 		position:relative;
+   	 		left: -100px;
+   	 		top: -20px;
+   	 		width: 50px;
+   	 		height: 50px;
+   	 		z-index: 20;
+   	 		background-color:white;
+   	 		border-color: black;
+   	 		border-width:2px;
+   	 		border-style: solid;
    	 	}
    	 	#rhand{
-   	 	
+   	 		position:relative;
+   	 		left: 50px;
+   	 		top: -75px;
+   	 		width: 50px;
+   	 		height: 50px;
+   	 		z-index: 20;
+   	 		background-color:white;
+   	 		border-color: black;
+   	 		border-width:2px;
+   	 		border-style: solid;
    	 	}
    	 	#legs{
-   	 	
+   	 		position:relative;
+   	 		left: -25px;
+   	 		top: -75px;
+   	 		width: 50px;
+   	 		height: 50px;
+   	 		z-index: 20;
+   	 		background-color:white;
+   	 		border-color: black;
+   	 		border-width:2px;
+   	 		border-style: solid;
    	 	}
    	 	#right{
    	 		float: left;
@@ -115,10 +162,17 @@
 		function drop(ev) {
 		    ev.preventDefault();
 		    var data = ev.dataTransfer.getData("text");
-		    console.log(data);
-		    console.log(ev.target);
-		     console.log(ev.target.id);
-		    ev.target.appendChild(document.getElementById(data));
+		    if (ev.target.id == "head" || ev.target.parentElement.id == "head"|| ev.target.parentElement.parentElement.id == "head") {
+		    	console.log("head");
+		    	var h = document.getElementById("headForm");
+		    	h.elements["h"].value = data;
+		    	h.submit();
+		    }
+		    else if (ev.target.id == "right" ||ev.target.parentElement.id == "right" || ev.target.parentElement.parentElement.id == "right" ) {
+		    	var x = document.getElementById("unequip");
+		    	x.elements["remove"].value = data;
+		    	x.submit();
+		    }
 		}
 	</script>
 </head>
@@ -145,12 +199,35 @@
 	</div>
 
 	<div id="left">
-		<div if="leftmid">
-		<div id="head" ondrop="drop(event)" ondragover="allowDrop(event)">
-			<form id="head" action="${pageContext.servletContext.contextPath}/GameView" method="post">
-				<input type="hidden" name="head" value="">
-    		</form>
-    	</div>
+		<div id="leftmid">
+			<div id="head" ondrop="drop(event)" ondragover="allowDrop(event)">
+				<form id="headForm" action="${pageContext.servletContext.contextPath}/character" method="post">
+					<input type="hidden" name="h" value="">
+    			</form>
+    			<c:if test="${! empty headIMG}">
+    				<img id="headIMG" style="width:100%; top:-54px;" src="${pageContext.request.contextPath}/image/items/${headIMG}.png" draggable="true" ondragstart="drag(event)"/>
+    			</c:if>
+    		</div>
+    		<div id="chest">
+    		
+    		
+    		</div>
+    		<div id="arms">
+    		
+    		
+    		</div>
+    		<div id="lhand">
+    		
+    		
+    		</div>
+    		<div id="rhand">
+    		
+    		
+    		</div>
+    		<div id="legs">
+    		
+    		
+    		</div>
 		</div>
 		<ul>
 			<li>head: ${helm}</li>
@@ -162,7 +239,10 @@
 			<li>right hand: ${r_hand}</li>
 		</ul>
 	</div>
-	<div id="right">
+	<div id="right" ondrop="drop(event)" ondragover="allowDrop(event)">
+		<form id="unequip" action="${pageContext.servletContext.contextPath}/character" method="post">
+			<input type="hidden" name="remove" value="">
+    	</form>
 		<c:forEach items="${itemTest}" var = "i" >
 			<div class="item" >
 				<p>${i.name}</p>
