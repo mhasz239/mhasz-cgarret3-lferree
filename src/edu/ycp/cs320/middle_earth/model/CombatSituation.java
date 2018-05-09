@@ -85,7 +85,7 @@ public class CombatSituation{
 		
 		// Add enemies to combat
 		for(int i = 0; i < enemies; i++){
-			Enemy enemy = createEnemy(raceList);
+			Enemy enemy = createEnemy(raceList, game.getcharacters().get(0).getlocation());
 			// set enemy level to "areaDifficulty" of maptile == player location.
 			// enemy.setlevel(game.map.get(player.getlocation).getAreaDifficulty);
 	
@@ -118,7 +118,7 @@ public class CombatSituation{
 		return currentIDsIndex;
 	}
 	
-	public Enemy createEnemy(ArrayList<String> races){
+	public Enemy createEnemy(ArrayList<String> races, int playerLocation){
 		// Initialize database and stuff
 		InitDatabase.init();
 		IDatabase db = DatabaseProvider.getInstance();
@@ -128,8 +128,12 @@ public class CombatSituation{
 			races = db.getAllEnemyRaces();
 		}
 		
-		// Return an enemy by a random race from the list
-		return db.getEnemyByRace(races.get(random.nextInt(races.size())));
+		if(playerLocation == 7) {
+			return db.getEnemyByRace("Greater Demon");
+		} else {
+			// Return an enemy by a random race from the list
+			return db.getEnemyByRace(races.get(random.nextInt(races.size() - 1)));
+		}
 	}
 	
 	public void playerAttackEnemy(Game game, int playerIndex, String target){
