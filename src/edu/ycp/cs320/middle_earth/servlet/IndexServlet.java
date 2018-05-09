@@ -109,6 +109,7 @@ public class IndexServlet extends HttpServlet {
 			game.setuser(account);
 			game.save();
 			req.setAttribute("mode", game.getmode());
+			req.setAttribute("dialog", game.getdisplay_text());
 			req.getSession().setAttribute("game", game);
 			req.getSession().setAttribute("exit", false);
 			req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);
@@ -124,6 +125,7 @@ public class IndexServlet extends HttpServlet {
 			game.setuser(account);
 			game.startMap(account.getusername(), account.getcurrent_game());
 			req.getSession().setAttribute("game", game);
+			req.setAttribute("dialog", game.getdisplay_text());
 			req.setAttribute("mode", game.getmode());
 			req.getSession().setAttribute("exit", false);
 			req.getRequestDispatcher("/_view/GameView.jsp").forward(req, resp);

@@ -2593,6 +2593,7 @@ public class DerbyDatabase implements IDatabase {
 	private Player createPlayer() {
 		Player player = new Player();		
 		
+		@SuppressWarnings("resource")
 		Scanner keyboard = new Scanner(System.in);
 		
 		System.out.println("Choose your name: ");
@@ -2667,7 +2668,7 @@ public class DerbyDatabase implements IDatabase {
 		// Add the sum total of weight to the inventory
 		player.getinventory().setweight(carryWeight);
 		
-		keyboard.close();
+		//keyboard.close();
 		
 		
 		

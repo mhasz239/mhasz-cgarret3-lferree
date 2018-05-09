@@ -62,14 +62,6 @@ public class CharacterServlet extends HttpServlet {
         req.setAttribute("specialAttack", player.getspecial_attack());
         req.setAttribute("specialDefense", player.getspecial_defense());
         
-        req.setAttribute("helm", player.gethelm().getName());
-        req.setAttribute("chest", player.getchest().getName());
-        req.setAttribute("braces", player.getbraces().getName());
-        req.setAttribute("legs", player.getlegs().getName());
-        req.setAttribute("boots", player.getboots().getName());
-        req.setAttribute("l_hand", player.getl_hand().getName());
-        req.setAttribute("r_hand", player.getr_hand().getName());
-        
         req.getRequestDispatcher("/_view/character.jsp").forward(req, resp);
     }
 
@@ -84,10 +76,10 @@ public class CharacterServlet extends HttpServlet {
     	
     	Player player = (Player) game.getplayer();
     	
-    	if (req.getParameter("remove")!= null) {
-    		req.getSession().setAttribute(req.getParameter("remove"), null);
+    	if (req.getParameter("remove") != null) {
     		String type = (String) req.getParameter("remove").substring(0, req.getParameter("remove").length()-3);
     		player.remove(type);
+    		req.setAttribute(req.getParameter("remove"), null);
     	}
     	
         if (req.getParameter("updateskillpoints")!=null && req.getParameter("updateskillpoints").equalsIgnoreCase("true")){

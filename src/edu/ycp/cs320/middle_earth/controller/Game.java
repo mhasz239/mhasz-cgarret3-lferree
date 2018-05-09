@@ -137,7 +137,14 @@ public class Game implements Engine{
 	}
 	
 	public String getmapTile_longDescription(){
-		return map.getMapTiles().get(getplayer().getlocation()).getLongDescription();
+		ArrayList<Object> objects = map.getMapTiles().get(getplayer().getlocation()).getObjects();
+		String objectUpdate = "";
+		if (objects != null) {
+			for (Object object : objects) {
+				objectUpdate = object.getdescription_update();
+			}
+		}
+		return map.getMapTiles().get(getplayer().getlocation()).getLongDescription() + objectUpdate;
 	}
 	
 	public String getmapTile_name(){

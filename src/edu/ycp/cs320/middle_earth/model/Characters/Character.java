@@ -151,20 +151,40 @@ public abstract class Character{
 	}
 	
 	public void remove(String type){
+		Item emptyItemSlot = new Item();
+		emptyItemSlot.setattack_bonus(0);
+		emptyItemSlot.setdefense_bonus(0);
+		emptyItemSlot.setdescription_update("You haven't equipped one");
+		emptyItemSlot.sethp_bonus(0);
+		emptyItemSlot.setlvl_requirement(0);
+		emptyItemSlot.setID(0);
+		emptyItemSlot.setIsQuestItem(false);
+		emptyItemSlot.setItemWeight(0);
+		emptyItemSlot.setLongDescription("Empty Slot");
+		emptyItemSlot.setShortDescription("Empty Slot");
+		emptyItemSlot.setName("Empty Slot");
+		
 		if (type.equalsIgnoreCase("head")) {
-			this.helm = null;
+			emptyItemSlot.setItemType(ItemType.HELM);
+			this.helm = emptyItemSlot;
 		} else if (type.equalsIgnoreCase("chest")) {
-			this.chest = null;
+			emptyItemSlot.setItemType(ItemType.CHEST);
+			this.chest = emptyItemSlot;
 		} else if (type.equalsIgnoreCase("arms")) {
-			this.braces = null;
+			emptyItemSlot.setItemType(ItemType.BRACES);
+			this.braces = emptyItemSlot;
 		} else if (type.equalsIgnoreCase("lhand")) {
-			this.l_hand = null;
+			emptyItemSlot.setItemType(ItemType.L_HAND);
+			this.l_hand = emptyItemSlot;
 		} else if (type.equalsIgnoreCase("rhand")) {
-			this.r_hand = null;
+			emptyItemSlot.setItemType(ItemType.R_HAND);
+			this.r_hand = emptyItemSlot;
 		} else if (type.equalsIgnoreCase("legs")) {
-			this.legs = null;
+			emptyItemSlot.setItemType(ItemType.LEGS);
+			this.legs = emptyItemSlot;
 		} else if (type.equalsIgnoreCase("boots")) {
-			this.boots = null;
+			emptyItemSlot.setItemType(ItemType.BOOTS);
+			this.boots = emptyItemSlot;
 		}
 	}
 	
